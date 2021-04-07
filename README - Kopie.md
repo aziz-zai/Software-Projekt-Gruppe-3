@@ -1,1 +1,0 @@
-# Software-Projekt-Gruppe-3
