@@ -14,13 +14,16 @@ class Person (bo.BusinessObject):
     def get_profileID(self):
         """Auslesen des Fremdschlüssels von Profile"""
         return self._profileID
+    
+    def set_profileID(self,profile):
+        self._profileID = profile
 
     def get_firstname(self):
         return self._firstname
 
     def set_firstname(self, firstname):
         self._firstname = firstname
-    
+
     def get_surname(self):
         return self._firstname
 
@@ -32,6 +35,9 @@ class Person (bo.BusinessObject):
 
     def set_semester(self, semester):
         self._semester = semester
+
+    def __str__(self):
+        return "Person: {}, {}, {}, {}".format(self.get_id(), self.get_profileID, self.get_firstname, self.get_surname, self.get_semester)
 
     @staticmethod
     def from_dict(dictionary=dict()):
