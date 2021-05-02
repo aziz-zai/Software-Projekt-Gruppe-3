@@ -1,3 +1,6 @@
+from server.bo import BusinessObject as bo
+from server.bo import Conversation
+
 class Message():
 
     def __init__(self):
