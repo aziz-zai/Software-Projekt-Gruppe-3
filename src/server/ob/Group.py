@@ -17,6 +17,5 @@ class Group (bo.BusinessObject):
     def get_groupname(self):
         return self._groupname
 
-    def set_groupname(self, groupname)
+    def set_groupname(self, groupname):
         self._groupname = groupname
-    

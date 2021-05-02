@@ -54,5 +54,10 @@ class Profile (bo.BusinessObject):
         """Umwandeln eines Python dict() in ein Account()."""
         obj = Profile()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_profile(dictionary["owner"])
+        obj.set_type(dictionary["type"])
+        obj.set_online(dictionary["online"])
+        obj.set_interests(dictionary["interests"])
+        obj.set_extroversion(dictionary["extroversion"])
+        obj.set_expertise(dictionary["expertise"])
+        obj.set_frequenz(dictionary["frequenz"])
         return obj

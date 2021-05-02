@@ -37,12 +37,15 @@ class Person (bo.BusinessObject):
         self._semester = semester
 
     def __str__(self):
-        return "Person: {}, {}, {}, {}".format(self.get_id(), self.get_profileID, self.get_firstname, self.get_surname, self.get_semester)
+        return "Person: {}, {}, {}, {}, {}".format(self.get_id(), self.get_profileID, self.get_firstname, self.get_surname, self.get_semester)
 
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Account()."""
         obj = Person()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_person(dictionary["owner"])
+        obj.set_profileID(dictionary["profileID"])
+        obj.set_firstname(dictionary["firstname"])
+        obj.set_surname(dictionary["surname"])
+        obj.set_semester(dictionary["semester"])
         return obj
