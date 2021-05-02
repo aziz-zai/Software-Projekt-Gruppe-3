@@ -5,8 +5,8 @@ class Group (bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._personID = 0  
-        self._groupname = "" 
+        self._personID = 0
+        self._groupname = ""
 
     def get_personID(self):
         return self._personID
@@ -19,8 +19,8 @@ class Group (bo.BusinessObject):
 
     def set_groupname(self, groupname):
         self._groupname = groupname
-<<<<<<< HEAD
-=======
+
+
 
     def __str__(self):
         return "group: {}, {}, {} ".format(self.get_id(), self.get_personID, self.get_groupname)
@@ -33,4 +33,4 @@ class Group (bo.BusinessObject):
         obj.set_personID(dictionary["personID"])  # eigentlich Teil von BusinessObject !
         obj.set_groupname(dictionary["groupname"])
         return obj    
->>>>>>> 8dca9720ad852f6b739ac7d036ba01d3c214f305
+
