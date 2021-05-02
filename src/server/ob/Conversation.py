@@ -16,7 +16,7 @@ class Profile (bo.BusinessObject):
     def set_personID(self,person):
         self._profileID = profile
 
-        def get_conversationstatus(self,):
+    def get_conversationstatus(self,):
         return self._conversationstatus
 
     def set_conversationstatus(self, _conversationstatus):
