@@ -31,14 +31,14 @@ class GroupMapper(Mapper):
 
         return result 
 
-    def find_all_by_personID(self, personID):
+    def find_all_by_person_id(self, personID):
         """
         Auslesen aller Gruppen aus dem Data Base von einer Person
         :return: Eine list von group business objects
         """
         groups = []
         cursor = self._cnx.cursor()
-        statement = "Select GroupID from  WHERE Person_ID = {} ".format(int(id))
+        statement = "Select group_idfrom  WHERE Person_ID = {} ".format(int(id))
         cursor.execute(statement)
         tuples = cursor.fetchall()
         

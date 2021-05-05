@@ -21,7 +21,6 @@ class Group (bo.BusinessObject):
         self._groupname = groupname
 
 
-
     def __str__(self):
         return "group: {}, {}, {} ".format(self.get_id(), self.get_personID, self.get_groupname)
 
