@@ -6,7 +6,8 @@ class Person (bo.BusinessObject):
     
     def __init__(self):
         super().__init__()
-        self._profileID = None #Fremdschlüssel von Profile
+        self._profileID = None
+        self._profile = None #Fremdschlüssel von Profile
         self._firstname = "" #Name der Person
         self._surname = "" 
         self._semester = None #Semester 
