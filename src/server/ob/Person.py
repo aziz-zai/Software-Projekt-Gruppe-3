@@ -1,7 +1,6 @@
 from server.bo import BusinessObject as bo
 from server.bo import Profile
 
-
 class Person (bo.BusinessObject):
     
     def __init__(self):
