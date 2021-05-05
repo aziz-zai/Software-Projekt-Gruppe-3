@@ -6,7 +6,7 @@ class Profile (bo.BusinessObject):
         self._interests = ""
         self._type = ""
         self._online = ""
-        self._frequenz = ""
+        self._frequence = ""
         self._expertise = ""
         self._extroversion = ""
 
@@ -28,10 +28,10 @@ class Profile (bo.BusinessObject):
     def set_online(self,value):
         self._online = value
 
-    def get_frequenz(self):
+    def get_frequence(self):
         return self._frequenz
 
-    def set_frequenz(self,value):
+    def set_frequence(self,value):
         self._frequenz = value
 
     def get_expertise(self):
