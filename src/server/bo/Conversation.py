@@ -12,7 +12,7 @@ class Conversation (bo.BusinessObject):
         """Auslesen des Fremdschlüssels von Person"""
         return self._personID 
 
-    def set_personID(self,person):
+    def set_personID(self,profile):
         self._profileID = profile
 
     def get_conversationstatus(self):
@@ -21,21 +21,15 @@ class Conversation (bo.BusinessObject):
     def set_conversationstatus(self, _conversationstatus):
         self._conversationstatus = _conversationstatus
 
-    def accept_conversation(self, boolean):
-        return self._conversation(True)
-
-    def reject_conversation(self, boolean):
-        return self._conversation(False) #soll hier die Ausgabe als rejected markiert werden?
-
     def __str__(self):
-        return "Person: {}, {}, {}, {}".format(self.get_id(), self.get_personID, self.get_conversationstatus, self.get_conversation)
+        return "Person: {}, {}, {}".format(self.get_id(), self.get_personID, self.get_conversationstatus)
 
-        
+
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Account()."""
         obj = Conversation()
-        obj.set_id(dictionary["id"])  
+        obj.set_id(dictionary["id"])
         obj.set_personID(dictionary["personID"])
         obj.set_conversationstatus(dictionary["conversationstatus"])
         return obj
