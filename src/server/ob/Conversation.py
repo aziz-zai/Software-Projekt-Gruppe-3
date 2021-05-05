@@ -5,7 +5,6 @@ class Conversation (bo.BusinessObject):
     def __init__(self):
         super().__init__()
         self._personID = None #Fremdschlüssel von Profile
-        self._conversationID = ""
         self._conversationstatus = False #boolean
         self._groupID = ""
 
@@ -39,5 +38,4 @@ class Conversation (bo.BusinessObject):
         obj.set_id(dictionary["id"])  
         obj.set_personID(dictionary["personID"])
         obj.set_conversationstatus(dictionary["conversationstatus"])
-        obj.set_conversation(dictionary["surname"])
         return obj
