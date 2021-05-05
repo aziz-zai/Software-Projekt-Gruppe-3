@@ -40,17 +40,17 @@ class PersonMapper (Mapper):
         """Auslesen aller Kunden anhand des Nachnamen.
 
         :param name Nachname der zugehörigen Kunden.
-        :return Eine Sammlung mit Customer-Objekten, die sämtliche Kunden
+        :return Eine Sammlung mit Person-Objekten, die sämtliche Kunden
             mit dem gewünschten Nachnamen enthält.
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, surename FROM customers WHERE surname LIKE '{}' ORDER BY surname".format(surname)
+        command = "SELECT id, firstname, surename FROM persons WHERE surname LIKE '{}' ORDER BY surname".format(surname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, firstname, surname) in tuples:
-            person = Customer()
+            person = Person()
             person.set_id(id)
             person.set_firstname(firstname)
             person.set_surname(surname)
@@ -72,16 +72,16 @@ class PersonMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, surname FROM customers WHERE id={}".format(key)
+        command = "SELECT id, firstname, surname FROM persons WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
             (id, firstname, surname) = tuples[0]
-            person = Customer()
+            person = Person()
             person.set_id(id)
-            person.set_first_name(firstname)
-            person.set_last_name(surname)
+            person.set_firstname(firstname)
+            person.set_lastname(surname)
             result = person
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
