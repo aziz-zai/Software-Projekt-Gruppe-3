@@ -21,15 +21,18 @@ class ProfileMapper (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from users")
+        cursor.execute("SELECT * from Profile")
         tuples = cursor.fetchall()
 
-        for (id, name, email, Profile_id) in tuples:
+        for (id, frequence, interests , extroversion, expertise, online, type, ) in tuples:
             Profile = Profile()
             Profile.set_id(id)
-            Profile.set_name(name)
-            Profile.set_email(email)
-            Profile.set_user_id(Profile_id)
+            Profile.set_frequence(frequence)
+            Profile.set_interests(interests)
+            Profile.set_extroversion(extroversion)
+            Profile.set_expertise(expertise)
+            Profile.set_online(online)
+            Profile.set_type(type)
             result.append(Profile)
 
         self._cnx.commit()

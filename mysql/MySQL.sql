@@ -18,14 +18,14 @@ USE `mydb` ;
 -- Table `mydb`.`Profile`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Profile` (
-  `profileID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `frequence` VARCHAR(45) NULL,
   `extroversion` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
   `interests` VARCHAR(45) NULL,
   `expertise` VARCHAR(45) NULL,
   `online` VARCHAR(45) NULL,
-  PRIMARY KEY (`profileID`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -33,16 +33,16 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Person`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Person` (
-  `personID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(45) NULL,
   `surname` VARCHAR(45) NULL,
   `semester` INT NULL,
-  `profileID` INT NOT NULL,
-  PRIMARY KEY (`personID`),
-  INDEX `fk_Person_Profile1_idx` (`profileID` ASC) VISIBLE,
-  CONSTRAINT `Person_profileID`
-    FOREIGN KEY (`profileID`)
-    REFERENCES `mydb`.`Profile` (`profileID`)
+  `Profile_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Person_Profile1_idx` (`Profile_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Person_Profile`
+    FOREIGN KEY (`Profile_id`)
+    REFERENCES `mydb`.`Profile` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -52,9 +52,9 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Group`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Group` (
-  `groupID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `groupname` VARCHAR(45) NULL,
-  PRIMARY KEY (`groupID`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -62,21 +62,21 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Conversation`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Conversation` (
-  `conversationID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `conversationstatus` TINYINT NULL,
-  `groupID` INT NOT NULL,
-  `personID` INT NOT NULL,
-  PRIMARY KEY (`conversationID`),
-  INDEX `fk_Conversation_Group1_idx` (`groupID` ASC) VISIBLE,
-  INDEX `fk_Conversation_Person1_idx` (`personID` ASC) VISIBLE,
-  CONSTRAINT `Conversation_groupID`
-    FOREIGN KEY (`groupID`)
-    REFERENCES `mydb`.`Group` (`groupID`)
+  `Group_id` INT NOT NULL,
+  `Person_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Conversation_Group1_idx` (`Group_id` ASC) VISIBLE,
+  INDEX `fk_Conversation_Person1_idx` (`Person_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Conversation_Group`
+    FOREIGN KEY (`Group_id`)
+    REFERENCES `mydb`.`Group` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `Conversation_personID`
-    FOREIGN KEY (`personID`)
-    REFERENCES `mydb`.`Person` (`personID`)
+  CONSTRAINT `fk_Conversation_Person`
+    FOREIGN KEY (`Person_id`)
+    REFERENCES `mydb`.`Person` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -86,14 +86,14 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Message`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Message` (
-  `messageID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(45) NULL,
-  `conversationID` INT NOT NULL,
-  PRIMARY KEY (`messageID`),
-  INDEX `fk_Message_Conversation1_idx` (`conversationID` ASC) VISIBLE,
-  CONSTRAINT `Message_conversationID`
-    FOREIGN KEY (`conversationID`)
-    REFERENCES `mydb`.`Conversation` (`conversationID`)
+  `Conversation_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Message_Conversation1_idx` (`Conversation_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Message_Conversation`
+    FOREIGN KEY (`Conversation_id`)
+    REFERENCES `mydb`.`Conversation` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -103,26 +103,25 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Membership`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Membership` (
-  `personID` INT NOT NULL,
-  `groupID` INT NOT NULL,
-  `profileID` INT NOT NULL,
-  PRIMARY KEY (`personID`, `groupID`, `profileID`),
-  INDEX `fk_Person_has_Group_Group1_idx` (`groupID` ASC) VISIBLE,
-  INDEX `fk_Person_has_Group_Person1_idx` (`personID` ASC) VISIBLE,
-  INDEX `fk_Membership_Profile1_idx` (`profileID` ASC) VISIBLE,
-  CONSTRAINT `Member_personID`
-    FOREIGN KEY (`personID`)
-    REFERENCES `mydb`.`Person` (`personID`)
+  `Group_id` INT NOT NULL,
+  `Person_id` INT NOT NULL,
+  `Profile_id` INT NOT NULL,
+  PRIMARY KEY (`Group_id`, `Person_id`, `Profile_id`),
+  INDEX `fk_Membership_Person1_idx` (`Person_id` ASC) VISIBLE,
+  INDEX `fk_Membership_Profile1_idx` (`Profile_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Membership_Group`
+    FOREIGN KEY (`Group_id`)
+    REFERENCES `mydb`.`Group` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `Member_groupID`
-    FOREIGN KEY (`groupID`)
-    REFERENCES `mydb`.`Group` (`groupID`)
+  CONSTRAINT `fk_Membership_Person`
+    FOREIGN KEY (`Person_id`)
+    REFERENCES `mydb`.`Person` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `Member_profileID`
-    FOREIGN KEY (`profileID`)
-    REFERENCES `mydb`.`Profile` (`profileID`)
+  CONSTRAINT `fk_Membership_Profile`
+    FOREIGN KEY (`Profile_id`)
+    REFERENCES `mydb`.`Profile` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
