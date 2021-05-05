@@ -23,5 +23,3 @@ class Message():
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_content(dictionary["content"])
         return obj
-=======
->>>>>>> Stashed changes
