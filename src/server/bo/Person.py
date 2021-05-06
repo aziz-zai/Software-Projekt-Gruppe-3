@@ -5,7 +5,7 @@ class Person (bo.BusinessObject):
     
     def __init__(self):
         super().__init__()
-        self._profileID = None
+        self._profile_id = None
         self._profile = None #Fremdschlüssel von Profile
         self._firstname = "" #Name der Person
         self._surname = "" 
@@ -44,7 +44,7 @@ class Person (bo.BusinessObject):
         """Umwandeln eines Python dict() in ein Account()."""
         obj = Person()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_profileID(dictionary["profileID"])
+        obj.set_profileID(dictionary["profile_iD"])
         obj.set_firstname(dictionary["firstname"])
         obj.set_surname(dictionary["surname"])
         obj.set_semester(dictionary["semester"])

@@ -26,11 +26,11 @@ class PersonMapper (Mapper):
 
         for (id, firstname, lastname) in tuples:
             person = Person()
-            person.set_id(id)
+            person.set_profileID(id)
             person.set_firstname(firstName)
             person.set_surname(lastName)
             result.append(person)
-
+            
         self._cnx.commit()
         cursor.close()
 
