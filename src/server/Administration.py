@@ -19,3 +19,13 @@ class Administration (object):
 
         with ProfileMapper() as Profilemapper:
             return Profilemapper.insert(Profile)
+    
+    def create_person(self, id, firstname, surname):
+        
+        Person = Person()
+        Person.set_id(1)
+        Person.set_firstname(firstname)
+        Person.set_surname(surname)
+
+        with PersonMapper() as Personmapper:
+            return PersonMapper.insert(Person)
