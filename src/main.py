@@ -71,13 +71,13 @@ CORS(app, resources={r"/bank/*": {"origins": "*"}})
 Allerdings würde dies dann eine Missbrauch Tür und Tor öffnen, so dass es ratsamer wäre, nicht alle
 "origins" zuzulassen, sondern diese explizit zu nennen. Weitere Infos siehe Doku zum Package flask-cors.
 """
-CORS(app, resources=r'/lernpartnerwebapp/*')
+CORS(app, resources=r'/response-files/*')
 
 """
 In dem folgenden Abschnitt bauen wir ein Modell auf, das die Datenstruktur beschreibt, 
 auf deren Basis Clients und Server Daten austauschen. Grundlage hierfür ist das Package flask-restx.
 """
-api = Api(app, version='1.0', title='Lernpartnerwebapp API',
+api = Api(app, version='1.0', title='BankBeispiel API',
     description='Eine rudimentäre Demo-API für doppelte Buchführung in Banken.')
 
 """Anlegen eines Namespace
@@ -87,7 +87,7 @@ Lernpartnerwebapp-relevanten Operationen unter dem Präfix /Lpwa zusammen. Eine 
 von Namespace könnte etwa sein, unterschiedliche API-Version voneinander zu trennen, um etwa 
 Abwärtskompatibilität (vgl. Lehrveranstaltungen zu Software Engineering) zu gewährleisten. Dies ließe
 sich z.B. umsetzen durch /Lpwa/v1, /Lpwa/v2 usw."""
-lpwa = api.namespace('Lpwa', description='Funktionen der Lernpartnerwebapp')
+lernpartnerwebapp = api.namespace('App', description='Funktionen der Lernpartnerwebapp')
 
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
@@ -96,7 +96,7 @@ bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
 })
 
-"""Person, Profile, Conversation, Message, Group sind BusinessObjects..."""
+"""Person, Profile Conversation, Message, Group sind BusinessObjects..."""
 person = api.inherit('Person', bo, {
     'firstname': fields.String(attribute='_firstname', description='Vorname eines Benutzers'),
     'surname': fields.String(attribute='_surname', description='Nachname eines Benutzers'),
@@ -106,44 +106,19 @@ person = api.inherit('Person', bo, {
 
 profile = api.inherit('Profile', bo, {
     'interests': fields.String(attribute='_interests', description='Lerninteressen einer Person'),
-    'type': fields.String(attribute='_type', description='Lerntyp einer Person'),
-    'online': fields.String(attribute='_online', description='Online/offline typ einer Person'),
+    #'type': fields.String(attribute='_type', description='Lerntyp einer Person'),
+    #'online': fields.String(attribute='_online', description='Online Lerntyp einer Person'),
     'frequenz': fields.String(attribute='_frequenz', description='Frequenz des Lernens einer Person'),
-    'expertise': fields.String(attribute='_expertise', description='Vorkenntnisse einer Person'),
-    'extroversion': fields.String(attribute='extroversion', description='Extroversion einer Person')
+    #'expertise': fields.String(attribute='_expertise', description='Vorkenntnisse einer Person'),
+    #'extroversion': fields.String(attribute='extroversion', description='Extroversion einer Person')
+})
+"""
+account = api.inherit('Person', bo, {
+    'Person': fields.Integer(attribute='_person', description='Unique Id des Profilinhabers')
 })
 
-conversation = api.inherit('Conversation', bo, {
-    'person_id': fields.Integer(attribute='_person_id', description='PersonId im Chat')
-    'group_id': fields.Integer(attribute='_group_id', description='GruppenId im Chat')
-    'conversationstatus': fields.Integer(attribute='_conversationstatus', description='Konversationstatus im Chat')
-
+transaction = api.inherit('Transaction', bo, {
+    'source_account': fields.Integer(attribute='_source_account', description='Unique Id des Quellkontos'),
+    'target_account': fields.Integer(attribute='_target_account', description='Unique Id des Zielkontos'),
+    'amount': fields.Float(attribute='_amount', description='Betrag bzw. Wert der Buchung')
 })
-
-message = api.inherit('Message', bo, {
-    'content': fields.Integer(attribute='_content', description='Inhalt der Nachricht'),
-
-})
-
-group = api.inherit('Group', bo, {
-    'person_id': fields.Integer(attribute='_person_id', description='PersonId in der Gruppe')
-    'group_id': fields.Integer(attribute='_group_id', description='GruppenId im Chat')
-    'groupname': fields.Integer(attribute='_groupname', description='Gruppenname')
-
-})
-
-@lpwa.route('/Profile/<int:id>')
-@lpwa.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class PersonOperations(Resource);
-    @lpwa.marshal_with(profile)
-    @secured
-    def get(self, id):
-        adm = LpwaAdmin()
-        return adm.get_all_persons_by_id(id)
-
-    
-    
-
-
-
-

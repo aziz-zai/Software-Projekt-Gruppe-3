@@ -9,31 +9,31 @@
 
 const SetupEndpoint = require('./setup/');
 
-const prefix = "/lernpartner"
+const prefix = "/response-files"
 
 module.exports = SetupEndpoint({
-    name: 'lernpartner',
+    name: 'App',
     urls: [{
-        params: '/group',
+        params: '/persons',
         requests: [{
             method: 'GET',
-            response: '/response-files/lernpartner/group.json'
+            response: '/response-files/persons.json'
         },
         {
             method: ['POST'],
-            response: '/response-files/lernpartner/group.json'
+            response: '/response-files/persons.json'
         }]
     }, {
-        params: '/group/{id}',
+        params: '/persons/{id}',
         requests: [{
             method: ['GET'],
-            response: '/response-files/lernpartner/group.json'
+            response: '/response-files/persons.json'
         }, {
             method: ['PUT'],
-            response: '/response-files/lernpartner/group.json'
+            response: '/response-files/persons.json'
         }, {
             method: 'DELETE',
-            response: '/response-files/lernpartner/group.json'
+            response: '/response-files/persons.json'
         }]
     }]
 });
