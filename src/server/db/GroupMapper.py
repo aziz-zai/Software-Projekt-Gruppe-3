@@ -102,8 +102,8 @@ class GroupMapper(Mapper):
             else:
                 group.set_id(1)
 
-        command = "INSERT INTO `Group` (ID, groupname) VALUES ('{0}', '{1}', '{2}', NOW())".format(group.get_id(), group.get_groupname())
-               
+        command = "INSERT INTO `Group` (ID, groupname) VALUES ('{}', '{}', '{}', NOW())".format(group.get_id(), group.get_groupname())
+
         try:
             cursor.execute(command)
             self._cnx.commit()

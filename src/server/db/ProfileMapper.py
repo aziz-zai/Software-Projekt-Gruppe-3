@@ -81,8 +81,8 @@ class ProfileMapper (Mapper):
         for (maxid) in tuples:
             account.set_id(maxid[0]+1)
 
-        command = "INSERT INTO Profile (id, frequence, interests, extroversion, expertise, online, type) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        data = (profile.get_id(), profile.get_frequence(), profile.get_interests(), profile.extroversion(), profile.get_expertise(), profile.get_online(), profile.get_type())
+        command = "INSERT INTO Profile (id, frequence, interests) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        data = (profile.get_id(), profile.get_frequence(), profile.get_interests())
         cursor.execute(command, data)
 
         self._cnx.commit()
