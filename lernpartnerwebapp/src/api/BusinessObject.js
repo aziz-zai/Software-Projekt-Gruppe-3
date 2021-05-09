@@ -5,8 +5,8 @@ export default class BusinessObject {
     }
 
 
-    setID(aId){
-        this.id = aId;
+    setID(id){
+        this.id = id;
     }
 
     getID(){
