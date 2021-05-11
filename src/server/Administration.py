@@ -1,5 +1,7 @@
 from .bo.Profile import Profile
 
+from .bo.Person import Person
+
 from .db.ProfileMapper import ProfileMapper
 
 
@@ -12,20 +14,20 @@ class Administration (object):
 
     def create_profile(self, id, frequence, interests):
 
-        Profile = Profile()
-        Profile.set_id(1)
-        Profile.set_frequence(frequence)
-        Profile.set_interests(interests)
+        profile = Profile()
+        profile.set_id(1)
+        profile.set_frequence(frequence)
+        profile.set_interests(interests)
 
         with ProfileMapper() as Profilemapper:
             return Profilemapper.insert(Profile)
     
     def create_person(self, id, firstname, surname):
         
-        Person = Person()
-        Person.set_id(1)
-        Person.set_firstname(firstname)
-        Person.set_surname(surname)
+        person = Person()
+        person.set_id(1)
+        person.set_firstname(firstname)
+        person.set_surname(surname)
 
         with PersonMapper() as Personmapper:
             return PersonMapper.insert(Person)

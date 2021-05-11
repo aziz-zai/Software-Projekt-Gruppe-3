@@ -57,11 +57,52 @@ export default class AppAPI {
           },
           body: JSON.stringify(PersonBO)
         }).then((responseJSON) => {
-          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(accountBOs);
           return new Promise(function (resolve) {
             resolve(responsePersonBO);
+          })
+        })
+      }
+
+      updateCustonerURL(personBO) {
+          return this.#updatePersonURL(this.#updatePersonURL(personBO.getID), {
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(personBO)
+          }).then((responseJSON) => {
+            // We always get an array of PersonBOs.fromJSON
+            let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+            // console.info(PersonBOs);
+            return new Promise(function (resolve) {
+              resolve(responsePersonBO);
+            })
+          })
+      }
+
+      deletePerson(personID) {
+        return this.#fetchAdvanced(this.#deletePersonURL(personID), {
+          method: 'DELETE'
+        }).then((responseJSON) => {
+          // We always get an array of PersonBOs.fromJSON
+          let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+          // console.info(accountBOs);
+          return new Promise(function (resolve) {
+            resolve(responsePersonBO);
+          })
+        })
+      }
+
+      searchPerson(personName) {
+        return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
+          let PersonBOs = PersonBO.fromJSON(responseJSON);
+          // console.info(PersonBOs);
+          return new Promise(function (resolve) {
+            resolve(PersonBOs);
           })
         })
       }

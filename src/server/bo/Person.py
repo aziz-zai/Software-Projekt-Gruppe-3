@@ -5,18 +5,17 @@ class Person (bo.BusinessObject):
     
     def __init__(self):
         super().__init__()
-        self._profile_id = None
         self._profile = None #Fremdschlüssel von Profile
         self._firstname = "" #Name der Person
-        self._surname = "" 
+        self._surname = "" #Nachname der Person
         self._semester = None #Semester 
 
-    def get_profileID(self):
+    def get_profile(self):
         """Auslesen des Fremdschlüssels von Profile"""
-        return self._profileID
+        return self._profile
     
-    def set_profileID(self,profile):
-        self._profileID = profile
+    def set_profile(self,profile):
+        self._profile = profile
 
     def get_firstname(self):
         return self._firstname
@@ -37,14 +36,14 @@ class Person (bo.BusinessObject):
         self._semester = semester
 
     def __str__(self):
-        return "Person: {}, {}, {}, {}, {}".format(self.get_id(), self.get_profileID, self.get_firstname, self.get_surname, self.get_semester)
+        return "Person: {}, {}, {}, {}, {}".format(self.get_id(), self.get_profile, self.get_firstname, self.get_surname, self.get_semester)
 
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Account()."""
         obj = Person()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_profileID(dictionary["profile_iD"])
+        obj.set_profile(dictionary["profile"])
         obj.set_firstname(dictionary["firstname"])
         obj.set_surname(dictionary["surname"])
         obj.set_semester(dictionary["semester"])

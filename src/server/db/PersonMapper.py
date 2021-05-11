@@ -46,6 +46,9 @@ class PersonMapper (Mapper):
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, surename FROM persons WHERE surname LIKE '{}' ORDER BY surname".format(surname)
+        
+        
+
         cursor.execute(command)
         tuples = cursor.fetchall()
 
