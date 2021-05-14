@@ -48,7 +48,7 @@ class ProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, owner) in tuples:
+        for (id, profile) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_frequence(frequence)
@@ -79,7 +79,7 @@ class ProfileMapper (Mapper):
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            account.set_id(maxid[0]+1)
+            profile.set_id(maxid[0]+1)
 
         command = "INSERT INTO Profile (id, frequence, interests) VALUES (%s,%s,%s,%s,%s,%s,%s)"
         data = (profile.get_id(), profile.get_frequence(), profile.get_interests())
@@ -87,7 +87,7 @@ class ProfileMapper (Mapper):
 
         self._cnx.commit()
         cursor.close()
-        return account
+        return profile
 
     def update(self, profile):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -103,7 +103,7 @@ class ProfileMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, account):
+    def delete(self, profile):
         """Löschen der Daten eines Account-Objekts aus der Datenbank.
 
         :param account das aus der DB zu löschende "Objekt"

@@ -24,11 +24,11 @@ class PersonMapper (Mapper):
         cursor.execute("SELECT * from person")
         tuples = cursor.fetchall()
 
-        for (id, firstname, lastname) in tuples:
+        for (id, firstname, surname) in tuples:
             person = Person()
             person.set_profileID(id)
-            person.set_firstname(firstName)
-            person.set_surname(lastName)
+            person.set_firstname(firstname)
+            person.set_surname(surname)
             result.append(person)
             
         self._cnx.commit()
