@@ -12,8 +12,8 @@ class Conversation (bo.BusinessObject):
         """Auslesen des Fremdschlüssels von Person"""
         return self._personID 
 
-    def set_personID(self,profile):
-        self._profileID = profile
+    def set_personID(self,person):
+        self._personID = person
 
     def get_conversationstatus(self):
         return self._conversationstatus

@@ -25,14 +25,14 @@ class ProfileMapper (Mapper):
         tuples = cursor.fetchall()
 
         for (id, frequence, interests , extroversion, expertise, online, type, ) in tuples:
-            Profile = Profile()
-            Profile.set_id(id)
-            Profile.set_frequence(frequence)
-            Profile.set_interests(interests)
-            Profile.set_extroversion(extroversion)
-            Profile.set_expertise(expertise)
-            Profile.set_online(online)
-            Profile.set_type(type)
+            profile = Profile()
+            profile.set_id(id)
+            profile.set_frequence(frequence)
+            profile.set_interests(interests)
+            profile.set_extroversion(extroversion)
+            profile.set_expertise(expertise)
+            profile.set_online(online)
+            profile.set_type(type)
             result.append(Profile)
 
         self._cnx.commit()
@@ -48,15 +48,15 @@ class ProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, owner) in tuples:
-            Profile = Profile()
-            Profile.set_id(id)
-            Profile.set_frequence(frequence)
-            Profile.set_interests(interests)
-            Profile.set_extroversion(extroversion)
-            Profile.set_expertise(expertise)
-            Profile.set_online(online)
-            Profile.set_type(type)
+        for (id, profile) in tuples:
+            profile = Profile()
+            profile.set_id(id)
+            profile.set_frequence(frequence)
+            profile.set_interests(interests)
+            profile.set_extroversion(extroversion)
+            profile.set_expertise(expertise)
+            profile.set_online(online)
+            profile.set_type(type)
             result.append(Profile)
 
         self._cnx.commit()
@@ -79,15 +79,15 @@ class ProfileMapper (Mapper):
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            account.set_id(maxid[0]+1)
+            profile.set_id(maxid[0]+1)
 
-        command = "INSERT INTO Profile (id, frequence, interests, extroversion, expertise, online, type) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        data = (profile.get_id(), profile.get_frequence(), profile.get_interests(), profile.extroversion(), profile.get_expertise(), profile.get_online(), profile.get_type())
+        command = "INSERT INTO Profile (id, frequence, interests) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        data = (profile.get_id(), profile.get_frequence(), profile.get_interests())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-        return account
+        return profile
 
     def update(self, profile):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -103,7 +103,7 @@ class ProfileMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, account):
+    def delete(self, profile):
         """Löschen der Daten eines Account-Objekts aus der Datenbank.
 
         :param account das aus der DB zu löschende "Objekt"
