@@ -3,7 +3,7 @@ from src.server.db import TableObj, Model
 
 
 @dataclass
-class ProfileObj(TableObj):
+class ProfileTableObj(TableObj):
     """Dummy Table descriptor."""
 
     interests: str
@@ -13,13 +13,11 @@ class ProfileObj(TableObj):
     expertise: bool
     extroversion: str
 
-
-
-class ProfileMapper(Model, ProfileObj):
-    """Dummy Model."""
+class Profile(Model, ProfileTableObj):
+    """Profile Model."""
 
     __tablename__ = "Profile"
-    business_obj = ProfileObj
+    business_obj = ProfileTableObj 
 
 
 def __str__(self):

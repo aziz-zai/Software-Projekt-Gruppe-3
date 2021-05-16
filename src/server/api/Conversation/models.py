@@ -1,19 +1,21 @@
 from dataclasses import dataclass
-from app.utils.models import TableObj, Model
+from src.server.db import TableObj, Model
 
 
 @dataclass
-class YourObj(TableObj):
+class ConversationTableObj(TableObj):
     """Dummy Table descriptor."""
+
     personID: str
-    ConversationID: str
     Conversationsstatus: float
     GroupID: int
 
+class Conversation(Model, ConversationTableObj):
+    """Conversation Model."""
 
+    __tablename__ = "Conversation"
+    business_obj = ConversationTableObj
 
-class YourModel(Model, YourObj):
-    """Dummy Model."""
-
-    __tablename__ = "person"
-    table_obj = YourObj
+def __str__(self):
+    obj = self.instance
+    return f"id: {obj.id}, personID: {obj.person}, Conversationsstatus: {obj.Conversationsstatus}, GroupID: {obj.GroupID}"

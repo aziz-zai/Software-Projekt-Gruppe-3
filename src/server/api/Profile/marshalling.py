@@ -1,4 +1,3 @@
-from .models import Profile
 from flask_restx import fields
 from src.server.configs import api
 
