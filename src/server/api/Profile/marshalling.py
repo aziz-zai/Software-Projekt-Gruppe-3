@@ -8,5 +8,6 @@ Profile = api.inherit('Profile', {
     "online": fields.bool(required=True),
     "frequency": fields.String(required=True),
     "expertise":fields.bool(required=True),
-    "extroversion":fields.String(required=True)
+    "extroversion":fields.String(required=True),
+    "profile_id": fields.Integer(required=True)
 })

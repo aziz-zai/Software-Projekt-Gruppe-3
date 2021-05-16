@@ -3,19 +3,19 @@ from src.server.db import TableObj, Model
 
 
 @dataclass
-class ConversationTableObj(TableObj):
+class ConversationObj(TableObj):
     """Dummy Table descriptor."""
 
-    personID: str
-    Conversationsstatus: float
-    GroupID: int
+    person: int
+    conversationsstatus: float
+    group: int
 
-class Conversation(Model, ConversationTableObj):
+class Conversation(Model, ConversationObj):
     """Conversation Model."""
 
     __tablename__ = "Conversation"
-    business_obj = ConversationTableObj
+    business_obj = ConversationObj
 
 def __str__(self):
     obj = self.instance
-    return f"id: {obj.id}, personID: {obj.person}, Conversationsstatus: {obj.Conversationsstatus}, GroupID: {obj.GroupID}"
+    return f"id: {obj.id}, person: {obj.person}, conversationsstatus: {obj.conversationsstatus}, group: {obj.group}"

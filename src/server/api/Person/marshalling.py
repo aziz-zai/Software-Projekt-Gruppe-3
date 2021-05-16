@@ -1,4 +1,3 @@
-from app.apps.learngroup.models import Person
 from flask_restx import fields
 from app.configs.base import api
 

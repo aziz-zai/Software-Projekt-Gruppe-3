@@ -1,20 +1,23 @@
 from dataclasses import dataclass
-from app.utils.models import TableObj, Model
+from src.server.db import TableObj, Model
 
 
 @dataclass
-class YourObj(TableObj):
+class PersonObj(TableObj):
     """Dummy Table descriptor."""
 
     firstname: str
     surname: str 
     semester: int
-    Profile: str
+    profile: str
 
+class Person(Model, PersonObj):
+    """Person Model."""
 
-class YourModel(Model, YourObj):
-    """Dummy Model."""
+    __tablename__ = "Person"                                                                                                                                                                                                                                                                                                                                                                                                                
+    business_obj = PersonObj
 
-    __tablename__ = "person"                                                                                                                                                                                                                                                                                                                                                                                                                
-    table_obj = YourObj^
+def __str__(self):
+    obj = self.instance
+    return f"id: {obj.id}, firstname : {obj.firstname}, surname : {obj.surname}, semester: {obj.semester}, profile : {obj.profile}"
 
