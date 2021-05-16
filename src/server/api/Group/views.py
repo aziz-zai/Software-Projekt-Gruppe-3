@@ -1,8 +1,8 @@
 from typing import Dict
 from flask import request
 from flask_restx import Resource
-from app.configs.base import mysql_connector, api
-from app.utils.models import ORM
+from src.server.db import mysql_connector, api
+from src.server.db import ORM
 from .models import Person
 from .marshalling import person
 

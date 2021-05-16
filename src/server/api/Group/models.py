@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from app.utils.models import TableObj, Model
+from src.server.db import TableObj, Model
 
 
 @dataclass

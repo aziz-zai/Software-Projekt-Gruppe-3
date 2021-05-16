@@ -1,7 +1,7 @@
 from flask_restx import fields
-from app.configs.base import api
+from src.server.configs import api
 
 
-message = api.inherit('Message', {
+Message = api.inherit('Message', {
     "content": fields.String(required=True),
 })

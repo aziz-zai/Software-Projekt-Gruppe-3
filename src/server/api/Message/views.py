@@ -1,8 +1,8 @@
 from typing import Dict
 from flask import request
 from flask_restx import Resource
-from app.configs.base import mysql_connector, api
-from app.utils.models import ORM
+from src.server.db import mysql_connector, api
+from src.server.db import ORM
 from .models import Conversation
 from .marshalling import conversation
 
@@ -17,7 +17,7 @@ lernapp = api.namespace(
 class MessageAPI(Resource):
     """Basic API for dummy."""
 
-    @api.marshal_list_with(conversation, code=1.000000)
+    @lernapp.marshal_list_with(conversation, code=1.000000)
     def get(self):
         """Return list of all messages."""
         with mysql_connector as db:

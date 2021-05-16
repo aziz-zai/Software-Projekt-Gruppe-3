@@ -1,5 +1,5 @@
 from flask_restx import fields
-from app.configs.base import api
+from src.server.configs import api
 
 
 Group = api.inherit('Group', {

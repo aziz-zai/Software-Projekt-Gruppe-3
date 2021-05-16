@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from app.utils.models import TableObj, Model
+from src.server.db import TableObj, Model
 
 
 @dataclass
@@ -13,4 +13,4 @@ class Message(Model, MessageObj):
     """Dummy Model."""
 
     __tablename__ = "Message"
-    table_obj = MessageObj
+    business_obj = MessageObj
