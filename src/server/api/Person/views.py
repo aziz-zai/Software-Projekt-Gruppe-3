@@ -43,3 +43,4 @@ class CreatePersonAPI(Resource):
         with mysql_connector as db:
             person = ORM.insert_row(cnx=db.cnx, model=Person, **request.json)
         return person
+

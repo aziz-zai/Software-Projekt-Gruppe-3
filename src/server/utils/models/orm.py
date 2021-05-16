@@ -14,7 +14,7 @@ class ORM:
     """Basic Database Handler."""
 
     @classmethod
-    def insert_row(cls, cnx: connector, model: Model, **cells) -> Model:
+    def insert(cls, cnx: connector, model: Model, **cells) -> Model:
         """Insert Row.
 
         Returns the Dataclass of the inserted Row.
@@ -50,7 +50,7 @@ class ORM:
         return dummy_object
 
     @classmethod
-    def select_row(cls, cnx: connector, model: Model, id: int) -> Model:
+    def find_by_id(cls, cnx: connector, model: Model, id: int) -> Model:
         """Select single row by any filtertype.
 
         Returns a dataclass of the selected row.
@@ -67,7 +67,7 @@ class ORM:
         return obj
 
     @classmethod
-    def select_many_rows(cls, cnx: connector, model: Model) -> List[Model]:
+    def find_all(cls, cnx: connector, model: Model) -> List[Model]:
         """Select multiple rows by any filtertype.
 
         Returns a list of dataclasses of the selected rows.
@@ -86,7 +86,7 @@ class ORM:
         return objects
 
     @classmethod
-    def update_row(cls, cnx: connector, model: Model, id: int, **cells) -> Model:
+    def update(cls, cnx: connector, model: Model, id: int, **cells) -> Model:
         """Update Row.
 
         Returns the Dataclass of the updated Row.
@@ -105,7 +105,7 @@ class ORM:
         return obj
 
     @classmethod
-    def delete_row(cls, cnx: connector, model: Model, id: int) -> None:
+    def delete(cls, cnx: connector, model: Model, id: int) -> None:
         """Delete Row."""
         sql = f"DELETE FROM {model.__tablename__} WHERE id=%s"
         cursor = cnx.cursor()

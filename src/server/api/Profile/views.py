@@ -23,6 +23,28 @@ class ProfileAPI(Resource):
             profiles = ORM.find_all(cnx=db.cnx, model=Profile)
         return profiles
 
+@lernapp.route('/customers/<int:id>/accounts')
+class Profile_for_Person(Resource):
+    @lernapp.marshal_with(Profile)
+    def get(self, id):
+
+        with mysql_connector as db:
+            prof = ORM.find_by_id(cnx=db.cnx, model=Profile)
+        if prof is not None:
+            with mysql_connector as db:
+                profile_list = ORM.find_by_id(cnx=db.cnx, model=Profile)
+            
+            return account_list
+        else:
+            return "Customer not found", 500
+        return profiles
+
+        
+
+
+
+
+
 
 
 
