@@ -7,7 +7,7 @@ from .model import Model
 
 def get_model_fields(model: Model) -> List[str]:
     """Get fields from table_obj dataclass."""
-    return [field for field in model.table_obj.__dataclass_fields__]
+    return [field for field in model.business_obj.__dataclass_fields__]
 
 
 class ORM:

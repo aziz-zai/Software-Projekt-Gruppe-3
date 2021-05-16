@@ -7,7 +7,7 @@ from .models import Conversation
 from .marshalling import conversation
 
 
-lernapp = api.lernapp(
+lernapp = api.namespace(
     "/message",
     description="Namespace for Learningroup APIs."
 )
