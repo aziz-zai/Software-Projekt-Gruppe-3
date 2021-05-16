@@ -3,15 +3,15 @@ from app.utils.models import TableObj, Model
 
 
 @dataclass
-class YourObj(TableObj):
+class GroupObj(TableObj):
     """Dummy Table descriptor."""
 
-    test_1: str
-    test_2: float
+    PersonID: int
+    GroupID: int
 
 
-class YourModel(Model, YourObj):
+class Group(Model, GroupObj):
     """Dummy Model."""
 
-    __tablename__ = "person"
-    table_obj = YourObj
+    __tablename__ = "Group"
+    table_obj = GroupObj
