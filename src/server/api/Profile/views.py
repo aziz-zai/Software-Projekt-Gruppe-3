@@ -1,53 +1,75 @@
 from typing import Dict
 from flask import request
 from flask_restx import Resource
-from server.api.Person.models import Person
+from server.api.Profile.models import Profile
 from src.server.db import mysql_connector, api
 from src.server.db import ORM
-from .models import Person
-from .marshalling import person
+from .models import Profile
+from .marshalling import profile
 
 lernapp = api.namespace(
     "/Profile",
     description="ProfileAPI."
 )
 
-@lernapp.route("/<int:id>")
+@lernapp.route("/profile")
+@lernapp.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProfileAPI(Resource):
     """ProfileAPI"""
 
-    @lernapp.marshal_list_with(person, code=202)
+    @lernapp.marshal_list_with(profile)
     def get(self, id: int) -> Dict[dict, int]:
         """Get Profile by id endpoint."""
         with mysql_connector as db:
-            person = ORM.select_row(cnx=db.cnx, model=Person, id=id)
+            person = ORM.find_by_id(cnx=db.cnx, model=Profile, id=id)
         return person
 
 @lernapp.route("/")
-class CreateProfileAPI(Resource):
+class ProfileListOperations(Resource):
     """Create List for Profile API"""
 
-    @lernapp.marshal_list_with(person, code=203)
+    @lernapp.marshal_list_with(profile)
     def get(self) -> Dict[dict, int]:
         """Create Profile endpoint."""
         with mysql_connector as db:
-            persons = ORM.select_many_rows(cnx=db.cnx, model=Person)
+            persons = ORM.find_all(cnx=db.cnx, model=Profile)
         return persons
 
-    @lernapp.marshal_list_with(person, code=201)
-    def get(self):
-        """Return list of all Profiles"""
-        with mysql_connector as db:
-            profiles = ORM.select_many_rows(cnx=db.cn, model=Person)
-            return profiles
 
-    @lernapp.marshal_with(person, code=203)
-    @lernapp.expect(person, validate=True)
+    @lernapp.marshal_with(profile, code=200)
+    @lernapp.expect(profile, validate=True)
     def post(self) -> Dict[dict, int]:
         """Create Profile endpoint."""
-        with mysql_connector as db:
-            person = ORM.insert_row(cnx=db.cnx, model=Person, **request.json)
-        return person
+        proposal = Profile(api.payload)
+        if(proposal is not None):
+
+            pro = Profile()
+            pro = Profile.firstname(proposal)
+            pro = Profile.surname(proposal)
+            pro = Profile.semester(proposal)
+            with mysql_connector as db:
+                pro = ORM.insert(cnx=db.cnx, model=Profile)
+            return pro, 200
+        else:
+            return "", 500
+
+class PersonRelatedProfileOperations(Resource):
+
+        @lernapp.marshal_list_with(profile)
+        def get(self, id: int):
+        
+            with mysql_connector as db:
+                pro = ORM.find_by_id(cnx=db.cnx, model=Profile)
+
+            if( pro is not None):
+                 pro_pers = 
+
+
+
+
+
+
+
 
 
 

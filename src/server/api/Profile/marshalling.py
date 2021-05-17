@@ -2,7 +2,7 @@ from flask_restx import fields
 from src.server.configs import api
 
 
-Profile = api.inherit('Profile', {
+profile = api.inherit('Profile', {
     "interests": fields.String(required=True),
     "type": fields.String(required=True),
     "online": fields.bool(required=True),

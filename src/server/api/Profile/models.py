@@ -12,7 +12,7 @@ class ProfileObj(TableObj):
     frequency: str
     expertise: bool
     extroversion: str
-    profile_id: int
+
 
 class Profile(Model, ProfileObj):
     """Profile Model."""
