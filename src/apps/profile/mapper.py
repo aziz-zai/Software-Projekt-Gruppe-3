@@ -48,13 +48,41 @@ class ProfileMapper (Mapper):
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            command = "SELECT id, frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE id={}".format(key)
+            command = "SELECT id, owner frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE id={}".format(key)
             cursor.execute(command)
             tuples = cursor.fetchone()
 
-        for (id, frequency, interests, extroversion, expertise, online, type_) in tuples:
+        for (id, owner, frequency, interests, extroversion, expertise, online, type_) in tuples:
             profile = Profile()
             profile.set_id(id)
+            profile.set_owner(owner)
+            profile.set_frequency(frequency)
+            profile.set_interests(interests)
+            profile.set_extroversion(extroversion)
+            profile.set_expertise(expertise)
+            profile.set_online(online)
+            profile.set_type_(type_)
+            result.append(Profile)
+
+        con._cnx.commit()
+        cursor.close()
+
+        return result
+    
+    def find_by_owner_id(self, owner_id):
+
+        
+      with mysql_connector as con:
+        result = []
+        cursor = con._cnx.cursor()
+        command = "SELECT id, owner frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE owner={} ORDER BY id".format(owner_id)
+        cursor.execute(command)
+        tuples = cursor.fetchone()
+
+        for (id, owner, frequency, interests, extroversion, expertise, online, type_) in tuples:
+            profile = Profile()
+            profile.set_id(id)
+            profile.set_owner(owner)
             profile.set_frequency(frequency)
             profile.set_interests(interests)
             profile.set_extroversion(extroversion)

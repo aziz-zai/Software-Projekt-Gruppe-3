@@ -21,5 +21,11 @@ class Administration(object):
 
         return PersonMapper.find_all()
     
+    def get_person_by_id(self,id):
+
+        return PersonMapper.find_by_key(id)
+    
+
+    
     
 
