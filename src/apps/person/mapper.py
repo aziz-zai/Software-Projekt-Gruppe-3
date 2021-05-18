@@ -99,7 +99,7 @@ class PersonMapper (Mapper):
         with mysql_connector as con:
             cursor = con._cnx.cursor()
 
-            command = "UPDATE Person " + "SET owner= %s, frequency=%s, interests=%s, extroversion=%s, expertise=%s, online=%s, type_=%s WHERE id=%s"
+            command = "UPDATE Person " + "SET firstname= %s, lastname=%s, semester=%s WHERE id=%s"
             data = (person.get_firstname(), person.get_lastname(), person.get_semester())
             cursor.execute(command, data)
 
