@@ -1,5 +1,6 @@
-from src.apps.group.business_object import Group
-from server.db.Mapper import Mapper
+from src.apps.group.GroupBO import Group
+from src.core.mapper import Mapper
+
 
 
 class GroupMapper(Mapper):
@@ -54,7 +55,7 @@ class GroupMapper(Mapper):
                     group.set_personID(personID)
                     group.set_groupID(groupID)
 
-                    groups.append(gr)
+                    groups.append(groupID)
             except IndexError:
                 groups = None 
         

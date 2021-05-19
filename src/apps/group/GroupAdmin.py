@@ -1,7 +1,7 @@
-from .mapper import GroupMapper
-from .business_object import Group
+from .GroupMapper import GroupMapper
+from .GroupBO import Group
 
-class Administration(object):
+class GroupAdmin(object):
 
 
     def __init__(self):

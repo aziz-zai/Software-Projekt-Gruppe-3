@@ -1,4 +1,4 @@
-from src.apps.message.business_object import Message
+from src.apps.message.MessageBO import Message
 from src.core.mapper import Mapper
 from src.configs.base import mysql_connector
 
