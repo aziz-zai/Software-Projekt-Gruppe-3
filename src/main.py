@@ -21,7 +21,5 @@ api = Api(
     description='Eine rudimentäre Demo-API für doppelte Buchführung in Banken.')
 
 
-namespace = api.namespace('profile', description='Funktionen des BankBeispiels')
-
 if __name__ == '__main__':
     app.run(debug=True)

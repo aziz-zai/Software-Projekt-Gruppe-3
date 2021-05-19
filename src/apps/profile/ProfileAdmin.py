@@ -1,4 +1,4 @@
-from apps.person.PersonBO import Person
+from  src.apps.person.PersonBO import Person
 from .ProfileMapper import ProfileMapper 
 from .ProfileBO import Profile
 
