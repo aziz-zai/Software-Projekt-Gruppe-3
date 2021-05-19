@@ -1,5 +1,5 @@
 from .MessageMapper import MessageMapper
-from .business_object import Message
+from .MessageBO import Message
 
 class Administration(object):
 
