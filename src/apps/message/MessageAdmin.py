@@ -1,7 +1,7 @@
 from .MessageMapper import MessageMapper
 from .MessageBO import Message
 
-class Administration(object):
+class MessageAdmin(object):
 
 
     def __init__(self):
