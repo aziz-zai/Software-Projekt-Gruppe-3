@@ -27,13 +27,12 @@ class MessageAPI(Resource):
     def post(self) -> dict:
         """Create Message Endpoint."""
         
-        #profile = ProfileMapper.insert(object=profile)
         adm = Administration()
         message = Message(api.payload)
 
         if message is not None:
             p = adm.create_message(
-                message.set_content(),
+                message.set_content()),
             return p, 200
         else:
 
