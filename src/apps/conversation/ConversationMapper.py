@@ -1,5 +1,4 @@
-from apps import conversation
-from src.apps.conversation.business_object import Conversation
+from src.apps.conversation.ConversationBO import Conversation
 from src.core.mapper import Mapper
 from src.configs.base import mysql_connector
 
@@ -23,7 +22,7 @@ class ConversationMapper (Mapper):
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            cursor.execute("SELECT * from Conversation")
+            cursor.execute("SELECT * from conversation")
             tuples = cursor.fetchall()
 
         for (id, person_id, group_id, conversationstatus) in tuples:
