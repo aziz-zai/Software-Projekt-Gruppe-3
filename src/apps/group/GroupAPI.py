@@ -1,15 +1,20 @@
+from flask_restx import fields
 from flask_restx import Resource
 from src.configs.base import api
-from .marshalling import group_marshalling
-from .business_object import Group
-from .mapper import GroupMapper
-from .administration import Administration
-
+from .GroupBO import Group
+from .GroupMapper import GroupMapper
+from .GroupAdmin import GroupAdmin
 
 namespace = api.namespace(
     "/Group",
     description="Namespace for Group APIs."
 )
+
+
+group_marshalling = api.inherit('Group', {
+    'personID': fields.Integer(attribute='_personID', description='ID einer Person', required=True),
+    'groupID': fields.Integer(attribute='_interests', description='ID einer Gruppe', required=True),
+})
 
 @namespace.route(500, "Falls es zu einem Serverseitigen Fehler kommt")
 @namespace.route("/")
@@ -18,7 +23,7 @@ class GroupAPI(Resource):
     
     @api.marshal_with(group_marshalling)
     def get(self):
-        Groups = Administration.get_all_Groups()
+        Groups = GroupAdmin.get_all_Groups()
         return Groups
 
     @api.marshal_with(group_marshalling, code=200)
@@ -28,7 +33,7 @@ class GroupAPI(Resource):
         """Create Group Endpoint."""
         
         #Group = GroupMapper.insert(object=Group)
-        adm = Administration()
+        adm = GroupAdmin()
         Group = Group(api.payload)
 
         if Group is not None:
