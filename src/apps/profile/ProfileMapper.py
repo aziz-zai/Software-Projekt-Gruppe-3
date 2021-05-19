@@ -1,4 +1,4 @@
-from src.apps.profile.business_object import Profile
+from src.apps.profile.ProfileBO import Profile
 from src.core.mapper import Mapper
 from src.configs.base import mysql_connector
 
@@ -23,13 +23,14 @@ class ProfileMapper (Mapper):
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            cursor.execute("SELECT * from Profile")
+            cursor.execute("SELECT * from profile")
             tuples = cursor.fetchall()
 
-        for (id, owner, frequency, interests , extroversion, expertise, online, type_, ) in tuples:
+        for (id, owner, semester, frequency, interests , extroversion, expertise, online, type_, ) in tuples:
             profile = Profile()
-            profile.set_owner(owner)
             profile.set_id(id)
+            profile.set_owner(owner)
+            profile.set_semester(semester),
             profile.set_frequency(frequency)
             profile.set_interests(interests)
             profile.set_extroversion(extroversion)
@@ -43,19 +44,20 @@ class ProfileMapper (Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            command = "SELECT id, owner frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE id={}".format(key)
+            command = "SELECT {id, owner, semester, frequency, interests, extroversion, expertise, online, type_}  FROM Profile WHERE id={}".format(id)
             cursor.execute(command)
             tuples = cursor.fetchone()
 
-        for (id, owner, frequency, interests, extroversion, expertise, online, type_) in tuples:
+        for (id, owner, semester, frequency, interests, extroversion, expertise, online, type_) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_owner(owner)
+            profile.set_semester(semester),
             profile.set_frequency(frequency)
             profile.set_interests(interests)
             profile.set_extroversion(extroversion)
@@ -75,14 +77,15 @@ class ProfileMapper (Mapper):
       with mysql_connector as con:
         result = []
         cursor = con._cnx.cursor()
-        command = "SELECT id, owner frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE owner={} ORDER BY id".format(owner_id)
+        command = "SELECT id, owner, semester, frequency, interests, extroversion, expertise, online, type_  FROM Profile WHERE owner={} ORDER BY id".format(owner_id)
         cursor.execute(command)
         tuples = cursor.fetchone()
 
-        for (id, owner, frequency, interests, extroversion, expertise, online, type_) in tuples:
+        for (id, owner, semester, frequency, interests, extroversion, expertise, online, type_) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_owner(owner)
+            profile.set_semester(semester),
             profile.set_frequency(frequency)
             profile.set_interests(interests)
             profile.set_extroversion(extroversion)
@@ -97,7 +100,7 @@ class ProfileMapper (Mapper):
         return result
 
 
-    def insert(self, profile):
+    def insert(self, profile: Profile):
         """Einfügen eines Account-Objekts in die Datenbank.
 
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
@@ -111,11 +114,12 @@ class ProfileMapper (Mapper):
             cursor = cnx.cursor()
             command = """
                 INSERT INTO profile (
-                    owner, frequency, interests, extroversion, expertise, online, type_
+                    owner, semester, frequency, interests, extroversion, expertise, online, type_
                 ) VALUES (%s,%s,%s,%s,%s,%s)
             """
             cursor.execute(command, (
                 profile.get_owner(),
+                profile.get_semester(),
                 profile.get_frequency(),
                 profile.get_interests(),
                 profile.get_extroversion(),
@@ -124,12 +128,9 @@ class ProfileMapper (Mapper):
                 profile.get_type_()
             ))
             cnx.commit()
-            cursor.execute("SELECT MAX(id) FROM profile")
-            max_id = cursor.fetchone()[0]
-        object.id_ = max_id
-        return object
+        return profile
 
-    def update(self, profile):
+    def update(self, profile: Profile):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 
         :param account das Objekt, das in die DB geschrieben werden soll
@@ -137,14 +138,22 @@ class ProfileMapper (Mapper):
         with mysql_connector as con:
             cursor = con._cnx.cursor()
 
-            command = "UPDATE Profile " + "SET owner= %s, frequency=%s, interests=%s, extroversion=%s, expertise=%s, online=%s, type_=%s WHERE id=%s"
-            data = (profile.get_owner(), profile.get_interests(), profile.get_frequency(), profile.get_type_(), profile.get_online(), profile.get_extroversion(), profile.get_expertise() )
+            command = "UPDATE Profile " + "SET owner= %s, semester=%s, frequency=%s, interests=%s, extroversion=%s, expertise=%s, online=%s, type_=%s WHERE id=%s"
+            data = (
+                profile.get_owner(),
+                profile.get_semester(),
+                profile.get_frequency(),
+                profile.get_interests(),
+                profile.get_extroversion(),
+                profile.get_expertise(),
+                profile.get_online(),
+                profile.get_type_())
             cursor.execute(command, data)
 
             con._cnx.commit()
             cursor.close()
 
-    def delete(self, profile):
+    def delete(self, profile: Profile):
         """Löschen der Daten eines Account-Objekts aus der Datenbank.
 
         :param account das aus der DB zu löschende "Objekt"

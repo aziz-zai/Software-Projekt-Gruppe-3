@@ -1,18 +1,17 @@
-from .mapper import PersonMapper
-from .business_object import Person
+from .PersonMapper import PersonMapper
+from .PersonBO import Person
 
-class Administration(object):
+class PersonAdmin(object):
 
 
     def __init__(self):
             pass
     
-    def create_person(self, firstname, lastname, semester):
+    def create_person(self, firstname, lastname):
         """Create a Person"""
         person = Person()
         person.set_firstname(firstname)
         person.set_lastname(lastname)
-        person.set_semester(semester)
 
 
         return PersonMapper.insert(person)
@@ -23,9 +22,6 @@ class Administration(object):
     
     def get_person_by_id(self,id):
 
-        return PersonMapper.find_by_key(id)
-    
+        return PersonMapper.find_by_id(id)
 
-    
-    
 

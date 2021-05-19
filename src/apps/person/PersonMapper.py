@@ -1,4 +1,4 @@
-from src.apps.person.business_object import Person
+from src.apps.person.PersonBO import Person
 from src.core.mapper import Mapper
 from src.configs.base import mysql_connector
 
@@ -31,7 +31,6 @@ class PersonMapper (Mapper):
             person.set_id(id)
             person.set_firstname(firstname)
             person.set_lastname(lastname)
-            person.set_semester(semester)
             result.append(person)
 
         self._cnx.commit()
@@ -39,21 +38,20 @@ class PersonMapper (Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            command = "SELECT id, firstname, lastname, semester  FROM Person WHERE id={}".format(key)
+            command = "SELECT id, firstname, lastname FROM Person WHERE id={}".format(id)
             cursor.execute(command)
             tuples = cursor.fetchone()
 
-        for (id, firstname, lastname, semester) in tuples:
+        for (id, firstname, lastname) in tuples:
             person = Person
             person.set_id(id)
             person.set_firstname(firstname)
             person.set_lastname(lastname)
-            person.set_semester(semester)
             result.append(Person)
 
         con._cnx.commit()
@@ -62,7 +60,7 @@ class PersonMapper (Mapper):
         return result
 
 
-    def insert(self, person):
+    def insert(self, person : Person):
         """Einfügen eines Account-Objekts in die Datenbank.
 
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
@@ -76,22 +74,18 @@ class PersonMapper (Mapper):
             cursor = cnx.cursor()
             command = """
                 INSERT INTO person (
-                    firstname, lastname, semester
+                    firstname, lastname
                 ) VALUES (%s,%s,%s)
             """
             cursor.execute(command, (
                 person.get_firstname(),
                 person.get_lastname(),
-                person.get_semester(),
 
             ))
             cnx.commit()
-            cursor.execute("SELECT MAX(id) FROM person")
-            max_id = cursor.fetchone()[0]
-        object.id_ = max_id
-        return object
+        return person
 
-    def update(self, person):
+    def update(self, person: Person):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 
         :param account das Objekt, das in die DB geschrieben werden soll
@@ -100,13 +94,13 @@ class PersonMapper (Mapper):
             cursor = con._cnx.cursor()
 
             command = "UPDATE Person " + "SET firstname= %s, lastname=%s, semester=%s WHERE id=%s"
-            data = (person.get_firstname(), person.get_lastname(), person.get_semester())
+            data = (person.get_firstname(), person.get_lastname(),)
             cursor.execute(command, data)
 
             con._cnx.commit()
             cursor.close()
 
-    def delete(self, person):
+    def delete(self, person: Person):
         """Löschen der Daten eines Account-Objekts aus der Datenbank.
 
         :param account das aus der DB zu löschende "Objekt"
