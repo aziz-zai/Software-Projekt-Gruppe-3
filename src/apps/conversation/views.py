@@ -7,7 +7,7 @@ from .administration import Administration
 
 namespace = api.namespace(
     "/conversation",
-    description="Namespace for conversation APIs."
+    description= "Namespace for conversation APIs."
 )
 
 @namespace.route(500, "Falls es zu einem Serverseitigen Fehler kommt")
@@ -17,7 +17,7 @@ class ConversationAPI(Resource):
     
     @api.marshal_with(conversation_marshalling)
     def get(self):
-        conversations = Administration.get_all_conversations()
+        conversations = Administration.get_all_conversation()
         return conversations
 
     @api.marshal_with(conversation_marshalling, code=200)

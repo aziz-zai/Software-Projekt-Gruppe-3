@@ -3,7 +3,7 @@ from src.core.business_object import BusinessObject
 class Conversation (BusinessObject):
     def __init__(self):
         super().__init__()
-        self._person_id = None #Fremdschlüssel von Profile - reicht owner aus?
+        self._person_id = None #Fremdschlüssel von Profile 
         self._conversationstatus = False #boolean
         self._group_id = None #Fremdschlüssel
 

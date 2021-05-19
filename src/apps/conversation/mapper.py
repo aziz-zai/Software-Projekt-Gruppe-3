@@ -45,7 +45,7 @@ class ConversationMapper (Mapper):
         with mysql_connector as con:
             result = []
             cursor = con._cnx.cursor()
-            command = "SELECT id, id, person_id, group_id, conversationstatus FROM Conversation WHERE id={}".format(key)
+            command = "SELECT id, person_id, group_id, conversationstatus FROM Conversation WHERE id={}".format(key)
             cursor.execute(command)
             tuples = cursor.fetchone()
 
