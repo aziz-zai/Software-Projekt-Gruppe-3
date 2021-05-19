@@ -9,7 +9,7 @@ class Administration(object):
     
     def create_Group(self, personID, groupID):
         """Eine Gruppe anlegen"""
-        group = Group()
+        Group = Group()
         Group.set_personID(personID)
         Group.set_groupID(groupID)
         
