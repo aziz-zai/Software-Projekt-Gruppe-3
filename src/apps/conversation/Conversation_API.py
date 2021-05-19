@@ -1,9 +1,12 @@
 from flask_restx import Resource
 from flask_restx import fields
-from src.configs.base import api 
+from src.configs.base import api
+
+
 from src.apps.conversation.ConversationAdmin import ConversationAdmin
-
-
+from .ConversationBO import Conversation
+from .ConversationMapper import ConversationMapper
+from .ConversationAdmin import ConversationAdmin
 
 
 namespace = api.namespace(
@@ -18,12 +21,7 @@ conversation_marshalling = api.inherit('Conversation', {
     'conversationsstatus': fields.Integer(attribute='person_id', description='person_id of conversation', required=True)
 })  
 
-from flask_restx import Resource
-from src.configs.base import api
-from .marshalling import conversation_marshalling
-from .business_object import Conversation
-from .mapper import ConversationMapper
-from .administration import Administration
+
 
 namespace = api.namespace(
     "/conversation",
@@ -37,7 +35,7 @@ class ConversationAPI(Resource):
     
     @api.marshal_with(conversation_marshalling)
     def get(self):
-        conversations = Administration.get_all_conversation()
+        conversations = ConversationAdmin.get_all_conversation()
         return conversations
 
     @api.marshal_with(conversation_marshalling, code=200)
@@ -47,7 +45,7 @@ class ConversationAPI(Resource):
         """Create conversation Endpoint."""
         
         #conversation = ConversationMapper.insert(object=conversation)
-        adm = Administration()
+        adm = ConversationAdmin()
         conversation = Conversation(api.payload)
 
         if conversation is not None:

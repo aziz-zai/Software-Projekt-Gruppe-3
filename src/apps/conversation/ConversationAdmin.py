@@ -1,7 +1,7 @@
-from .mapper import ConversationMapper
-from .business_object import Conversation
+from .ConversationMapper import ConversationMapper
+from .ConversationBO import Conversation
 
-class Administration(object):
+class ConversationAdmin(object):
 
     def __init__(self):
             pass

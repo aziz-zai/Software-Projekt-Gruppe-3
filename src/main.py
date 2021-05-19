@@ -6,9 +6,9 @@ from src.configs.base import api
 
 from src.apps.profile.ProfileAPI import namespace as profile_namespace
 from src.apps.person.PersonAPI import namespace as person_namespace
-from src.apps.group.views import namespace as group_namespace
-from src.apps.conversation.views import namespace as conversation_namespace
-from src.apps.message.views import namespace as message_namespace
+#from src.apps.group.views import namespace as group_namespace
+#from src.apps.conversation.views import namespace as conversation_namespace
+#from src.apps.message.views import namespace as message_namespace
 
 
 

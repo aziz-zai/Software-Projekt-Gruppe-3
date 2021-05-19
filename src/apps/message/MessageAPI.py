@@ -30,7 +30,7 @@ class MessageAPI(Resource):
     def post(self) -> dict:
         """Create Message Endpoint."""
         
-        adm = Administration()
+        adm = MessageAdmin()
         message = Message(api.payload)
 
         if message is not None:

@@ -14,5 +14,5 @@ class Message (BusinessObject):
 
     def __str__(self):
         return "Message: {}".format(
-            self.get_content,
+            self.get_content(),
             )

@@ -31,7 +31,7 @@ class MessageMapper (Mapper):
             message.set_content(content)
             result.append(message)
 
-        self._cnx.commit()
+        con._cnx.commit()
         cursor.close()
 
         return result
