@@ -1,7 +1,7 @@
 from src.core.business_object import BusinessObject
 
 class Profile (BusinessObject):
-    def __init__(self, owner: None, interests: str, type_: str, online: bool, frequency: str, expertise: str, extroversion: str ):
+    def __init__(self):
         super().__init__()
         self._owner = None
         self._interests = ""
