@@ -14,11 +14,15 @@ from flask_restx import Api
 
 app = Flask(__name__)
 
-CORS(app, resources=r'/app/*')
+CORS(app, resources=r'/LernApp/*')
 api = Api(
-    app, version='1.0', 
-    title='BankBeispiel API',
-    description='Eine rudimentäre Demo-API für doppelte Buchführung in Banken.')
+    app, version='2.0', 
+    title='LernApp',
+    description='Murad ')
+
+namespace = api.namespace(
+    'LernApp',
+    description='test')
 
 
 if __name__ == '__main__':

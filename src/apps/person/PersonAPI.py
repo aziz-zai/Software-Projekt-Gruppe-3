@@ -4,13 +4,10 @@ from src.configs.base import api
 from .PersonBO import Person
 from .PersonMapper import PersonMapper
 from .PersonAdmin import PersonAdmin
+from src.main import namespace
 
 
 
-namespace = api.namespace(
-    "/person",
-    description="Namespace for person APIs."
-)
 
 person_marshalling = api.inherit('Person', {
     'firstname': fields.String(attribute='firstname', description='Firstname of a Person', required=True),

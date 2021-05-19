@@ -4,11 +4,10 @@ from src.configs.base import api
 from .MessageBO import Message
 from .MessageMapper import MessageMapper
 from .MessageAdmin import MessageAdmin
+from src.main import namespace
 
-namespace = api.namespace(
-    "/message",
-    description="Namespace for message APIs."
-)
+
+
 
 message_marshalling = api.inherit('Message', {
     'content': fields.String(attribute='_content', description='Inhalt einer Nachricht', required=True)

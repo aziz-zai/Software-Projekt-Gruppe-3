@@ -4,11 +4,8 @@ from src.configs.base import api
 from .GroupBO import Group
 from .GroupMapper import GroupMapper
 from .GroupAdmin import GroupAdmin
+from src.main import namespace
 
-namespace = api.namespace(
-    "/Group",
-    description="Namespace for Group APIs."
-)
 
 
 group_marshalling = api.inherit('Group', {

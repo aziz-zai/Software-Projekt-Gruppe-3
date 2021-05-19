@@ -1,18 +1,15 @@
 from flask_restx import Resource
 from flask_restx import fields
 from src.configs.base import api
+from src.main import namespace
 
 
 from src.apps.conversation.ConversationAdmin import ConversationAdmin
 from .ConversationBO import Conversation
-from .ConversationMapper import ConversationMapper
 from .ConversationAdmin import ConversationAdmin
 
 
-namespace = api.namespace(
-    "/profile",
-    description="Namespace for conversation APIs."
-)
+
 
 
 conversation_marshalling = api.inherit('Conversation', {

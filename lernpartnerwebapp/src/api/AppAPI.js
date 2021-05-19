@@ -6,7 +6,7 @@ export default class AppAPI {
 
     static #api = null;
 
-    #AppServerBaseURL = '/lernpartnerwebapp/http-fake-backend/response-files'
+    #AppServerBaseURL = '/LernApp'
 
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;

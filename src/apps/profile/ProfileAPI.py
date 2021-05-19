@@ -3,13 +3,10 @@ from flask_restx import fields
 from src.configs.base import api
 from src.apps.profile.ProfileAdmin import ProfileAdmin
 from src.apps.person.PersonAdmin import PersonAdmin
+from src.main import namespace
 
 
 
-namespace = api.namespace(
-    "/profile",
-    description="Namespace for profile APIs."
-)
 
 profile_marshalling = api.inherit('Profile', {
     'id': fields.String(attribute='id', description='individuelle id', ),
