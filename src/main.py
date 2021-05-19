@@ -4,8 +4,8 @@ from src.configs.base import BaseConfigs
 from src.configs.base import api
 
 
-from src.apps.profile.views import namespace as profile_namespace
-from src.apps.person.views import namespace as person_namespace
+from src.apps.profile.ProfileAPI import namespace as profile_namespace
+from src.apps.person.PersonAPI import namespace as person_namespace
 from src.apps.group.views import namespace as group_namespace
 from src.apps.conversation.views import namespace as conversation_namespace
 from src.apps.message.views import namespace as message_namespace
@@ -35,9 +35,9 @@ def init_routes() -> None:
     """Init Routes by using namespaces."""
     api.add_namespace(profile_namespace)
     api.add_namespace(person_namespace)
-    api.add_namespace(group_namespace)
-    api.add_namespace(conversation_namespace)
-    api.add_namespace(message_namespace)
+   # api.add_namespace(group_namespace)
+   # api.add_namespace(conversation_namespace)
+   # api.add_namespace(message_namespace)
 
 if __name__ == "__main__":
     app = create_app()

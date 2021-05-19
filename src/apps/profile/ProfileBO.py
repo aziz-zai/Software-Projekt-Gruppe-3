@@ -4,13 +4,14 @@ class Profile (BusinessObject):
     def __init__(self):
         super().__init__()
         self._owner = None
-        self._interests = ""
-        self._type_ = ""
-        self._online = ""
+        self._semester = ""
         self._frequency = ""
-        self._expertise = ""
+        self._interests = ""
         self._extroversion = ""
-
+        self._expertise = ""
+        self._online = ""
+        self._type_ = ""
+        
     def get_owner(self):
         return self._owner
 
@@ -24,7 +25,7 @@ class Profile (BusinessObject):
         self._interests = value
 
     def get_type_(self):
-        return self._type
+        return self._type_
 
     def set_type_(self,value):
         self._interests = value
@@ -52,11 +53,18 @@ class Profile (BusinessObject):
 
     def set_extroversion(self,value):
         self._extroversion = value
+    
+    def get_semester(self):
+        return self._semester
+
+    def set_semester(self,value):
+        self._semester = value
 
     def __str__(self):
-        return "Person: {}, {}, {}, {}, {}, {}, {}".format(
+        return "Person: {}, {}, {}, {}, {}, {}, {}, {}".format(
             self.get_id(),
             self.get_owner(),
+            self.get_semester(),
             self.get_frequency,
             self.get_interests,
             self.get_extroversion,
