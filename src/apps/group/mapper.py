@@ -1,4 +1,4 @@
-from server.bo.Group import Group
+from src.apps.group.business_object import Group
 from server.db.Mapper import Mapper
 
 
@@ -19,11 +19,13 @@ class GroupMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            for (id, groupname) in tuples:
+            for (id, personID, groupID) in tuples:
                 group = Group()
                 group.set_id(id)
-                group.set_groupname(groupname)
+                group.set_personID(personID)
+                group.set_groupID(groupID)
                 result.append(group)
+
         except IndexError:
             result = None 
         self._cnx.commit()
@@ -31,7 +33,7 @@ class GroupMapper(Mapper):
 
         return result 
 
-    def find_all_by_person_id(self, personID):
+    def find_all_by_person_id(self, groupID):
         """
         Auslesen aller Gruppen aus dem Data Base von einer Person
         :return: Eine list von group business objects
@@ -42,14 +44,15 @@ class GroupMapper(Mapper):
         cursor.execute(statement)
         tuples = cursor.fetchall()
         
-        for groupeID in tuples:
+        for groupID in tuples:
             cursor.execute("SELECT * from `Group` WHERE ID = '{}'".format(groupID[0]))
             group = cursor.fetchall()
             try:
-                for (id, description, groupname) in group:
+                for (id, personID, groupID) in group:
                     group = Group()
                     group.set_id(id)
-                    group.set_groupname(groupname)
+                    group.set_personID(personID)
+                    group.set_groupID(groupID)
 
                     groups.append(gr)
             except IndexError:
@@ -73,10 +76,10 @@ class GroupMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, groupname) = tuples[0]    
+            (id, key) = tuples[0]    
             group = Group()
             group.set_id(id)
-            group.set_groupname(groupename)
+            group.set_groupID(key)
             result = group
         except IndexError:
             result = None
@@ -102,7 +105,7 @@ class GroupMapper(Mapper):
             else:
                 group.set_id(1)
 
-        command = "INSERT INTO `Group` (ID, groupname) VALUES ('{}', '{}', '{}', NOW())".format(group.get_id(), group.get_groupname())
+        command = "INSERT INTO `Group` (ID, personID, groupID) VALUES ('{}', '{}', '{}', NOW())".format(group.get_id(), group.get_personID(), group.get_groupID())
 
         try:
             cursor.execute(command)
@@ -121,8 +124,8 @@ class GroupMapper(Mapper):
         :return: a group business objects
         """
         cursor = self._cnx.cursor()
-        command = "UPDATE `Group` " + "SET groupname=%s WHERE id=%s"
-        data = (group.get_name(), group.get_id())
+        command = "UPDATE `Group` " + "SET personID = %s groupID=%s WHERE id=%s"
+        data = (group.get_personID(),group.get_groupID(), group.get_id())
         cursor.execute(command, data)
         self._cnx.commit()
         cursor.close()
