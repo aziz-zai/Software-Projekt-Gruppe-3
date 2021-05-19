@@ -20,7 +20,7 @@ profile_marshalling = api.inherit('Profile', {
 })
 
 @namespace.route(500, "Falls es zu einem Serverseitigen Fehler kommt")
-@namespace.route("/")
+@namespace.route("/profiles")
 class ProfileAPI(Resource):
     """Basic API for profile."""
     

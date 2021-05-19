@@ -16,9 +16,9 @@ app = Flask(__name__)
 
 CORS(app, resources=r'/LernApp/*')
 api = Api(
-    app, version='2.0', 
+    app, version='2.0',
     title='LernApp',
-    description='Murad ')
+    description='Test')
 
 namespace = api.namespace(
     'LernApp',

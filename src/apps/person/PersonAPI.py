@@ -17,7 +17,7 @@ person_marshalling = api.inherit('Person', {
 
 
 @namespace.route(500, "Falls es zu einem Serverseitigen Fehler kommt")
-@namespace.route("/")
+@namespace.route("/persons")
 class PersonAPI(Resource):
     """Basic API for person."""
     
