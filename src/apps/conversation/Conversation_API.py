@@ -1,4 +1,24 @@
 from flask_restx import Resource
+from flask_restx import fields
+from src.configs.base import api 
+from src.apps.conversation.ConversationAdmin import ConversationAdmin
+
+
+
+
+namespace = api.namespace(
+    "/profile",
+    description="Namespace for conversation APIs."
+)
+
+
+conversation_marshalling = api.inherit('Conversation', {
+    'person_id': fields.Integer(attribute='person_id', description='person_id of conversation', required=True, readOnly=True),
+    'group_id': fields.Integer(attribute='group_id', description='group_id of conversation', required=True, readOnly=True),
+    'conversationsstatus': fields.Integer(attribute='person_id', description='person_id of conversation', required=True)
+})  
+
+from flask_restx import Resource
 from src.configs.base import api
 from .marshalling import conversation_marshalling
 from .business_object import Conversation
