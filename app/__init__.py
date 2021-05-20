@@ -4,7 +4,7 @@ from app.configs import BaseConfigs
 from app.configs.base import api
 from dotenv import load_dotenv
 
-from app.apps.profile.views import namespace as profile_namespace
+from app.apps.profile.ProfileViews import namespace as profile_namespace
 
 
 load_dotenv()
