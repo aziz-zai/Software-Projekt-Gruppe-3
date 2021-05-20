@@ -1,4 +1,4 @@
-from app.utils.core.mysql_connector import MySQLConnector
+from app.apps.core.mysql_connector import MySQLConnector
 from flask_restx import Api
 
 
