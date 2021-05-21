@@ -29,10 +29,12 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `mydb`.`person`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`person` (
-  `personID` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(45) NULL DEFAULT NULL,
-  `surname` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`personID`))
+  `lastname` VARCHAR(45) NULL DEFAULT NULL,
+  `email` varchar(256) NOT NULL DEFAULT '',
+  `google_user_id` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -45,15 +47,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`conversation` (
   `conversationstatus` TINYINT NULL DEFAULT NULL,
   `groupID` INT NOT NULL,
   `personID` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Conversation_Group1_idx` (`groupID` ASC) VISIBLE,
-  INDEX `fk_Conversation_Person1_idx` (`personID` ASC) VISIBLE,
-  CONSTRAINT `groupID`
-    FOREIGN KEY (`groupID`)
-    REFERENCES `mydb`.`group` (`id`),
-  CONSTRAINT `personID`
-    FOREIGN KEY (`personID`)
-    REFERENCES `mydb`.`person` (`personID`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -80,22 +74,11 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `mydb`.`membership`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `personID` INT NOT NULL,
   `groupID` INT NOT NULL,
   `profileID` INT NOT NULL,
-  PRIMARY KEY (`personID`, `groupID`, `profileID`),
-  INDEX `fk_Person_has_Group_Group1_idx` (`groupID` ASC) VISIBLE,
-  INDEX `fk_Person_has_Group_Person1_idx` (`personID` ASC) VISIBLE,
-  INDEX `fk_Membership_Profile1_idx` (`profileID` ASC) VISIBLE,
-  CONSTRAINT `Member_groupID`
-    FOREIGN KEY (`groupID`)
-    REFERENCES `mydb`.`group` (`id`),
-  CONSTRAINT `Member_personID`
-    FOREIGN KEY (`personID`)
-    REFERENCES `mydb`.`person` (`personID`),
-  CONSTRAINT `Member_profileID`
-    FOREIGN KEY (`profileID`)
-    REFERENCES `mydb`.`profile` (`id`))
+  PRIMARY KEY (`personID`, `groupID`, `profileID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -104,14 +87,11 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `mydb`.`message`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`message` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `messageID` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(45) NULL DEFAULT NULL,
   `conversationID` INT NOT NULL,
-  PRIMARY KEY (`messageID`),
-  INDEX `fk_Message_Conversation1_idx` (`conversationID` ASC) VISIBLE,
-  CONSTRAINT `conversationID`
-    FOREIGN KEY (`conversationID`)
-    REFERENCES `mydb`.`conversation` (`id`))
+  PRIMARY KEY (`messageID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
