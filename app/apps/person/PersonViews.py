@@ -1,13 +1,13 @@
 from flask_restx import Resource
 from app.configs.base import api
-from .ProfileMarshalling import profile_marshalling
-from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileManager
+from .PersonMarshalling import person_marshalling
+from .PersonBO import PersonObject
+from .PersonAdministration import PersonManager
 
 
 namespace = api.namespace(
-    "/profile",
-    description="Namespace for profile APIs."
+    "/person",
+    description="Namespace for person APIs."
 )
 
 
@@ -15,10 +15,10 @@ namespace = api.namespace(
 class ProfileAPI(Resource):
     """Basic API for profile."""
 
-    @api.marshal_with(profile_marshalling, code=201)
-    @api.expect(profile_marshalling)
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
     def post(self) -> dict:
-        """Create Profile Endpoint."""
-        profile = ProfileObject(**api.payload)
-        profile = ProfileManager.insert_profile(profile=profile)
-        return profile
+        """Create Person Endpoint."""
+        person = PersonObject(**api.payload)
+        person = PersonManager.insert_profile(person=person)
+        return person
