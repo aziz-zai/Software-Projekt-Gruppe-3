@@ -16,12 +16,14 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO person (
-                firstname, lastname
-            ) VALUES (%s,%s)
+                firstname, lastname, email, google_user_id
+            ) VALUES (%s,%s,%s,%s)
         """
         cursor.execute(command, (
             object.firstname,
             object.lastname,
+            object.email,
+            object.google_user_id
     
         ))
         cnx.commit()

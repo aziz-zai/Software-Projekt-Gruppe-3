@@ -12,7 +12,7 @@ namespace = api.namespace(
 
 
 @namespace.route("/")
-class ProfileAPI(Resource):
+class PersonAPI(Resource):
     """Basic API for profile."""
 
     @api.marshal_with(person_marshalling, code=201)
@@ -20,5 +20,5 @@ class ProfileAPI(Resource):
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
-        person = PersonManager.insert_profile(person=person)
+        person = PersonManager.insert_person(person=person)
         return person

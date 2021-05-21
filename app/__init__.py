@@ -5,6 +5,7 @@ from app.configs.base import api
 from dotenv import load_dotenv
 
 from app.apps.profile.ProfileViews import namespace as profile_namespace
+from app.apps.person.PersonViews import namespace as person_namespace
 
 
 load_dotenv()
@@ -31,7 +32,7 @@ def init_lazily(blueprint: Blueprint) -> None:
 def init_routes() -> None:
     """Init Routes by using namespaces."""
     api.add_namespace(profile_namespace)
-
+    api.add_namespace(person_namespace)
 
 if __name__ == "__main__":
     app = create_app()
