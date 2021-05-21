@@ -57,7 +57,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`profile` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `owner` INT NOT NULL,
+  `personID` INT NOT NULL,
   `semester` INT NULL,
   `frequence` VARCHAR(45) NULL DEFAULT NULL,
   `interests` VARCHAR(45) NULL DEFAULT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
   `personID` INT NOT NULL,
   `groupID` INT NOT NULL,
   `profileID` INT NOT NULL,
-  PRIMARY KEY (`personID`, `groupID`, `profileID`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -88,10 +88,9 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`message` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `messageID` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(45) NULL DEFAULT NULL,
   `conversationID` INT NOT NULL,
-  PRIMARY KEY (`messageID`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
