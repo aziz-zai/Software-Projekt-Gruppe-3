@@ -4,7 +4,7 @@ from app.configs.base import db_connector
 
 
 class ConversationManager:
-    """Profile Manager class. For managing database interactions."""
+    """Conversation Manager class. For managing database interactions."""
 
     @staticmethod
     def insert_conversation(conversation: ConversationObject) -> ConversationObject:
