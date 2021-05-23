@@ -1,8 +1,8 @@
 from app.apps.core.business_object import BusinessObject
 
 
-class ProfileObject(BusinessObject):
-    def __init__(self, owner: int, interests: str, type_: str, online: bool,
+class ConversationObject(BusinessObject):
+    def __init__(self, conversationstatus: bool, interests: str, type_: str, online: bool,
                  frequence: int, expertise: str, extroversion: str,
                  id_: int = 0):
         self.owner = owner
