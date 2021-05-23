@@ -1,14 +1,15 @@
-from .ProfileMapper import ProfileMapper
-from .ProfileBO import ProfileObject
+from .MessageMapper import MessageMapper
+from .MessageBO import MessageObject
 from app.configs.base import db_connector
 
 
-class ProfileManager:
-    """Profile Manager class. For managing database interactions."""
+class MessageManager:
+    """Message Manager class. For managing database interactions."""
 
     @staticmethod
-    def insert_profile(profile: ProfileObject) -> ProfileObject:
-        """Insert Profile Manager."""
+    def insert_message(message: MessageObject) -> MessageObject:
+        """Insert Message Manager."""
         with db_connector as db:
             cnx = db._cnx
-            return ProfileMapper.insert(cnx=cnx, object=profile)
+            return MessageMapper.insert(cnx=cnx, object=message
+            )
