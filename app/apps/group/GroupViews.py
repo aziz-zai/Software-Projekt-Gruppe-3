@@ -1,24 +1,24 @@
 from flask_restx import Resource
 from app.configs.base import api
-from .ProfileMarshalling import profile_marshalling
-from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileManager
+from .GroupMarshalling import group_marshalling
+from .GroupBO import GroupObject
+from .GroupAdministration import GroupManager
 
 
 namespace = api.namespace(
-    "/profile",
-    description="Namespace for profile APIs."
+    "/group",
+    description="Namespace for group APIs."
 )
 
 
 @namespace.route("/")
-class ProfileAPI(Resource):
-    """Basic API for profile."""
+class GroupAPI(Resource):
+    """Basic API for group."""
 
-    @api.marshal_with(profile_marshalling, code=201)
-    @api.expect(profile_marshalling)
+    @api.marshal_with(group_marshalling, code=201)
+    @api.expect(group_marshalling)
     def post(self) -> dict:
-        """Create Profile Endpoint."""
-        profile = ProfileObject(**api.payload)
-        profile = ProfileManager.insert_profile(profile=profile)
-        return profile
+        """Create group Endpoint."""
+        group = GroupObject(**api.payload)
+        group = GroupManager.insert_group(group=group)
+        return group
