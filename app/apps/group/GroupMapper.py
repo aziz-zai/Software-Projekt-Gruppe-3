@@ -1,9 +1,9 @@
 from app.apps.core.mapper import Mapper
-from .ProfileBO import ProfileObject
+from .GroupBO import GroupObject
 from app.configs.base import db_connector
 
 
-class ProfileMapper(Mapper):
+class GroupMapper(Mapper):
     def find_all():
         pass
 
@@ -11,25 +11,21 @@ class ProfileMapper(Mapper):
         pass
 
     @staticmethod
-    def insert(cnx: db_connector, object: ProfileObject) -> ProfileObject:
-        """Create Profile Object."""
+    def insert(cnx: db_connector, object: GroupObject) -> GroupObject:
+        """Create Group Object."""
         cursor = cnx.cursor()
         command = """
-            INSERT INTO profile (
-                owner, interests, type_, online, frequence, expertise, extroversion
-            ) VALUES (%s,%s,%s,%s,%s,%s,%s)
+            INSERT INTO Group (
+                personID, groupID
+            ) VALUES (%s,%s)
         """
         cursor.execute(command, (
-            object.owner,
-            object.interests,
-            object.type_,
-            object.online,
-            object.frequence,
-            object.expertise,
-            object.extroversion
+            object.personID,
+            object.groupID,
+         
         ))
         cnx.commit()
-        cursor.execute("SELECT MAX(id) FROM profile")
+        cursor.execute("SELECT MAX(id) FROM Group")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
         return object
