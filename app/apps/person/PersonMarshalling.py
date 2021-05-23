@@ -9,3 +9,4 @@ person_marshalling = api.inherit('Person', {
     "email": fields.String(),
     "google_user_id": fields.Integer(readOnly=True),
 })
+ 

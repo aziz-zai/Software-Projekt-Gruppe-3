@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from app.apps.profile.ProfileViews import namespace as profile_namespace
 from app.apps.person.PersonViews import namespace as person_namespace
+from app.apps.message.MessageViews import namespace as message_namespace
 
 
 load_dotenv()
@@ -33,6 +34,7 @@ def init_routes() -> None:
     """Init Routes by using namespaces."""
     api.add_namespace(profile_namespace)
     api.add_namespace(person_namespace)
+    api.add_namespace(message_namespace)
 
 if __name__ == "__main__":
     app = create_app()

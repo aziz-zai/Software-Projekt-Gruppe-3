@@ -20,5 +20,5 @@ class MessageAPI(Resource):
     def post(self) -> dict:
         """Create Message Endpoint."""
         message = MessageObject(**api.payload)
-        profile = MessageManager.insert_message(message=message)
-        return profile
+        message = MessageManager.insert_message(message=message)
+        return message
