@@ -12,10 +12,10 @@ class GroupMapper(Mapper):
 
     @staticmethod
     def insert(cnx: db_connector, object: GroupObject) -> GroupObject:
-        """Create Group Object."""
+        """Create group Object."""
         cursor = cnx.cursor()
         command = """
-            INSERT INTO Group (
+            INSERT INTO group (
                 id_, groupname
             ) VALUES (%s,%s)
         """
@@ -25,7 +25,7 @@ class GroupMapper(Mapper):
          
         ))
         cnx.commit()
-        cursor.execute("SELECT MAX(id) FROM Group")
+        cursor.execute("SELECT MAX(id) FROM group")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
         return object
