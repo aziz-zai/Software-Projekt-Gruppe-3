@@ -2,7 +2,7 @@ from app.apps.core.business_object import BusinessObject
 
 
 class GroupObject(BusinessObject):
-    def __init__(self, personID:int, groupID:int):
-        self.personID = personID
-        self.groupID= groupID
-        super().__init__()
+    def __init__(self, id_:int, groupname:int):
+        self.id_ = id_
+        self.groupname= groupname
+        super().__init__(id_=id_)

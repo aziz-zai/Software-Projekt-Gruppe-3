@@ -16,12 +16,12 @@ class GroupMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO Group (
-                personID, groupID
+                id_, groupname
             ) VALUES (%s,%s)
         """
         cursor.execute(command, (
-            object.personID,
-            object.groupID,
+            object.id_,
+            object.groupname,
          
         ))
         cnx.commit()
