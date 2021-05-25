@@ -16,13 +16,11 @@ class GroupMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO group (
-                id_, groupname
-            ) VALUES (%s,%s)
+                 groupname
+            ) VALUES (%s)
         """
         cursor.execute(command, (
-            object.id_,
-            object.groupname,
-         
+            object.groupname
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM group")
