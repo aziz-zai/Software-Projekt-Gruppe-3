@@ -17,7 +17,7 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`group`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`group` (
+CREATE TABLE IF NOT EXISTS `mydb`.`learning_group` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `groupname` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
