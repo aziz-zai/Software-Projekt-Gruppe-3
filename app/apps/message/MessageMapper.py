@@ -16,7 +16,7 @@ class MessageMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO message (
-                content
+                content,
                 conversationID
             ) VALUES (%s, %s)
         """
