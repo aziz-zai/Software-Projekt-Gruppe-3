@@ -12,3 +12,8 @@ class PersonManager:
         with db_connector as db:
             cnx = db._cnx
             return PersonMapper.insert(cnx=cnx, object=person)
+    @staticmethod
+    def get_person_by_id(personID: int) -> PersonObject:
+        with db_connector as db:
+            cnx = db._cnx
+            return PersonMapper.find_by_key(cnx=cnx, key=personID)

@@ -3,6 +3,7 @@ from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
 from .ProfileBO import ProfileObject
 from .ProfileAdministration import ProfileManager
+from app.apps.person.PersonAdministration import PersonManager
 
 
 namespace = api.namespace(
@@ -17,8 +18,9 @@ class ProfileAPI(Resource):
 
     @api.marshal_with(profile_marshalling, code=201)
     @api.expect(profile_marshalling)
-    def post(self) -> dict:
+    def post(self, personID: int) -> dict:
         """Create Profile Endpoint."""
+        person = PersonManager.get_person_by_id(personID)
         profile = ProfileObject(**api.payload)
-        profile = ProfileManager.insert_profile(profile=profile)
+        profile = ProfileManager.insert_profile(profile=profile, person=person)
         return profile

@@ -7,8 +7,32 @@ class PersonMapper(Mapper):
     def find_all():
         pass
 
-    def find_by_key(key):
-        pass
+    def find_by_key(cnx: db_connector,key: int) -> PersonObject:
+        result = None
+
+        cursor = cnx.cursor()
+        command = "SELECT id, firstname, lastname, email, google_user_id FROM person WHERE id={}".format(key)
+        cursor.execute(command)
+        tuples = cursor.fetchone()
+
+        try:
+            (id, firstname, lastname, email, google_user_id) = tuples[0]
+            person = PersonObject()
+            person.id_(id)
+            person.firstname(firstname)
+            person.lastname(lastname)
+            person.email(email)
+            person.google_user_id(google_user_id)
+            result = person
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        cnx.commit()
+        cursor.close()
+
+        return result
 
     @staticmethod
     def insert(cnx: db_connector, object: PersonObject) -> PersonObject:
