@@ -17,10 +17,10 @@ class PersonMapper(Mapper):
         FROM person WHERE id=%s
         """
         cursor.execute(command,(key, ))
-        tuples = cursor.fetchone()
+        entity = cursor.fetchone()
 
         try:
-            (id, firstname, lastname, email, google_user_id) = tuples[0]
+            (id, firstname, lastname, email, google_user_id) = entity
             person = PersonObject()
             person.id_(id)
             person.firstname(firstname)
