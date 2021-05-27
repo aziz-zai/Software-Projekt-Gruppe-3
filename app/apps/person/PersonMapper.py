@@ -49,7 +49,6 @@ class PersonMapper(Mapper):
             object.lastname,
             object.email,
             object.google_user_id
-    
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM person")
