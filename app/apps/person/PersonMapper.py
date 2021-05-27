@@ -29,8 +29,6 @@ class PersonMapper(Mapper):
             person.google_user_id(google_user_id)
             result = person
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
 
         cnx.commit()
