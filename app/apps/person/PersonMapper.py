@@ -11,8 +11,12 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = cnx.cursor()
-        command = "SELECT id, firstname, lastname, email, google_user_id FROM person WHERE id={}".format(key)
-        cursor.execute(command)
+        command = """
+        SELECT
+        id, firstname, lastname, email, google_user_id
+        FROM person WHERE id=%s
+        """
+        cursor.execute(command,(key, ))
         tuples = cursor.fetchone()
 
         try:
