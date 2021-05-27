@@ -21,13 +21,13 @@ class PersonMapper(Mapper):
 
         try:
             (id, firstname, lastname, email, google_user_id) = entity
-            person = PersonObject()
-            person.id_(id)
-            person.firstname(firstname)
-            person.lastname(lastname)
-            person.email(email)
-            person.google_user_id(google_user_id)
-            result = person
+            result = PersonObject(
+                id=id,
+                firstname=firstname,
+                lastname=lastname,
+                email=email,
+                google_user_id=google_user_id
+           )
         except IndexError:
             result = None
 
