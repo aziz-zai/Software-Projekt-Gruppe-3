@@ -7,7 +7,7 @@ class PersonMapper(Mapper):
     def find_all():
         pass
 
-    def find_by_key(cnx: db_connector,key: int) -> PersonObject:
+    def find_by_key(cnx: db_connector, key: int) -> PersonObject:
         result = None
 
         cursor = cnx.cursor()
