@@ -3,6 +3,7 @@ from .ProfileBO import ProfileObject
 from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 
+
 class ProfileManager:
     """Profile Manager class. For managing database interactions."""
 
