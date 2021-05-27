@@ -12,7 +12,7 @@ namespace = api.namespace(
 )
 
 
-@namespace.route("/")
+@namespace.route("/<int:personID>")
 class ProfileAPI(Resource):
     """Basic API for profile."""
 
