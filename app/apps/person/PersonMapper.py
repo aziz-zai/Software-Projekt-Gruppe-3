@@ -7,8 +7,33 @@ class PersonMapper(Mapper):
     def find_all():
         pass
 
-    def find_by_key(key):
-        pass
+    def find_by_key(cnx: db_connector, key: int) -> PersonObject:
+        result = None
+
+        cursor = cnx.cursor()
+        command = """
+        SELECT
+        id, firstname, lastname, email, google_user_id
+        FROM person WHERE id=%s
+        """
+        cursor.execute(command,(key, ))
+        entity = cursor.fetchone()
+
+        try:
+            (id, firstname, lastname, email, google_user_id) = entity
+            result = PersonObject(
+                id=id,
+                firstname=firstname,
+                lastname=lastname,
+                email=email,
+                google_user_id=google_user_id
+           )
+        except IndexError:
+            result = None
+
+        cursor.close()
+
+        return result
 
     @staticmethod
     def insert(cnx: db_connector, object: PersonObject) -> PersonObject:
@@ -24,7 +49,6 @@ class PersonMapper(Mapper):
             object.lastname,
             object.email,
             object.google_user_id
-    
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM person")

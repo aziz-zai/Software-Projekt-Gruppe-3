@@ -8,7 +8,7 @@ profile_marshalling = api.inherit('Profile', {
     "interests": fields.String(),
     "type_": fields.String(),
     "online": fields.Boolean(),
-    "frequence": fields.Integer(),
+    "frequency": fields.Integer(),
     "expertise": fields.String(),
     "extroversion": fields.String()
 })
