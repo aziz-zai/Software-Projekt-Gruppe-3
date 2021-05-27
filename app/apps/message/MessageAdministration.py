@@ -3,7 +3,7 @@ from .MessageBO import MessageObject
 from app.configs.base import db_connector
 
 
-class MessageManager:
+class MessageAdministration:
     """Message Manager class. For managing database interactions."""
 
     @staticmethod

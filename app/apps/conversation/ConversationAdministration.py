@@ -3,7 +3,7 @@ from .ConversationBO import ConversationObject
 from app.configs.base import db_connector
 
 
-class ConversationManager:
+class ConversationAdministration:
     """Conversation Manager class. For managing database interactions."""
 
     @staticmethod

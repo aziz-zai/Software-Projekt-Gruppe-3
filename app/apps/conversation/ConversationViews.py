@@ -2,7 +2,7 @@ from flask_restx import Resource
 from app.configs.base import api
 from .ConversationMarshalling import conversation_marshalling
 from .ConversationBO import ConversationObject
-from .ConversationAdministration import ConversationManager
+from .ConversationAdministration import ConversationAdministration
 
 
 namespace = api.namespace(
@@ -20,5 +20,5 @@ class ProfileAPI(Resource):
     def post(self) -> dict:
         """Create Conversation Endpoint."""
         conversation = ConversationObject(**api.payload)
-        conversation = ConversationManager.insert_conversation(conversation=conversation)
+        conversation = ConversationAdministration.insert_conversation(conversation=conversation)
         return conversation

@@ -4,7 +4,7 @@ from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 
 
-class ProfileManager:
+class ProfileAdministration:
     """Profile Manager class. For managing database interactions."""
 
     @staticmethod

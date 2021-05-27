@@ -2,7 +2,7 @@ from flask_restx import Resource
 from app.configs.base import api
 from .GroupMarshalling import group_marshalling
 from .GroupBO import GroupObject
-from .GroupAdministration import GroupManager
+from .GroupAdministration import GroupAdministration
 
 
 namespace = api.namespace(
@@ -20,5 +20,5 @@ class GroupAPI(Resource):
     def post(self) -> dict:
         """Create group Endpoint."""
         group = GroupObject(**api.payload)
-        group = GroupManager.insert_group(group=group)
+        group = GroupAdministration.insert_group(group=group)
         return group

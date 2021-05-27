@@ -2,7 +2,7 @@ from flask_restx import Resource
 from app.configs.base import api
 from .PersonMarshalling import person_marshalling
 from .PersonBO import PersonObject
-from .PersonAdministration import PersonManager
+from .PersonAdministration import PersonAdministration
 
 
 namespace = api.namespace(
@@ -20,5 +20,5 @@ class PersonAPI(Resource):
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
-        person = PersonManager.insert_person(person=person)
+        person = PersonAdministration.insert_person(person=person)
         return person

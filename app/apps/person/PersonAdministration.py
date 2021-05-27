@@ -3,7 +3,7 @@ from .PersonBO import PersonObject
 from app.configs.base import db_connector
 
 
-class PersonManager:
+class PersonAdministration:
     """Profile Manager class. For managing database interactions."""
 
     @staticmethod

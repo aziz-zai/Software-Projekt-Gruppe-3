@@ -2,8 +2,8 @@ from flask_restx import Resource
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
 from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileManager
-from app.apps.person.PersonAdministration import PersonManager
+from .ProfileAdministration import ProfileAdministration
+from app.apps.person.PersonAdministration import PersonAdministration
 
 
 namespace = api.namespace(
@@ -20,7 +20,7 @@ class ProfileAPI(Resource):
     @api.expect(profile_marshalling)
     def post(self, personID: int) -> dict:
         """Create Profile Endpoint."""
-        person = PersonManager.get_person_by_id(personID)
+        person = PersonAdministration.get_person_by_id(personID)
         profile = ProfileObject(**api.payload)
-        profile = ProfileManager.insert_profile(profile=profile, person=person)
+        profile = ProfileAdministration.insert_profile(profile=profile, person=person)
         return profile

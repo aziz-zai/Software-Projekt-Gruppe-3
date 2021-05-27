@@ -2,7 +2,7 @@ from flask_restx import Resource
 from app.configs.base import api
 from .MessageMarshalling import message_marshalling
 from .MessageBO import MessageObject
-from .MessageAdministration import MessageManager
+from .MessageAdministration import MessageAdministration
 
 
 namespace = api.namespace(
@@ -20,5 +20,5 @@ class MessageAPI(Resource):
     def post(self) -> dict:
         """Create Message Endpoint."""
         message = MessageObject(**api.payload)
-        message = MessageManager.insert_message(message=message)
+        message = MessageAdministration.insert_message(message=message)
         return message

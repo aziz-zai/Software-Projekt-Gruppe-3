@@ -3,7 +3,7 @@ from .GroupBO import GroupObject
 from app.configs.base import db_connector
 
 
-class GroupManager:
+class GroupAdministration:
     """Group Manager class. For managing database interactions."""
 
     @staticmethod
