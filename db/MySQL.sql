@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`profile` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `personID` INT NOT NULL,
   `semester` INT NULL,
-  `frequence` VARCHAR(45) NULL DEFAULT NULL,
+  `frequency` VARCHAR(45) NULL DEFAULT NULL,
   `interests` VARCHAR(45) NULL DEFAULT NULL,
   `extroversion` VARCHAR(45) NULL DEFAULT NULL,
   `expertise` VARCHAR(45) NULL DEFAULT NULL,
