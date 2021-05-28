@@ -3,7 +3,7 @@ import BusinessObject from './BusinessObject';
 /**
  * Represents a person.
  */
-export default class BO extends BusinessObject {
+export default class PersonBO extends BusinessObject {
 
   /**
    * Constructs a PersonBO object with a given firstname, lastname, email and google_user_id)
