@@ -12,7 +12,6 @@ export default class GroupBO extends BusinessObject {
   constructor(aGroupname) {
     super();
     this.group_name = aGroupname;
-    this.group_name = aGroupname;
   }
 
   /**
@@ -39,13 +38,13 @@ export default class GroupBO extends BusinessObject {
 
     if (Array.isArray(groups)) {
       groups.forEach((g) => {
-        Object.setPrototypeOf(c, GroupBO.prototype);
+        Object.setPrototypeOf(g, GroupBO.prototype);
         result.push(g);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
       let g = groups;
-      Object.setPrototypeOf(c, GroupBO.prototype);
+      Object.setPrototypeOf(g, GroupBO.prototype);
       result.push(g);
     }
 
