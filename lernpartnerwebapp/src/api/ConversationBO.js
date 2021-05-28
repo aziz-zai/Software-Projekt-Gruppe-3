@@ -1,22 +1,21 @@
 import BusinessObject from './BusinessObject';
 
 /**
- * Represents a customer of the bank.
  */
 export default class ConversationBO extends BusinessObject {
 
   /**
-   * Constructs a ConversationBO object with a given firstname and lastname.
+   * Constructs a ConversationBO object with a given conversationstatus, a groupID and personID
    * 
-   * @param {Boolean} aConversationstatus - the firstname of this ConversationBO.
-   * @param {Integer} aGroupID - the firstname of this ConversationBO.
-   * @param {Integer} aaPersonID  
+   * @param {Boolean} aConversationstatus - the conversationstatus of this ConversationBO.
+   * @param {Integer} aGroupID - the groupID of this ConversationBO.
+   * @param {Integer} aPersonID  - the personID of this ConversationBO.
    */
   constructor(aConversationstatus, aGroupID, aPersonID) {
     super();
     this.conversation_status = aConversationstatus;
     this.group_ID = aGroupID;
-    this.personID = aPersonID;
+    this.person_ID = aPersonID;
   }
 
   /**
