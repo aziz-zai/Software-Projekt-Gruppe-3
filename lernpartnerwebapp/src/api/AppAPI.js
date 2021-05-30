@@ -24,7 +24,7 @@ export default class AppAPI {
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #updateProfileForAccountURL = (id) => `${this.#APpServerBaseURL}/persons/${id}/profiles`;
+  #updateProfileForAccountURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
   #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profiles`
 
@@ -109,7 +109,7 @@ export default class AppAPI {
    * @public
    */
   addPerson(personBO) {
-      return this.#fetchAdvanced(this.#addPersonURL(), {
+      return this.fetchAdvanced(this.#addPersonURL(), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -155,7 +155,7 @@ export default class AppAPI {
    * @public
    */
   deletePerson(personID) {
-    return this.#fetchAdvanced(this.#deletePersonURL(personID), {
+    return this.fetchAdvanced(this.#deletePersonURL(personID), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -173,7 +173,7 @@ export default class AppAPI {
   * @public
   */
   searchPerson(personName) {
-      return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
+      return this.fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(PersonBOs);
         return new Promise(function (resolve) {
@@ -202,7 +202,7 @@ export default class AppAPI {
   * @public
   */
   getProfilesForPerson(personID) {
-     return this.#fetchedAdvanced(this.#getProfilesForPersonURL(personID))
+     return this.fetchedAdvanced(this.getProfilesForPersonURL(personID))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){

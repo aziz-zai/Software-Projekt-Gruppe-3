@@ -1,11 +1,15 @@
 import React from 'react'
 import {Container} from '@material-ui/core'
-
+import AppAPI from './api/AppAPI'
 
 function App() {
   return (
     <div>
-    <Container><a>TEST LERNPARTNERWEBAPP</a></Container>
+    <Container>
+    <AppAPI>
+    {getPersonURL()}
+    </AppAPI>
+    </Container>
     </div>
   );
 }
