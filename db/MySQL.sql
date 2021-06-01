@@ -98,15 +98,44 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-INSERT INTO `mydb`.`person`
-(`id`,
-`firstname`,
-`lastname`,
-`email`,
-`google_user_id`)
+
+
+
+DROP TRIGGER IF EXISTS profile_for_person;
+delimiter #
+
+create trigger profile_for_person before insert on `mydb`.`profile`
+for each row
+begin
+  insert into  `mydb`.`person` (`id`) values (new.`id`);
+end#
+
+delimiter ;
+
+
+
+INSERT INTO `profile` (
+  `personID`, 
+  `semester`,
+  `frequency`,
+  `interests` ,
+  `extroversion` ,
+  `expertise`,
+  `online`,
+  `type_`) 
 VALUES
 (1,
+2,
+3,
 "test",
 "sad",
-"sadsa",
-1);
+"asdsad",
+true,
+"sadsad");
+
+
+
+
+
+
+
