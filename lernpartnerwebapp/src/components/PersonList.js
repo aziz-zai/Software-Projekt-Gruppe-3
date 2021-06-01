@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 
 
-class PersonListEntry extends Component {
+export default class PersonListEntry extends Component {
 
     constructor(props) {
         super(props);
