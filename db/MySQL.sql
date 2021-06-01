@@ -101,38 +101,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
-DROP TRIGGER IF EXISTS profile_for_person;
-delimiter #
-
-create trigger profile_for_person before insert on `mydb`.`profile`
-for each row
-begin
-  insert into  `mydb`.`person` (`id`) values (new.`id`);
-end#
-
-delimiter ;
-
-
-
-INSERT INTO `profile` (
-  `personID`, 
-  `semester`,
-  `frequency`,
-  `interests` ,
-  `extroversion` ,
-  `expertise`,
-  `online`,
-  `type_`) 
-VALUES
-(1,
-2,
-3,
-"test",
-"sad",
-"asdsad",
-true,
-"sadsad");
-
 
 
 
