@@ -201,8 +201,8 @@ export default class AppAPI {
   * @param {Number} personID for wich the profiles should be retrieved
   * @public
   */
-  getProfilesForPerson(personID) {
-     return this.fetchedAdvanced(this.getProfilesForPersonURL(personID))
+  getProfileForPerson(personID) {
+     return this.fetchedAdvanced(this.#getProfileForPersonURL(personID))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
@@ -210,6 +210,9 @@ export default class AppAPI {
         })
      })
   }
+  
+
+
 } 
  
 
