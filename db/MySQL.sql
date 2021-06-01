@@ -101,7 +101,18 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
-
+INSERT INTO `mydb`.`person`
+(`id`,
+`firstname`,
+`lastname`,
+`email`,
+`google_user_id`)
+VALUES
+(1,
+"test",
+"sad",
+"sadsa",
+1);
 
 
 
