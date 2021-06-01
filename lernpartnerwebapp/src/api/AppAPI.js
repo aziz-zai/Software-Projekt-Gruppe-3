@@ -1,8 +1,8 @@
 import PersonBO from './PersonBO';
 import ProfileBO from './ProfileBO';
-import ConversationBO from './ConversationBO';
-import GroupBO from './GroupBO';
-import MessageBO from './MessageBO';
+//import ConversationBO from './ConversationBO';
+//import GroupBO from './GroupBO';
+//import MessageBO from './MessageBO';
 
 
 
@@ -24,32 +24,33 @@ export default class AppAPI {
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #updateProfileForAccountURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
+  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
   #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profiles`
 
+
   //Conversation related
-  #getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
-  #getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #searchConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
+  //#getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#searchConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
 
   //Group related
-  #getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
-  #getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  #addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  #updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
-  #deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
-  #searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
+  //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
 
   //Message related
-  #getMessagesURL = () => `${this.#AppServerBaseURL}/messages`;
-  #addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
-  #getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #searchMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#getMessagesURL = () => `${this.#AppServerBaseURL}/messages`;
+  //#addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
+  //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#searchMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
 
 
   /** 
@@ -149,7 +150,7 @@ export default class AppAPI {
       })
   }
   /**
-   * Deletes the given account and returns a Promise, which resolves to an personBO
+   * Deletes the given profile and returns a Promise, which resolves to an personBO
    * 
    * @param personID to be deleted
    * @public

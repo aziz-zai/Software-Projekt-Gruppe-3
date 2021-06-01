@@ -72,7 +72,7 @@ class PersonForm extends Component {
 
   /** Updates the customer */
   updatePerson = () => {
-    // clone the original cutomer, in case the backend call fails
+    // clone the original person, in case the backend call fails
     let updatedPerson = Object.assign(new PersonBO(), this.props.person);
     // set the new attributes from our dialog
     updatedPerson.setFirstName(this.state.firstName);
