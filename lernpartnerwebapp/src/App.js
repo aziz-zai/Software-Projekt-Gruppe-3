@@ -4,10 +4,9 @@ import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Header from './components/layout/Header';
-import CustomerList from './components/CustomerList';
-import TransactionList from './components/TransactionList';
+import PersonList from './components/PersonList';
 import About from './components/pages/About';
-import AllAccountList from './components/AllAccountList';
+import AllProfileList from './components/AllProfileList';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -133,7 +132,7 @@ class App extends React.Component {
 										<PersonList />
 									</Route>
 									<Route path='/profiles'>
-										<AllProfilesList />
+										<AllProfileList />
 									</Route>
 									<Route path='/about' component={About} />
 								</>
