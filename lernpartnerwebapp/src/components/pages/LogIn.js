@@ -11,14 +11,14 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core';
  * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
  * 
  */
-class SignIn extends Component {
+class LogIn extends Component {
 
 
 	/** 
 	 * Handles the click event of the sign in button an calls the prop onSignIn handler
 	 */
-	handleSignInButtonClicked = () => {
-		this.props.onSignIn();
+	handleLogInButtonClicked = () => {
+		this.props.onLogIn();
 	}
 
 	/** Renders the sign in page, if user objext is null */
@@ -32,7 +32,7 @@ class SignIn extends Component {
 				<Typography className={classes.root} align='center'>To use the services of the LernApp please Sign in.</Typography>
 				<Grid container justify='center'>
 				<Grid item>
-				<Button variant='contained' color='white' onClick={this.handleSignInButtonClicked}>
+				<Button variant='contained' color='white' onClick={this.handleLogInButtonClicked}>
 					Name
 					<input></input>
 					Passwort
@@ -53,13 +53,13 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-SignIn.propTypes = {
+LogIn.propTypes = {
 	/** @ignore */
 	classes: PropTypes.object.isRequired,
 	/** 
 	 * Handler function, which is called if the user wants to sign in.
 	 */
-	onSignIn: PropTypes.func.isRequired,
+	onLogIn: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(SignIn)
+export default withStyles(styles)(LogIn)
