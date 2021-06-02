@@ -32,12 +32,9 @@ class PersonList extends Component {
     // Init an empty state
     this.state = {
       persons: [],
-      filteredPersons: [],
-      personFilter: '',
       error: null,
       loadingInProgress: false,
-      expandedPersonID: expandedID,
-      showPersonForm: false
+      expandedPersonID: expandedID
     };
   }
 
@@ -47,7 +44,7 @@ class PersonList extends Component {
       .then(personBOs =>
         this.setState({               // Set new state when PersonBOs have been fetched
           persons: personBOs,
-          filteredPersons: [...personBOs], // store a copy
+          // store a copy
           loadingInProgress: false,   // disable loading indicator 
           error: null
         })).catch(e =>
@@ -97,113 +94,31 @@ class PersonList extends Component {
    * 
    * @param {person} PersonBO of the PersonListEntry to be deleted
    */
-  personDeleted = person => {
-    const newPersonList = this.state.persons.filter(personFromState => personFromState.getID() !== person.getID());
-    this.setState({
-      persons: newPersonList,
-      filteredPersons: [...newPersonList],
-      showPersonForm: false
-    });
-  }
 
   /** Handles the onClick event of the add person button */
-  addPersonButtonClicked = event => {
-    // Do not toggle the expanded state
-    event.stopPropagation();
-    //Show the PersonForm
-    this.setState({
-      showPersonForm: true
-    });
-  }
 
   /** Handles the onClose event of the PersonForm */
-  personFormClosed = person => {
-    // person is not null and therefore created
-    if (person) {
-      const newPersonList = [...this.state.persons, person];
-      this.setState({
-        persons: newPersonList,
-        filteredPersons: [...newPersonList],
-        showPersonForm: false
-      });
-    } else {
-      this.setState({
-        showPersonForm: false
-      });
-    }
-  }
+
 
   /** Handels onChange events of the person filter text field */
-  filterFieldValueChange = event => {
-    const value = event.target.value.toLowerCase();
-    this.setState({
-      filteredPersons: this.state.persons.filter(person => {
-        let firstNameContainsValue = person.getFirstName().toLowerCase().includes(value);
-        let lastNameContainsValue = person.getLastName().toLowerCase().includes(value);
-        return firstNameContainsValue || lastNameContainsValue;
-      }),
-      personFilter: value
-    });
-  }
-
   /** Handles the onClose event of the clear filter button */
-  clearFilterFieldButtonClicked = () => {
-    // Reset the filter
-    this.setState({
-      filteredPersons: [...this.state.persons],
-      personFilter: ''
-    });
-  }
-
+ 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredPersons, personFilter, expandedPersonID, loadingInProgress, error, showPersonForm } = this.state;
+    const { expandedPersonID, loadingInProgress, error} = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.personFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Filter person list by name:
-              </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='personFilter'
-              type='text'
-              value={personFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
-          <Grid item xs />
-          <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addPersonButtonClicked}>
-              Add Person
-          </Button>
-          </Grid>
-        </Grid>
-        { 
+        {
           // Show the list of PersonListEntry components
           // Do not use strict comparison, since expandedPersonID maybe a string if given from the URL parameters
-          filteredPersons.map(person =>
             <PersonListEntry key={person.getID()} person={person} expandedState={expandedPersonID === person.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onPersonDeleted={this.personDeleted}
-            />)
+            />
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of persons could not be loaded.`} onReload={this.getPersons} />
-        <PersonForm show={showPersonForm} onClose={this.personFormClosed} />
       </div>
     );
   }
@@ -214,10 +129,7 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  personFilter: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  }
+
 });
 
 /** PropTypes */
