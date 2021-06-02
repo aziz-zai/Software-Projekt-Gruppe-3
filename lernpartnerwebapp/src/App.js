@@ -43,9 +43,9 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
-									<Redirect from='/' to='person' />
-									<Route exact path='/person'>
-										<PersonList />
+									<Redirect from='/' to='profiles' />
+									<Route exact path='/profiles'>
+										<AllProfileList />
 									</Route>
 					</Container>
 				</Router>

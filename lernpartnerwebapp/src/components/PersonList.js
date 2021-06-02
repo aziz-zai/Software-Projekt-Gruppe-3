@@ -105,8 +105,8 @@ class PersonList extends Component {
  
   /** Renders the component */
   render() {
-    const { classes } = this.props;
-    const { expandedPersonID, loadingInProgress, error} = this.state;
+    const { classes} = this.props;
+    const { person, expandedPersonID, loadingInProgress, error} = this.state;
 
     return (
       <div className={classes.root}>
