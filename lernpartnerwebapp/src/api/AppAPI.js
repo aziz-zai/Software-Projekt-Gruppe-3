@@ -10,23 +10,23 @@ export default class AppAPI {
 
   static #api = null;
 
-  #AppServerBaseURL = '/lernpartnerwebapp/http-fake-backend/response-files'
+  #AppServerBaseURL = 'http://localhost:5000/api'
 
   //Person related
-  #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
-  #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #getPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #searchPersonURL = (personName) => `${this.#AppServerBaseURL}/persons-by-name/${personName}`;
+  #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
+  #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #updatePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #searchPersonURL = (personName) => `${this.#AppServerBaseURL}/person-by-name/${personName}`;
 
   //Profile related
-  #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
-  #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profiles`
+  #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
+  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile/<int:personID>`;
+  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profile`
 
 
   //Conversation related
@@ -79,7 +79,7 @@ export default class AppAPI {
    * @public
    */    
   getPersons() {
-       return this.fetchedAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+       return this.#fetchedAdvanced(this.#getPersonsURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(personBOs);
@@ -110,7 +110,7 @@ export default class AppAPI {
    * @public
    */
   addPerson(personBO) {
-      return this.fetchAdvanced(this.#addPersonURL(), {
+      return this.fetchAdvanced(this.addPersonURL(), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -203,7 +203,7 @@ export default class AppAPI {
   * @public
   */
   getProfileForPerson(personID) {
-     return this.fetchedAdvanced(this.#getProfileForPersonURL(personID))
+     return this.#fetchedAdvanced(this.#getProfileForPersonURL(personID))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
