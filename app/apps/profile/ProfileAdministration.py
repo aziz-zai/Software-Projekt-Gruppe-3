@@ -17,3 +17,9 @@ class ProfileAdministration:
             profile = ProfileObject()
             profile.personID = person.id_
             return ProfileMapper.insert(cnx=cnx, object=profile)
+    
+    @staticmethod
+    def get_profile_of_person(person: PersonObject) -> ProfileObject:
+        with db_connector as db:
+            cnx = db._cnx
+            return ProfileMapper.find_by_personID(cnx=cnx, personID = person.id_)
