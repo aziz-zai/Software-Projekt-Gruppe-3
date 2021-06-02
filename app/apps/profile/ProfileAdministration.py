@@ -8,11 +8,8 @@ class ProfileAdministration:
     """Profile Manager class. For managing database interactions."""
 
     @staticmethod
-    def insert_profile(profile: ProfileObject,
-                       person: PersonObject) -> ProfileObject:
+    def insert_profile(profile: ProfileObject) -> ProfileObject:
         """Insert Profile Manager."""
         with db_connector as db:
             cnx = db._cnx
-            person = PersonObject
-            profile = profile.personID(person.id_)
             return ProfileMapper.insert(cnx=cnx, object=profile)

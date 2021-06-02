@@ -16,6 +16,8 @@ class ProfileMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO profile (
+                firstname, 
+                lastname,
                 personID,
                 interests,
                 type_,
@@ -23,9 +25,11 @@ class ProfileMapper(Mapper):
                 frequency,
                 expertise,
                 extroversion
-            ) VALUES (%s,%s,%s,%s,%s,%s,%s)
+            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
         cursor.execute(command, (
+            object.firstname,
+            object.lastname,
             object.personID,
             object.interests,
             object.type_,
