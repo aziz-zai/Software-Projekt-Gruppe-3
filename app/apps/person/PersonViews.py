@@ -22,5 +22,5 @@ class PersonAPI(Resource):
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
         person = PersonAdministration.insert_person(person=person)
-        profile = ProfileAdministration.insert_profile(profile = "", person = person)
-        return person, profile
+        ProfileAdministration.insert_profile(profile = None, person = person)
+        return person
