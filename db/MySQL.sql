@@ -30,8 +30,6 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`person` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `firstname` VARCHAR(45) NULL DEFAULT NULL,
-  `lastname` VARCHAR(45) NULL DEFAULT NULL,
   `email` varchar(256) NOT NULL DEFAULT '',
   `google_user_id` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`))
@@ -57,6 +55,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`profile` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `firstname` VARCHAR(45) NULL DEFAULT NULL,
+  `lastname` VARCHAR(45) NULL DEFAULT NULL,
   `personID` INT NOT NULL,
   `semester` INT NULL,
   `frequency` VARCHAR(45) NULL DEFAULT NULL,
@@ -98,23 +98,3 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-
-INSERT INTO `mydb`.`person`
-(`id`,
-`firstname`,
-`lastname`,
-`email`,
-`google_user_id`)
-VALUES
-(1,
-"test",
-"sad",
-"sadsa",
-1);
-
-
-
-
-

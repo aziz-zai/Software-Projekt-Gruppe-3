@@ -13,18 +13,16 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
         SELECT
-        id, firstname, lastname, email, google_user_id
+        id, email, google_user_id
         FROM person WHERE id=%s
         """
         cursor.execute(command,(key, ))
         entity = cursor.fetchone()
 
         try:
-            (id, firstname, lastname, email, google_user_id) = entity
+            (id, email, google_user_id) = entity
             result = PersonObject(
                 id=id,
-                firstname=firstname,
-                lastname=lastname,
                 email=email,
                 google_user_id=google_user_id
            )
@@ -41,12 +39,10 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO person (
-                firstname, lastname, email, google_user_id
-            ) VALUES (%s,%s,%s,%s)
+                 email, google_user_id
+            ) VALUES (%s,%s)
         """
         cursor.execute(command, (
-            object.firstname,
-            object.lastname,
             object.email,
             object.google_user_id
         ))

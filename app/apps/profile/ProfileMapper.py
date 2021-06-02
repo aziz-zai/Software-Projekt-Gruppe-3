@@ -15,6 +15,8 @@ class ProfileMapper(Mapper):
         cursor = cnx.cursor()
         command = """
         SELECT
+         firstname, 
+         lastname,
          personID,
          interests,
          type_,
@@ -29,6 +31,8 @@ class ProfileMapper(Mapper):
 
         try:
             (id,
+            firstname,
+            lastname,
             personID,
             interests,
             type_,
@@ -38,7 +42,10 @@ class ProfileMapper(Mapper):
             extroversion) = entity
             result = ProfileObject(
                 id=id,
+                firstname=firstname,
+                lastname=lastname,
                 interests=interests,
+                personID=personID,
                 type_=type_,
                 online=online,
                 frequency=frequency,
@@ -61,6 +68,8 @@ class ProfileMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO profile (
+                firstname, 
+                lastname,
                 personID,
                 interests,
                 type_,
@@ -68,9 +77,11 @@ class ProfileMapper(Mapper):
                 frequency,
                 expertise,
                 extroversion
-            ) VALUES (%s,%s,%s,%s,%s,%s,%s)
+            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
         cursor.execute(command, (
+            object.firstname,
+            object.lastname,
             object.personID,
             object.interests,
             object.type_,
