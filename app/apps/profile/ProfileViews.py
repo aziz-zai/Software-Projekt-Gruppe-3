@@ -16,8 +16,8 @@ namespace = api.namespace(
 class ProfileAPI(Resource):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
-    def get(self,id: int):
-        person = PersonAdministration.get_person_by_id(id)
+    def get(self,personID: int):
+        person = PersonAdministration.get_person_by_id(personID)
         profile = ProfileAdministration.get_profile_of_person(person)
         return profile
 

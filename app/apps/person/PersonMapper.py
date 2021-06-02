@@ -22,7 +22,7 @@ class PersonMapper(Mapper):
         try:
             (id, email, google_user_id) = entity
             result = PersonObject(
-                id=id,
+                id_=id,
                 email=email,
                 google_user_id=google_user_id
            )

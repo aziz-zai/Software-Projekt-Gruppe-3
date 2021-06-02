@@ -15,6 +15,7 @@ class ProfileMapper(Mapper):
         cursor = cnx.cursor()
         command = """
         SELECT
+         id,
          firstname, 
          lastname,
          personID,
@@ -31,17 +32,17 @@ class ProfileMapper(Mapper):
 
         try:
             (id,
-            firstname,
-            lastname,
-            personID,
-            interests,
-            type_,
-            online,
-            frequency,
-            expertise,
-            extroversion) = entity
+             firstname,
+             lastname,
+             personID,
+             interests,
+             type_,
+             online,
+             frequency,
+             expertise,
+             extroversion) = entity
             result = ProfileObject(
-                id=id,
+                id_=id,
                 firstname=firstname,
                 lastname=lastname,
                 interests=interests,
