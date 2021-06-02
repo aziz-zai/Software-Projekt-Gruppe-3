@@ -24,8 +24,6 @@ class PersonListEntry extends Component {
     // Init the state
     this.state = {
         person: props.person,
-      showPersonForm: false,
-      showPersonDeleteDialog: false,
     };
   }
 
@@ -35,62 +33,24 @@ class PersonListEntry extends Component {
   }
 
   /** Handles onProfileDelete events from an ProfileListEntry  */
-  deleteProfileHandler = (deletedProfile) => {
-    // console.log(deletedProfile.getID());
-    this.setState({
-      profiles: this.state.profiles.filter(profile => profile.getID() !== deletedProfile.getID())
-    })
-  }
+ 
 
   /** Handles the onClick event of the edit person button */
-  editPersonButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showPersonForm: true
-    });
-  }
+ 
 
   /** Handles the onClose event of the PersonForm */
-  personFormClosed = (person) => {
-    // person is not null and therefor changed
-    if (person) {
-      this.setState({
-        person: person,
-        showPersonForm: false
-      });
-    } else {
-      this.setState({
-        showPersonForm: false
-      });
-    }
-  }
+ 
 
   /** Handles the onClick event of the delete person button */
-  deletePersonButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showPersonDeleteDialog: true
-    });
-  }
+
 
   /** Handles the onClose event of the PersonDeleteDialog */
-  deletePersonDialogClosed = (person) => {
-    // if person is not null, delete it
-    if (person) {
-      this.props.onPersonDeleted(person);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showPersonDeleteDialog: false
-    });
-  }
+ 
 
   /** Renders the component */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes, expandedState, person } = this.props;
     // Use the states person
-    const { person, showPersonForm, showPersonDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
@@ -105,16 +65,6 @@ class PersonListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{person.getLastName()}, {person.getFirstName()}
                 </Typography>
               </Grid>
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editPersonButtonClicked}>
-                    edit
-                  </Button>
-                  <Button color='secondary' onClick={this.deletePersonButtonClicked}>
-                    delete
-                  </Button>
-                </ButtonGroup>
-              </Grid>
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of profiles</Typography>
@@ -125,8 +75,6 @@ class PersonListEntry extends Component {
             <ProfileList show={expandedState} person={person} />
           </AccordionDetails>
         </Accordion>
-        <PersonForm show={showPersonForm} person={person} onClose={this.personFormClosed} />
-        <PersonDeleteDialog show={showPersonDeleteDialog} person={person} onClose={this.deletePersonDialogClosed} />
       </div>
     );
   }
