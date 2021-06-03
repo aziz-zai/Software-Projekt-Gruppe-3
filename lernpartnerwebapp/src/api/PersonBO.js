@@ -100,7 +100,7 @@ export default class PersonBO extends BusinessObject {
       // Es handelt sich offenbar um ein singuläres Objekt
       let p = persons;
       Object.setPrototypeOf(p, PersonBO.prototype);
-      result.push(c);
+      result.push(p);
     }
 
     return result;

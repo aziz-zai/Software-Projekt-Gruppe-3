@@ -22,6 +22,7 @@ export default class AppAPI {
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
+  #getSpecificProfileURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
   #updateProfileForAccountURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
@@ -37,7 +38,7 @@ export default class AppAPI {
 
   //Group related
   #getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
-  #getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  #getPersonsFromGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
   #addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
   #updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   #deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -78,7 +79,7 @@ export default class AppAPI {
    * @public
    */    
   getPersons() {
-       return this.fetchedAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+       return this.#fetchedAdvanced(this.#getPersonsURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(personBOs);
@@ -109,7 +110,7 @@ export default class AppAPI {
    * @public
    */
   addPerson(personBO) {
-      return this.fetchAdvanced(this.#addPersonURL(), {
+      return this.fetchAdvanced(this.addPersonURL(), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -131,8 +132,8 @@ export default class AppAPI {
    * @param {PersonBO} personBO to be updated
    * @public
    */
-  updatePersonURL(personBO) {
-      return this.#updatePersonURL(this.#updatePersonURL(personBO.getID()), {
+  updatePerson(personBO) {
+      return this.#fetchAdvanced(this.#updatePersonURL(personBO.getID()), {
         method: 'PUT',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -155,7 +156,7 @@ export default class AppAPI {
    * @public
    */
   deletePerson(personID) {
-    return this.fetchAdvanced(this.#deletePersonURL(personID), {
+    return this.#fetchAdvanced(this.#deletePersonURL(personID), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -173,7 +174,7 @@ export default class AppAPI {
   * @public
   */
   searchPerson(personName) {
-      return this.fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
+      return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(PersonBOs);
         return new Promise(function (resolve) {
@@ -201,14 +202,24 @@ export default class AppAPI {
   * @param {Number} personID for wich the profiles should be retrieved
   * @public
   */
-  getProfilesForPerson(personID) {
-     return this.fetchedAdvanced(this.getProfilesForPersonURL(personID))
+  getProfileForPerson(personID) {
+     return this.#fetchedAdvanced(this.#getProfilesForPersonURL(personID))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
           resolve(profileBOs);
         })
      })
+  }
+  getSpecificProfile(personID) {
+    return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
+      // We always get an array of ProfileBOs.fromJSON, but only need one object
+      let profileBOs = ProfileBO.fromJSON(responseJSON)[0];
+      // console.info(responseProfileBO);
+      return new Promise(function (resolve) {
+        resolve(profileBOs);
+      })
+    })
   }
 } 
  
