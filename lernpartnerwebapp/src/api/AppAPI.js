@@ -22,7 +22,7 @@ export default class AppAPI {
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
-  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile/<int:personID>`;
+  #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
   #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
@@ -34,7 +34,7 @@ export default class AppAPI {
   //#getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  //#searchConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+
 
   //Group related
   //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
@@ -50,14 +50,10 @@ export default class AppAPI {
   //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  //#searchMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
 
 
-  /** 
-   * Get the Singelton instance 
-   * 
-   * @public
-   */
+
+
    static getAPI() {
     if (this.#api == null) {
       this.#api = new AppAPI();
@@ -65,7 +61,7 @@ export default class AppAPI {
     return this.#api;
   }
 
-  #fetchedAdvanced = (url, init) => fetch(url, init)
+  #fetchAdvanced = (url, init) => fetch(url, init)
   .then(res => {
       if (!res.ok){
           throw Error(`${res.status} ${res.statusText}`);
@@ -73,13 +69,9 @@ export default class AppAPI {
       return res.json();
   })
 
-  /**
-   * Returns a Promise, which resolves to an Array of PersonBOs
-   * 
-   * @public
-   */    
+ 
   getPersons() {
-       return this.#fetchedAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+       return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(personBOs);
@@ -87,14 +79,9 @@ export default class AppAPI {
       })
   }
 
-  /**
-   * Returns a Promise, which resolves to a PersonBO
-   * 
-   * @param {Number} personID to be retrieved
-   * @public
-   */
+  
   getPerson(personID) {
-      return this.#fetchedAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
+      return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           return new Promise(function(resolve){
               resolve(responsePersonBO);
@@ -102,15 +89,9 @@ export default class AppAPI {
       })
   }
 
-  /**
-   * Adds a customer and returns a Promise, which resolves to a new PersonBO object with the 
-   * firstname, lastname, email and google_user_id of the parameter customerBO object.
-   * 
-   * @param {PersonBO} personBO to be added. The ID of the new person is set by the backend
-   * @public
-   */
+
   addPerson(personBO) {
-      return this.fetchAdvanced(this.addPersonURL(), {
+      return this.#fetchAdvanced(this.#addPersonURL(), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -126,12 +107,6 @@ export default class AppAPI {
           })
       })
   }
-  /**
-   * Updates a customer and returns a Promise, which resolves to a PersonBO.
-   * 
-   * @param {PersonBO} personBO to be updated
-   * @public
-   */
   updatePersonURL(personBO) {
       return this.#updatePersonURL(this.#updatePersonURL(personBO.getID()), {
         method: 'PUT',
@@ -149,14 +124,8 @@ export default class AppAPI {
         })
       })
   }
-  /**
-   * Deletes the given profile and returns a Promise, which resolves to an personBO
-   * 
-   * @param personID to be deleted
-   * @public
-   */
   deletePerson(personID) {
-    return this.fetchAdvanced(this.#deletePersonURL(personID), {
+    return this.#fetchAdvanced(this.#deletePersonURL(personID), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -167,14 +136,8 @@ export default class AppAPI {
       })
     })
   }
-  /**
-  * Returns a Promise, which resolves to an Array of BOs
-  * 
-  * @param {Number} personID to be deleted
-  * @public
-  */
   searchPerson(personName) {
-      return this.fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
+      return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(PersonBOs);
         return new Promise(function (resolve) {
@@ -182,13 +145,9 @@ export default class AppAPI {
         })
       })
     }
-  /**
-   * Returns a Promise, which resolves to an Array of ProfileBOs
-   * 
-   * @public
-   */    
+
   getAllProfiles() {
-      return this.fetchedAdvanced(this.#getAllProfilesURL()).then((responseJSON) => {
+      return this.#fetchAdvanced(this.#getAllProfilesURL()).then((responseJSON) => {
           let profileBOs = ProfileBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(profileBOs);
@@ -196,14 +155,8 @@ export default class AppAPI {
      })
   }
 
-  /**
-  * Returns a Promise, which resolves to a ProfileBO
-  * 
-  * @param {Number} personID for wich the profiles should be retrieved
-  * @public
-  */
-  getProfileForPerson(personID) {
-     return this.#fetchedAdvanced(this.#getProfileForPersonURL(personID))
+  getProfileForPerson(id) {
+     return this.#fetchAdvanced(this.#getProfileForPersonURL(id))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
@@ -211,9 +164,4 @@ export default class AppAPI {
         })
      })
   }
-  
-
-
 } 
- 
-

@@ -4,7 +4,7 @@ import { Container} from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Header from './components/layout/Header';
-import PersonList from './components/PersonList';
+import ProfileList from './components/ProfileList';
 //import About from './components/pages/About';
 import AllProfileList from './components/AllProfileList';
 //import Theme from '/Theme';
@@ -43,10 +43,10 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
-									<Redirect from='/' to='profiles' />
-									<Route exact path='/profiles'>
-										<AllProfileList />
-									</Route>
+								<Redirect from='/' to='profiles' />
+								<Route exact path='/profiles'>
+									<ProfileList/>
+								</Route>
 					</Container>
 				</Router>
 		);

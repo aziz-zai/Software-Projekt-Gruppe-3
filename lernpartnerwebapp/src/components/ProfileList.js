@@ -9,7 +9,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileListEntry from './ProfileListEntry';
 
 /**
- * Renders a list of ProfileListEntry objects.
+ * Renders a list of AccountListEntry objects.
  * 
  * @see See [ProfileListEntry](#profilelistentry)
  * 
@@ -29,11 +29,10 @@ class ProfileList extends Component {
     };
   }
 
-  /** Fetches ProfileBOs for the current person */
   getProfiles = () => {
     AppAPI.getAPI().getProfileForPerson(this.props.person.getID()).then(profileBOs =>
       this.setState({  // Set new state when ProfileBOs have been fetched
-        profile: profileBOs,
+        profiles: profileBOs,
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })).catch(e =>
@@ -53,7 +52,7 @@ class ProfileList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getProfiles();
+    //this.getProfiles();
   }
 
   /** Lifecycle method, which is called when the component was updated */
@@ -65,7 +64,7 @@ class ProfileList extends Component {
   }
 
   /** Adds an profile for the current person */
-  addProfiles = () => {
+  addProfile = () => {
     AppAPI.getAPI().addProfileForPerson(this.props.person.getID()).then(profileBO => {
       // console.log(profileBO)
       this.setState({  // Set new state when ProfileBOs have been fetched
@@ -92,13 +91,13 @@ class ProfileList extends Component {
   deleteProfileHandler = (deletedProfile) => {
     // console.log(deletedProfile.getID());
     this.setState({
-      profiles: this.state.profiles.filter(profile => profile.getID() !== deletedProfile.getID())
+        profiles: this.state.profiles.filter(profile => profile.getID() !== deletedProfile.getID())
     })
   }
 
   /** Renders the component */
   render() {
-    const { classes, person } = this.props;
+    const { classes, person} = this.props;
     // Use the states person
     const { profiles, loadingInProgress, loadingProfileError, addingProfileError } = this.state;
 
@@ -107,14 +106,10 @@ class ProfileList extends Component {
       <div className={classes.root}>
         <List className={classes.profileList}>
           {
-            profiles.map(profile => <ProfileListEntry key={profile.getID()} person={person} profile={profile} onProfileDeleted={this.deleteProfileHandler}
-              show={this.props.show} />)
+            //profiles.map(profile => <ProfileListEntry key={profile.getID()} person={person} profile={profile} onProfileDeleted={this.deleteProfileHandler}
+              //show={this.props.show} />)
           }
-          <ListItem>
-            <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingProfileError} contextErrorMsg={`List of profiles for person ${person.getID()} could not be loaded.`} onReload={this.getProfiles} />
-            <ContextErrorMessage error={addingProfileError} contextErrorMsg={`Profile for person ${person.getID()} could not be added.`} onReload={this.addProfile} />
-          </ListItem>
+        
         </List>
         <Button className={classes.addProfileButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProfile}>
           Add Profile
@@ -140,13 +135,13 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ProfileList.propTypes = {
-  /** @ignore */
-  classes: PropTypes.object.isRequired,
-  /** The PersonBO of this ProfileList */
-  person: PropTypes.object.isRequired,
-  /** If true, profiles are (re)loaded */
-  show: PropTypes.bool.isRequired
-}
+//ProfileList.propTypes = {
+ // /** @ignore */
+ // classes: PropTypes.object.isRequired,
+ // /** The PersonBO of this ProfileList */
+ // person: PropTypes.object.isRequired,
+ // /** If true, profiles are (re)loaded */
+ // show: PropTypes.bool.isRequired
+//}
 
 export default withStyles(styles)(ProfileList);
