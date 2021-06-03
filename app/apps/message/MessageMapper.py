@@ -17,7 +17,7 @@ class MessageMapper(Mapper):
         command = """
             INSERT INTO message (
                 content,
-                conversationID
+                conversation
             ) VALUES (%s, %s)
         """
         cursor.execute(command, (

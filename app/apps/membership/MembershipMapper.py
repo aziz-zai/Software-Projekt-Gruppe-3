@@ -16,7 +16,7 @@ class MembershipMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO membership (
-                personID, groupID, profileID
+                person, group, profile
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
