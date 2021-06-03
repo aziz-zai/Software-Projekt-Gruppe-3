@@ -31,7 +31,7 @@ class ProfileMapper(Mapper):
 
         return result
 
-    def find_by_personID(cnx: db_connector, personID: int) -> ProfileObject:
+    def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
         
         result = None
 
@@ -41,23 +41,23 @@ class ProfileMapper(Mapper):
          id,
          firstname, 
          lastname,
-         personID,
+         person,
          interests,
          type_,
          online,
          frequency,
          expertise,
          extroversion
-        FROM profile WHERE personID=%s
+        FROM profile WHERE person=%s
         """
-        cursor.execute(command,(personID, ))
+        cursor.execute(command,(person, ))
         entity = cursor.fetchone()
 
         try:
             (id,
              firstname,
              lastname,
-             personID,
+             person,
              interests,
              type_,
              online,
@@ -69,7 +69,7 @@ class ProfileMapper(Mapper):
                 firstname=firstname,
                 lastname=lastname,
                 interests=interests,
-                personID=personID,
+                person=person,
                 type_=type_,
                 online=online,
                 frequency=frequency,
@@ -94,7 +94,7 @@ class ProfileMapper(Mapper):
             INSERT INTO profile (
                 firstname, 
                 lastname,
-                personID,
+                person,
                 interests,
                 type_,
                 online,
@@ -106,7 +106,7 @@ class ProfileMapper(Mapper):
         cursor.execute(command, (
             object.firstname,
             object.lastname,
-            object.personID,
+            object.person,
             object.interests,
             object.type_,
             object.online,
