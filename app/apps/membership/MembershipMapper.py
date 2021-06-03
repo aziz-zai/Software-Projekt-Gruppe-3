@@ -20,9 +20,9 @@ class MembershipMapper(Mapper):
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
-            object.personID,
-            object.groupID,
-            object.profileID
+            object.person,
+            object.group,
+            object.profile
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM membership")
