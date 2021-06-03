@@ -12,20 +12,13 @@ namespace = api.namespace(
 )
 
 
-
-@namespace.route("/")
-class AllProfilesAPI(Resource):
-        def get(self) -> dict:
-            profiles = ProfileAdministration.get_all_profiles()
-            return profiles
-
-@namespace.route("/<int:personID>")
+@namespace.route("/<int:person>")
 class ProfileAPI(Resource):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
-    def get(self,personID: int):
-        person = PersonAdministration.get_person_by_id(personID)
-        profile = ProfileAdministration.get_profile_of_person(person)
+    def get(self,person: int):
+        pers = PersonAdministration.get_person_by_id(person)
+        profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
 
 

@@ -16,13 +16,13 @@ class ConversationMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO conversation (
-                conversationstatus, groupID, personID
+                conversationstatus, learning_group, person
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
             object.conversationstatus,
-            object.groupID,
-            object.personID
+            object.learning_group,
+            object.person
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM conversation")

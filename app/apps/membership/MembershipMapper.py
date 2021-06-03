@@ -16,13 +16,13 @@ class MembershipMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO membership (
-                personID, groupID, profileID
+                person, learning_group, profile
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
-            object.personID,
-            object.groupID,
-            object.profileID
+            object.person,
+            object.learning_group,
+            object.profile
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM membership")

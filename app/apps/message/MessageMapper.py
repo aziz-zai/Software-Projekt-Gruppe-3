@@ -17,12 +17,12 @@ class MessageMapper(Mapper):
         command = """
             INSERT INTO message (
                 content,
-                conversationID
+                conversation
             ) VALUES (%s, %s)
         """
         cursor.execute(command, (
             object.content,
-            object.conversationID
+            object.conversation
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM message")
