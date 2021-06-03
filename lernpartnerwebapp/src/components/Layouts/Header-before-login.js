@@ -1,7 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core'
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core'
-import Logo from '../logo.svg'
 
 const useStyles = makeStyles((theme) => ({
     appbar:{
@@ -15,7 +14,6 @@ export default function Header_before_login() {
     <div>
         <AppBar className={classes.appbar} elevation={0} position='static'>
             <Toolbar>
-                <img src={Logo} width="50" alt=""/>
                 <Typography variant='h6' style={{flexGrow : 1 }}>
                 LernApp
                 </Typography>

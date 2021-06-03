@@ -11,7 +11,8 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core';
  * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
  * 
  */
-class LogIn extends Component {
+ class LogIn extends Component {
+
 
 
 	/** 
@@ -30,16 +31,9 @@ class LogIn extends Component {
 				<Typography className={classes.root} align='center' variant='h6'>Welcome to the LernApp</Typography>
 				<Typography className={classes.root} align='center'>It appears, that you are not signed in.</Typography>
 				<Typography className={classes.root} align='center'>To use the services of the LernApp please Sign in.</Typography>
-				<Grid container justify='center'>
-				<Grid item>
-				<Button variant='contained' color='white' onClick={this.handleLogInButtonClicked}>
-					Name
-					<input></input>
-					Passwort
-					<input></input>
-      			</Button>
-					</Grid>
-				</Grid>
+				<Grid container justify='center'/>
+				<Grid item/>
+
 			</div>
 		);
 	}

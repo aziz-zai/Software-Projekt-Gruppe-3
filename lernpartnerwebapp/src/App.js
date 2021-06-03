@@ -1,6 +1,10 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import Header_after_login from './components/Layouts/Header-after-login';
+import Header from './components/Layouts/Header'
 import Header_login from './components/Layouts/Header-login';
 import PersonList from './components/PersonList';
 import ProfileList from './components/ProfileList';
@@ -10,17 +14,6 @@ import LogIn from './components/pages/LogIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
-import {makeStyles} from '@material-ui/core';
-
-
-const useStyles = makeStyles({
-  root: {
-    height: "100vh",
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-  },
-})
 
 class App extends React.Component {
 
@@ -37,11 +30,6 @@ class App extends React.Component {
 		};
 	}
 
-	/** 
-	 * Create an error boundary for this app and recieve all errors from below the component tree.
-	 * 
-	 * @See See Reacts [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
- 	 */
 	static getDerivedStateFromError(error) {
 		// Update state so the next render will show the fallback UI.
 		return { appError: error };
@@ -103,7 +91,6 @@ class App extends React.Component {
 	/** Renders the whole app */
 	render() {
     const { currentUser, appError, authError, authLoading } = this.state;
-    const classes = useStyles();
 		return (
 			<ThemeProvider theme={theme}>
 				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -115,22 +102,16 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  <Header_after_login/>
-									<Redirect from='/' to='persons' />
-									<Route exact path='/persons'>
-										<PersonList />
-									</Route>
-									<Route path='/profile'>
-										<ProfileList />
-									</Route>
-									<Route path='/about' component={About} />
+									<Redirect from='/' to='header-after-login' />
+									<Route exact path='/header-after-login'>
+										<Header_after_login />
+									</Route>	
 								</>
 								:
 								// else show the sign in page
-								<> 
-                  <Header_login/>
+								<>
 									<Redirect to='/index.html' />
-									<LogIn onSignIn={this.handleSignIn} />
+									<LogIn onLogIn={this.handleLogIn} />
 								</>
 						}
 						<LoadingProgress show={authLoading} />
