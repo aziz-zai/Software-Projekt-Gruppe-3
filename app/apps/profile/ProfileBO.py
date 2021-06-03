@@ -2,9 +2,11 @@ from app.apps.core.business_object import BusinessObject
 
 
 class ProfileObject(BusinessObject):
-    def __init__(self, personID: int, interests: str, type_: str, online: bool,
-                 frequency: int, expertise: str, extroversion: str,
-                 id_: int = 0):
+    def __init__(self, firstname: str = "", lastname: str = "", interests: str = "", type_: str = "", online: bool = False,
+                 frequency: int = 0, expertise: str = "", extroversion: str = "",
+                 id_: int = 0, personID: int = 0):
+        self.firstname = firstname
+        self.lastname = lastname
         self.personID = personID
         self.interests = interests
         self.type_ = type_

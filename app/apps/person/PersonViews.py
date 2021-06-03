@@ -3,6 +3,7 @@ from app.configs.base import api
 from .PersonMarshalling import person_marshalling
 from .PersonBO import PersonObject
 from .PersonAdministration import PersonAdministration
+from app.apps.profile.ProfileAdministration import ProfileAdministration
 
 
 namespace = api.namespace(
@@ -21,4 +22,5 @@ class PersonAPI(Resource):
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
         person = PersonAdministration.insert_person(person=person)
+        ProfileAdministration.insert_profile(profile = None, person = person)
         return person
