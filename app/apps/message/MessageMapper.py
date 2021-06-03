@@ -22,7 +22,7 @@ class MessageMapper(Mapper):
         """
         cursor.execute(command, (
             object.content,
-            object.conversationID
+            object.conversation
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM message")
