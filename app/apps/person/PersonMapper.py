@@ -39,7 +39,7 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO person (
-                email, google_user_id
+                 email, google_user_id
             ) VALUES (%s,%s)
         """
         cursor.execute(command, (

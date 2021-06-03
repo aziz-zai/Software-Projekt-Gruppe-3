@@ -15,6 +15,13 @@ namespace = api.namespace(
 @namespace.route("/")
 class ProfileAPI(Resource):
     """Basic API for profile."""
+    @namespace.marshal_with(profile_marshalling)
+    def get(self,personID: int):
+        person = PersonAdministration.get_person_by_id(personID)
+        profile = ProfileAdministration.get_profile_of_person(person)
+        return profile
+
+
 
     @api.marshal_with(profile_marshalling, code=201)
     @api.expect(profile_marshalling)
