@@ -16,12 +16,12 @@ class ConversationMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO conversation (
-                conversationstatus, group, person
+                conversationstatus, learning_group, person
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
             object.conversationstatus,
-            object.group,
+            object.learning_group,
             object.person
         ))
         cnx.commit()
