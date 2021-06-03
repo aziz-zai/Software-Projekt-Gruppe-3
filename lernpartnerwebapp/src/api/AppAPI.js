@@ -1,8 +1,8 @@
 import PersonBO from './PersonBO';
 import ProfileBO from './ProfileBO';
-import ConversationBO from './ConversationBO';
-import GroupBO from './GroupBO';
-import MessageBO from './MessageBO';
+//import ConversationBO from './ConversationBO';
+//import GroupBO from './GroupBO';
+//import MessageBO from './MessageBO';
 
 
 
@@ -10,47 +10,47 @@ export default class AppAPI {
 
   static #api = null;
 
-  #AppServerBaseURL = '/lernpartnerwebapp/http-fake-backend/response-files'
+  #AppServerBaseURL = 'http://localhost:5000/api'
 
   //Person related
-  #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
-  #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #getPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #searchPersonURL = (personName) => `${this.#AppServerBaseURL}/persons-by-name/${personName}`;
+  #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
+  #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #updatePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #searchPersonURL = (personName) => `${this.#AppServerBaseURL}/person-by-name/${personName}`;
 
   //Profile related
-  #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #getSpecificProfileURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-  #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #updateProfileForAccountURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/profiles`;
-  #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
-  #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profiles`
+  #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
+  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile/<int:personID>`;
+  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profile`
+
 
   //Conversation related
-  #getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
-  #getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-  #searchConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
+  //#getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
+  //#searchConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
 
   //Group related
-  #getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
-  #getPersonsFromGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  #addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  #updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
-  #deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
-  #searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
+  //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
 
   //Message related
-  #getMessagesURL = () => `${this.#AppServerBaseURL}/messages`;
-  #addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
-  #getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  #searchMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#getMessagesURL = () => `${this.#AppServerBaseURL}/messages`;
+  //#addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
+  //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#searchMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
 
 
   /** 
@@ -132,8 +132,8 @@ export default class AppAPI {
    * @param {PersonBO} personBO to be updated
    * @public
    */
-  updatePerson(personBO) {
-      return this.#fetchAdvanced(this.#updatePersonURL(personBO.getID()), {
+  updatePersonURL(personBO) {
+      return this.#updatePersonURL(this.#updatePersonURL(personBO.getID()), {
         method: 'PUT',
         headers: {
           'Accept': 'application/json, text/plain',
@@ -150,13 +150,13 @@ export default class AppAPI {
       })
   }
   /**
-   * Deletes the given account and returns a Promise, which resolves to an personBO
+   * Deletes the given profile and returns a Promise, which resolves to an personBO
    * 
    * @param personID to be deleted
    * @public
    */
   deletePerson(personID) {
-    return this.#fetchAdvanced(this.#deletePersonURL(personID), {
+    return this.fetchAdvanced(this.#deletePersonURL(personID), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -174,7 +174,7 @@ export default class AppAPI {
   * @public
   */
   searchPerson(personName) {
-      return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
+      return this.fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(PersonBOs);
         return new Promise(function (resolve) {
@@ -203,7 +203,7 @@ export default class AppAPI {
   * @public
   */
   getProfileForPerson(personID) {
-     return this.#fetchedAdvanced(this.#getProfilesForPersonURL(personID))
+     return this.#fetchedAdvanced(this.#getProfileForPersonURL(personID))
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
@@ -211,16 +211,9 @@ export default class AppAPI {
         })
      })
   }
-  getSpecificProfile(personID) {
-    return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
-      // We always get an array of ProfileBOs.fromJSON, but only need one object
-      let profileBOs = ProfileBO.fromJSON(responseJSON)[0];
-      // console.info(responseProfileBO);
-      return new Promise(function (resolve) {
-        resolve(profileBOs);
-      })
-    })
-  }
+  
+
+
 } 
  
 

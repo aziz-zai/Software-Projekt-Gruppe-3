@@ -13,5 +13,13 @@ class ProfileAdministration:
         """Insert Profile Manager."""
         with db_connector as db:
             cnx = db._cnx
+            person = PersonObject
             profile = profile.personID(person.id_)
             return ProfileMapper.insert(cnx=cnx, object=profile)
+
+    @staticmethod
+    def get_all_profiles():
+
+        with db_connector as db:
+            cnx = db._cnx
+            return ProfileMapper.find_all(cnx=cnx)

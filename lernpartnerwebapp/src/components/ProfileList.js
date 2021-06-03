@@ -9,7 +9,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileListEntry from './ProfileListEntry';
 
 /**
- * Renders a list of AccountListEntry objects.
+ * Renders a list of ProfileListEntry objects.
  * 
  * @see See [ProfileListEntry](#profilelistentry)
  * 
@@ -30,10 +30,10 @@ class ProfileList extends Component {
   }
 
   /** Fetches ProfileBOs for the current person */
-  getSpecificProfile = () => {
+  getProfiles = () => {
     AppAPI.getAPI().getProfileForPerson(this.props.person.getID()).then(profileBOs =>
       this.setState({  // Set new state when ProfileBOs have been fetched
-        profiles: profileBOs,
+        profile: profileBOs,
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })).catch(e =>
@@ -65,7 +65,7 @@ class ProfileList extends Component {
   }
 
   /** Adds an profile for the current person */
-  addProfile = () => {
+  addProfiles = () => {
     AppAPI.getAPI().addProfileForPerson(this.props.person.getID()).then(profileBO => {
       // console.log(profileBO)
       this.setState({  // Set new state when ProfileBOs have been fetched
@@ -92,7 +92,7 @@ class ProfileList extends Component {
   deleteProfileHandler = (deletedProfile) => {
     // console.log(deletedProfile.getID());
     this.setState({
-        profiles: this.state.profiles.filter(profile => profile.getID() !== deletedProfile.getID())
+      profiles: this.state.profiles.filter(profile => profile.getID() !== deletedProfile.getID())
     })
   }
 
@@ -112,7 +112,7 @@ class ProfileList extends Component {
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingProfileError} contextErrorMsg={`List of profiles for persons ${person.getID()} could not be loaded.`} onReload={this.getProfiles} />
+            <ContextErrorMessage error={loadingProfileError} contextErrorMsg={`List of profiles for person ${person.getID()} could not be loaded.`} onReload={this.getProfiles} />
             <ContextErrorMessage error={addingProfileError} contextErrorMsg={`Profile for person ${person.getID()} could not be added.`} onReload={this.addProfile} />
           </ListItem>
         </List>
