@@ -1,17 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+//import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container} from '@material-ui/core';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import Header from './components/layout/Header';
-import ProfileList from './components/ProfileList';
+//import firebase from 'firebase/app';
+//import 'firebase/auth';
+//import Header from './components/layout/Header';
+import ProfileList from './components/MeinProfil';
 //import About from './components/pages/About';
-import AllProfileList from './components/AllProfileList';
+//import AllProfileList from './components/AllProfileList';
 //import Theme from '/Theme';
-import SignIn from './components/pages/SignIn';
-import LoadingProgress from './components/dialogs/LoadingProgress';
-import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import firebaseConfig from './firebaseconfig';
+//import SignIn from './components/pages/SignIn';
+//import LoadingProgress from './components/dialogs/LoadingProgress';
+//import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+//import firebaseConfig from './firebaseconfig';
 
 /**
  * The main bank administration app. It uses Googles firebase to log into the bank end. For routing the 
@@ -40,15 +40,7 @@ class App extends React.Component {
 
 
 		return (
-				<Router basename={process.env.PUBLIC_URL}>
-					<Container maxWidth='md'>
-						<Header/>
-								<Redirect from='/' to='profiles' />
-								<Route exact path='/profiles'>
-									<ProfileList/>
-								</Route>
-					</Container>
-				</Router>
+				<ProfileList/>
 		);
 	}
 }
