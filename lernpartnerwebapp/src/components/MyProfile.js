@@ -5,7 +5,7 @@ import { Button, List } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ProfileBO from '../api/ProfileBO';
 
-class ProfileList extends Component {
+class MyProfile extends Component {
 
   constructor(props) {
     super(props);
@@ -20,14 +20,18 @@ class ProfileList extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(1).then(profileBOs =>
+    AppAPI.getAPI().getProfileForPerson().then(profileBOs =>
       this.setState({  // Set new state when ProfileBOs have been fetched
         profiles: profileBOs[0],
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })).catch(e =>
-        console.log("falsch")
-        
+        this.setState({
+          profile
+          loadingInProgress: false,
+          loadingProfileError: e
+        })
+      
       );
 
     // set loading to true
@@ -42,11 +46,10 @@ class ProfileList extends Component {
     this.getProfile();
   }
 
-
   render() {
     return (
       <div>
-         DEIN PROFIL:{this.state.profiles.getPersonID()}
+        profile  {this.state.profiles.get()}
       </div>
     );
   }
@@ -67,4 +70,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(ProfileList);
+export default withStyles(styles)(MyProfile);

@@ -4,7 +4,7 @@ import { Container} from '@material-ui/core';
 //import firebase from 'firebase/app';
 //import 'firebase/auth';
 //import Header from './components/layout/Header';
-import ProfileList from './components/MeinProfil';
+import MyProfile from './components/MyProfile';
 //import About from './components/pages/About';
 //import AllProfileList from './components/AllProfileList';
 //import Theme from '/Theme';
@@ -13,16 +13,7 @@ import ProfileList from './components/MeinProfil';
 //import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 //import firebaseConfig from './firebaseconfig';
 
-/**
- * The main bank administration app. It uses Googles firebase to log into the bank end. For routing the 
- * user to the respective pages, react-router-dom ist used.
- * 
- * @see See Google [firebase.auth()](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
- * @see See Google [firebase.auth().signInWithRedirect](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithredirect)
- * @see [react-router-dom](https://reacttraining.com/react-router/web/guides/quick-start)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
+
 class App extends React.Component {
 
 	/** Constructor of the app, which initializes firebase  */
@@ -40,7 +31,7 @@ class App extends React.Component {
 
 
 		return (
-				<ProfileList/>
+				<MyProfile/>
 		);
 	}
 }

@@ -17,11 +17,10 @@ export default class ProfileBO extends BusinessObject {
    * @param {String} aExtroversion - the extroversion of this ProfileBO.
 
 
-
    */
   constructor(aPersonID, aInterests, aType_, aOnline, aFrequency, aExpertise, aExtroversion) {
     super();
-    this.personID = aPersonID;
+    this.person = aPersonID;
     this.interests = aInterests;
     this.type_ = aType_;
     this.online = aOnline;
@@ -36,14 +35,14 @@ export default class ProfileBO extends BusinessObject {
    * @param {Integer} aPersonID - the new personID of this ProfileBO.
    */
   setPersonID(aPersonID) {
-    this.personID = aPersonID;
+    this.person = aPersonID;
   }
 
   /**
    * Gets the personID.
    */
   getPersonID() {
-    return this.personID;
+    return this.person;
   }
 
   /**
