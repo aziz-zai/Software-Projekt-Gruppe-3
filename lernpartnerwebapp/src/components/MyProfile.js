@@ -27,7 +27,7 @@ class MyProfile extends Component {
         loadingProfileError: null
       })).catch(e =>
         this.setState({
-          profile
+          profile: [],
           loadingInProgress: false,
           loadingProfileError: e
         })
