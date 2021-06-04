@@ -1,31 +1,31 @@
 from app.apps.core.mapper import Mapper
-from .ConversationBO import ConversationObject
+from .MembershipBO import MembershipObject
 from app.configs.base import db_connector
 
 
-class ConversationMapper(Mapper):
+class MembershipMapper(Mapper):
     def find_all():
         pass
 
-    def find_by_key(key):
+    def find_by_key(cnx: db_connector, key: int) -> MembershipObject:
         pass
 
     @staticmethod
-    def insert(cnx: db_connector, object: ConversationObject) -> ConversationObject:
-        """Create Conversation Object."""
+    def insert(cnx: db_connector, object: MembershipObject) -> MembershipObject:
+        """Create Membership Object."""
         cursor = cnx.cursor()
         command = """
-            INSERT INTO conversation (
-                conversationstatus, learning_group, person
+            INSERT INTO membership (
+                person, learning_group, profile
             ) VALUES (%s,%s,%s)
         """
         cursor.execute(command, (
-            object.conversationstatus,
+            object.person,
             object.learning_group,
-            object.person
+            object.profile
         ))
         cnx.commit()
-        cursor.execute("SELECT MAX(id) FROM conversation")
+        cursor.execute("SELECT MAX(id) FROM membership")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
         return object

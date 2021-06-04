@@ -1,11 +1,35 @@
+from logging import captureWarnings
 from app.apps.core.mapper import Mapper
 from .PersonBO import PersonObject
 from app.configs.base import db_connector
 
 
 class PersonMapper(Mapper):
-    def find_all():
-        pass
+    def find_by_google_user_id(cnx: db_connector, google_user_id: int) -> PersonObject:
+        result = None
+
+        cursor = cnx.cursor()
+        command = """"
+        SELECT 
+        id, email, google_user_id
+        FROM person WHERE google_user_id=%s
+        """
+        cursor.execute(command, (google_user_id, ))
+        entity = cursor.fetchone()
+
+        try:
+            (id, email, google_user_id) = entity
+            result = PersonObject(
+                id_=id,
+                email=email,
+                google_user_id=google_user_id
+            )
+        except IndexError:
+            result = None
+        
+        cursor.close()
+
+        return result
 
     def find_by_key(cnx: db_connector, key: int) -> PersonObject:
         result = None
@@ -13,18 +37,16 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
         SELECT
-        id, firstname, lastname, email, google_user_id
+        id, email, google_user_id
         FROM person WHERE id=%s
         """
         cursor.execute(command,(key, ))
         entity = cursor.fetchone()
 
         try:
-            (id, firstname, lastname, email, google_user_id) = entity
+            (id, email, google_user_id) = entity
             result = PersonObject(
-                id=id,
-                firstname=firstname,
-                lastname=lastname,
+                id_=id,
                 email=email,
                 google_user_id=google_user_id
            )
@@ -41,12 +63,10 @@ class PersonMapper(Mapper):
         cursor = cnx.cursor()
         command = """
             INSERT INTO person (
-                firstname, lastname, email, google_user_id
-            ) VALUES (%s,%s,%s,%s)
+                 email, google_user_id
+            ) VALUES (%s,%s)
         """
         cursor.execute(command, (
-            object.firstname,
-            object.lastname,
             object.email,
             object.google_user_id
         ))
@@ -56,8 +76,17 @@ class PersonMapper(Mapper):
         object.id_ = max_id
         return object
 
-    def update(object):
-        pass
+    def update(cnx: db_connector, person: PersonObject):
+        
+        cursor = cnx.cursor()
+        command = "UPDATE person " + "SET email=%s WHERE google_user_id=%s"
+        cursor.execute(command, (
+            person.email,
+            person.google_user_id
+        ))
+
+        cnx.commit()
+        cursor.close()
 
     def delete(object):
         pass

@@ -12,15 +12,12 @@ namespace = api.namespace(
 )
 
 
-@namespace.route("/<int:personID>")
+@namespace.route("/<int:person>")
 class ProfileAPI(Resource):
     """Basic API for profile."""
-
-    @api.marshal_with(profile_marshalling, code=201)
-    @api.expect(profile_marshalling)
-    def post(self, personID: int) -> dict:
-        """Create Profile Endpoint."""
-        person = PersonAdministration.get_person_by_id(personID)
-        profile = ProfileObject(**api.payload)
-        profile = ProfileAdministration.insert_profile(profile=profile, person=person)
+    @namespace.marshal_with(profile_marshalling)
+    def get(self,person: int):
+        pers = PersonAdministration.get_person_by_id(person)
+        profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
+
