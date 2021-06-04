@@ -4,29 +4,36 @@ from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 
 
+
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
         
         result = []
-        cursor = cnx._cnx.cursor()
-        cursor.execute("SELECT * from profiles")
+        cursor = cnx.cursor()
+        cursor.execute("""
+        SELECT id, firstname,  lastname, person, interests, 
+               type_, online, frequency, expertise, extroversion
+        FROM profile
+        """)
         tuples = cursor.fetchall()
 
-        for (id, personID, interests, type_, online,
+        for (id, person, firstname, lastname, interests, type_, online,
             frequency, expertise, extroversion) in tuples:
             profile = ProfileObject()
-            profile.id_(id)
-            profile.personID(personID)
-            profile.interests(interests)
-            profile.type_(type_)
-            profile.online(online)
-            profile.frequency(frequency)
-            profile.expertise(expertise)
-            profile.extroversion(extroversion)
+            profile.id_ = id
+            profile.person = person
+            profile.firstname = firstname
+            profile.lastname = lastname
+            profile.interests = interests
+            profile.type_ = type_
+            profile.online = online
+            profile.frequency = frequency
+            profile.expertise = expertise
+            profile.extroversion = extroversion
 
             result.append(profile)
 
-        cnx._cnx.commit()
+        cnx.commit()
         cursor.close()
 
         return result
@@ -54,16 +61,8 @@ class ProfileMapper(Mapper):
         entity = cursor.fetchone()
 
         try:
-            (id,
-             firstname,
-             lastname,
-             person,
-             interests,
-             type_,
-             online,
-             frequency,
-             expertise,
-             extroversion) = entity
+            (id, firstname, lastname, person, interests,
+             type_, online, frequency, expertise, extroversion) = entity
             result = ProfileObject(
                 id_=id,
                 firstname=firstname,

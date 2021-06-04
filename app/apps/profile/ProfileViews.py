@@ -12,6 +12,11 @@ namespace = api.namespace(
 )
 
 
+@namespace.route("/")
+class AllProfilesOperation(Resource):
+    def get(self):
+        profile_list = ProfileAdministration.get_all_profiles()
+        return profile_list
 
 @namespace.route("/<int:person>")
 class ProfileAPI(Resource):

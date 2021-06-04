@@ -12,6 +12,7 @@ import MyProfile from './components/MyProfile';
 //import LoadingProgress from './components/dialogs/LoadingProgress';
 //import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 //import firebaseConfig from './firebaseconfig';
+import AllProfileList from './components/AllProfileList'
 
 
 class App extends React.Component {
@@ -31,7 +32,7 @@ class App extends React.Component {
 
 
 		return (
-				<MyProfile/>
+				<AllProfileList></AllProfileList>
 		);
 	}
 }

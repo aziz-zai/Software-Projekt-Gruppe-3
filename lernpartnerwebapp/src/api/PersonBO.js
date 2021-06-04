@@ -24,32 +24,6 @@ export default class PersonBO extends BusinessObject {
    * 
    * @param {String} aFirstname - the new firstname of this PersonBO.
    */
-  setFirstName(aFirstname) {
-    this.firstname = aFirstname;
-  }
-
-  /**
-   * Gets the firstname.
-   */
-  getFirstName() {
-    return this.firstname;
-  }
-
-  /**
-   * Sets a new lastname.
-   * 
-   * @param {*} aLastname - the new lastname of this CustomerBO.
-   */
-  setLastName(aLastname) {
-    this.lastname = aLastname;
-  }
-
-  /**
-   * Gets the lastname.
-   */
-  getLastName() {
-    return this.lastname;
-  }
 
   /**
    * Sets a new email.

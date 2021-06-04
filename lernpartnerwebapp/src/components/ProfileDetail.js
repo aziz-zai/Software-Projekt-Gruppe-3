@@ -55,7 +55,7 @@ class ProfileDetail extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, personID} = this.props;
+    const { classes, person} = this.props;
     const { profile, loadingInProgress, loadingError } = this.state;
 
     return (
@@ -65,17 +65,17 @@ class ProfileDetail extends Component {
           Account
         </Typography>
         <Typography className={classes.accountEntry}>
-          ID: {personID}
+          ID: {person}
         </Typography>
         {
           profile ?
             <Typography>
-              Person: {person.getLastName()}, {person.getFirstName()}, {person.getEmail()}, {person.getGoogle_user_id()}
+              Person: {person.getLastName()}, {person.getFirstName()}
             </Typography>
             : null
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of person id ${personID} could not be loaded.`} onReload={this.getPerson} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of person id ${person} could not be loaded.`} onReload={this.getPerson} />
       </Paper>
     );
   }
@@ -100,7 +100,7 @@ ProfileDetail.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The personID to be rendered */
-  personID: PropTypes.string.isRequired,
+  person: PropTypes.string.isRequired,
   /** The profileID to be rendered */
   profileID: PropTypes.string.isRequired,
 }

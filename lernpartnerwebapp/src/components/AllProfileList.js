@@ -32,7 +32,7 @@ class AllProfileList extends Component {
   loadProfiles = () => {
     AppAPI.getAPI().getAllProfiles().then(profiles =>
       this.setState({
-        profiles: profiles,
+        profiles: [],
         loadingInProgress: false, // loading indicator 
         loadingError: null
       })).catch(e =>
@@ -58,7 +58,7 @@ class AllProfileList extends Component {
       <div className={classes.root}>
           {
             profiles.map(profile => <ProfileDetail key={profile.getID()} 
-            personID={profile.getOwner().toString()} profileID={profile.getID().toString()} />)
+            person={profile.getPersonID().toString()}/>)
           }
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />

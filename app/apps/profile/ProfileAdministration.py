@@ -22,3 +22,9 @@ class ProfileAdministration:
         with db_connector as db:
             cnx = db._cnx
             return ProfileMapper.find_by_personID(cnx=cnx, person = person.id_)
+    
+    @staticmethod
+    def get_all_profiles():
+        with db_connector as db:
+            cnx= db._cnx
+            return ProfileMapper.find_all(cnx=cnx)
