@@ -18,9 +18,11 @@ export default class ProfileBO extends BusinessObject {
 
 
    */
-  constructor(aPersonID, aInterests, aType_, aOnline, aFrequency, aExpertise, aExtroversion) {
+  constructor(aPersonID, aFirstname, aLastname, aInterests, aType_, aOnline, aFrequency, aExpertise, aExtroversion) {
     super();
     this.person = aPersonID;
+    this.firstname = aFirstname;
+    this.lastname = aLastname;
     this.interests = aInterests;
     this.type_ = aType_;
     this.online = aOnline;
@@ -43,6 +45,37 @@ export default class ProfileBO extends BusinessObject {
    */
   getPersonID() {
     return this.person;
+  }
+/**
+   * Sets a new firstname.
+   * 
+   * @param {String} aFirstname - the new firstname of this PersonBO.
+   */
+ setFirstName(aFirstname) {
+    this.firstname = aFirstname;
+  }
+
+/**
+ * Gets the firstname.
+ */
+  getFirstName() {
+    return this.firstname;
+  } 
+
+/**
+ * Sets a new lastname.
+ * 
+ * @param {*} aLastname - the new lastname of this CustomerBO.
+ */
+  setLastName(aLastname) {
+    this.lastname = aLastname;
+  }
+
+/**
+ * Gets the lastname.
+ */
+  getLastName() {
+    return this.lastname;
   }
 
   /**

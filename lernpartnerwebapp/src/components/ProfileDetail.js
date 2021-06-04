@@ -55,8 +55,8 @@ class ProfileDetail extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, personID, accountID } = this.props;
-    const { person, loadingInProgress, loadingError } = this.state;
+    const { classes, personID} = this.props;
+    const { profile, loadingInProgress, loadingError } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
@@ -65,10 +65,10 @@ class ProfileDetail extends Component {
           Account
         </Typography>
         <Typography className={classes.accountEntry}>
-          ID: {accountID}
+          ID: {personID}
         </Typography>
         {
-          person ?
+          profile ?
             <Typography>
               Person: {person.getLastName()}, {person.getFirstName()}, {person.getEmail()}, {person.getGoogle_user_id()}
             </Typography>

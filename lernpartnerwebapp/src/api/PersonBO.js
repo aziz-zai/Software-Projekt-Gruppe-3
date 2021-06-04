@@ -13,10 +13,8 @@ export default class PersonBO extends BusinessObject {
    * @param {String} aEmail - the email of this PersonBO.
    * @param {Integer} aGoogle_user_id - the google_user_id of this PersonBO.
    */
-  constructor(aFirstname, aLastname, aEmail, aGoogle_user_id) {
+  constructor(aEmail, aGoogle_user_id) {
     super();
-    this.firstname = aFirstname;
-    this.lastname = aLastname;
     this.email = aEmail;
     this.google_user_id = aGoogle_user_id;
   }
