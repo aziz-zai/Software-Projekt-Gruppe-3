@@ -7,7 +7,8 @@ export default class ProfileBO extends BusinessObject {
 
   /**
    * Constructs a ProfileBO object with given personID, interests, type_, online, frequency, expertise, extroversion)
-   * 
+   * @param {String} aFirstname - the firstname of this ProfileBO.
+   * @param {String} aLastname - the interests of this ProfileBO.
    * @param {Integer} aPersonID - the personID of this ProfileBO.
    * @param {String} aInterests - the interests of this ProfileBO.
    * @param {String} aType_ - the type_ of this ProfileBO.
@@ -18,8 +19,10 @@ export default class ProfileBO extends BusinessObject {
 
 
    */
-  constructor(aPersonID, aInterests, aType_, aOnline, aFrequency, aExpertise, aExtroversion) {
+  constructor(aFirstname, aLastname, aPersonID, aInterests, aType_, aOnline, aFrequency, aExpertise, aExtroversion) {
     super();
+    this.firstname = aFirstname;
+    this.lastname=aLastname;
     this.person = aPersonID;
     this.interests = aInterests;
     this.type_ = aType_;
@@ -27,6 +30,39 @@ export default class ProfileBO extends BusinessObject {
     this.frequency = aFrequency;
     this.expertise = aExpertise;
     this.extroversion = aExtroversion;
+  }
+
+
+  /**
+   * Sets a new firstname.
+   * 
+   * @param {String} aFirstname - the new firstname of this PersonBO.
+   */
+   setFirstName(aFirstname) {
+    this.firstname = aFirstname;
+  }
+
+  /**
+   * Gets the firstname.
+   */
+  getFirstName() {
+    return this.firstname;
+  }
+
+  /**
+   * Sets a new lastname.
+   * 
+   * @param {*} aLastname - the new lastname of this CustomerBO.
+   */
+  setLastName(aLastname) {
+    this.lastname = aLastname;
+  }
+
+  /**
+   * Gets the lastname.
+   */
+  getLastName() {
+    return this.lastname;
   }
 
   /**
@@ -66,7 +102,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {String} aType_ - the new type of this ProfileBO.
    */
-   setType(aType_) {
+  setType(aType_) {
     this.type_ = aType_;
   }
 
@@ -82,7 +118,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {Boolean} aOnline - the new online of this ProfileBO.
    */
-   setOnline(aOnline) {
+  setOnline(aOnline) {
     this.online = aOnline;
   }
 
@@ -98,7 +134,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {Integer} aFrequency - the new frequency of this ProfileBO.
    */
-   setFrequency(aFrequency) {
+  setFrequency(aFrequency) {
     this.frequency = aFrequency;
   }
 
@@ -114,7 +150,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {String} aExpertise - the new expertise of this ProfileBO.
    */
-   setExpertise(aExpertise) {
+  setExpertise(aExpertise) {
     this.expertise = aExpertise;
   }
 
@@ -130,7 +166,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {String} aExtroversion - the new type of this ProfileBO.
    */
-   setExtroversion(aExtroversion) {
+  setExtroversion(aExtroversion) {
     this.extroversion = aExtroversion;
   }
 
