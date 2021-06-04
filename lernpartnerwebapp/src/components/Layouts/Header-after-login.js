@@ -21,9 +21,6 @@ export default function Header_after_login() {
                 <Button color='inherit'>
                     About
                 </Button>
-                <IconButton color='inherit' aria-label='Account'>
-                    <AccountCircle/>
-                </IconButton>
             </Toolbar>
         </AppBar>    
         

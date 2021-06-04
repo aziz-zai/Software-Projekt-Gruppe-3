@@ -104,8 +104,9 @@ class App extends React.Component {
 								<>
 									<Redirect from='/' to='header-after-login' />
 									<Route exact path='/header-after-login'>
-										<Header_after_login />
-									</Route>	
+									</Route>
+									<Route path='/about' component={About} />
+										
 								</>
 								:
 								// else show the sign in page

@@ -31,12 +31,13 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 				<Typography className={classes.root} align='center' variant='h6'>Welcome to the LernApp</Typography>
 				<Typography className={classes.root} align='center'>It appears, that you are not signed in.</Typography>
 				<Typography className={classes.root} align='center'>To use the services of the LernApp please Sign in.</Typography>
-				<Grid container justify='center'/>
-				<Grid item/>
-				<Button variant='contained' color='primary' onClick={this.handleLogInButtonClicked}>
+				<Grid container justify='center'>
+					<Grid item>
+						<Button variant='contained' color='primary' onClick={this.handleLogInButtonClicked}>
 							Sign in with Google
       			</Button>
-
+					</Grid>
+				</Grid>
 			</div>
 		);
 	}
