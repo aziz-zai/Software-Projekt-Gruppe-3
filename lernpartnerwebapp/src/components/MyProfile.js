@@ -9,7 +9,14 @@ class MyProfile extends Component {
 
   constructor(props) {
     super(props);
+  
+    let expandedID =null;
 
+    if (this.props.location.expandedProfile) {
+      expandedID = this.props.location.expandedProfile.getID();
+    }
+   
+    
     // Init the state
     this.state = {
       profiles: new ProfileBO(),
@@ -20,36 +27,40 @@ class MyProfile extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson().then(profileBOs =>
+    AppAPI.getAPI().getProfileForPerson()
+    .then((profileBOs) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profiles: profileBOs[0],
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
-      })).catch(e =>
+      })}
+      
+      )
+      .catch((e) =>
         this.setState({
           profile: [],
           loadingInProgress: false,
-          loadingProfileError: e
+          loadingProfileError: e,
         })
       
       );
 
-    // set loading to true
     this.setState({
       loadingInProgress: true,
       loadingProfileError: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getProfile();
   }
 
+
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        profile  {this.state.profiles.get()}
+      <div className={classes.root}>
+        profile  {this.state.profiles.getProfile()}
       </div>
     );
   }
@@ -69,5 +80,12 @@ const styles = theme => ({
     bottom: theme.spacing(1),
   }
 });
+
+/** PropTypes */
+MyProfile.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(MyProfile);

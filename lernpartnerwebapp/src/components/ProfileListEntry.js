@@ -7,7 +7,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import MoneyTransferDialog from './dialogs/MoneyTransferDialog';
 class ProfileListEntry extends Component {
 
   constructor(props) {
@@ -15,29 +14,14 @@ class ProfileListEntry extends Component {
 
     // Init an empty state
     this.state = {
-      balance: '',
-      loadingInProgress: false,
-      deletingInProgress: false,
+      profile: props.profile,
+      showProfileForm: false,
       loadingError: null,
       deletingError: null,
-      showMoneyTransferDialog: false,
     };
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // load initial balance
-    this.getBalance();
-  }
 
-  /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    if ((this.props.show) && (this.props.show !== prevProps.show)) {
-      this.getBalance();
-    }
-  }
-
-  /** gets the balance for this account */
   getBalance = () => {
     BankAPI.getAPI().getBalanceOfAccount(this.props.account.getID()).then(balance =>
       this.setState({
@@ -161,7 +145,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-AccountListEntry.propTypes = {
+ProfileListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO of this AccountListEntry */
@@ -178,4 +162,4 @@ AccountListEntry.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(AccountListEntry);
+export default withStyles(styles)(ProfileListEntry);

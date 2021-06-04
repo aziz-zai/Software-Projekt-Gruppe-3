@@ -20,7 +20,7 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      person: null,
+      profile: null,
       loadingInProgress: false,
       loadingError: null,
     };
@@ -28,19 +28,19 @@ class ProfileDetail extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getPerson();
+    this.getProfile();
   }
 
   /** gets the balance for this account */
-  getPerson = () => {
-    AppAPI.getAPI().getPerson(this.props.personID).then(person =>
+  getProfile = () => {
+    AppAPI.getAPI().getProfile(this.props.profileID).then(person =>
       this.setState({
-        person: person,
+        profile: profile,
         loadingInProgress: false,
         loadingError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          person: null,
+          profile: null,
           loadingInProgress: false,
           loadingError: e
         })
@@ -55,27 +55,27 @@ class ProfileDetail extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, personID, accountID } = this.props;
-    const { person, loadingInProgress, loadingError } = this.state;
+    const { classes, profileID } = this.props;
+    const { profile, loadingInProgress, loadingError } = this.props;
 
     return (
       <Paper variant='outlined' className={classes.root}>
 
         <Typography variant='h6'>
-          Account
+          Profile
         </Typography>
-        <Typography className={classes.accountEntry}>
-          ID: {accountID}
+        <Typography className={classes.profileEntry}>
+          ID: {profileID} 
         </Typography>
         {
-          person ?
+          profile ?
             <Typography>
-              Person: {person.getLastName()}, {person.getFirstName()}, {person.getEmail()}, {person.getGoogle_user_id()}
+              Profile: {profile.getPersonID()}, {profile.getInterests()}, {profile.getType()}, {profile.getOnline()}, {profile.getFrequency()}, {profile.getExpertise()}, {profile.getExtroversion()};
             </Typography>
             : null
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of person id ${personID} could not be loaded.`} onReload={this.getPerson} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of profile id ${profileID} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
     );
   }
@@ -95,13 +95,9 @@ const styles = theme => ({
   }
 });
 
-/** PropTypes */
 ProfileDetail.propTypes = {
-  /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The personID to be rendered */
   personID: PropTypes.string.isRequired,
-  /** The profileID to be rendered */
   profileID: PropTypes.string.isRequired,
 }
 
