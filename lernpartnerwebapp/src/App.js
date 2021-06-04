@@ -111,7 +111,7 @@ class App extends React.Component {
 								// else show the sign in page
 								<>
 									<Redirect to='/index.html' />
-									<LogIn onLogIn={this.handleLogIn} />
+									<LogIn onLogIn={this.handleSignIn} />
 								</>
 						}
 						<LoadingProgress show={authLoading} />

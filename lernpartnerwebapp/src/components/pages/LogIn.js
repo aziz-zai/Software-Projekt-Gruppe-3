@@ -33,6 +33,9 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 				<Typography className={classes.root} align='center'>To use the services of the LernApp please Sign in.</Typography>
 				<Grid container justify='center'/>
 				<Grid item/>
+				<Button variant='contained' color='primary' onClick={this.handleLogInButtonClicked}>
+							Sign in with Google
+      			</Button>
 
 			</div>
 		);
