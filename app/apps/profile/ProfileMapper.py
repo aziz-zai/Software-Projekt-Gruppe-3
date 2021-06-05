@@ -120,8 +120,28 @@ class ProfileMapper(Mapper):
         object.id_ = max_id
         return object
 
-    def update(object):
-        pass
+    def update(cnx: db_connector, object: ProfileObject):
+        cursor = cnx.cursor()
+
+        command = """"UPDATE profile " + "SET firstname=%s, lastname=%s, person=%s, 
+                             interests=%s, type_=%s, online=%s, frequency=%s, expertise=%s,
+                             extroversion=%s
+        WHERE id=%s"""
+        
+        cursor.execute(command, (
+            object.firstname,
+            object.lastname,
+            object.person,
+            object.interests,
+            object.type_,
+            object.online,
+            object.frequency,
+            object.expertise,
+            object.extroversion
+        ))
+
+        cnx.commit()
+        cursor.close()
 
     def delete(object):
         pass

@@ -9,6 +9,7 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProfileForm from './dialogs/ProfileForm'
+import ProfileBO from '../api/ProfileBO'
 class ProfileListEntry extends Component {
 
   constructor(props) {
@@ -16,7 +17,7 @@ class ProfileListEntry extends Component {
 
     // Init an empty state
     this.state = {
-      profile: props.profile,
+      profile: new ProfileBO(),
       showProfileForm: false,
       loadingError: null,
       deletingError: null,
@@ -46,22 +47,13 @@ class ProfileListEntry extends Component {
 
   /** Renders the component */
   render() {
-    const { classes } = this.props;
-    const { profile, person, showProfileForm, loadingError, loadingInProgress } = this.state;
+    const { classes, profile } = this.props;
+    const { person, showProfileForm, loadingError, loadingInProgress } = this.state;
 
     return (
       <div>
         <ListItem>
           <Typography className={classes.profileEntry}>
-            <Link component={RouterLink} to={{
-              pathname: '/profiles',
-              owner: {
-                person: person,
-                profile: profile
-              }
-            }}>
-              Profile ID: {profile.getID()}
-            </Link>
           </Typography>
                 Firstname:      {profile.getFirstName()}, <br></br>
                 Lastname:       {profile.getLastName()}, <br></br>

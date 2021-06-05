@@ -284,7 +284,7 @@ ProfileForm.propTypes = {
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  onClose: PropTypes.func.isRequired,
+  //onClose: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ProfileForm);
