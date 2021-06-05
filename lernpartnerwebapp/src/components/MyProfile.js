@@ -4,19 +4,15 @@ import { withStyles, ListItem } from '@material-ui/core';
 import { Button, List } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ProfileBO from '../api/ProfileBO';
+import ProfileListEntry from "./ProfileListEntry";
+import LoadingProgress from './dialogs/LoadingProgress';
+import ContextErrorMessage from './dialogs/ContextErrorMessage';
 
 class MyProfile extends Component {
 
   constructor(props) {
     super(props);
-  
-    let expandedID =null;
-
-    if (this.props.location.expandedProfile) {
-      expandedID = this.props.location.expandedProfile.getID();
-    }
    
-    
     // Init the state
     this.state = {
       profiles: new ProfileBO(),
@@ -58,9 +54,21 @@ class MyProfile extends Component {
 
   render() {
     const { classes } = this.props;
+    const { profile, loadingInProgress, loadingProfileError} = this.state;
     return (
       <div className={classes.root}>
-        profile  {this.state.profiles.getProfile()}
+        <List> className={classes.MyProfile}>
+          {
+            profile.map(profile => <ProfileListEntry key={profile.getID()} profile={profile}
+            show={this.props.show} />)
+          }
+          <ListItem>
+            <LoadingProgress show= {loadingInProgress} />
+            <ContextErrorMessage error={loadingProfileError} contextErrorMsg={`List of the profile 
+            for person ${profile.getID()} could not be loaded.`} onReload={this.getProfile} />
+          </ListItem>
+        </List>
+        {/*profile  {this.state.profiles.get()}*/}
       </div>
     );
   }

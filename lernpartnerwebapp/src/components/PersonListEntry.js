@@ -3,19 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PersonForm from './dialogs/PersonForm';
+import PersonForm from './dialogs/ProfileForm';
 import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
 import ProfileList from './ProfileList';
 
 
-/**
- * Renders a PersonBO object within a expandable/collapsible PersonListEntry with the person manipulation
- * functions. If expanded, it renders a ProfileList.
- * 
- * @see See [ProfileList](#profilelist)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
 class PersonListEntry extends Component {
 
   constructor(props) {

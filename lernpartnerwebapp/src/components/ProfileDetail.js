@@ -5,14 +5,6 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 
-/**
- * Renders a AccountBO object within a ListEntry and provides a delete button to delete it.
- * 
- * @see See Material-UIs [Lists](https://material-ui.com/components/lists/)
- * @see See Material-UIs [ListItem](https://material-ui.com/api/list-item/)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
 class ProfileDetail extends Component {
 
   constructor(props) {
@@ -26,12 +18,10 @@ class ProfileDetail extends Component {
     };
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getProfile();
   }
 
-  /** gets the balance for this account */
   getProfile = () => {
     AppAPI.getAPI().getProfile(this.props.profileID).then(person =>
       this.setState({
@@ -53,7 +43,6 @@ class ProfileDetail extends Component {
     });
   }
 
-  /** Renders the component */
   render() {
     const { classes, profileID } = this.props;
     const { profile, loadingInProgress, loadingError } = this.props;
@@ -81,7 +70,6 @@ class ProfileDetail extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',

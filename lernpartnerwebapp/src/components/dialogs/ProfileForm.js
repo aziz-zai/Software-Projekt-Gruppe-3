@@ -11,9 +11,10 @@ class ProfileForm extends Component {
     super(props);
 
     let fn = '', ln = '';
-    if (props.person) {
-      fn = props.person.getFirstName();
-      ln = props.person.getLastName();
+    if (props.profile) {
+      fn = props.profile.getFirstName();
+      ln = props.profile.getLastName();
+
     }
 
     // Init the state
@@ -34,8 +35,8 @@ class ProfileForm extends Component {
   }
 
   /** Adds the customer */
-  addPerson = () => {
-    let newPerson = new PersonBO(this.state.firstName, this.state.lastName);
+  addProfile = () => {
+    let newProfile = new ProfileBO(this.state.firstName, this.state.lastName);
     AppAPI.getAPI().addPerson(newPerson).then(person => {
       // Backend call sucessfull
       // reinit the dialogs state for a new empty customer
