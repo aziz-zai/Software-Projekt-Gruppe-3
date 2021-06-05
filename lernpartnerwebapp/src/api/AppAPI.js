@@ -24,7 +24,7 @@ export default class AppAPI {
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
-  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profile`
 
@@ -107,7 +107,7 @@ export default class AppAPI {
           })
       })
   }
-  updatePersonURL(personBO) {
+  updatePerson(personBO) {
       return this.#updatePersonURL(this.#updatePersonURL(personBO.getID()), {
         method: 'PUT',
         headers: {
@@ -163,5 +163,22 @@ export default class AppAPI {
           resolve(profileBOs);
         })
      })
+  }
+  updateProfile(profileBO) {
+    return this.#updateProfileURL(this.#updateProfileURL(profileBO.getID()), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(personBO)
+    }).then((responseJSON) => {
+      // We always get an array of ProfileBOs.fromJSON
+      let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
+      // console.info(ProfileBOs);
+      return new Promise(function (resolve) {
+        resolve(responseProfileBO);
+      })
+    })
   }
 } 

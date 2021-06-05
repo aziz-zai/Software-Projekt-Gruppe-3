@@ -38,7 +38,7 @@ export default class ProfileBO extends BusinessObject {
    * 
    * @param {String} aFirstname - the new firstname of this PersonBO.
    */
-   setFirstName(aFirstname) {
+  setFirstName(aFirstname) {
     this.firstname = aFirstname;
   }
 

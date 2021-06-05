@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { AppAPI, PersonBO } from '../../api';
+import { AppAPI, ProfileBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 class ProfileForm extends Component {
-
   constructor(props) {
     super(props);
 
-    let fn = '', ln = '';
+    let fn = '', ln = '', pe ='', i ='', ty ='', 
+    on ='', fq ='', exp ='', ext ='';
     if (props.profile) {
       fn = props.profile.getFirstName();
       ln = props.profile.getLastName();
-
+      i  = props.profile.getInterests();
+      ty = props.profile.getType();
+      on = props.profile.getOnline();
+      fq = props.profile.getFrequency();
+      exp= props.profile.getExpertise();
+      ext= props.profile.getExtroversion();
     }
 
     // Init the state
@@ -25,6 +30,27 @@ class ProfileForm extends Component {
       lastName: ln,
       lastNameValidationFailed: false,
       lastNameEdited: false,
+      person: pe,
+      personValidationFailed: false,
+      personEdited: false,
+      interests: i,
+      interestsValidationFailed: false,
+      interestsEdited: false,
+      type: ty,
+      typeValidationFailed: false,
+      typeEdited: false,
+      online: on,
+      onlineValidationFailed: false,
+      onlineEdited: false,
+      frequency: fq,
+      frequencyValidationFailed: false,
+      frequencyEdited: false,
+      expertise: exp,
+      expertiseValidationFailed: false,
+      expertiseEdited: false,
+      extroversion: ext,
+      extroversionValidationFailed: false,
+      extroversionEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -35,13 +61,14 @@ class ProfileForm extends Component {
   }
 
   /** Adds the customer */
-  addProfile = () => {
-    let newProfile = new ProfileBO(this.state.firstName, this.state.lastName);
-    AppAPI.getAPI().addPerson(newPerson).then(person => {
+  getProfileForPerson = () => {
+    let newProfile = new ProfileBO(this.state.firstName, this.state.lastName, this.state.person, this.state.interests, 
+    this.state.type, this.state.online, this.state.frequency, this.state.expertise, this.state.extroversion);
+    AppAPI.getAPI().getProfile(newProfile).then(profile => {
       // Backend call sucessfull
-      // reinit the dialogs state for a new empty customer
+      // reinit the dialogs state for a new empty profile
       this.setState(this.baseState);
-      this.props.onClose(person); // call the parent with the customer object from backend
+      this.props.onClose(profile); // call the parent with the customer object from backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // disable loading indicator 
@@ -57,13 +84,21 @@ class ProfileForm extends Component {
   }
 
   /** Updates the customer */
-  updatePerson = () => {
+  updateProfile = () => {
     // clone the original person, in case the backend call fails
-    let updatedPerson = Object.assign(new PersonBO(), this.props.person);
+    let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     // set the new attributes from our dialog
-    updatedPerson.setFirstName(this.state.firstName);
-    updatedPerson.setLastName(this.state.lastName);
-    AppAPI.getAPI().updatePerson(updatedPerson).then(person => {
+    updatedProfile.setFirstName(this.state.firstName);
+    updatedProfile.setLastName(this.state.lastName);
+    updatedProfile.setPersonID(this.state.person);
+    updatedProfile.setInterests(this.state.interests);
+    updatedProfile.setType(this.state.type);
+    updatedProfile.setOnline(this.state.online);
+    updatedProfile.setFrequency(this.state.frequency);
+    updatedProfile.setExpertise(this.state.expertise);
+    updatedProfile.setExtroversion(this.state.extroversion);
+
+    AppAPI.getAPI().updateProfile(updatedProfile).then(profile => {
       this.setState({
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
@@ -71,7 +106,15 @@ class ProfileForm extends Component {
       // keep the new state as base state
       this.baseState.firstName = this.state.firstName;
       this.baseState.lastName = this.state.lastName;
-      this.props.onClose(updatedPerson);      // call the parent with the new customer
+      this.baseState.person = this.state.person;
+      this.baseState.interests = this.state.interests;
+      this.baseState.type = this.state.type;
+      this.baseState.online = this.state.online;
+      this.baseState.frequency = this.state.frequency;
+      this.baseState.expertise = this.state.expertise;
+      this.baseState.extroversion = this.state.extroversion;
+
+      this.props.onClose(updatedProfile);      // call the parent with the new customer
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // disable loading indicator 
@@ -111,20 +154,23 @@ class ProfileForm extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, person, show } = this.props;
-    const { firstName, firstNameValidationFailed, firstNameEdited, lastName, lastNameValidationFailed, lastNameEdited, addingInProgress,
-      addingError, updatingInProgress, updatingError } = this.state;
+    const { classes, profile, show } = this.props;
+    const { firstName, firstNameValidationFailed, firstNameEdited, lastName, lastNameValidationFailed, lastNameEdited, 
+      person, personEdited, personValidationFailed, interests, interestsEdited, interestsValidationFailed,
+      type, typeEdited, typeValidationFailed, online, onlineEdited, onlineValidationFailed, frequency, frequencyEdited,
+      frequencyValidationFailed, expertise, expertiseEdited, expertiseValidationFailed, extroversion, extroversionEdited, 
+      extroversionValidationFailed, addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (person) {
-      // person defindet, so ist an edit dialog
-      title = 'Update a person';
-      header = `Person ID: ${person.getID()}`;
+    if (profile) {
+      // profile defindet, so ist an edit dialog
+      title = 'Update a profile';
+      header = `Profile ID: ${profile.getID()}`;
     } else {
-      title = 'Create a new person';
-      header = 'Enter person data';
+      title = 'Create a new profile';
+      header = 'Enter profile data';
     }
 
     return (
@@ -143,17 +189,46 @@ class ProfileForm extends Component {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='First name:' value={firstName} 
                 onChange={this.textFieldValueChange} error={firstNameValidationFailed} 
                 helperText={firstNameValidationFailed ? 'The first name must contain at least one character' : ' '} />
+
               <TextField type='text' required fullWidth margin='normal' id='lastName' label='Last name:' value={lastName}
                 onChange={this.textFieldValueChange} error={lastNameValidationFailed}
                 helperText={lastNameValidationFailed ? 'The last name must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='person' label='Person ID:' value={person}
+                onChange={this.textFieldValueChange} error={personValidationFailed}
+                helperText={personValidationFailed ? 'The Person ID must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='interests' label='Interest:' value={interests}
+                onChange={this.textFieldValueChange} error={interestsValidationFailed}
+                helperText={interestsValidationFailed ? 'The interests must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='type' label='Type:' value={type}
+                onChange={this.textFieldValueChange} error={typeValidationFailed}
+                helperText={typeValidationFailed ? 'The Type must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='online' label='Online:' value={online}
+                onChange={this.textFieldValueChange} error={onlineValidationFailed}
+                helperText={onlineValidationFailed ? 'Online must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='frequency' label='Frequency:' value={frequency}
+                onChange={this.textFieldValueChange} error={frequencyValidationFailed}
+                helperText={frequencyValidationFailed ? 'The Frequency must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Expertise:' value={expertise}
+                onChange={this.textFieldValueChange} error={expertiseValidationFailed}
+                helperText={expertiseValidationFailed ? 'The Expertise must contain at least one character' : ' '} />
+              
+              <TextField type='text' required fullWidth margin='normal' id='extroversion' label='Extroversion:' value={extroversion}
+                onChange={this.textFieldValueChange} error={extroversionValidationFailed}
+                helperText={extroversionValidationFailed ? 'The Extroversion must contain at least one character' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Show error message in dependency of customer prop
-              person ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`The person ${person.getID()} could not be updated.`} onReload={this.updatePerson} />
+              profile ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`The profile ${profile.getID()} could not be updated.`} onReload={this.updateProfile} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`The person could not be added.`} onReload={this.addPerson} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`The profile could not be added.`} onReload={this.addProfile} />
             }
           </DialogContent>
           <DialogActions>
@@ -162,11 +237,16 @@ class ProfileForm extends Component {
             </Button>
             {
               // If a customer is given, show an update button, else an add button
-              person ?
-                <Button disabled={firstNameValidationFailed || lastNameValidationFailed} variant='contained' onClick={this.updatePerson} color='primary'>
+              profile ?
+                <Button disabled={firstNameValidationFailed || lastNameValidationFailed  || personValidationFailed || interestsValidationFailed || 
+                typeValidationFailed || onlineValidationFailed || frequencyValidationFailed || expertiseValidationFailed || extroversionValidationFailed} 
+                variant='contained' onClick={this.updateProfile} color='primary'>
                   Update
               </Button>
-                : <Button disabled={firstNameValidationFailed || !firstNameEdited || lastNameValidationFailed || !lastNameEdited} variant='contained' onClick={this.addPerson} color='primary'>
+                : <Button disabled={firstNameValidationFailed || !firstNameEdited || lastNameValidationFailed || !lastNameEdited ||
+                personValidationFailed || !personEdited || interestsValidationFailed || !interestsEdited || typeValidationFailed || !typeEdited ||
+                onlineValidationFailed || !onlineEdited || frequencyValidationFailed || !frequencyEdited || expertiseValidationFailed || !expertiseEdited ||
+                extroversionValidationFailed || !extroversionEdited} variant='contained' onClick={this.addProfile} color='primary'>
                   Add
              </Button>
             }
@@ -191,11 +271,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-PersonForm.propTypes = {
+ProfileForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be edited */
-  person: PropTypes.object,
+  profile: PropTypes.object,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**  
@@ -207,4 +287,4 @@ PersonForm.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(PersonForm);
+export default withStyles(styles)(ProfileForm);
