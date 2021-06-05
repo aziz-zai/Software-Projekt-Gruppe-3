@@ -4,6 +4,7 @@ import { withStyles, Typography, Paper } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
+import ProfileBO from '../api/ProfileBO'
 
 /**
  * Renders a AccountBO object within a ListEntry and provides a delete button to delete it.
@@ -20,7 +21,7 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      person: null,
+      profile: [],
       loadingInProgress: false,
       loadingError: null,
     };
@@ -28,19 +29,19 @@ class ProfileDetail extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getPerson();
+    this.getProfile();
   }
 
   /** gets the balance for this account */
-  getPerson = () => {
-    AppAPI.getAPI().getPerson(this.props.personID).then(person =>
+  getProfile = () => {
+    AppAPI.getAPI().getProfileForPerson(this.props.profileID).then(profile =>
       this.setState({
-        person: person,
+        profile: profile,
         loadingInProgress: false,
         loadingError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          person: null,
+          profile: null,
           loadingInProgress: false,
           loadingError: e
         })
@@ -55,27 +56,20 @@ class ProfileDetail extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, person} = this.props;
+    const { classes, profileID, Name} = this.props;
     const { profile, loadingInProgress, loadingError } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
 
         <Typography variant='h6'>
-          Account
+          Profile
         </Typography>
         <Typography className={classes.accountEntry}>
-          ID: {person}
+          ID: {profileID}  Name: {Name}
         </Typography>
-        {
-          profile ?
-            <Typography>
-              Person: {person.getLastName()}, {person.getFirstName()}
-            </Typography>
-            : null
-        }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of person id ${person} could not be loaded.`} onReload={this.getPerson} />
+
       </Paper>
     );
   }
@@ -100,9 +94,9 @@ ProfileDetail.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The personID to be rendered */
-  person: PropTypes.string.isRequired,
-  /** The profileID to be rendered */
   profileID: PropTypes.string.isRequired,
+  /** The profileID to be rendered */
+  Name: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(ProfileDetail);
