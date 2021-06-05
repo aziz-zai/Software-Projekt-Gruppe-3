@@ -4,7 +4,7 @@ import { Container, ThemeProvider, CssBaseline} from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Header from './components/layout/Header';
-import ProfileList from './components/ProfileList';
+import MyProfile from './components/MyProfile';
 import About from './components/pages/About';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
@@ -104,35 +104,9 @@ class App extends React.Component {
 	render() {
 		const {currentUser, appError, authError, authLoading} = this.state;
 		return (
-			<ThemeProvider theme={Theme}>
-				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline />
-				<Router basename={process.env.PUBLIC_URL}>
-					<Container maxWidth='md'>
-						<Header user={currentUser} />
-						{
-							// Is a user signed in?
-							currentUser ?
-								<>	
-									<Redirect from='/' to='profiles' />
-									<Route path='/profiles'>
-										<ProfileList />
-									</Route>
-									<Route path='/about' component={About} />
-								</>
-								:
-								// else show the sign in page
-								<>
-									<Redirect to='/index.html' />
-									<SignIn onSignIn={this.handleSignIn} />
-								</>
-						}
-						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
-						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-					</Container>
-				</Router>
-			</ThemeProvider>
+			<AllProfileList>
+				Profile:
+			</AllProfileList>
 		);
 	}
 }

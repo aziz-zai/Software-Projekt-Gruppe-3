@@ -5,7 +5,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PersonForm from './dialogs/ProfileForm';
 import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
-import ProfileList from './ProfileList';
+import ProfileList from './MyProfile';
 
 
 class PersonListEntry extends Component {
@@ -16,27 +16,42 @@ class PersonListEntry extends Component {
     // Init the state
     this.state = {
         person: props.person,
+        showProfileForm: false,
     };
   }
 
   /** Handles onChange events of the underlying ExpansionPanel */
   expansionPanelStateChanged = () => {
-    this.props.onExpandedStateChange(this.props.person);
+    this.props.onExpandedStateChange(this.props.profile);
   }
 
   /** Handles onProfileDelete events from an ProfileListEntry  */
  
 
-  /** Handles the onClick event of the edit person button */
- 
+  /** Handles the onClick event of the edit customer button */
+  editCustomerButtonClicked = (event) => {
+   event.stopPropagation();
+   this.setState({
+      showProfileForm: true
+    });
+  }
+  /** Handles the onClose event of the CustomerForm */
+  profileFormClosed = (profile) => {
+    // customer is not null and therefor changed
+    if (profile) {
+      this.setState({
+        profile: profile,
+        showProfileForm: false
+      });
+    } else {
+      this.setState({
+        showProfileForm: false
+      });
+    }
+  }
 
-  /** Handles the onClose event of the PersonForm */
- 
-
-  /** Handles the onClick event of the delete person button */
 
 
-  /** Handles the onClose event of the PersonDeleteDialog */
  
 
   /** Renders the component */
