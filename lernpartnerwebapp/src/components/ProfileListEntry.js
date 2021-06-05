@@ -8,7 +8,7 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import ProfileForm from './'
+import ProfileForm from './dialogs/ProfileForm'
 class ProfileListEntry extends Component {
 
   constructor(props) {
@@ -30,7 +30,6 @@ class ProfileListEntry extends Component {
       showProfileForm: true
     });
   }
-
 
   closedProfileForm = (profile) => {
     if (profile) {
