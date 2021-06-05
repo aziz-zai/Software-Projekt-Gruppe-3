@@ -14,6 +14,7 @@ namespace = api.namespace(
 
 @namespace.route("/")
 class AllProfilesOperation(Resource):
+    @namespace.marshal_with(profile_marshalling)
     def get(self):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list

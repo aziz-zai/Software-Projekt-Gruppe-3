@@ -17,13 +17,13 @@ class ProfileMapper(Mapper):
         """)
         tuples = cursor.fetchall()
 
-        for (id, person, firstname, lastname, interests, type_, online,
+        for (id, firstname, lastname, person, interests, type_, online,
             frequency, expertise, extroversion) in tuples:
             profile = ProfileObject()
             profile.id_ = id
-            profile.person = person
             profile.firstname = firstname
             profile.lastname = lastname
+            profile.person = person
             profile.interests = interests
             profile.type_ = type_
             profile.online = online
