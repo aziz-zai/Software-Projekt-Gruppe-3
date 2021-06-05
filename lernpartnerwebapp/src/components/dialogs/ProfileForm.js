@@ -60,7 +60,7 @@ class ProfileForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Adds the customer */
+  /** Adds the profile */
   getProfileForPerson = () => {
     let newProfile = new ProfileBO(this.state.firstName, this.state.lastName, this.state.person, this.state.interests, 
     this.state.type, this.state.online, this.state.frequency, this.state.expertise, this.state.extroversion);
@@ -83,7 +83,7 @@ class ProfileForm extends Component {
     });
   }
 
-  /** Updates the customer */
+  /** Updates the profile */
   updateProfile = () => {
     // clone the original person, in case the backend call fails
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);

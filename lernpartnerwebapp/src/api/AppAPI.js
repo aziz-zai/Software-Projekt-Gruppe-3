@@ -153,7 +153,7 @@ export default class AppAPI {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(personBO)
+      body: JSON.stringify(profileBO)
     }).then((responseJSON) => {
       // We always get an array of ProfileBOs.fromJSON
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];

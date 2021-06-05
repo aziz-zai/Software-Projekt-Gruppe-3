@@ -31,7 +31,7 @@ class ProfileListEntry extends Component {
     });
   }
 
-  closedProfileForm = (profile) => {
+  profileFormClosed = (profile) => {
     if (profile) {
       this.setState({
         profile: profile,
@@ -76,7 +76,7 @@ class ProfileListEntry extends Component {
                     Click for edit
                   </Button>
                 </ButtonGroup>
-          <ProfileForm show={showProfileForm} profile={profile} onClose={this.closedProfileForm} />
+          <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </ListItem>
       </div>
     );
