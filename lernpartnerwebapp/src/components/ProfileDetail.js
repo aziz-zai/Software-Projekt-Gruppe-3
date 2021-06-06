@@ -56,7 +56,7 @@ class ProfileDetail extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, profileID, Name} = this.props;
+    const { classes, Firstname, Lastname} = this.props;
     const { profile, loadingInProgress, loadingError } = this.state;
 
     return (
@@ -66,7 +66,7 @@ class ProfileDetail extends Component {
           Profile
         </Typography>
         <Typography className={classes.accountEntry}>
-          ID: {profileID}  Name: {Name}
+          Name: {Firstname} {Lastname}
         </Typography>
         <LoadingProgress show={loadingInProgress} />
 
@@ -94,9 +94,9 @@ ProfileDetail.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The personID to be rendered */
-  profileID: PropTypes.string.isRequired,
+  Firstname: PropTypes.string.isRequired,
   /** The profileID to be rendered */
-  Name: PropTypes.string.isRequired
+  Lastname: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(ProfileDetail);
