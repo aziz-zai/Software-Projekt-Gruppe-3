@@ -26,6 +26,7 @@ class ProfileAPI(Resource):
     def put(self, person: int) -> dict:
         profile = ProfileObject(**api.payload)
         profile.person = person
+        profile.id_=person
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
