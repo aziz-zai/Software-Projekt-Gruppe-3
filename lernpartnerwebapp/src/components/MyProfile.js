@@ -20,7 +20,7 @@ class MyProfile extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson().then(profileBOs =>
+    AppAPI.getAPI().getProfileForPerson(1).then(profileBOs =>
       this.setState({  // Set new state when ProfileBOs have been fetched
         profiles: profileBOs[0],
         loadingInProgress: false, // loading indicator 
@@ -49,7 +49,7 @@ class MyProfile extends Component {
   render() {
     return (
       <div>
-        profile  {this.state.profiles.get()}
+        profile  {this.state.profiles.getFirstName()}
       </div>
     );
   }

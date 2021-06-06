@@ -5,6 +5,7 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
+import Header from '../components/layout/Header';
 
 /**
  * Shows all profiles of the app.
@@ -55,11 +56,13 @@ class AllProfileList extends Component {
     const { profiles, loadingInProgress, loadingError } = this.state;
 
     return (
+      
       <div className={classes.root}>
+        <Header user>user</Header>
         {console.log("sadsad")}
           {
             profiles.map(profile => <ProfileDetail key={profile.getPersonID()} 
-            profileID={profile.getPersonID().toString()} Name={profile.getFirstName()}/>)
+            Firstname={profile.getFirstName()} Lastname={profile.getLastName()}/>)
           }
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
