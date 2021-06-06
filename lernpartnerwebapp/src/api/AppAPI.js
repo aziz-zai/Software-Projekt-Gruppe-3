@@ -22,7 +22,7 @@ export default class AppAPI {
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
-  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
 
@@ -147,7 +147,7 @@ export default class AppAPI {
      })
   }
   updateProfile(profileBO) {
-    return this.#updateProfileURL(this.#updateProfileURL(profileBO.getID()), {
+    return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getID()), {
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain',

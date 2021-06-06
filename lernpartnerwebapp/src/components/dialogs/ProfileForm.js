@@ -61,33 +61,16 @@ class ProfileForm extends Component {
   }
 
   /** Adds the profile */
-  getProfileForPerson = () => {
-    let newProfile = new ProfileBO(this.state.firstName, this.state.lastName, this.state.person, this.state.interests, 
-    this.state.type, this.state.online, this.state.frequency, this.state.expertise, this.state.extroversion);
-    AppAPI.getAPI().getProfile(newProfile).then(profile => {
-      // Backend call sucessfull
-      // reinit the dialogs state for a new empty profile
-      this.setState(this.baseState);
-      this.props.onClose(profile); // call the parent with the customer object from backend
-    }).catch(e =>
-      this.setState({
-        updatingInProgress: false,    // disable loading indicator 
-        updatingError: e              // show error message
-      })
-    );
 
     // set loading to true
-    this.setState({
-      updatingInProgress: true,       // show loading indicator
-      updatingError: null             // disable error message
-    });
-  }
+ 
 
   /** Updates the profile */
   updateProfile = () => {
     // clone the original person, in case the backend call fails
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     // set the new attributes from our dialog
+    updatedProfile.setID(5);
     updatedProfile.setFirstName(this.state.firstName);
     updatedProfile.setLastName(this.state.lastName);
     updatedProfile.setPersonID(this.state.person);
@@ -167,7 +150,7 @@ class ProfileForm extends Component {
     if (profile) {
       // profile defindet, so ist an edit dialog
       title = 'Update a profile';
-      header = `Profile ID: ${profile.getID()}`;
+      header = `Profile ID: ${this.props.profile.getID()}`;
     } else {
       title = 'Create a new profile';
       header = 'Enter profile data';

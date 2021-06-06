@@ -123,15 +123,14 @@ class ProfileMapper(Mapper):
     def update(cnx: db_connector, object: ProfileObject):
         cursor = cnx.cursor()
 
-        command = """"UPDATE profile " + "SET firstname=%s, lastname=%s, person=%s, 
+        command = """"UPDATE profile " + "SET firstname=%s, lastname=%s, 
                              interests=%s, type_=%s, online=%s, frequency=%s, expertise=%s,
                              extroversion=%s
         WHERE id=%s"""
-        
+
         cursor.execute(command, (
             object.firstname,
             object.lastname,
-            object.person,
             object.interests,
             object.type_,
             object.online,
