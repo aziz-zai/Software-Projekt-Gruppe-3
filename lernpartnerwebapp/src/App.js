@@ -1,18 +1,17 @@
 import React from 'react';
-//import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { Container} from '@material-ui/core';
-//import firebase from 'firebase/app';
-//import 'firebase/auth';
-//import Header from './components/layout/Header';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, ThemeProvider, CssBaseline} from '@material-ui/core';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import Header from './components/layout/Header';
 import MyProfile from './components/MyProfile';
-//import About from './components/pages/About';
-//import AllProfileList from './components/AllProfileList';
-//import Theme from '/Theme';
-//import SignIn from './components/pages/SignIn';
-//import LoadingProgress from './components/dialogs/LoadingProgress';
-//import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-//import firebaseConfig from './firebaseconfig';
-import AllProfileList from './components/AllProfileList'
+import About from './components/pages/About';
+import Theme from './Theme';
+import SignIn from './components/pages/SignIn';
+import LoadingProgress from './components/dialogs/LoadingProgress';
+import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import firebaseConfig from './firebaseconfig';
+import ProfileListEntry from '../src/components/ProfileListEntry'
 
 
 class App extends React.Component {
@@ -23,16 +22,13 @@ class App extends React.Component {
 
 		// Init an empty state
 		this.state = {
-
 		};
 	}
 
-	/** Renders the whole app */
 	render() {
-
-
+		const { } = this.state;
 		return (
-				<AllProfileList></AllProfileList>
+			<MyProfile></MyProfile>
 		);
 	}
 }

@@ -1,55 +1,85 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, ListItem } from '@material-ui/core';
-import { Button, List } from '@material-ui/core';
+import { withStyles, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add'
+import ClearIcon from '@material-ui/icons/Clear'
+import { withRouter } from 'react-router-dom';
+import { Button} from '@material-ui/core';
 import { AppAPI } from '../api';
-import ProfileBO from '../api/ProfileBO';
+import ProfileListEntry from "./ProfileListEntry";
+import LoadingProgress from './dialogs/LoadingProgress';
+import ContextErrorMessage from './dialogs/ContextErrorMessage';
+import ProfileForm from './dialogs/ProfileForm';
+import ProfileBO from '../api/ProfileBO'
 
-class MyProfile extends Component {
+class ProfileList extends Component {
 
   constructor(props) {
     super(props);
 
+
     // Init the state
     this.state = {
       profiles: new ProfileBO(),
-      loadingInProgress: false,
-      loadingProfileError: null,
-      addingProfileError: null,
+      error: null,
+      showProfileForm: false
     };
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(1).then(profileBOs =>
+    AppAPI.getAPI().getProfileForPerson(5)
+    .then((profileBOs) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profiles: profileBOs[0],
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
-      })).catch(e =>
+      })}
+      
+      )
+      .catch((e) =>
         this.setState({
           profile: [],
           loadingInProgress: false,
-          loadingProfileError: e
+          loadingProfileError: e,
         })
       
       );
 
-    // set loading to true
     this.setState({
       loadingInProgress: true,
       loadingProfileError: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getProfile();
   }
 
+  
+  /** Handles the onClose event of the ProfileForm */
+  profileFormClosed = profile => {
+    // profile is not null and therefore created
+    if (profile) {
+      const newProfileList = [...this.state.profiles, profile];
+      this.setState({
+        profiles: newProfileList,
+        filteredProfiles: [...newProfileList],
+        showProfileForm: false
+      });
+    } else {
+      this.setState({
+        showProfileForm: false
+      });
+    }
+  }
+
+  /** Handels onChange events of the profile filter text field */
+  
+
   render() {
     return (
-      <div>
-        profile  {this.state.profiles.getFirstName()}
+      <div >
+        <ProfileListEntry profile={this.state.profiles}></ProfileListEntry>
       </div>
     );
   }
@@ -63,11 +93,17 @@ const styles = theme => ({
   profileList: {
     marginBottom: theme.spacing(2),
   },
-  addProfileButton: {
+  updateProfileButton: {
     position: 'absolute',
     right: theme.spacing(3),
     bottom: theme.spacing(1),
   }
 });
 
-export default withStyles(styles)(MyProfile);
+/** PropTypes */
+ProfileList.propTypes = {
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+}
+
+export default (withStyles(styles)(ProfileList));

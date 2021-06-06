@@ -16,17 +16,15 @@ export default class AppAPI {
   #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
-  #updatePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
-  #searchPersonURL = (personName) => `${this.#AppServerBaseURL}/person-by-name/${personName}`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
-  #updateProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #searchProfileURL = (profileBOs) => `${this.#AppServerBaseURL}/profile`
+  #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
 
 
   //Conversation related
@@ -107,23 +105,7 @@ export default class AppAPI {
           })
       })
   }
-  updatePersonURL(personBO) {
-      return this.#updatePersonURL(this.#updatePersonURL(personBO.getID()), {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json, text/plain',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(personBO)
-      }).then((responseJSON) => {
-        // We always get an array of PersonBOs.fromJSON
-        let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
-        // console.info(PersonBOs);
-        return new Promise(function (resolve) {
-          resolve(responsePersonBO);
-        })
-      })
-  }
+
   deletePerson(personID) {
     return this.#fetchAdvanced(this.#deletePersonURL(personID), {
       method: 'DELETE'
@@ -136,12 +118,12 @@ export default class AppAPI {
       })
     })
   }
-  searchPerson(personName) {
-      return this.#fetchAdvanced(this.#searchPersonURL(personName)).then((responseJSON) => {
-        let PersonBOs = PersonBO.fromJSON(responseJSON);
+  searchProfile(firstname, lastname) {
+      return this.#fetchAdvanced(this.#searchProfileURL(firstname, lastname)).then((responseJSON) => {
+        let ProfileBOs = ProfileBO.fromJSON(responseJSON);
         // console.info(PersonBOs);
         return new Promise(function (resolve) {
-          resolve(PersonBOs);
+          resolve(ProfileBOs);
         })
       })
     }
@@ -164,4 +146,22 @@ export default class AppAPI {
         })
      })
   }
+  updateProfile(profileBO) {
+    return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getID()), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(profileBO)
+    }).then((responseJSON) => {
+      // We always get an array of ProfileBOs.fromJSON
+      let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
+      // console.info(ProfileBOs);
+      return new Promise(function (resolve) {
+        resolve(responseProfileBO);
+      })
+    })
+  }
+  
 } 

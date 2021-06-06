@@ -8,8 +8,6 @@ export default class PersonBO extends BusinessObject {
   /**
    * Constructs a PersonBO object with a given firstname, lastname, email and google_user_id)
    * 
-   * @param {String} aFirstname - the firstname of this PersonBO.
-   * @param {String} aFirstname - the firstname of this PersonBO.
    * @param {String} aEmail - the email of this PersonBO.
    * @param {Integer} aGoogle_user_id - the google_user_id of this PersonBO.
    */
@@ -18,13 +16,6 @@ export default class PersonBO extends BusinessObject {
     this.email = aEmail;
     this.google_user_id = aGoogle_user_id;
   }
-
-  /**
-   * Sets a new firstname.
-   * 
-   * @param {String} aFirstname - the new firstname of this PersonBO.
-   */
-
   /**
    * Sets a new email.
    * 

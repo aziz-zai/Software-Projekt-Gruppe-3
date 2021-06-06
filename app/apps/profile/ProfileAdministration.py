@@ -24,7 +24,7 @@ class ProfileAdministration:
             return ProfileMapper.find_by_personID(cnx=cnx, person = person.id_)
     
     @staticmethod
-    def get_all_profiles():
+    def update_profile(profile: ProfileObject) -> ProfileObject:
         with db_connector as db:
             cnx= db._cnx
-            return ProfileMapper.find_all(cnx=cnx)
+            return ProfileMapper.update(cnx=cnx, object=profile)

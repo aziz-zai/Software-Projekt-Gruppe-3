@@ -27,6 +27,13 @@ class ProfileAPI(Resource):
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
+    
+    @namespace.marshal_with(profile_marshalling)
+    def put(self, person: int) -> dict:
+        profile = ProfileObject(**api.payload)
+        profile.person = person
+        profile = ProfileAdministration.update_profile(profile=profile)
+        return profile
 
 
 
