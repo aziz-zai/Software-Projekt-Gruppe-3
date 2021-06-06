@@ -24,34 +24,6 @@ class ProfileListEntry extends Component {
     };
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // load initial balance
-    this.getBalance();
-  }
-
-  /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    if ((this.props.show) && (this.props.show !== prevProps.show)) {
-      this.getBalance();
-    }
-  }
-
-  /** gets the balance for this account */
-  getBalance = () => {
-    BankAPI.getAPI().getBalanceOfAccount(this.props.account.getID()).then(balance =>
-      this.setState({
-        balance: balance,
-        loadingInProgress: false, // loading indicator 
-        loadingError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          balance: null,
-          loadingInProgress: false,
-          loadingError: e
-        })
-      );
-
     // set loading to true
     this.setState({
       balance: 'loading',
@@ -60,47 +32,6 @@ class ProfileListEntry extends Component {
     });
   }
 
-  /** Deletes this account */
-  deleteAccount = () => {
-    const { account } = this.props;
-    BankAPI.getAPI().deleteAccount(account.getID()).then(() => {
-      this.setState({  // Set new state when AccountBOs have been fetched
-        deletingInProgress: false, // loading indicator 
-        deletingError: null
-      })
-      // console.log(account);
-      this.props.onAccountDeleted(account);
-    }).catch(e =>
-      this.setState({ // Reset state with error from catch 
-        deletingInProgress: false,
-        deletingError: e
-      })
-    );
-
-    // set loading to true
-    this.setState({
-      deletingInProgress: true,
-      deletingError: null
-    });
-  }
-
-  /** Handles click events from the transfer money button */
-  transferMoney = () => {
-    this.setState({
-      showMoneyTransferDialog: true
-    });
-  }
-
-  /** Handles the onClose event from the transfer money dialog */
-  moneyTransferDialogClosed = (transaction) => {
-    this.setState({
-      showMoneyTransferDialog: false
-    });
-    if (transaction) {
-      // Transaction is not null and therefore was performed
-      this.getBalance();
-    }
-  }
 
   /** Renders the component */
   render() {
