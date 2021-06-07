@@ -52,7 +52,7 @@ class ProfileDetail extends Component {
 
 
         <Typography className={classes.profileEntry}>
-        Name: {Firstname} {Lastname} 
+        {Firstname} {Lastname} 
         </Typography>
 
         <LoadingProgress show={loadingInProgress} />
