@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Paper } from '@material-ui/core';
-import { AppAPI, ProfileBO } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProfileBO from '../api/ProfileBO';
-
+import AppAPI from '../api/AppAPI';
 class ProfileDetail extends Component {
 
   constructor(props) {
@@ -13,7 +11,7 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      profile: new ProfileBO(),
+      profile: null,
       loadingInProgress: false,
       loadingError: null,
     };
@@ -24,7 +22,7 @@ class ProfileDetail extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfile(this.props.profileID).then(person =>
+    AppAPI.getAPI().getProfileForPerson(this.props.profileID).then(profile =>
       this.setState({
         profile: profile,
         loadingInProgress: false,
@@ -45,7 +43,7 @@ class ProfileDetail extends Component {
   }
 
   render() {
-    const { classes, profileID } = this.props;
+    const { classes, Firstname, Lastname, profileID} = this.props;
     const { profile, loadingInProgress, loadingError } = this.state;
   
     return (
@@ -55,17 +53,11 @@ class ProfileDetail extends Component {
           Profile
         </Typography>
         <Typography className={classes.profileEntry}>
-          ID: {profileID} 
+          Name: {Firstname} {Lastname}
         </Typography>
-        {
-          profile ?
-            <Typography>
-              Profile: {profile.getFirstName()} {profile.getLastName()}
-            </Typography>
-            : null
-        }
+
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of profile id ${profileID} could not be loaded.`} onReload={this.getProfile} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of profile id ${Firstname} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
     );
   }
@@ -87,7 +79,9 @@ const styles = theme => ({
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   personID: PropTypes.string.isRequired,
-  profileID: PropTypes.string.isRequired,
+  Firstname: PropTypes.string.isRequired,
+  Lastname: PropTypes.string.isRequired,
+
 }
 
 export default withStyles(styles)(ProfileDetail);
