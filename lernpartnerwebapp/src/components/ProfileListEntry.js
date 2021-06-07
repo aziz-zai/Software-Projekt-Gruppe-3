@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, ButtonGroup } from '@material-ui/core';
+import { withStyles, Button, ListItem, ListItemSecondaryAction, Paper, Typography, ButtonGroup, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SwapHoriz from '@material-ui/icons/SwapHoriz';
+import { AiOutlineSave } from "react-icons/ai";
 import { Link as RouterLink } from 'react-router-dom';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -52,24 +52,30 @@ class ProfileListEntry extends Component {
 
     return (
       <div>
-        <ListItem>
-          <Typography className={classes.profileEntry}>
-          </Typography>
-                Firstname:      {profile.getFirstName()}, <br></br>
-                Lastname:       {profile.getLastName()}, <br></br>
-                Interests:      {profile.getInterests()}, <br></br>
-                Type:           {profile.getType()}, <br></br>
-                Online:         {profile.getOnline()}, <br></br>
-                Frequency:      {profile.getFrequency()}, <br></br>
-                Expertise:      {profile.getExpertise()}, <br></br>
-                Extroversion:   {profile.getExtroversion()}, <br></br>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.updateProfileButton}>
+      <Paper variant='outlined' className={classes.root}>
+      <Typography align='center' variant='h1' position='static'>
+                  {profile.getFirstName()} {profile.getLastName()}
+      </Typography>
+      </Paper>
+        <ListItem align='center'>
+          <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
+                Firstname:      {profile.getFirstName()} <br></br>
+                Lastname:       {profile.getLastName()} <br></br>
+                Interests:      {profile.getInterests()} <br></br>
+                Type:           {profile.getType()} <br></br>
+                Online:         {profile.getOnline()} <br></br>
+                Frequency:      {profile.getFrequency()} <br></br>
+                Expertise:      {profile.getExpertise()} <br></br>
+                Extroversion:   {profile.getExtroversion()} <br></br>
+                </Typography>
+                <ButtonGroup variant='text' size='large'>
+                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<AiOutlineSave/>} onClick={this.updateProfileButton}>
                     Click for edit
                   </Button>
                 </ButtonGroup>
+                </ListItem>
+                
           <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
-        </ListItem>
       </div>
     );
   }
