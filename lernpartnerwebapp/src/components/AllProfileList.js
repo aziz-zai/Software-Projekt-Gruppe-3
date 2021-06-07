@@ -16,11 +16,11 @@ class AllProfileList extends Component {
   constructor(props) {
     super(props);
 
-    let expandedID = expandedID.object;
+  //  let expandedID = null;
 
-    if (this.props.location.expandProfile) {
-      expandedID = this.props.location.expandProfile.getID();
-    }
+    //if (this.props.location.expandProfile) {
+      //expandedID = this.props.location.expandProfile.getID();
+    //}
 
     // Init an empty state
     this.state = {
@@ -30,29 +30,29 @@ class AllProfileList extends Component {
       error: null,
       loadingInProgress: false,
       loadingError: null,
-      expandedProfileID: expandedID,
+      //expandedProfileID: expandedID,
     };
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.loadProfiles();
+    this.loadProfiles();  
   }
-  onExpandedStateChange = profile => {
+  //onExpandedStateChange = profile => {
     // console.log(profileID);
     // Set expandend profile entry to null by default
-    let newID = null;
+   // let newID = null;
 
     // If same profile entry is clicked, collapse it else expand a new one
-    if (profile.getID() !== this.state.expandedProfileID) {
+   // if (profile.getID() !== this.state.expandedProfileID) {
       // Expand the customer entry with customerID
-      newID = profile.getID();
-    }
+   //   newID = profile.getID();
+   // }
     // console.log(newID);
-    this.setState({
-      expandedProfileID: newID,
-    });
-  }
+ //   this.setState({
+     // expandedProfileID: newID,
+   // });
+ // }
 
   /** gets the profile list for this profile */
   loadProfiles = () => {
@@ -132,8 +132,8 @@ class AllProfileList extends Component {
       </Grid>
       { 
         filteredProfiles.map(profile =>
-          <ProfileListEntry key={profile.getID()} profile={profile} expandedState={expandedProfileID === profile.getID()}
-            onExpandedStateChange={this.onExpandedStateChange}
+          <ProfileListEntry key={profile.getID()} profile={profile} //expandedState={expandedProfileID === profile.getID()}
+            //onExpandedStateChange={this.onExpandedStateChange}
           />)
       }
       <LoadingProgress show={loadingInProgress} />
@@ -156,6 +156,10 @@ class AllProfileList extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+  },
+  customerFilter: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   }
 });
 
