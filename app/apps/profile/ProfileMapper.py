@@ -41,8 +41,8 @@ class ProfileMapper(Mapper):
     def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
         
         result = None
-
         cursor = cnx.cursor()
+        
         command = """
         SELECT
          id,

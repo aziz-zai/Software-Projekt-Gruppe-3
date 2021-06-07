@@ -2,7 +2,7 @@ from .ProfileMapper import ProfileMapper
 from .ProfileBO import ProfileObject
 from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
-from app.apps.person.PersonAdministration import PersonAdministration
+
 
 
 class ProfileAdministration:
@@ -28,3 +28,9 @@ class ProfileAdministration:
         with db_connector as db:
             cnx= db._cnx
             return ProfileMapper.update(cnx=cnx, object=profile)
+    
+    @staticmethod
+    def get_all_profiles():
+        with db_connector as db:
+            cnx= db._cnx
+            return ProfileMapper.find_all(cnx=cnx)
