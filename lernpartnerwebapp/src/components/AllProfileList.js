@@ -5,14 +5,10 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
-<<<<<<< HEAD
 import Header from '../components/layout/Header';
-
-=======
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileListEntry from './ProfileListEntry';
->>>>>>> 0073ada2e279fb3a1d5a7632bb4e403e7b26db44
 /**
  * Shows all profiles of the app.
  * 
@@ -22,21 +18,21 @@ class AllProfileList extends Component {
   constructor(props) {
     super(props);
 
-    let expandedID = null;
-
-    if (this.props.location.expandProfile) {
-      expandedID = this.props.location.expandProfile.getID();
-    }
+//    let expandedID = null;
+//
+  //  if (this.props.location.expandProfile) {
+  //    expandedID = this.props.location.expandProfile.getID();
+  //  }
 
     // Init an empty state
     this.state = {
       profiles: [],
-      filteredCustomers: [],
+      filteredProfiles: [],
       profileFilter: '',
       error: null,
       loadingInProgress: false,
       loadingError: null,
-      expandedProfileID: expandedID,
+    //  expandedProfileID: expandedID,
     };
   }
 
@@ -94,19 +90,6 @@ class AllProfileList extends Component {
     const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
 
     return (
-<<<<<<< HEAD
-      
-      <div className={classes.root}>
-        <Header user>user</Header>
-        {console.log("sadsad")}
-          {
-            profiles.map(profile => <ProfileDetail key={profile.getPersonID()} 
-            Firstname={profile.getFirstName()} Lastname={profile.getLastName()}/>)
-          }
-          <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
-      </div>
-=======
 
       <div className={classes.root}>
       <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
@@ -141,8 +124,8 @@ class AllProfileList extends Component {
       </Grid>
       { 
         filteredProfiles.map(profile =>
-          <ProfileListEntry key={profile.getID()} profile={profile} expandedState={expandedProfileID === profile.getID()}
-            onExpandedStateChange={this.onExpandedStateChange}
+          <ProfileDetail key={profile.getID()} profile={profile} //expandedState={expandedProfileID === profile.getID()}
+          //  onExpandedStateChange={this.onExpandedStateChange}
           />)
       }
       <LoadingProgress show={loadingInProgress} />
@@ -157,7 +140,6 @@ class AllProfileList extends Component {
           //<LoadingProgress show={loadingInProgress} />
           //<ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
       //</div>
->>>>>>> 0073ada2e279fb3a1d5a7632bb4e403e7b26db44
     );
   }
 }

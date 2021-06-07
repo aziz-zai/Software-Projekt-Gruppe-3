@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Paper } from '@material-ui/core';
-import { AppAPI } from '../api';
+import { AppAPI, ProfileBO } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
+import ProfileBO from '../api/ProfileBO';
 
 class ProfileDetail extends Component {
 
@@ -12,7 +13,7 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      profile: null,
+      profile: new ProfileBO(),
       loadingInProgress: false,
       loadingError: null,
     };
@@ -45,8 +46,8 @@ class ProfileDetail extends Component {
 
   render() {
     const { classes, profileID } = this.props;
-    const { profile, loadingInProgress, loadingError } = this.props;
-
+    const { profile, loadingInProgress, loadingError } = this.state;
+  
     return (
       <Paper variant='outlined' className={classes.root}>
 
@@ -59,7 +60,7 @@ class ProfileDetail extends Component {
         {
           profile ?
             <Typography>
-              Profile: {profile.getPersonID()}, {profile.getInterests()}, {profile.getType()}, {profile.getOnline()}, {profile.getFrequency()}, {profile.getExpertise()}, {profile.getExtroversion()};
+              Profile: {profile.getFirstName()} {profile.getLastName()}
             </Typography>
             : null
         }
