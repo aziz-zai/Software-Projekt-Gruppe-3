@@ -4,15 +4,9 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProfileDetail from './ProfileDetail';
-<<<<<<< HEAD
-import Header from '../components/layout/Header';
-
-=======
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileListEntry from './ProfileListEntry';
->>>>>>> 0073ada2e279fb3a1d5a7632bb4e403e7b26db44
 /**
  * Shows all profiles of the app.
  * 
@@ -22,7 +16,7 @@ class AllProfileList extends Component {
   constructor(props) {
     super(props);
 
-    let expandedID = null;
+    let expandedID = expandedID.object;
 
     if (this.props.location.expandProfile) {
       expandedID = this.props.location.expandProfile.getID();
@@ -31,7 +25,7 @@ class AllProfileList extends Component {
     // Init an empty state
     this.state = {
       profiles: [],
-      filteredCustomers: [],
+      filteredProfiles: [],
       profileFilter: '',
       error: null,
       loadingInProgress: false,
@@ -43,6 +37,21 @@ class AllProfileList extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.loadProfiles();
+  }
+  onExpandedStateChange = profile => {
+    // console.log(profileID);
+    // Set expandend profile entry to null by default
+    let newID = null;
+
+    // If same profile entry is clicked, collapse it else expand a new one
+    if (profile.getID() !== this.state.expandedProfileID) {
+      // Expand the customer entry with customerID
+      newID = profile.getID();
+    }
+    // console.log(newID);
+    this.setState({
+      expandedProfileID: newID,
+    });
   }
 
   /** gets the profile list for this profile */
@@ -91,22 +100,9 @@ class AllProfileList extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
+    const { filteredProfiles, profileFilter, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
 
     return (
-<<<<<<< HEAD
-      
-      <div className={classes.root}>
-        <Header user>user</Header>
-        {console.log("sadsad")}
-          {
-            profiles.map(profile => <ProfileDetail key={profile.getPersonID()} 
-            Firstname={profile.getFirstName()} Lastname={profile.getLastName()}/>)
-          }
-          <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
-      </div>
-=======
 
       <div className={classes.root}>
       <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
@@ -133,11 +129,6 @@ class AllProfileList extends Component {
           />
         </Grid>
         <Grid item xs />
-        <Grid item>
-          <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProfileButtonClicked}>
-            Add Profile
-        </Button>
-        </Grid>
       </Grid>
       { 
         filteredProfiles.map(profile =>
@@ -157,7 +148,6 @@ class AllProfileList extends Component {
           //<LoadingProgress show={loadingInProgress} />
           //<ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
       //</div>
->>>>>>> 0073ada2e279fb3a1d5a7632bb4e403e7b26db44
     );
   }
 }
@@ -174,6 +164,8 @@ AllProfileList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  
+
 }
 
 export default withStyles(styles)(AllProfileList);

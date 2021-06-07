@@ -17,13 +17,17 @@ class ProfileListEntry extends Component {
 
     // Init an empty state
     this.state = {
-      profile: new ProfileBO(),
+      profile: props.profile,
       showProfileForm: false,
       loadingError: null,
       deletingError: null,
     };
   }
 
+/** Handles onChange events of the underlying ExpansionPanel */
+expansionPanelStateChanged = () => {
+  this.props.onExpandedStateChange(this.props.profile);
+}
 
   updateProfileButton = (event) => {
     event.stopPropagation();

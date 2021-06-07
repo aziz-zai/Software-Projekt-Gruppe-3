@@ -12,6 +12,7 @@ import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
 import ProfileListEntry from '../src/components/ProfileListEntry'
+import AllProfileList from './components/AllProfileList';
 
 
 class App extends React.Component {
@@ -28,7 +29,9 @@ class App extends React.Component {
 	render() {
 		const { } = this.state;
 		return (
-			<MyProfile></MyProfile>
+			<AllProfileList>
+				Profiles Filter
+			</AllProfileList>
 		);
 	}
 }
