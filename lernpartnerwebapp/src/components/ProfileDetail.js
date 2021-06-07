@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Paper } from '@material-ui/core';
+import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import AppAPI from '../api/AppAPI';
+
 class ProfileDetail extends Component {
 
   constructor(props) {
@@ -43,17 +44,15 @@ class ProfileDetail extends Component {
   }
 
   render() {
-    const { classes, Firstname, Lastname, profileID} = this.props;
-    const { profile, loadingInProgress, loadingError } = this.state;
-  
+    const { classes, Firstname, Lastname} = this.props;
+    const {loadingInProgress, loadingError } = this.state;
+
     return (
       <Paper variant='outlined' className={classes.root}>
 
-        <Typography variant='h6'>
-          Profile
-        </Typography>
+
         <Typography className={classes.profileEntry}>
-          Name: {Firstname} {Lastname}
+        Name: {Firstname} {Lastname} 
         </Typography>
 
         <LoadingProgress show={loadingInProgress} />
@@ -79,9 +78,9 @@ const styles = theme => ({
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   personID: PropTypes.string.isRequired,
+  profileID: PropTypes.string.isRequired,
   Firstname: PropTypes.string.isRequired,
   Lastname: PropTypes.string.isRequired,
-
 }
 
 export default withStyles(styles)(ProfileDetail);
