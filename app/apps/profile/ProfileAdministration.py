@@ -28,3 +28,9 @@ class ProfileAdministration:
         with db_connector as db:
             cnx= db._cnx
             return ProfileMapper.update(cnx=cnx, object=profile)
+    
+    @staticmethod
+    def get_all_profiles():
+        with db_connector as db:
+            cnx= db._cnx
+            return ProfileMapper.find_all(cnx=cnx)
