@@ -17,7 +17,7 @@ class ProfileDetail extends Component {
       profile: null,
       loadingInProgress: false,
       loadingError: null,
-      showProfile: false
+      showProfile: false,
     };
   }
 
@@ -46,6 +46,7 @@ class ProfileDetail extends Component {
     });
   }
   goToProfileButton = (event) => {
+    event.stopPropagation();
     this.setState({
       showProfile: true
     });
@@ -66,15 +67,14 @@ class ProfileDetail extends Component {
 
   render() {
     const { classes, Firstname, Lastname, profileID} = this.props;
-    const {loadingInProgress, loadingError, showProfile, profile } = this.state;
+    const {loadingInProgress, loadingError, showProfile, profile, history } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.goToProfileButton()}>
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} >
         </Button>
-        <ProfileListEntry show={showProfile} profile={profile}></ProfileListEntry>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />

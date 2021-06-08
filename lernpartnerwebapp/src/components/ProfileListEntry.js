@@ -51,7 +51,6 @@ class ProfileListEntry extends Component {
     const { person, showProfileForm, loadingError, loadingInProgress } = this.state;
 
     return (
-      show?
       <div>
       <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
@@ -78,7 +77,6 @@ class ProfileListEntry extends Component {
                 
           <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
       </div>
-      :null
     );
   }
 }

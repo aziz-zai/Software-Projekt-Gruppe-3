@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline} from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -29,7 +29,14 @@ class App extends React.Component {
 	render() {
 		const { } = this.state;
 		return (
-			<AllProfileList></AllProfileList>
+			<Router>
+				<Switch>
+					<Route exact path='/AlleProfile' />
+					<MyProfile></MyProfile>
+					<Route exact path='/SpezifischesProfil'/>
+					<AllProfileList></AllProfileList>
+				</Switch>
+			</Router>
 		);
 	}
 }
