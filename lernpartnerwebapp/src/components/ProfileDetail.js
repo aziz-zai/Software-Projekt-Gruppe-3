@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper } from '@material-ui/core';
+import { withStyles, Typography, Paper, Button } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 class ProfileDetail extends Component {
 
@@ -42,6 +43,25 @@ class ProfileDetail extends Component {
       loadingError: null
     });
   }
+  goToProfileButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProfile: true
+    });
+  }
+
+  profileClosed = (profile) => {
+    if (profile) {
+      this.setState({
+        profile: profile,
+        showProfile: false
+      });
+    } else {
+      this.setState({
+        showProfile: false
+      })
+    }
+  }
 
   render() {
     const { classes, Firstname, Lastname} = this.props;
@@ -52,11 +72,12 @@ class ProfileDetail extends Component {
 
 
         <Typography className={classes.profileEntry}>
-        {Firstname} {Lastname} 
+        {Firstname} {Lastname} &nbsp; 
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.goToProfileButton()}>
+        </Button>
         </Typography>
-
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of profile id ${Firstname} could not be loaded.`} onReload={this.getProfile} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
     );
   }
@@ -77,8 +98,7 @@ const styles = theme => ({
 
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  personID: PropTypes.string.isRequired,
-  profileID: PropTypes.string.isRequired,
+  profileID: PropTypes.any.isRequired,
   Firstname: PropTypes.string.isRequired,
   Lastname: PropTypes.string.isRequired,
 }
