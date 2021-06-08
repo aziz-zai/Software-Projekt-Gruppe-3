@@ -12,6 +12,7 @@ namespace = api.namespace(
 )
 
 
+
 @namespace.route("/<int:person>")
 class ProfileAPI(Resource):
     """Basic API for profile."""
@@ -19,6 +20,14 @@ class ProfileAPI(Resource):
     def get(self,person: int):
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
+        return profile
+    
+    @namespace.marshal_with(profile_marshalling)
+    def put(self, person: int) -> dict:
+        profile = ProfileObject(**api.payload)
+        profile.person = person
+        profile.id_=person
+        profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
 
