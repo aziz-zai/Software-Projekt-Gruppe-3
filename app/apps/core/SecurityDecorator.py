@@ -24,10 +24,12 @@ def secured(function):
     def wrapper(*args, **kwargs):
         # Verify Firebase auth.
         id_token = request.cookies.get("token")
+        email = request.cookies.get("email")
+        google_user_id = request.cookies.get("google_user_id")
         error_message = None
         claims = None
         objects = None
-
+    
         if id_token:
             try:
                 # Verify the token against the Firebase Auth API. This example

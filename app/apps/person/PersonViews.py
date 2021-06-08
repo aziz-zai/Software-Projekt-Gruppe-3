@@ -4,6 +4,7 @@ from .PersonMarshalling import person_marshalling
 from .PersonBO import PersonObject
 from .PersonAdministration import PersonAdministration
 from app.apps.profile.ProfileAdministration import ProfileAdministration
+from app.apps.core.SecurityDecorator import secured
 
 
 namespace = api.namespace(
@@ -18,6 +19,7 @@ class PersonAPI(Resource):
 
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
+    @secured
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
