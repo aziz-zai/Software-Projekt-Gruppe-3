@@ -29,7 +29,7 @@ class App extends React.Component {
 	render() {
 		const { } = this.state;
 		return (
-			<AllProfileList></AllProfileList>
+			<MyProfile></MyProfile>
 		);
 	}
 }

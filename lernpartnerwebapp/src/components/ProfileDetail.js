@@ -23,7 +23,7 @@ class ProfileDetail extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfile(this.props.profileID).then(person =>
+    AppAPI.getAPI().getProfileForPerson(this.props.profileID).then(profile =>
       this.setState({
         profile: profile,
         loadingInProgress: false,
