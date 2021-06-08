@@ -76,9 +76,9 @@ class ProfileList extends Component {
   /** Handels onChange events of the profile filter text field */
   
 
-  render() {
+  render() {const { classes} = this.props;
     return (
-      <div >
+      <div className={classes.root}>
         <ProfileListEntry profile={this.state.profiles}></ProfileListEntry>
       </div>
     );
