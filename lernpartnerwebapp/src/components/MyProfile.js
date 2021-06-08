@@ -79,7 +79,7 @@ class ProfileList extends Component {
   render() {const { classes} = this.props;
     return (
       <div className={classes.root}>
-        <ProfileListEntry profile={this.state.profiles}></ProfileListEntry>
+        <ProfileListEntry show={false} profile={this.state.profiles}></ProfileListEntry>
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ProfileListEntry from './ProfileListEntry'
 
 class ProfileDetail extends Component {
 
@@ -16,6 +17,7 @@ class ProfileDetail extends Component {
       profile: null,
       loadingInProgress: false,
       loadingError: null,
+      showProfile: false
     };
   }
 
@@ -44,7 +46,6 @@ class ProfileDetail extends Component {
     });
   }
   goToProfileButton = (event) => {
-    event.stopPropagation();
     this.setState({
       showProfile: true
     });
@@ -64,17 +65,16 @@ class ProfileDetail extends Component {
   }
 
   render() {
-    const { classes, Firstname, Lastname} = this.props;
-    const {loadingInProgress, loadingError } = this.state;
+    const { classes, Firstname, Lastname, profileID} = this.props;
+    const {loadingInProgress, loadingError, showProfile, profile } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
-
-
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.goToProfileButton()}>
         </Button>
+        <ProfileListEntry show={showProfile} profile={profile}></ProfileListEntry>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
