@@ -5,7 +5,7 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
-import Header from '../components/layout/Header';
+import Header from '../components/Layouts/Header';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileListEntry from './ProfileListEntry';

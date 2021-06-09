@@ -75,9 +75,8 @@ class ProfileDetail extends Component {
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} >
         </Button>
-        <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
