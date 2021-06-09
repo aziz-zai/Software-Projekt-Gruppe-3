@@ -6,6 +6,8 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileListEntry from './ProfileListEntry'
+import ProfileForm from './dialogs/ProfileForm'
+
 
 class ProfileDetail extends Component {
 
@@ -17,7 +19,7 @@ class ProfileDetail extends Component {
       profile: null,
       loadingInProgress: false,
       loadingError: null,
-      showProfile: false,
+      showProfileForm: false,
     };
   }
 
@@ -45,36 +47,37 @@ class ProfileDetail extends Component {
       loadingError: null
     });
   }
-  goToProfileButton = (event) => {
+  updateProfileButton = (event) => {
     event.stopPropagation();
     this.setState({
-      showProfile: true
+      showProfileForm: true
     });
   }
 
-  profileClosed = (profile) => {
+  profileFormClosed = (profile) => {
     if (profile) {
       this.setState({
         profile: profile,
-        showProfile: false
+        showProfileForm: false
       });
     } else {
       this.setState({
-        showProfile: false
+        showProfileForm: false
       })
     }
   }
 
   render() {
     const { classes, Firstname, Lastname, profileID} = this.props;
-    const {loadingInProgress, loadingError, showProfile, profile, history } = this.state;
+    const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} >
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>
+        <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />

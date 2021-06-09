@@ -1,21 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline} from '@material-ui/core';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import Header from './components/layout/Header';
 import MyProfile from './components/MyProfile';
-import About from './components/pages/About';
-import Theme from './Theme';
-import SignIn from './components/pages/SignIn';
-import LoadingProgress from './components/dialogs/LoadingProgress';
-import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import firebaseConfig from './firebaseconfig';
 import ProfileListEntry from '../src/components/ProfileListEntry'
 import AllProfileList from './components/AllProfileList';
 
 
-class App extends React.Component {
+class Routes extends React.Component {
 
 	/** Constructor of the app, which initializes firebase  */
 	constructor(props) {
@@ -29,9 +20,16 @@ class App extends React.Component {
 	render() {
 		const { } = this.state;
 		return (
-			<AllProfileList></AllProfileList>
+			<Router>
+				<Switch>
+					<Route exact path='/AlleProfile' component={AllProfileList} />
+					<AllProfileList></AllProfileList>
+					<Route exact path='/SpezifischesProfil'/>
+					<MyProfile></MyProfile>
+				</Switch>
+			</Router>
 		);
 	}
 }
 
-export default App;
+export default Routes;

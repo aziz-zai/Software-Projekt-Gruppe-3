@@ -150,7 +150,7 @@ class ProfileForm extends Component {
     if (profile) {
       // profile defindet, so ist an edit dialog
       title = 'Update a profile';
-      header = `Profile ID: ${this.props.profile.getID()}`;
+      header = `Profile ID: ${profile.getID()}`;
     } else {
       title = 'Create a new profile';
       header = 'Enter profile data';
