@@ -8,6 +8,7 @@ import Header from './components/Layouts/Header'
 import Header_login from './components/Layouts/Header-login';
 import PersonList from './components/PersonList';
 import ProfileList from './components/ProfileList';
+import AllProfileList from './components/AllProfileList'
 import About from './components/pages/About';
 import theme from './Theme';
 import LogIn from './components/pages/LogIn';
@@ -105,6 +106,7 @@ class App extends React.Component {
 									<Redirect from='/' to='header-after-login' />
 									<Route exact path='/header-after-login'>
 									</Route>
+									<Route path='/AllProfileList' component={AllProfileList} />
 									<Route path='/about' component={About} />
 										
 								</>
