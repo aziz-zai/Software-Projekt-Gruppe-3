@@ -21,7 +21,6 @@ class PersonList extends Component {
 
   constructor(props) {
     super(props);
-
     // console.log(props);
     let expandedID = null;
 

@@ -16,7 +16,9 @@ const useStyles = makeStyles(theme => ({
 /**
  * Shows the about page with the impressum
  * 
- 
+
+ * @author [Christoph Kunz](https://github.com/christophkunz)
+>>>>>>> origin/LogIn-Page
  */
 function About() {
 
@@ -26,14 +28,14 @@ function About() {
     <Paper elevation={0} className={classes.root}>
       <div className={classes.content}>
         <Typography variant='h6'>
-          LernApp Testing
+          LernApp
         </Typography>
         <br />
         <Typography>
-          React Frontend written by <Link href='https://github.com/christophkunz'>Christoph Kunz</Link>
+          React Frontend written by <Link href='https://github.com/FabianGote'>Fabian Gote</Link>
         </Typography>
         <Typography>
-          Python Backend written by <Link href='https://github.com/PeterThies'>Peter Thies</Link>
+          Python Backend written by <Link href='https://github.com/EliasHijazi'>Elias Hijazi</Link>
         </Typography>
         <br />
         <Typography variant='body2'>

@@ -90,8 +90,6 @@ class AllProfileList extends Component {
     const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
 
     return (
-
-      
       <div className={classes.root}>
         <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
@@ -132,7 +130,6 @@ class AllProfileList extends Component {
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
       </div>
-
     );
   }
 }

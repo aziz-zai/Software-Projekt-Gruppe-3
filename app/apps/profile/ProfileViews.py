@@ -36,12 +36,3 @@ class ProfileAPI(Resource):
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
-
-
-    @api.marshal_with(profile_marshalling, code=201)
-    @api.expect(profile_marshalling)
-    def post(self) -> dict:
-        """Create Profile Endpoint."""
-        profile = ProfileObject(**api.payload)
-        profile = ProfileAdministration.insert_profile(profile=profile)
-        return profile
