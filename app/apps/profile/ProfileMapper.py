@@ -4,6 +4,7 @@ from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 
 
+
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
         
@@ -40,8 +41,8 @@ class ProfileMapper(Mapper):
     def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
         
         result = None
-
         cursor = cnx.cursor()
+        
         command = """
         SELECT
          id,
@@ -60,16 +61,8 @@ class ProfileMapper(Mapper):
         entity = cursor.fetchone()
 
         try:
-            (id,
-             firstname,
-             lastname,
-             person,
-             interests,
-             type_,
-             online,
-             frequency,
-             expertise,
-             extroversion) = entity
+            (id, firstname, lastname, person, interests,
+             type_, online, frequency, expertise, extroversion) = entity
             result = ProfileObject(
                 id_=id,
                 firstname=firstname,

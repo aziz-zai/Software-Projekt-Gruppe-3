@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import PersonForm from './dialogs/PersonForm';
 import PersonListEntry from './PersonListEntry';
 
 /**
@@ -21,7 +20,6 @@ class PersonList extends Component {
 
   constructor(props) {
     super(props);
-
     // console.log(props);
     let expandedID = null;
 

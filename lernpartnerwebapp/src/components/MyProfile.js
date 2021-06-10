@@ -27,7 +27,7 @@ class ProfileList extends Component {
   }
 
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(5)
+    AppAPI.getAPI().getProfileForPerson(2)
     .then((profileBOs) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profiles: profileBOs[0],
@@ -79,7 +79,7 @@ class ProfileList extends Component {
   render() {const { classes} = this.props;
     return (
       <div className={classes.root}>
-        <ProfileListEntry profile={this.state.profiles}></ProfileListEntry>
+        <ProfileListEntry show={false} profile={this.state.profiles}></ProfileListEntry>
       </div>
     );
   }

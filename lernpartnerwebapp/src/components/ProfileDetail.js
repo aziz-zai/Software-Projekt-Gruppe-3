@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper } from '@material-ui/core';
+import { withStyles, Typography, Paper, Button } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ProfileListEntry from './ProfileListEntry'
+import ProfileForm from './dialogs/ProfileForm'
+
 
 class ProfileDetail extends Component {
 
@@ -15,6 +19,7 @@ class ProfileDetail extends Component {
       profile: null,
       loadingInProgress: false,
       loadingError: null,
+      showProfileForm: false,
     };
   }
 
@@ -42,29 +47,39 @@ class ProfileDetail extends Component {
       loadingError: null
     });
   }
+  updateProfileButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProfileForm: true
+    });
+  }
+
+  profileFormClosed = (profile) => {
+    if (profile) {
+      this.setState({
+        profile: profile,
+        showProfileForm: false
+      });
+    } else {
+      this.setState({
+        showProfileForm: false
+      })
+    }
+  }
 
   render() {
-    const { classes, profileID } = this.props;
-    const { profile, loadingInProgress, loadingError } = this.props;
+    const { classes, Firstname, Lastname, profileID} = this.props;
+    const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
 
     return (
       <Paper variant='outlined' className={classes.root}>
-
-        <Typography variant='h6'>
-          Profile
-        </Typography>
         <Typography className={classes.profileEntry}>
-          ID: {profileID} 
+        {Firstname} {Lastname} &nbsp; 
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} >
+        </Button>
         </Typography>
-        {
-          profile ?
-            <Typography>
-              Profile: {profile.getPersonID()}, {profile.getInterests()}, {profile.getType()}, {profile.getOnline()}, {profile.getFrequency()}, {profile.getExpertise()}, {profile.getExtroversion()};
-            </Typography>
-            : null
-        }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of profile id ${profileID} could not be loaded.`} onReload={this.getProfile} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
     );
   }
@@ -85,8 +100,9 @@ const styles = theme => ({
 
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  personID: PropTypes.string.isRequired,
-  profileID: PropTypes.string.isRequired,
+  profileID: PropTypes.any.isRequired,
+  Firstname: PropTypes.string.isRequired,
+  Lastname: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);

@@ -18,12 +18,6 @@ class AllProfileList extends Component {
   constructor(props) {
     super(props);
 
-//    let expandedID = null;
-//
-  //  if (this.props.location.expandProfile) {
-  //    expandedID = this.props.location.expandProfile.getID();
-  //  }
-
     // Init an empty state
     this.state = {
       profiles: [],
@@ -32,7 +26,6 @@ class AllProfileList extends Component {
       error: null,
       loadingInProgress: false,
       loadingError: null,
-    //  expandedProfileID: expandedID,
     };
   }
 
@@ -92,7 +85,7 @@ class AllProfileList extends Component {
     return (
 
       <div className={classes.root}>
-      <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
           <Typography>
             Filter profile list by name:
@@ -122,24 +115,16 @@ class AllProfileList extends Component {
         </Button>
         </Grid>
       </Grid>
-      { 
-        filteredProfiles.map(profile =>
-          <ProfileDetail profileID={profile.getID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
-          //  onExpandedStateChange={this.onExpandedStateChange}
-          />)
-      }
-      <LoadingProgress show={loadingInProgress} />
-      <ContextErrorMessage error={error} contextErrorMsg={`The list of profiles could not be loaded.`} onReload={this.loadProfiles} />
-    </div>
-      //<div className={classes.root}>
-        //{console.log("sadsad")}
-          //{
-            //profiles.map(profile => <ProfileDetail key={profile.getPersonID()} 
-            //profileID={profile.getPersonID().toString()} Name={profile.getFirstName()}/>)
-          //}
-          //<LoadingProgress show={loadingInProgress} />
-          //<ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
-      //</div>
+          {
+            filteredProfiles.map(profile =>
+              <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+              //  onExpandedStateChange={this.onExpandedStateChange}
+              />)
+          }
+          <LoadingProgress show={loadingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
+      </div>
+
     );
   }
 }

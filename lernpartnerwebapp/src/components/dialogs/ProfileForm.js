@@ -70,10 +70,10 @@ class ProfileForm extends Component {
     // clone the original person, in case the backend call fails
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     // set the new attributes from our dialog
-    updatedProfile.setID(5);
+    updatedProfile.setID(this.props.profile.getID());
     updatedProfile.setFirstName(this.state.firstName);
     updatedProfile.setLastName(this.state.lastName);
-    updatedProfile.setPersonID(this.state.person);
+    updatedProfile.setPersonID(this.props.profile.getPersonID());
     updatedProfile.setInterests(this.state.interests);
     updatedProfile.setType(this.state.type);
     updatedProfile.setOnline(this.state.online);
@@ -89,7 +89,7 @@ class ProfileForm extends Component {
       // keep the new state as base state
       this.baseState.firstName = this.state.firstName;
       this.baseState.lastName = this.state.lastName;
-      this.baseState.person = this.state.person;
+      this.baseState.person = this.props.profile.getPersonID();
       this.baseState.interests = this.state.interests;
       this.baseState.type = this.state.type;
       this.baseState.online = this.state.online;
@@ -150,7 +150,7 @@ class ProfileForm extends Component {
     if (profile) {
       // profile defindet, so ist an edit dialog
       title = 'Update a profile';
-      header = `Profile ID: ${this.props.profile.getID()}`;
+      header = `Profile ID: ${profile.getPersonID()}`;
     } else {
       title = 'Create a new profile';
       header = 'Enter profile data';
@@ -267,7 +267,7 @@ ProfileForm.propTypes = {
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  //onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ProfileForm);

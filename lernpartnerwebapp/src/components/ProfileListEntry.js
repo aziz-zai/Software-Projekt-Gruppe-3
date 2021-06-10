@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, ListItem, ListItemSecondaryAction, Paper, Typography, ButtonGroup, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { AiOutlineSave } from "react-icons/ai";
+import SaveIcon from '@material-ui/icons/Save';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -47,7 +47,7 @@ class ProfileListEntry extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, profile } = this.props;
+    const { classes, profile, show } = this.props;
     const { person, showProfileForm, loadingError, loadingInProgress } = this.state;
 
     return (
@@ -69,7 +69,7 @@ class ProfileListEntry extends Component {
                 Extroversion:   {profile.getExtroversion()} <br></br>
                 </Typography>
                 <ButtonGroup variant='text' size='large'>
-                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<AiOutlineSave/>} onClick={this.updateProfileButton}>
+                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
                     Click for edit
                   </Button>
                 </ButtonGroup>
@@ -92,6 +92,7 @@ ProfileListEntry.propTypes = {
 
   classes: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  show: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(ProfileListEntry);
