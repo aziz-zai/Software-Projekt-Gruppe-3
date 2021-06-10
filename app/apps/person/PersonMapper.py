@@ -5,16 +5,17 @@ from app.configs.base import db_connector
 
 
 class PersonMapper(Mapper):
+
     def find_by_google_user_id(cnx: db_connector, google_user_id: int) -> PersonObject:
         result = None
 
         cursor = cnx.cursor()
-        command = """"
-        SELECT 
+        command = """
+        SELECT
         id, email, google_user_id
-        FROM person WHERE google_user_id=%s
+        FROM person WHERE id=%s
         """
-        cursor.execute(command, (google_user_id, ))
+        cursor.execute(command,(google_user_id, ))
         entity = cursor.fetchone()
 
         try:
@@ -23,10 +24,10 @@ class PersonMapper(Mapper):
                 id_=id,
                 email=email,
                 google_user_id=google_user_id
-            )
+           )
         except IndexError:
             result = None
-        
+
         cursor.close()
 
         return result

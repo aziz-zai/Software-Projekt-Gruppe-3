@@ -41,7 +41,7 @@ def secured(function):
                     id_token, firebase_request_adapter)
 
                 if claims is not None:
-
+                    
                     google_user_id = claims.get("google_user_id")
                     email = claims.get("email")
 

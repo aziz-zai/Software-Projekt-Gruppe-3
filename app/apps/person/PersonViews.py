@@ -26,3 +26,15 @@ class PersonAPI(Resource):
         person = PersonAdministration.insert_person(person=person)
         ProfileAdministration.insert_profile(profile = None, person = person)
         return person
+
+@namespace.route("/<int:google_user_id>")
+class PersonAPI(Resource):
+    """Basic API for profile."""
+
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
+    @secured
+    def get(self, google_user_id) -> dict:
+        """Create Person Endpoint."""
+        pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
+        return pers
