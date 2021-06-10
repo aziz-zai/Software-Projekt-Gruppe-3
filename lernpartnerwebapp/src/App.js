@@ -13,7 +13,9 @@ import LogIn from './components/pages/LogIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
-import MyProfile from './components/MyProfile'
+import MyProfile from './components/MyProfile';
+import ProfileListEntry from '../src/components/ProfileListEntry'
+
 
 
 class App extends React.Component {
