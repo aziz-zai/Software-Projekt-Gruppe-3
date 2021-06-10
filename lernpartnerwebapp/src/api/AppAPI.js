@@ -147,7 +147,7 @@ export default class AppAPI {
      })
   }
   updateProfile(profileBO) {
-    return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getID()), {
+    return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getPersonID()), {
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain',

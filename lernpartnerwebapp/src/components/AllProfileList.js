@@ -18,12 +18,6 @@ class AllProfileList extends Component {
   constructor(props) {
     super(props);
 
-    /*let expandedID = null;
-
-    if (this.props.location.expandProfile) {
-      expandedID = this.props.location.expandProfile.getID();
-    }*/
-
     // Init an empty state
     this.state = {
       profiles: [],
@@ -32,7 +26,6 @@ class AllProfileList extends Component {
       error: null,
       loadingInProgress: false,
       loadingError: null,
-      //  expandedProfileID: expandedID,
     };
   }
 
@@ -90,6 +83,7 @@ class AllProfileList extends Component {
     const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
 
     return (
+
       <div className={classes.root}>
         <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
@@ -130,6 +124,7 @@ class AllProfileList extends Component {
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
       </div>
+
     );
   }
 }
