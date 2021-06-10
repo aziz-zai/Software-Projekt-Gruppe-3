@@ -58,8 +58,13 @@ class ProfileListEntry extends Component {
       </Typography>
       </Paper>
         <ListItem align='center'>
-          <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
-                Firstname:      {profile.getFirstName()} <br></br>
+          <Typography 
+          align= 'left' 
+          variant='h2' 
+          color='primary' 
+          width= '100%' 
+          className={classes.profileEntry}>
+                Firsthand:      {profile.getFirstName()} <br></br>
                 Lastname:       {profile.getLastName()} <br></br>
                 Interests:      {profile.getInterests()} <br></br>
                 Type:           {profile.getType()} <br></br>
@@ -69,7 +74,19 @@ class ProfileListEntry extends Component {
                 Extroversion:   {profile.getExtroversion()} <br></br>
                 </Typography>
                 <ButtonGroup variant='text' size='large'>
-                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<AiOutlineSave/>} onClick={this.updateProfileButton}>
+                  <Button 
+                  className={classes.buttonMargin} 
+                  variant='outlined' 
+                  color='primary'
+                  size='small' 
+                  padding= '5px, 15px'
+                  background-color= '#3949ab'
+                  positi
+                  
+                  
+
+                  startIcon={<AiOutlineSave/>} 
+                  onClick={this.updateProfileButton}>
                     Click for edit
                   </Button>
                 </ButtonGroup>
