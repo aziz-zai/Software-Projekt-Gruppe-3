@@ -59,8 +59,7 @@ export default class AppAPI {
     return this.#api;
   }
 
-  #fetchAdvanced = (url,init) => fetch(url, {credentials: 'include'}, ...init
-  )
+  #fetchAdvanced = (url,init) => fetch(url,init)
   .then(res => {
       if (!res.ok){
           throw Error(`${res.status} ${res.statusText}`);
