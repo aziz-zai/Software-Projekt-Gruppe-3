@@ -15,6 +15,7 @@ import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
 import ProfileDetail from './components/ProfileDetail'
+import MyProfile from './components/MyProfile';
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -102,10 +103,7 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-									<Redirect from='/' to='header-after-login' />
-									<Route exact path='/header-after-login'>
-										<Header_after_login/>
-									</Route>
+                  <Route path='/customers' component={MyProfile} />
 									<Route path='/accounts' component={AllProfileList} />
 									<Route path='/about' component={About} />		
 								</>
