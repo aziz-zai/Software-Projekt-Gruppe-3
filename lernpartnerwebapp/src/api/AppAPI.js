@@ -3,7 +3,7 @@ import ProfileBO from './ProfileBO';
 //import ConversationBO from './ConversationBO';
 //import GroupBO from './GroupBO';
 //import MessageBO from './MessageBO';
-
+//import firebase from './firebase';
 
 
 export default class AppAPI {
@@ -47,7 +47,7 @@ export default class AppAPI {
   //#addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
   //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`
 
 
 
@@ -59,7 +59,8 @@ export default class AppAPI {
     return this.#api;
   }
 
-  #fetchAdvanced = (url, init) => fetch(url, init)
+  #fetchAdvanced = (url,init) => fetch(url, {credentials: 'include'}, ...init
+  )
   .then(res => {
       if (!res.ok){
           throw Error(`${res.status} ${res.statusText}`);

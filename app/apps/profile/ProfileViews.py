@@ -16,7 +16,7 @@ namespace = api.namespace(
 @namespace.route("/")
 class AllProfilesOperation(Resource):
     @namespace.marshal_with(profile_marshalling)
-    #@secured
+    @secured
     def get(self):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list
@@ -25,14 +25,14 @@ class AllProfilesOperation(Resource):
 class ProfileAPI(Resource):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
-    #@secured
+    @secured
     def get(self,person: int):
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
     
     @namespace.marshal_with(profile_marshalling)
-    #@secured
+    @secured
     def put(self, person: int) -> dict:
         profile = ProfileObject(**api.payload)
         profile.person = person
