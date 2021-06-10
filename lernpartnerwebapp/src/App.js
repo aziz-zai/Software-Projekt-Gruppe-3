@@ -103,7 +103,10 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  <Route path='/customers' component={MyProfile} />
+                  					<Redirect from='/' to='customers' />
+									<Route exact path='/customers'>
+										<MyProfile />
+									</Route>
 									<Route path='/accounts' component={AllProfileList} />
 									<Route path='/about' component={About} />		
 								</>
