@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -46,7 +46,7 @@ class Header extends Component {
         {
           user ?
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='Profile' component={RouterLink} to={`/customers`} />
+            <Tab label='MyProfile' component={RouterLink} to={`/customers`} />
             <Tab label='find Learning partner' component={RouterLink} to={`/customers`} />
             <Tab label='All Profiles' component={RouterLink} to={`/accounts`} />
             <Tab label='About' component={RouterLink} to={`/about`} />
