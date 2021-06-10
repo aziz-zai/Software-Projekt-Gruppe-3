@@ -13,6 +13,7 @@ import LogIn from './components/pages/LogIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
+import MyProfile from './components/MyProfile'
 
 
 class App extends React.Component {
@@ -31,7 +32,7 @@ class App extends React.Component {
 	render() {
     const { currentUser, appError, authError, authLoading } = this.state;
 		return (
-		<AllProfileList></AllProfileList>
+		<MyProfile></MyProfile>
 		);
 	}
 }
