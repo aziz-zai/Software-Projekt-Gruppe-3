@@ -41,7 +41,7 @@ class ProfileMapper(Mapper):
     def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
         
         result = None
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         
         command = """
         SELECT
@@ -88,7 +88,7 @@ class ProfileMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: ProfileObject) -> ProfileObject:
         """Create Profile Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO profile (
                 firstname, 
@@ -120,7 +120,7 @@ class ProfileMapper(Mapper):
         return object
 
     def update(cnx: db_connector, object: ProfileObject):
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
 
         command = "UPDATE profile " + "SET firstname=%s, lastname=%s, person=%s, interests=%s, type_=%s, online=%s, frequency=%s, expertise=%s, extroversion=%s WHERE id=%s"
 

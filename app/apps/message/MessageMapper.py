@@ -13,7 +13,7 @@ class MessageMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: MessageObject) -> MessageObject:
         """Create Message Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO message (
                 content,

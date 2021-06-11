@@ -13,7 +13,7 @@ class ConversationMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: ConversationObject) -> ConversationObject:
         """Create Conversation Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO conversation (
                 conversationstatus, learning_group, person

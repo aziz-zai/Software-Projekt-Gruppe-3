@@ -10,7 +10,7 @@ class PersonMapper(Mapper):
     def find_by_google_user_id(cnx: db_connector, google_user_id: str) -> PersonObject:
         result = None
 
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
         SELECT id, email, google_user_id from `mydb`.`person` 
         WHERE google_user_id=%s
@@ -35,7 +35,7 @@ class PersonMapper(Mapper):
     def find_by_key(cnx: db_connector, key: int) -> PersonObject:
         result = None
 
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
         SELECT
         id, email, google_user_id
@@ -61,7 +61,7 @@ class PersonMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: PersonObject) -> PersonObject:
         """Create Person Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO person (
                  email, google_user_id
@@ -80,7 +80,7 @@ class PersonMapper(Mapper):
 
     def update(cnx: db_connector, person: PersonObject):
         
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = "UPDATE person " + "SET email=%s WHERE google_user_id=%s"
         cursor.execute(command, (
             person.email,
