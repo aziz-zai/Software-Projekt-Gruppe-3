@@ -2,6 +2,7 @@ from logging import captureWarnings
 from app.apps.core.mapper import Mapper
 from .PersonBO import PersonObject
 from app.configs.base import db_connector
+from app.apps.profile.ProfileAdministration import ProfileAdministration
 
 
 class PersonMapper(Mapper):
@@ -74,6 +75,7 @@ class PersonMapper(Mapper):
         cursor.execute("SELECT MAX(id) FROM person")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
+        ProfileAdministration.insert_profile(profile = None, person = object)
         return object
 
     def update(cnx: db_connector, person: PersonObject):

@@ -16,7 +16,6 @@ class PersonAdministration:
             person = PersonObject
             person.email=email
             person.google_user_id=google_user_id
-            ProfileAdministration.insert_profile(profile = None, person = person)
             return PersonMapper.insert(cnx=cnx, object=person)
             
     @staticmethod
