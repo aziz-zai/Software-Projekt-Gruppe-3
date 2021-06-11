@@ -26,6 +26,9 @@ class ProfileList extends Component {
     };
   }
 
+  getPersonByGoogleUserID = () => {
+    AppAPI.getAPI().getPerson()
+  }
   getProfile = () => {
     AppAPI.getAPI().getProfileForPerson(1)
     .then((profileBOs) => {
@@ -103,7 +106,7 @@ const styles = theme => ({
 /** PropTypes */
 ProfileList.propTypes = {
   classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  person: PropTypes.object.isRequired
 }
 
 export default (withStyles(styles)(ProfileList));
