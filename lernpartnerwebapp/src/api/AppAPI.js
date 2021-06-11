@@ -15,7 +15,7 @@ export default class AppAPI {
   //Person related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
-  #getPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
 
   //Profile related
@@ -88,7 +88,7 @@ export default class AppAPI {
   
   getPerson(personID) {
       return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
-          let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+          let responsePersonBO = PersonBO.fromJSON(responseJSON);
           return new Promise(function(resolve){
               resolve(responsePersonBO);
           })
