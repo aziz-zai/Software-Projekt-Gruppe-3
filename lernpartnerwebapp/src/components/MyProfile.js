@@ -5,14 +5,14 @@ import AddIcon from '@material-ui/icons/Add'
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import { Button} from '@material-ui/core';
-import { AppAPI } from '../api';
+import { AppAPI} from '../api';
 import ProfileListEntry from "./ProfileListEntry";
 import LoadingProgress from './dialogs/LoadingProgress';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import ProfileForm from './dialogs/ProfileForm';
 import ProfileBO from '../api/ProfileBO'
+import PersonBO from '../api/PersonBO'
 
-class ProfileList extends Component {
+class MyProfile extends Component {
 
   constructor(props) {
     super(props);
@@ -20,42 +20,31 @@ class ProfileList extends Component {
 
     // Init the state
     this.state = {
-      profiles: new ProfileBO(),
       error: null,
-      showProfileForm: false
+      showProfileForm: false,
+      person: []
     };
   }
 
   getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson()
-  }
-  getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(1)
-    .then((profileBOs) => {
-      this.setState({  // Set new state when ProfileBOs have been fetched
-        profiles: profileBOs[0],
-        loadingInProgress: false, // loading indicator 
-        loadingProfileError: null
-      })}
-      
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    .then((personBO) =>{
+      this.setState({
+        person: personBO
+      })},
       )
       .catch((e) =>
         this.setState({
-          profile: [],
-          loadingInProgress: false,
-          loadingProfileError: e,
+          person: null
+        
         })
-      
-      );
-
-    this.setState({
-      loadingInProgress: true,
-      loadingProfileError: null
-    });
+      )
   }
 
+  
+
   componentDidMount() {
-    this.getProfile();
+    this.getPersonByGoogleUserID();
   }
 
   
@@ -79,10 +68,11 @@ class ProfileList extends Component {
   /** Handels onChange events of the profile filter text field */
   
 
-  render() {const { classes} = this.props;
+  render() {const { classes, currentUser} = this.props;
     return (
       <div className={classes.root}>
-        <ProfileListEntry show={false} profile={this.state.profiles}></ProfileListEntry>
+        <ProfileListEntry show={false} person={this.state.person}></ProfileListEntry>
+        {console.log('Teswwwt'+ this.state.person.id_)}
       </div>
     );
   }
@@ -104,9 +94,9 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ProfileList.propTypes = {
+MyProfile.propTypes = {
   classes: PropTypes.object.isRequired,
-  person: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired
 }
 
-export default (withStyles(styles)(ProfileList));
+export default (withStyles(styles)(MyProfile));

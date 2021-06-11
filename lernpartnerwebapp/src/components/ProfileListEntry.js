@@ -31,6 +31,30 @@ class ProfileListEntry extends Component {
       showProfileForm: true
     });
   }
+  getProfile = () => {
+    AppAPI.getAPI().getProfileForPerson(1)
+    .then((profileBOs) => {
+      this.setState({  // Set new state when ProfileBOs have been fetched
+        profile: profileBOs,
+        loadingInProgress: false, // loading indicator 
+        loadingProfileError: null
+      })}
+      
+      )
+      .catch((e) =>
+        this.setState({
+          profile: [],
+          loadingInProgress: false,
+          loadingProfileError: e,
+        })
+      
+      );
+
+    this.setState({
+      loadingInProgress: true,
+      loadingProfileError: null
+    });
+  }
 
   profileFormClosed = (profile) => {
     if (profile) {
@@ -44,38 +68,20 @@ class ProfileListEntry extends Component {
       })
     }
   }
+  componentDidMount() {
+    this.getProfile();
+  }
 
   /** Renders the component */
   render() {
-    const { classes, profile, show } = this.props;
-    const { person, showProfileForm, loadingError, loadingInProgress } = this.state;
+    const { classes, person, show } = this.props;
+    const { profile, showProfileForm, loadingError, loadingInProgress } = this.state;
 
     return (
       <div>
-      <Paper variant='outlined' className={classes.root}>
-      <Typography align='center' variant='h1' position='static'>
-                  {profile.getFirstName()} {profile.getLastName()}
-      </Typography>
-      </Paper>
-        <ListItem align='center'>
-          <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
-                Firstname:      {profile.getFirstName()} <br></br>
-                Lastname:       {profile.getLastName()} <br></br>
-                Interests:      {profile.getInterests()} <br></br>
-                Type:           {profile.getType()} <br></br>
-                Online:         {profile.getOnline()} <br></br>
-                Frequency:      {profile.getFrequency()} <br></br>
-                Expertise:      {profile.getExpertise()} <br></br>
-                Extroversion:   {profile.getExtroversion()} <br></br>
-                </Typography>
-                <ButtonGroup variant='text' size='large'>
-                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
-                    Click for edit
-                  </Button>
-                </ButtonGroup>
-                </ListItem>
-                
-          <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
+      {console.log('tester' + profile)}
+      {console.log('person' + person)}
+
       </div>
     );
   }
@@ -91,7 +97,7 @@ const styles = theme => ({
 ProfileListEntry.propTypes = {
 
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+  person: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired
 }
 

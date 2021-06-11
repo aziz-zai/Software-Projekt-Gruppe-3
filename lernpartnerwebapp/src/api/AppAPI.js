@@ -87,12 +87,12 @@ export default class AppAPI {
 
   
   getPerson(personID) {
-      return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
-          let responsePersonBO = PersonBO.fromJSON(responseJSON);
-          return new Promise(function(resolve){
-              resolve(responsePersonBO);
-          })
+    return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
+      let person = PersonBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(person)
       })
+    })
   }
 
 

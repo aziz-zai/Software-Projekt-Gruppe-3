@@ -105,7 +105,7 @@ class App extends React.Component {
 								<>
                   					<Redirect from='/' to='customers' />
 									<Route exact path='/customers'>
-										<MyProfile />
+										<MyProfile currentUser={currentUser}/>
 									</Route>
 									<Route path='/accounts' component={AllProfileList} />
 									<Route path='/about' component={About} />		
@@ -118,7 +118,7 @@ class App extends React.Component {
 								</>
 						}
 						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
+						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sigIn in process.`} onReload={this.handleSignIn} />
 						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
 					</Container>
 				</Router>
