@@ -24,7 +24,6 @@ class PersonAPI(Resource):
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
         person = PersonAdministration.insert_person(person=person)
-        ProfileAdministration.insert_profile(profile = None, person = person)
         return person
 
 @namespace.route("/<int:google_user_id>")

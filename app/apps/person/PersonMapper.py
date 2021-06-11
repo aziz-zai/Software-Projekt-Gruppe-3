@@ -11,9 +11,8 @@ class PersonMapper(Mapper):
 
         cursor = cnx.cursor()
         command = """
-        SELECT
-        id, email, google_user_id
-        FROM person WHERE id=%s
+        SELECT id, email, google_user_id from `mydb`.`person` 
+        WHERE google_user_id=%s
         """
         cursor.execute(command,(google_user_id, ))
         entity = cursor.fetchone()
@@ -25,7 +24,7 @@ class PersonMapper(Mapper):
                 email=email,
                 google_user_id=google_user_id
            )
-        except IndexError:
+        except TypeError:
             result = None
 
         cursor.close()
