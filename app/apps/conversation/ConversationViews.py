@@ -1,24 +1,24 @@
 from flask_restx import Resource
 from app.configs.base import api
-from .ProfileMarshalling import profile_marshalling
-from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileManager
+from .ConversationMarshalling import conversation_marshalling
+from .ConversationBO import ConversationObject
+from .ConversationAdministration import ConversationAdministration
 
 
 namespace = api.namespace(
-    "/profile",
-    description="Namespace for profile APIs."
+    "/conversation",
+    description="Namespace for conversation APIs."
 )
 
 
 @namespace.route("/")
 class ProfileAPI(Resource):
-    """Basic API for profile."""
+    """Basic API for Conversation."""
 
-    @api.marshal_with(profile_marshalling, code=201)
-    @api.expect(profile_marshalling)
+    @api.marshal_with(conversation_marshalling, code=201)
+    @api.expect(conversation_marshalling)
     def post(self) -> dict:
-        """Create Profile Endpoint."""
-        profile = ProfileObject(**api.payload)
-        profile = ProfileManager.insert_profile(profile=profile)
-        return profile
+        """Create Conversation Endpoint."""
+        conversation = ConversationObject(**api.payload)
+        conversation = ConversationAdministration.insert_conversation(conversation=conversation)
+        return conversation

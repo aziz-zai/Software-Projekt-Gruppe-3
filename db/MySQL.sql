@@ -1,4 +1,4 @@
--- MySQL Workbench Forward Engineering
+
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -17,7 +17,7 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`group`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`group` (
+CREATE TABLE IF NOT EXISTS `mydb`.`learning_group` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `groupname` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -30,8 +30,6 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`person` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `firstname` VARCHAR(45) NULL DEFAULT NULL,
-  `lastname` VARCHAR(45) NULL DEFAULT NULL,
   `email` varchar(256) NOT NULL DEFAULT '',
   `google_user_id` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`))
@@ -45,9 +43,17 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `mydb`.`conversation` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `conversationstatus` TINYINT NULL DEFAULT NULL,
-  `groupID` INT NOT NULL,
-  `personID` INT NOT NULL,
-  PRIMARY KEY (`id`))
+  `learning_group` INT NOT NULL,
+  `person` INT NOT NULL,
+  PRIMARY KEY (`id`),
+   CONSTRAINT `person_conversation`
+   FOREIGN KEY (`person`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE,
+   CONSTRAINT `learning_group_conversation`
+   FOREIGN KEY (`learning_group`)
+        REFERENCES mydb.learning_group(id)
+        ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -57,15 +63,21 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`profile` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `owner` INT NOT NULL,
+  `firstname` VARCHAR(45) NULL DEFAULT NULL,
+  `lastname` VARCHAR(45) NULL DEFAULT NULL,
+  `person` INT NOT NULL,
   `semester` INT NULL,
-  `frequence` VARCHAR(45) NULL DEFAULT NULL,
+  `frequency` VARCHAR(45) NULL DEFAULT NULL,
   `interests` VARCHAR(45) NULL DEFAULT NULL,
   `extroversion` VARCHAR(45) NULL DEFAULT NULL,
   `expertise` VARCHAR(45) NULL DEFAULT NULL,
   `online` VARCHAR(45) NULL DEFAULT NULL,
   `type_` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+   CONSTRAINT `person_profile`
+   FOREIGN KEY (`person`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -75,10 +87,22 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `personID` INT NOT NULL,
-  `groupID` INT NOT NULL,
-  `profileID` INT NOT NULL,
-  PRIMARY KEY (`personID`, `groupID`, `profileID`))
+  `person` INT NOT NULL,
+  `learning_group` INT NOT NULL,
+  `profile` INT NOT NULL,
+  PRIMARY KEY (`id`),
+   CONSTRAINT `person_memberhsip`
+   FOREIGN KEY (`person`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE,
+   CONSTRAINT `learning_group_membership`
+   FOREIGN KEY (`learning_group`)
+        REFERENCES mydb.learning_group(id)
+        ON DELETE CASCADE,
+   CONSTRAINT `profile_membership`
+   FOREIGN KEY (`profile`)
+        REFERENCES mydb.profile(id)
+        ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -88,10 +112,13 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`message` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `messageID` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(45) NULL DEFAULT NULL,
-  `conversationID` INT NOT NULL,
-  PRIMARY KEY (`messageID`))
+  `conversation` INT NOT NULL,
+  PRIMARY KEY (`id`),
+   CONSTRAINT `conversation_message`
+   FOREIGN KEY (`conversation`)
+        REFERENCES mydb.conversation(id)
+        ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
