@@ -48,25 +48,6 @@ class MyProfile extends Component {
   }
 
   
-  /** Handles the onClose event of the ProfileForm */
-  profileFormClosed = profile => {
-    // profile is not null and therefore created
-    if (profile) {
-      const newProfileList = [...this.state.profiles, profile];
-      this.setState({
-        profiles: newProfileList,
-        filteredProfiles: [...newProfileList],
-        showProfileForm: false
-      });
-    } else {
-      this.setState({
-        showProfileForm: false
-      });
-    }
-  }
-
-  /** Handels onChange events of the profile filter text field */
-  
 
   render() {const { classes, currentUser} = this.props;
     return (

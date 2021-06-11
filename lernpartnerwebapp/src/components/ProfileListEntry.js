@@ -17,7 +17,7 @@ class ProfileListEntry extends Component {
 
     // Init an empty state
     this.state = {
-      profile: new ProfileBO(),
+      profile: new ProfileBO,
       showProfileForm: false,
       loadingError: null,
       deletingError: null,
@@ -25,14 +25,9 @@ class ProfileListEntry extends Component {
   }
 
 
-  updateProfileButton = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProfileForm: true
-    });
-  }
+  
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(1)
+    AppAPI.getAPI().getProfileForPerson(this.props.person.id_)
     .then((profileBOs) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profile: profileBOs,
@@ -68,6 +63,15 @@ class ProfileListEntry extends Component {
       })
     }
   }
+  
+  updateProfileButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProfileForm: true
+    });
+  }
+  
+  
   componentDidMount() {
     this.getProfile();
   }
@@ -79,9 +83,10 @@ class ProfileListEntry extends Component {
 
     return (
       <div>
-      {console.log('tester' + profile)}
-      {console.log('person' + person)}
-
+      {console.log('person' + person.id_)}
+      {console.log('profile' + profile)}
+      Firstname {profile.id_}
+  
       </div>
     );
   }
