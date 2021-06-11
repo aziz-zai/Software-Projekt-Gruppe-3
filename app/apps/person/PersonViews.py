@@ -26,7 +26,7 @@ class PersonAPI(Resource):
         person = PersonAdministration.insert_person(person=person)
         return person
 
-@namespace.route("/<int:google_user_id>")
+@namespace.route("/<string:google_user_id>")
 class PersonAPI(Resource):
     """Basic API for profile."""
 

@@ -25,7 +25,7 @@ class PersonAdministration:
             return PersonMapper.find_by_key(cnx=cnx, key=personID)
 
     @staticmethod
-    def get_person_by_google_user_id(google_user_id: int) -> PersonObject:
+    def get_person_by_google_user_id(google_user_id: str) -> PersonObject:
         with db_connector as db:
             cnx = db._cnx
             return PersonMapper.find_by_google_user_id(cnx=cnx, google_user_id=google_user_id)

@@ -7,7 +7,7 @@ from app.apps.profile.ProfileAdministration import ProfileAdministration
 
 class PersonMapper(Mapper):
 
-    def find_by_google_user_id(cnx: db_connector, google_user_id: int) -> PersonObject:
+    def find_by_google_user_id(cnx: db_connector, google_user_id: str) -> PersonObject:
         result = None
 
         cursor = cnx.cursor()
