@@ -3,7 +3,7 @@ import ProfileBO from './ProfileBO';
 //import ConversationBO from './ConversationBO';
 //import GroupBO from './GroupBO';
 //import MessageBO from './MessageBO';
-
+//import firebase from './firebase';
 
 
 export default class AppAPI {
@@ -15,7 +15,7 @@ export default class AppAPI {
   //Person related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
-  #getPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
 
   //Profile related
@@ -47,7 +47,7 @@ export default class AppAPI {
   //#addMessageURL = () => `${this.#AppServerBaseURL}/messages`;
   //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
-  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
+  //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`
 
 
 
@@ -59,7 +59,15 @@ export default class AppAPI {
     return this.#api;
   }
 
-  #fetchAdvanced = (url, init) => fetch(url, init)
+  #fetchAdvanced = (url,init) => fetch(url,{credentials: 'include', ...init} )
+  .then(res => {
+      if (!res.ok){
+          throw Error(`${res.status} ${res.statusText}`);
+      }
+      return res.json();
+  })
+
+  #fetchAdvanced1 = (url,init) => fetch(url,init)
   .then(res => {
       if (!res.ok){
           throw Error(`${res.status} ${res.statusText}`);
@@ -80,7 +88,7 @@ export default class AppAPI {
   
   getPerson(personID) {
       return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
-          let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+          let responsePersonBO = PersonBO.fromJSON(responseJSON);
           return new Promise(function(resolve){
               resolve(responsePersonBO);
           })
@@ -129,7 +137,7 @@ export default class AppAPI {
     }
 
   getAllProfiles() {
-      return this.#fetchAdvanced(this.#getAllProfilesURL()).then((responseJSON) => {
+      return this.#fetchAdvanced1(this.#getAllProfilesURL()).then((responseJSON) => {
           let profileBOs = ProfileBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(profileBOs);

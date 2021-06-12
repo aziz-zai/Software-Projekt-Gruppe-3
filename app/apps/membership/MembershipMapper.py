@@ -13,7 +13,7 @@ class MembershipMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: MembershipObject) -> MembershipObject:
         """Create Membership Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO membership (
                 person, learning_group, profile

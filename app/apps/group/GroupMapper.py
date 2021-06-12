@@ -13,7 +13,7 @@ class GroupMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: GroupObject) -> GroupObject:
         """Create group Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO learning_group (
                  groupname

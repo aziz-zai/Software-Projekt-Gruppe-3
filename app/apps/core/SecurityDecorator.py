@@ -42,7 +42,7 @@ def secured(function):
 
                 if claims is not None:
                     
-                    google_user_id = claims.get("google_user_id")
+                    google_user_id = claims.get("user_id")
                     email = claims.get("email")
 
                     person = PersonAdministration.get_person_by_google_user_id(google_user_id)
@@ -52,17 +52,14 @@ def secured(function):
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        person.email(email)
+                        person.email= email
                         PersonAdministration.save_person(person)
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        pers = PersonObject()
-                        pers.email = email
-                        pers.google_user_id = google_user_id
-                        PersonAdministration.insert_person(pers)
+                        PersonAdministration.insert_person(email=email, google_user_id=google_user_id)
 
                     print(request.method, request.path, "angefragt durch:", email)
 

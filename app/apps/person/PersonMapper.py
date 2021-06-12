@@ -2,18 +2,18 @@ from logging import captureWarnings
 from app.apps.core.mapper import Mapper
 from .PersonBO import PersonObject
 from app.configs.base import db_connector
+from app.apps.profile.ProfileAdministration import ProfileAdministration
 
 
 class PersonMapper(Mapper):
 
-    def find_by_google_user_id(cnx: db_connector, google_user_id: int) -> PersonObject:
+    def find_by_google_user_id(cnx: db_connector, google_user_id: str) -> PersonObject:
         result = None
 
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
-        SELECT
-        id, email, google_user_id
-        FROM person WHERE id=%s
+        SELECT id, email, google_user_id from `mydb`.`person` 
+        WHERE google_user_id=%s
         """
         cursor.execute(command,(google_user_id, ))
         entity = cursor.fetchone()
@@ -25,7 +25,7 @@ class PersonMapper(Mapper):
                 email=email,
                 google_user_id=google_user_id
            )
-        except IndexError:
+        except TypeError:
             result = None
 
         cursor.close()
@@ -35,7 +35,7 @@ class PersonMapper(Mapper):
     def find_by_key(cnx: db_connector, key: int) -> PersonObject:
         result = None
 
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
         SELECT
         id, email, google_user_id
@@ -61,7 +61,7 @@ class PersonMapper(Mapper):
     @staticmethod
     def insert(cnx: db_connector, object: PersonObject) -> PersonObject:
         """Create Person Object."""
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO person (
                  email, google_user_id
@@ -75,11 +75,12 @@ class PersonMapper(Mapper):
         cursor.execute("SELECT MAX(id) FROM person")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
+        ProfileAdministration.insert_profile(profile = None, person = object)
         return object
 
     def update(cnx: db_connector, person: PersonObject):
         
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         command = "UPDATE person " + "SET email=%s WHERE google_user_id=%s"
         cursor.execute(command, (
             person.email,
