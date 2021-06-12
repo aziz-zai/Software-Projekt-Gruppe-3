@@ -34,3 +34,11 @@ class ProfileAdministration:
         with db_connector as db:
             cnx= db._cnx
             return ProfileMapper.find_all(cnx=cnx)
+
+class Matchmaking:
+    """Matchmaking class for managing matches"""
+    @staticmethod
+    def matchmaking(person: PersonObject) -> ProfileObject:
+        with db_connector as db:
+            cnx = db._cnx
+            return ProfileMapper.find_by_personID(cnx=cnx, person = person.id_)

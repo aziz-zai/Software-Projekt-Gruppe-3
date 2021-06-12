@@ -1,9 +1,10 @@
+from os import name
 from app.apps.core.SecurityDecorator import secured
 from flask_restx import Resource
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
 from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileAdministration
+from .ProfileAdministration import ProfileAdministration, Matchmaking
 from app.apps.person.PersonAdministration import PersonAdministration
 from app.apps.core.SecurityDecorator import secured
 
@@ -40,3 +41,10 @@ class ProfileAPI(Resource):
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
+@namespace.route("<int:profileID>")
+class MatchmakingAPI(Resource):
+    """Basic API for Matchmaking"""
+    @namespace.marshall_with(profile_marshalling)
+    @secured
+    def get(self, profileID: int):
+        match = Matchmaking.get_profile_by_id(profileID)
