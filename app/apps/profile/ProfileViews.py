@@ -4,7 +4,7 @@ from flask_restx import Resource
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
 from .ProfileBO import ProfileObject
-from .ProfileAdministration import ProfileAdministration, Matchmaking
+from .ProfileAdministration import ProfileAdministration
 from app.apps.person.PersonAdministration import PersonAdministration
 from app.apps.core.SecurityDecorator import secured
 
@@ -47,6 +47,13 @@ class ProfileMatchAPI(Resource):
     @namespace.marshall_with(profile_marshalling)
     #@secured
     def get(self, person: int):
-        match_person = PersonAdministration.get_person_by_id(person)
-        matched_profile = Matchmaking.matchmaking(match_person)
-        return matched_profile
+        matched_profile = ProfileAdministration.matching(person)
+        return matched_profile[0] #PersonList zurückgeben
+@namespace.route("<int:person>")
+class GroupMatchAPI(Resource):
+    """Basic API for Matchmaking"""
+    @namespace.marshall_with(profile_marshalling)
+    #@secured
+    def get(self, person: int):
+        matched_group = ProfileAdministration.matching(person)
+        return matched_group[1] #GroupList zurückgeben
