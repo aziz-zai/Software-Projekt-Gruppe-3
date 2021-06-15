@@ -35,6 +35,7 @@ class ProfileAdministration:
             cnx= db._cnx
             return ProfileMapper.find_all(cnx=cnx)
 
+
 class Matchmaking:
     """Matchmaking class for managing matches"""
     @staticmethod
