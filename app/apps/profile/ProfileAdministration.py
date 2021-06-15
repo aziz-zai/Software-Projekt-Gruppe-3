@@ -46,7 +46,7 @@ class Matchmaking:
 
            
 
-from .profile.ProfileMapper import ProfileMapper
+from profile.ProfileMapper import ProfileMapper
 from app.configs.base import db_connector
 from app.apps.profile.ProfileBO import ProfileObject
 

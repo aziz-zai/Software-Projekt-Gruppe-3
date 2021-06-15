@@ -41,10 +41,12 @@ class ProfileAPI(Resource):
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
-@namespace.route("<int:profileID>")
-class MatchmakingAPI(Resource):
+@namespace.route("<int:person>")
+class ProfileMatchAPI(Resource):
     """Basic API for Matchmaking"""
     @namespace.marshall_with(profile_marshalling)
-    @secured
-    def get(self, profileID: int):
-        match = Matchmaking.get_profile_by_id(profileID)
+    #@secured
+    def get(self, person: int):
+        match_person = PersonAdministration.get_person_by_id(person)
+        matched_profile = Matchmaking.matchmaking(match_person)
+        return matched_profile
