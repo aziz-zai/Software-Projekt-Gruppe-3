@@ -16,6 +16,7 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
 import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
+import Matchmaking from './components/Matchmaking';
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -92,38 +93,10 @@ class App extends React.Component {
 	/** Renders the whole app */
 	render() {
     const { currentUser, appError, authError, authLoading } = this.state;
-		return (
-			<ThemeProvider theme={theme}>
-				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline/>
-				<Router basename={process.env.PUBLIC_URL}>
-					<Container maxWidth='md'>
-						<Header user={currentUser} />
-						{
-							// Is a user signed in?
-							currentUser ?
-								<>
-                  					<Redirect from='/' to='customers' />
-									<Route exact path='/customers'>
-										<MyProfile />
-									</Route>
-									<Route path='/accounts' component={AllProfileList} />
-									<Route path='/about' component={About} />		
-								</>
-								:
-								// else show the sign in page
-								<>
-									<Redirect to='/index.html' />
-									<LogIn onLogIn={this.handleSignIn} />
-								</>
-						}
-						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
-						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-					</Container>
-				</Router>
-			</ThemeProvider>
-		);
+		return 
+		<Matchmaking>
+			Matching
+		</Matchmaking>;
 	}
 }
 

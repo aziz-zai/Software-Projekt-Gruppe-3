@@ -25,6 +25,8 @@ export default class AppAPI {
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
+  #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  //#matchGroupsURL = (id) => `${this.#ServerBaseURL}/group/${id}`;
 
 
   //Conversation related
@@ -171,5 +173,19 @@ export default class AppAPI {
       })
     })
   }
-  
+
+  matchProfiles(id) {
+    return this.#fetchAdvanced(this.#matchProfilesURL(id)).then((responseJSON) => {
+      let personList = [];
+      responseJSON.map(item => {
+        let profile = ProfileBO.fromJSON(item);
+        personList.push(profile);
+      })
+      return new Promise(function (resolve) {
+        resolve(personList);
+      })
+    })
+  }
+
+
 } 
