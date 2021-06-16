@@ -6,7 +6,6 @@ import 'firebase/auth';
 import Header_after_login from './components/Layouts/Header-after-login';
 import Header from './components/Layouts/Header';
 import Header_login from './components/Layouts/Header-login';
-import PersonList from './components/PersonList';
 import AllProfileList from './components/AllProfileList'
 import About from './components/pages/About';
 import theme from './Theme';
