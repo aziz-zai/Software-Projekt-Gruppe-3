@@ -25,7 +25,7 @@ class PersonListEntry extends Component {
     this.props.onExpandedStateChange(this.props.profile);
   }
 
-  /** Handles onProfileDelete events from an ProfileListEntry  */
+  /** Handles onProfileDelete events from MyProfile  */
  
 
   /** Handles the onClick event of the edit customer button */

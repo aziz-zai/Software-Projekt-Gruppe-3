@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline} from '@material-ui/core';
 import MyProfile from './components/MyProfile';
-import ProfileListEntry from '../src/components/ProfileListEntry'
 import AllProfileList from './components/AllProfileList';
 
 

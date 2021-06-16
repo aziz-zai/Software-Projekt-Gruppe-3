@@ -8,7 +8,7 @@ import ProfileDetail from './ProfileDetail';
 import Header from '../components/Layouts/Header';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
-import ProfileListEntry from './ProfileListEntry';
+
 /**
  * Shows all profiles of the app.
  * 
@@ -122,7 +122,7 @@ class AllProfileList extends Component {
               />)
           }
           <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all profiless of the bank could not be loaded.`} onReload={this.loadProfiles} />
+          
       </div>
 
     );

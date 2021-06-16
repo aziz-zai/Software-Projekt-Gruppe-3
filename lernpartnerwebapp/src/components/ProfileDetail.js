@@ -5,7 +5,6 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ProfileListEntry from './ProfileListEntry'
 import ProfileForm from './dialogs/ProfileForm'
 
 
