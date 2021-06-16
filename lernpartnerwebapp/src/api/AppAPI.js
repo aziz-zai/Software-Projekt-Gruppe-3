@@ -67,13 +67,6 @@ export default class AppAPI {
       return res.json();
   })
 
-  #fetchAdvanced1 = (url,init) => fetch(url,init)
-  .then(res => {
-      if (!res.ok){
-          throw Error(`${res.status} ${res.statusText}`);
-      }
-      return res.json();
-  })
 
  
   getPersons() {
@@ -137,7 +130,7 @@ export default class AppAPI {
     }
 
   getAllProfiles() {
-      return this.#fetchAdvanced1(this.#getAllProfilesURL()).then((responseJSON) => {
+      return this.#fetchAdvanced(this.#getAllProfilesURL()).then((responseJSON) => {
           let profileBOs = ProfileBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(profileBOs);

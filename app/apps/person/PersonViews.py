@@ -32,7 +32,7 @@ class PersonAPI(Resource):
 
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
-    #@secured
+    @secured
     def get(self, google_user_id) -> dict:
         """Create Person Endpoint."""
         pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
