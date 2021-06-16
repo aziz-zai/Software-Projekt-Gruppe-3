@@ -47,13 +47,13 @@ class ProfileMatchAPI(Resource):
     @namespace.marshall_with(profile_marshalling)
     #@secured
     def get(self, person: int):
-        matched_profile = ProfileAdministration.matching(person)
-        return matched_profile[0] #PersonList zurückgeben
+        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+        return matched_profiles #PersonList zurückgeben
 @namespace.route("<int:person>")
 class GroupMatchAPI(Resource):
     """Basic API for Matchmaking"""
     @namespace.marshall_with(profile_marshalling)
     #@secured
     def get(self, person: int):
-        matched_group = ProfileAdministration.matching(person)
-        return matched_group[1] #GroupList zurückgeben
+        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+        return matched_groups #GroupList zurückgeben
