@@ -5,8 +5,8 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ProfileListEntry from './ProfileListEntry'
 import ProfileForm from './dialogs/ProfileForm'
+import ProfilePopUp from './dialogs/ProfilePopUp'
 
 
 class ProfileDetail extends Component {
@@ -16,7 +16,7 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      profile: null,
+      profile: [],
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
@@ -30,12 +30,12 @@ class ProfileDetail extends Component {
   getProfile = () => {
     AppAPI.getAPI().getProfileForPerson(this.props.profileID).then(profile =>
       this.setState({
-        profile: profile,
+        profile: profile[0],
         loadingInProgress: false,
         loadingError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          profile: null,
+          profile: [],
           loadingInProgress: false,
           loadingError: e
         })
@@ -57,7 +57,7 @@ class ProfileDetail extends Component {
   profileFormClosed = (profile) => {
     if (profile) {
       this.setState({
-        profile: profile,
+        profile: profile[0],
         showProfileForm: false
       });
     } else {
@@ -72,15 +72,19 @@ class ProfileDetail extends Component {
     const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
 
     return (
+      <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} >
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>
+        <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
+      
+      </div>
     );
   }
 }

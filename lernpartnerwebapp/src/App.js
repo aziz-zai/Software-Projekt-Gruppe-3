@@ -6,7 +6,6 @@ import 'firebase/auth';
 import Header_after_login from './components/Layouts/Header-after-login';
 import Header from './components/Layouts/Header';
 import Header_login from './components/Layouts/Header-login';
-import PersonList from './components/PersonList';
 import AllProfileList from './components/AllProfileList'
 import About from './components/pages/About';
 import theme from './Theme';
@@ -103,11 +102,11 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  					<Redirect from='/' to='customers' />
-									<Route exact path='/customers'>
-										<MyProfile />
+                  					<Redirect from='/' to='accounts' />
+									<Route exact path='/accounts'>
+										<AllProfileList/>
 									</Route>
-									<Route path='/accounts' component={AllProfileList} />
+									<Route path='/customers' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/about' component={About} />		
 								</>
 								:
@@ -118,7 +117,7 @@ class App extends React.Component {
 								</>
 						}
 						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
+						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sigIn in process.`} onReload={this.handleSignIn} />
 						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
 					</Container>
 				</Router>
