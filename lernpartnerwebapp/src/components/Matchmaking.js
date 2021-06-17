@@ -92,23 +92,14 @@ class Matchmaking extends Component {
           <div>
             <h2>Lernpartner/gruppe finden</h2>
             <div>
-              <Button
-                className={classes.button_style}
-                variant="outlined"
-                color="primary"
-                onClick={this.handleClose}>
-              </Button>
-
               {
-            personList.map(profile => console.log("profile", profile))
-              //  onExpandedStateChange={this.onExpandedStateChange}
-              
+            personList.map(profile => 
+            <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+            />)
               }
-
             </div>
           </div>
         ) : null
-          
           }
       </div>
     );
@@ -134,4 +125,3 @@ Matchmaking.propTypes = {
 };
 
 export default withStyles(styles)(Matchmaking);
-//export default Matching;

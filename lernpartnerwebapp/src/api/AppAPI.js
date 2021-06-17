@@ -177,13 +177,9 @@ export default class AppAPI {
 
   matchProfiles(id) {
     return this.#fetchAdvanced(this.#matchProfilesURL(id)).then((responseJSON) => {
-      let personList = [];
-      responseJSON.map(item => {
-        let profile = ProfileBO.fromJSON(item);
-        personList.push(profile);
-      })
+        let profileBOs = ProfileBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
-        resolve(personList);
+        resolve(profileBOs);
       })
     })
   }
