@@ -40,7 +40,7 @@ class ProfileAdministration:
         with db_connector as db:
             cnx = db._cnx
             myProfile = ProfileMapper.find_by_personID(cnx= cnx, person = person)    
-            profileList = ProfileMapper.find_all(cnx= cnx, person=person) 
+            profileList = ProfileMapper.find_all(cnx= cnx) 
 
         result = []     
         personList= []    
@@ -64,16 +64,15 @@ class ProfileAdministration:
                     value += 1
                 else: 
                     value +=0
-                profile.matching = value/6
-                #if value >= 3:
-                 #   result.append(profile)
+                if value >= 0:
+                   result.append(profile)
 
         for profile in result:
-                Group = GroupMapper.find_by_profileID(profile.id_)
-                if Group != None:
-                    groupList.append(Group)
-                else:
-                    person = ProfileMapper.find_by_personID(profile.person)
-                    personList.append(person)
+            #    Group = GroupMapper.find_by_profileID(profile.id_)
+            #    if Group != None:
+            #        groupList.append(Group)
+            #    else:
+             #       person = ProfileMapper.find_by_personID(profile.person)
+                    personList.append(profile)
 
         return personList, groupList

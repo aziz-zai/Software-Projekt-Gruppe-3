@@ -11,6 +11,7 @@ import {
 import { AppAPI } from "../api"
 import ArrowBackIcon from "@material-ui/icons/ArrowBack"
 import ProfileBO from "../api/ProfileBO"
+import ProfileDetail from "../components/ProfileDetail"
 //import ContextErrorMessage from './ContextErrorMessage';
 //import LoadingProgress from './LoadingProgress';
 
@@ -21,7 +22,7 @@ class Matchmaking extends Component {
 
     // Init the state
     this.state = {
-      personList: null,
+      personList: [],
       groupList: null,
     };
   }
@@ -32,10 +33,10 @@ class Matchmaking extends Component {
 
   matchProfiles = () => {
     AppAPI.getAPI()
-      .matchProfiles(this.props.profile.getID())
-      .then((response) =>
+      .matchProfiles(1)
+      .then((profiles) =>
         this.setState({
-          personList: response,
+          personList: profiles,
           loadingInProgress: false,
           loadingError: null,
         })
@@ -87,56 +88,39 @@ class Matchmaking extends Component {
 
     return (
       <div>
-        {personList && groupList ? (
+        {personList ? (
           <div>
-            <h2>Lernpartner finden</h2>
+            <h2>Lernpartner/gruppe finden</h2>
             <div>
               <Button
                 className={classes.button_style}
                 variant="outlined"
                 color="primary"
                 onClick={this.handleClose}>
-                <ArrowBackIcon />
               </Button>
 
-              {personList.map((profile) => {
-                return (
-                  <Card className={classes.root} variant="outlined" key={profile.getPersonID()}>
-                    <CardContent>
-                      <Typography variant="h6" component="h4">
-                        {profile.getFirstName()} {profile.getLastName()}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                    </CardActions>
-                  </Card>
-                );
-              })}
+              {
+            personList.map(profile => console.log("profile", profile))
+              //  onExpandedStateChange={this.onExpandedStateChange}
+              
+              }
 
-            </div>
-            <div>
-              )
             </div>
           </div>
-        ) : (
-            <div>
-              <p>Oops, hier scheint etwas shiefgelaufen zu sein.</p>
-              <Button color="secondary" onClick={this.handleClose}>
-                <ArrowBackIcon />
-              </Button>
-            </div>
-          )}
+        ) : null
+          
+          }
       </div>
     );
   }
 }
 const styles = (theme) => ({
   root: {
-    maxWidth: 300,
+    maxWidth: 200,
   },
   content: {
-    fontSize: 18,
-    marginTop: 7,
+    fontSize: 14,
+    marginTop: 5,
   },
   button_style: {
     marginBottom: 5,
@@ -146,7 +130,6 @@ const styles = (theme) => ({
 
 Matchmaking.propTypes = {
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
