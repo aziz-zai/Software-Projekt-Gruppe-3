@@ -1,3 +1,4 @@
+from os import name
 from app.apps.core.SecurityDecorator import secured
 from flask_restx import Resource
 from app.configs.base import api
@@ -40,3 +41,19 @@ class ProfileAPI(Resource):
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
+@namespace.route("/match_person/<int:person>")
+class ProfileMatchAPI(Resource):
+    """Basic API for Matchmaking"""
+    @namespace.marshal_with(profile_marshalling)
+    #@secured
+    def get(self, person: int):
+        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+        return matched_profiles #PersonList zurückgeben
+@namespace.route("/match_group/<int:person>")
+class GroupMatchAPI(Resource):
+    """Basic API for Matchmaking"""
+    @namespace.marshal_with(profile_marshalling)
+    #@secured
+    def get(self, person: int):
+        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+        return matched_groups #GroupList zurückgeben

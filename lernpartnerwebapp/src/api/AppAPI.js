@@ -25,6 +25,8 @@ export default class AppAPI {
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
+  #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
+  
 
 
   //Conversation related
@@ -41,6 +43,7 @@ export default class AppAPI {
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
+  //#matchGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
 
   //Message related
   //#getMessagesURL = () => `${this.#AppServerBaseURL}/messages`;
@@ -164,5 +167,28 @@ export default class AppAPI {
       })
     })
   }
-  
+
+  matchProfiles(id) {
+    return this.#fetchAdvanced(this.#matchProfilesURL(id)).then((responseJSON) => {
+        let profileBOs = ProfileBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(profileBOs);
+      })
+    })
+  }
+
+ // matchGroup(id) {
+ //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
+ //     let groupList = [];
+ //     responseJSON.map(item => {
+ //       let group = GroupBO.fromJSON(item);
+ //       groupList.push(group);
+ //     })
+ //     return new Promise(function (resolve) {
+ //       resolve(groupList);
+ //     })
+ //   })
+ // }
+
+
 } 
