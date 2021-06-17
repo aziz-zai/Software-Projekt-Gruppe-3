@@ -22,18 +22,66 @@ class Matchmaking extends Component {
 
     // Init the state
     this.state = {
+      person: null,
+      profile: null,
       personList: [],
       groupList: null,
     };
   }
   componentDidMount() {
-    this.matchProfiles();
+    this.getPersonByGoogleUserID();
     //this.matchGroups();
+  }
+
+  getProfile = () => {
+    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
+    .then((profileBO) => {
+      this.setState({  // Set new state when ProfileBOs have been fetched
+        profile: profileBO[0],
+        loadingInProgress: false, // loading indicator 
+        loadingProfileError: null
+      })
+    
+      this.matchProfiles();
+    }
+      
+      )
+      .catch((e) =>
+        this.setState({
+          profile: 'test',
+          loadingInProgress: false,
+          loadingProfileError: e,
+        })
+      
+      );
+
+    this.setState({
+      loadingInProgress: true,
+      loadingProfileError: null
+    });
+  }
+
+  getPersonByGoogleUserID = () => {
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    .then((personBO) =>{
+     
+      this.setState({
+        person: personBO
+      })
+    this.getProfile()
+    }, 
+      )
+      .catch((e) =>
+        this.setState({
+          person: []
+        
+        })
+      )
   }
 
   matchProfiles = () => {
     AppAPI.getAPI()
-      .matchProfiles(1)
+      .matchProfiles(this.state.profile.id_)
       .then((profiles) =>
         this.setState({
           personList: profiles,
@@ -89,8 +137,6 @@ class Matchmaking extends Component {
     return (
       <div>
         {personList ? (
-          <div>
-            <h2>Lernpartner/gruppe finden</h2>
             <div>
               {
             personList.map(profile => 
@@ -98,7 +144,6 @@ class Matchmaking extends Component {
             />)
               }
             </div>
-          </div>
         ) : null
           }
       </div>
@@ -122,6 +167,7 @@ const styles = (theme) => ({
 Matchmaking.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Matchmaking);

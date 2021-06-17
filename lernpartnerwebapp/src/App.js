@@ -15,6 +15,7 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
 import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
+import Matchmaking from './components/Matchmaking'
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -102,11 +103,12 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  					<Redirect from='/' to='accounts' />
-									<Route exact path='/accounts'>
+                  					<Redirect from='/' to='AllProfiles' />
+									<Route exact path='/AllProfiles'>
 										<AllProfileList/>
 									</Route>
-									<Route path='/customers' component={() => <MyProfile currentUser={currentUser}/>}/>
+									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
+									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
 									<Route path='/about' component={About} />		
 								</>
 								:
