@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, Paper, ListItem, ButtonGroup, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add'
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import { Button} from '@material-ui/core';
-import { AppAPI } from '../api';
-import ProfileListEntry from "./ProfileListEntry";
+import { AppAPI} from '../api';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
+import ProfileBO from '../api/ProfileBO';
+import PersonBO from '../api/PersonBO';
 import ProfileForm from './dialogs/ProfileForm';
-import ProfileBO from '../api/ProfileBO'
+import SaveIcon from '@material-ui/icons/Save';
 
-class ProfileList extends Component {
+class MyProfile extends Component {
 
   constructor(props) {
     super(props);
@@ -20,17 +21,18 @@ class ProfileList extends Component {
 
     // Init the state
     this.state = {
-      profiles: new ProfileBO(),
       error: null,
+      showProfileForm: false,
+      person: [],
+      profile: new ProfileBO,
       showProfileForm: false
     };
   }
-
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(12)
-    .then((profileBOs) => {
+    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
+    .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
-        profiles: profileBOs[0],
+        profile: profileBO[0],
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })}
@@ -38,7 +40,7 @@ class ProfileList extends Component {
       )
       .catch((e) =>
         this.setState({
-          profile: [],
+          profile: 'test',
           loadingInProgress: false,
           loadingProfileError: e,
         })
@@ -51,38 +53,85 @@ class ProfileList extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getProfile();
-  }
-
-  
-  /** Handles the onClose event of the ProfileForm */
-  profileFormClosed = profile => {
-    // profile is not null and therefore created
-    if (profile) {
-      const newProfileList = [...this.state.profiles, profile];
+  getPersonByGoogleUserID = () => {
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    .then((personBO) =>{
+     
       this.setState({
-        profiles: newProfileList,
-        filteredProfiles: [...newProfileList],
+        person: personBO
+      })
+    this.getProfile()
+    }, 
+      )
+      .catch((e) =>
+        this.setState({
+          person: []
+        
+        })
+      )
+  }
+  profileFormClosed = (profile) => {
+    if (profile) {
+      this.setState({
+        profile: profile,
         showProfileForm: false
       });
     } else {
       this.setState({
         showProfileForm: false
-      });
+      })
     }
   }
-
-  /** Handels onChange events of the profile filter text field */
+  
+  updateProfileButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProfileForm: true
+    });
+  }
+  
   
 
-  render() {const { classes} = this.props;
+  componentDidMount() {
+    this.getPersonByGoogleUserID();
+  }
+
+  
+
+  render() 
+  {const { classes, currentUser} = this.props;
+  {const { profile, showProfileForm} = this.state;
     return (
       <div className={classes.root}>
-        <ProfileListEntry show={false} profile={this.state.profiles}></ProfileListEntry>
+        <Paper variant='outlined' className={classes.root}>
+      <Typography align='center' variant='h1' position='static'>
+                  {profile.firstname} {profile.lastname}
+      </Typography>
+      </Paper>
+        <ListItem align='center'>
+          <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
+                Firstname:      {profile.getFirstName()} <br></br>
+                Lastname:       {profile.getLastName()} <br></br>
+                Interests:      {profile.getInterests()} <br></br>
+                Type:           {profile.getType()} <br></br>
+                Online:         {profile.getOnline()} <br></br>
+                Frequency:      {profile.getFrequency()} <br></br>
+                Expertise:      {profile.getExpertise()} <br></br>
+                Extroversion:   {profile.getExtroversion()} <br></br>
+                </Typography>
+                <ButtonGroup variant='text' size='large'>
+                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
+                    Click for edit
+                  </Button>
+                </ButtonGroup>
+                </ListItem>
+                <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
+                
+        
       </div>
     );
   }
+}
 }
 
 
@@ -101,9 +150,9 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ProfileList.propTypes = {
+MyProfile.propTypes = {
   classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
 }
 
-export default (withStyles(styles)(ProfileList));
+export default (withStyles(styles)(MyProfile));

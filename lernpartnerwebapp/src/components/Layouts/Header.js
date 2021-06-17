@@ -2,9 +2,9 @@
 import PropTypes from 'prop-types';
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import ProfileDropDown from '../dialogs/ProfileDropDown';
 import HeaderAfterLogin from './Header-after-login'
 import HeaderLogin from './Header-login'
+import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 /**
  * Shows the header with the main navigation Tabs within a Paper.
@@ -42,13 +42,13 @@ class Header extends Component {
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
           LernApp
-        </Typography>
+        </Typography>s
         {
           user ?
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='My Profile' component={RouterLink} to={`/customers`} />
-            <Tab label='find Learning partner' component={RouterLink} to={`/customer`} />
             <Tab label='All Profiles' component={RouterLink} to={`/accounts`} />
+            <Tab label='find Learning partner' component={RouterLink} to={`/customer`} />
+            <Tab label='My Profile' component={RouterLink} to={`/customers`} />
             <Tab label='About' component={RouterLink} to={`/about`} />
             </Tabs>
             : 

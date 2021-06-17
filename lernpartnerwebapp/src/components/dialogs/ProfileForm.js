@@ -176,11 +176,7 @@ class ProfileForm extends Component {
               <TextField type='text' required fullWidth margin='normal' id='lastName' label='Last name:' value={lastName}
                 onChange={this.textFieldValueChange} error={lastNameValidationFailed}
                 helperText={lastNameValidationFailed ? 'The last name must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='person' label='Person ID:' value={person}
-                onChange={this.textFieldValueChange} error={personValidationFailed}
-                helperText={personValidationFailed ? 'The Person ID must contain at least one character' : ' '} />
-              
+
               <TextField type='text' required fullWidth margin='normal' id='interests' label='Interest:' value={interests}
                 onChange={this.textFieldValueChange} error={interestsValidationFailed}
                 helperText={interestsValidationFailed ? 'The interests must contain at least one character' : ' '} />

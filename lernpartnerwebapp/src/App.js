@@ -107,7 +107,6 @@ class App extends React.Component {
 										<AllProfileList/>
 									</Route>
 									<Route path='/customers' component={() => <MyProfile currentUser={currentUser}/>}/>
-									<Route path='/customers' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/about' component={About} />		
 								</>
 								:
