@@ -64,7 +64,8 @@ class ProfileAdministration:
                     value += 1
                 else: 
                     value +=0
-                if value >= 0:
+                value= value/6 *100
+                if value >= 50:
                    result.append(profile)
 
         for profile in result:
