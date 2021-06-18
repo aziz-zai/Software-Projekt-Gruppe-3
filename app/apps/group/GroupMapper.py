@@ -7,8 +7,29 @@ class GroupMapper(Mapper):
     def find_all():
         pass
 
-    def find_by_key(key):
-        pass
+    def find_by_groupID(cnx: db_connector, learning_group: int):
+        result=[]
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        SELECT id, groupname, info from `mydb`.`learning_group` 
+        WHERE id=%s
+        """
+        cursor.execute(command,(learning_group, ))
+        entity = cursor.fetchone()
+
+        try:
+            (id, info, groupname) = entity
+            result = GroupObject(
+                id_=id,
+                info=info,
+                groupname=groupname
+           )
+        except TypeError:
+            result = None
+
+        cursor.close()
+
+        return result
 
     @staticmethod
     def insert(cnx: db_connector, object: GroupObject) -> GroupObject:

@@ -1,12 +1,31 @@
 from app.apps.core.mapper import Mapper
 from .MembershipBO import MembershipObject
 from app.configs.base import db_connector
-from app.apps.profile.ProfileBO import ProfileObject
+
 
 
 class MembershipMapper(Mapper):
-    def find_all():
-        pass
+    def find_by_profile(cnx: db_connector, profile: int):
+        result=[]
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        SELECT id, learning_group, profile from `mydb`.`membership` 
+        WHERE profile=%s
+        """
+        cursor.execute(command,(profile, ))
+        tuples = cursor.fetchall()
+
+        for (id, learning_group, profile) in tuples:
+            membership = MembershipObject
+            membership.id_=id
+            membership.learning_group = learning_group
+            membership.profile = profile
+            result.append(membership)
+
+        cnx.commit()
+        cursor.close()
+
+        return result
 
     def find_by_groupID(cnx: db_connector, groupID: int):
         result=[]

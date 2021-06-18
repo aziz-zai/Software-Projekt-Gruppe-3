@@ -12,3 +12,9 @@ class GroupAdministration:
         with db_connector as db:
             cnx = db._cnx
             return GroupMapper.insert(cnx=cnx, object=group)
+    
+    @staticmethod
+    def get_by_groupID(learning_group: int):
+        with db_connector as db:
+            cnx=db._cnx
+            return GroupMapper.find_by_groupID(cnx=cnx, learning_group = learning_group)

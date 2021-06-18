@@ -26,3 +26,13 @@ class GroupAPI(Resource):
         group = GroupAdministration.insert_group(group=group) 
         MembershipAdministration.insert_membership(learning_group=group, profile=profile)
         return group
+@namespace.route("/<int:group>")
+class MembershipGroupAPI(Resource):
+    """Get All Members of a group."""
+
+    @api.marshal_with(group_marshalling, code=201)
+    @api.expect(group_marshalling)
+    def get(self, group: int) -> dict:
+        """Create Person Endpoint."""
+        Group = GroupAdministration.get_by_groupID(learning_group=group)
+        return Group

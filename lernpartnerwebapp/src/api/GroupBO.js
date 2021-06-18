@@ -9,9 +9,10 @@ export default class GroupBO extends BusinessObject {
    * 
    * @param {String} aGroupname - the groupname of this GroupBO.
    */
-  constructor(aGroupname) {
+  constructor(aGroupname, aInfo) {
     super();
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
+    this.info = aInfo
   }
 
   /**
@@ -20,14 +21,25 @@ export default class GroupBO extends BusinessObject {
    * @param {String} aGroupname - the new groupname of this GroupBO.
    */
   setGroupName(aGroupname) {
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
   }
 
   /**
    * Gets the groupname.
    */
   getGroupName() {
-    return this.group_name;
+    return this.groupname;
+  }
+
+  setInfo(aInfo) {
+    this.info = aInfo;
+  }
+
+  /**
+   * Gets the groupname.
+   */
+  getInfo() {
+    return this.info;
   }
 
   /** 

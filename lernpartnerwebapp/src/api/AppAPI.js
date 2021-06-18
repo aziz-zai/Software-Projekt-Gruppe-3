@@ -1,7 +1,8 @@
 import PersonBO from './PersonBO';
 import ProfileBO from './ProfileBO';
+import MembershipBO from './MembershipBO';
 //import ConversationBO from './ConversationBO';
-//import GroupBO from './GroupBO';
+import GroupBO from './GroupBO';
 //import MessageBO from './MessageBO';
 //import firebase from './firebase';
 
@@ -37,7 +38,8 @@ export default class AppAPI {
 
 
   //Group related
-  //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
+  #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
+  #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
   //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -177,6 +179,25 @@ export default class AppAPI {
     })
   }
 
+  getGroups(id){
+    return this.#fetchAdvanced(this.#getGroupsURL(id)).then((responseJSON) => {
+      let groupBOs = MembershipBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(groupBOs);
+     })
+ })
+  }
+  getGroupForPerson(id) {
+    return this.#fetchAdvanced(this.#getGroupURL(id))
+     .then((responseJSON) => {
+       let groupBOs = GroupBO.fromJSON(responseJSON);
+       return new Promise(function(resolve){
+         resolve(groupBOs);
+       })
+    })
+ }
+
+ 
  // matchGroup(id) {
  //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
  //     let groupList = [];
