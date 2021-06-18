@@ -5,20 +5,21 @@ from .MembershipBO import MembershipObject
 from .MembershipAdministration import MembershipAdministration
 
 
+
 namespace = api.namespace(
     "/membership",
     description="Namespace for person APIs."
 )
 
 
-@namespace.route("/")
+@namespace.route("/<int:group>")
 class MembershipAPI(Resource):
-    """Basic API for profile."""
+    """Get All Members of a group."""
 
     @api.marshal_with(membership_marshalling, code=201)
     @api.expect(membership_marshalling)
-    def post(self) -> dict:
+    def get(self, group: int) -> dict:
         """Create Person Endpoint."""
-        membership = MembershipObject(**api.payload)
-        membership = MembershipAdministration.insert_membership(membership=membership)
+        membership = MembershipAdministration.get_membership_by_group(learning_group=group)
         return membership
+

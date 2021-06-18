@@ -16,14 +16,15 @@ class GroupMapper(Mapper):
         cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO learning_group (
-                 groupname
-            ) VALUES (%s)
+                 groupname, info
+            ) VALUES (%s, %s)
         """
-        cursor.execute(command, [object.groupname])
+        cursor.execute(command, (object.groupname, object.info))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM learning_group")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
+        
         return object
 
     def update(object):
