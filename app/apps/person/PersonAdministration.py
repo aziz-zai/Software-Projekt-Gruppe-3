@@ -35,3 +35,9 @@ class PersonAdministration:
         with db_connector as db:
             cnx = db._cnx
             PersonMapper.update(cnx=cnx, person= person)
+
+    @staticmethod
+    def delete_person(person: int):
+        with db_connector as db:
+            cnx = db._cnx
+            PersonMapper.delete(cnx=cnx, person=person)
