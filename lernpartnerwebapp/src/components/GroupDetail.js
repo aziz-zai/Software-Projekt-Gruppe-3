@@ -21,7 +21,7 @@ class GroupDetail extends Component {
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
-      test: this.props.memberships
+      memberList:[]
     };
   }
 
@@ -49,6 +49,7 @@ class GroupDetail extends Component {
       loadingError: null
     });
   }
+  
  
   GroupInfo = (event) => {
     event.stopPropagation();
@@ -72,21 +73,20 @@ class GroupDetail extends Component {
 
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, group} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, group, memberList} = this.state;
 
     return (
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {group.groupname} {console.log('GroupDetail', this.state.test)}
+        {group.groupname} 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp show={showGroupForm} memberships={this.state.test} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
+        <GroupPopUp show={showGroupForm} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${group} could not be loaded.`} onReload={this.getGroup} />
       </Paper>
-      
       </div>
     );
   }

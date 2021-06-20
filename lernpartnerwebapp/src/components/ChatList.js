@@ -12,6 +12,7 @@ import ProfileBO from '../api/ProfileBO'
 import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
+import TabPanel from './TabPanel'
 
 /**
  * Shows all profiles of the app.
@@ -81,6 +82,7 @@ class AllProfileList extends Component {
     return (
 
       <div className={classes.root}>
+        <TabPanel value={1} ></TabPanel>
         {console.log('Chatlist', memberships)}
         {
             this.state.groups.map(group => <GroupDetail memberships={memberships} groupID={group.id_}/> )

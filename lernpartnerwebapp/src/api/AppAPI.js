@@ -40,7 +40,7 @@ export default class AppAPI {
   //Group related
   #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
-  //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
   //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -196,7 +196,16 @@ export default class AppAPI {
        })
     })
  }
-
+ 
+ getMembersOfGroup(id) {
+  return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
+   .then((responseJSON) => {
+     let memberBOs = MembershipBO.fromJSON(responseJSON);
+     return new Promise(function(resolve){
+       resolve(memberBOs);
+     })
+  })
+}
  
  // matchGroup(id) {
  //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {

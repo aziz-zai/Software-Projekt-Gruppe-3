@@ -17,7 +17,7 @@ class GroupPopUp extends Component {
     this.state = {
         error: null,
         person: [],
-        profile: new ProfileBO,
+        memberList: [],
     };
     // save this state for canceling
     this.baseState = this.state;
@@ -27,20 +27,26 @@ class GroupPopUp extends Component {
 
     // set loading to true
  
-    getProfile = () => {
-        AppAPI.getAPI().getProfileForPerson(this.props.memberships)
-        .then((profileBO) => {
-          this.setState({  // Set new state when ProfileBOs have been fetched
-            profile: profileBO[0],
-          })}
-          
-          )
-          .catch((e) =>
-            this.setState({
-              profile: [],
-            })
-          );
-      }
+    getMembers = () => {
+      AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
+        this.setState({
+          membersList: members,
+          loadingInProgress: false,
+          loadingError: null
+        })).catch(e =>
+          this.setState({ // Reset state with error from catch 
+            memberList: [],
+            loadingInProgress: false,
+            loadingError: e
+          })
+        );
+  
+      // set loading to true
+      this.setState({
+        loadingInProgress: true,
+        loadingError: null
+      });
+    }
   /** Updates the profile */
 
 
@@ -50,28 +56,29 @@ class GroupPopUp extends Component {
     this.setState(this.baseState);
     this.props.onClose(null);
   }
-
+  componentDidMount() {
+    this.getMembers();
+  }
   /** Renders the component */
   render() {
-    const { classes, group, show, memberships } = this.props;
-    const { profile } = this.state;
+    const { classes, group, show} = this.props;
+    const { memberList } = this.state;
   
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.groupname} <br /><br />
+          <DialogTitle id='form-dialog-title'>{group.getID()} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Gruppeninfo: {group.info}
+                Gruppeninfo: {group.getInfo()}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                    {console.log('profile', memberships)}
-                Teilnehmer: <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()}></ProfileDetail>
+                Teilnehmer: {console.log('members', memberList)}
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
