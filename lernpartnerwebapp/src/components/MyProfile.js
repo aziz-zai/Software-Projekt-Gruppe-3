@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Paper, ListItem, ButtonGroup, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import { Button} from '@material-ui/core';
@@ -12,6 +13,7 @@ import ProfileBO from '../api/ProfileBO';
 import PersonBO from '../api/PersonBO';
 import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
+import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
 
 class MyProfile extends Component {
 
@@ -25,7 +27,8 @@ class MyProfile extends Component {
       showProfileForm: false,
       person: [],
       profile: new ProfileBO,
-      showProfileForm: false
+      showProfileForm: false,
+      showProfileDeleteDialog: false
     };
   }
   getProfile = () => {
@@ -89,18 +92,56 @@ class MyProfile extends Component {
       showProfileForm: true
     });
   }
-  
-  
 
+   /** Handles the onClick event of the delete customer button */
+   deleteProfileButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProfileDeleteDialog: true
+    });
+  }
+
+  /** Handles the onClose event of the CustomerDeleteDialog */
+  deleteProfileDialogClosed = (profile) => {
+    // if customer is not null, delete it
+    if (profile) {
+      this.setState({
+        profile: profile,
+        showProfileDeleteDialog: false
+      });
+    } else {
+      this.setState({
+        showProfileDeleteDialog: false
+      })
+    }
+  }
   componentDidMount() {
     this.getPersonByGoogleUserID();
   }
 
-  
+deletePerson = () => {
+  AppAPI.getAPI().deletePerson(this.props.currentUser.uid).then(() => {
+    this.setState({  // Set new state when PersonBOs have been fetched
+      deletingInProgress: false, // loading indicator 
+      deletingError: null
+    })
+    // console.log(person);
+  }).catch(e =>
+    this.setState({ // Reset state with error from catch 
+      deletingInProgress: false,
+      deletingError: e
+    })
+  );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
 
   render() 
   {const { classes, currentUser} = this.props;
-  {const { profile, showProfileForm} = this.state;
+  {const { profile, loadingInProgress, showDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
         <Paper variant='outlined' className={classes.root}>
@@ -123,12 +164,17 @@ class MyProfile extends Component {
                   <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
                     Click for edit
                   </Button>
+                  <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteProfileButtonClicked}>
+                    Delete
+                  </Button>
                 </ButtonGroup>
                 </ListItem>
+                <ListItem>
+                  <LoadingProgress show={loadingInProgress || deletingInProgress} />
+                </ListItem>
                 <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
-                
-        
-      </div>
+                <PersonDeleteDialog show={showDeleteDialog} person={person} onClose={this.deleteProfileDialogClosed}/>
+      </div>  
     );
   }
 }

@@ -109,7 +109,7 @@ class App extends React.Component {
 									</Route>
 									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
-									<Route path='/about' component={About} />		
+									<Route path='/about' component={About} />	
 								</>
 								:
 								// else show the sign in page
