@@ -37,3 +37,11 @@ class PersonAPI(Resource):
         """Create Person Endpoint."""
         pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
         return pers
+        
+    @api.marshal_with(person_marshalling, code=200)
+    @api.expect(person_marshalling)
+    @secured
+    def delete(self, google_user_id) -> dict:
+        """Delete Person Endpoint."""
+        PersonAdministration.delete_person(person=google_user_id)
+        return '', 200
