@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Paper, ListItem, ButtonGroup, Typography } from '@material-ui/core';
+import { withStyles, Paper, ListItem, ButtonGroup, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
@@ -13,7 +13,7 @@ import ProfileBO from '../api/ProfileBO';
 import PersonBO from '../api/PersonBO';
 import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
-import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
+import CloseIcon from '@material-ui/icons/Close';
 
 class MyProfile extends Component {
 
@@ -25,7 +25,7 @@ class MyProfile extends Component {
     this.state = {
       error: null,
       showProfileForm: false,
-      person: [],
+      person: new PersonBO,
       profile: new ProfileBO,
       showProfileForm: false,
       showProfileDeleteDialog: false
@@ -123,7 +123,8 @@ deletePerson = () => {
   AppAPI.getAPI().deletePerson(this.props.currentUser.uid).then(() => {
     this.setState({  // Set new state when PersonBOs have been fetched
       deletingInProgress: false, // loading indicator 
-      deletingError: null
+      deletingError: null,
+      showProfileDeleteDialog: false
     })
     // console.log(person);
   }).catch(e =>
@@ -138,28 +139,32 @@ deletePerson = () => {
       deletingError: null
     });
   }
-
+  
   render() 
   {const { classes, currentUser} = this.props;
-  {const { profile, loadingInProgress, showDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
+  {const { profile, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
+       
         <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
                   {profile.firstname} {profile.lastname}
       </Typography>
       </Paper>
-        <ListItem align='center'>
-          <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
-                Firstname:      {profile.getFirstName()} <br></br>
-                Lastname:       {profile.getLastName()} <br></br>
-                Interests:      {profile.getInterests()} <br></br>
-                Type:           {profile.getType()} <br></br>
-                Online:         {profile.getOnline()} <br></br>
-                Frequency:      {profile.getFrequency()} <br></br>
-                Expertise:      {profile.getExpertise()} <br></br>
-                Extroversion:   {profile.getExtroversion()} <br></br>
+        <ListItem align='center'> 
+        {profile ? 
+        <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
+                Firstname:      {profile.firstname} <br></br>
+                Lastname:       {profile.lastname} <br></br>
+                Interests:      {profile.interests} <br></br>
+                Type:           {profile.type_} <br></br>
+                Online:         {profile.online} <br></br>
+                Frequency:      {profile.frequency} <br></br>
+                Expertise:      {profile.expertise} <br></br>
+                Extroversion:   {profile.extroversion} <br></br>
                 </Typography>
+                : null
+              }
                 <ButtonGroup variant='text' size='large'>
                   <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
                     Click for edit
@@ -173,7 +178,28 @@ deletePerson = () => {
                   <LoadingProgress show={loadingInProgress || deletingInProgress} />
                 </ListItem>
                 <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
-                <PersonDeleteDialog show={showDeleteDialog} person={person} onClose={this.deleteProfileDialogClosed}/>
+                {showProfileDeleteDialog ?
+        <Dialog open={showProfileDeleteDialog} onClose={this.deleteProfileDialogClosed}>
+          <DialogTitle id='delete-dialog-title'>Delete person
+            <IconButton className={classes.closeButton} onClick={this.deleteProfileDialogClosed}>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Really delete person (ID: {person.id_})
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color='secondary'>
+              Cancel
+            </Button>
+            <Button variant='contained' onClick={this.deletePerson} color='primary'>
+              Delete
+            </Button> 
+          </DialogActions>
+        </Dialog>
+        : null}
       </div>  
     );
   }
