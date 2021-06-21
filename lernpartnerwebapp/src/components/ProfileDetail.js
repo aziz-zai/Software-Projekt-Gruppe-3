@@ -7,6 +7,8 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileForm from './dialogs/ProfileForm'
 import ProfilePopUp from './dialogs/ProfilePopUp'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import AddIcon from '@material-ui/icons/Add';
 
 
 class ProfileDetail extends Component {
@@ -20,6 +22,8 @@ class ProfileDetail extends Component {
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
+      request:[],
+      requestSent:false
     };
   }
 
