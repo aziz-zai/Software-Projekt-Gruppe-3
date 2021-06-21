@@ -71,13 +71,29 @@ class ProfileDetail extends Component {
     }
   }
 
-  sendRequestButton = (event) => {
-    event.stopPropagation();
+  sendRequest = () => {
+    AppAPI.getAPI().sendRequest(2,3).then(newRequest =>
+      this.setState({
+        request: newRequest,
+        loadingInProgress: false,
+        loadingError: null,
+        requestSent: true
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          request: [],
+          loadingInProgress: false,
+          loadingError: e,
+          requestSent: false
+        })
+      );
+ 
+    // set loading to true
     this.setState({
-      showRequestForm: true
+      loadingInProgress: true,
+      loadingError: null,
+      requestSent: false
     });
   }
-
   render() {
     const { classes, Firstname, Lastname, profileID} = this.props;
     const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
