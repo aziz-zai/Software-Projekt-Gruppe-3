@@ -48,6 +48,7 @@ import RequestBO from '../api/RequestBO'
         person: personBO
       })
       this.loadGroups()
+      this.getRequests()
     },
       )
       .catch((e) =>
@@ -56,6 +57,24 @@ import RequestBO from '../api/RequestBO'
         
         })
       )
+  }
+  getRequests= () => {
+    AppAPI.getAPI().getRequestsForPerson(3).then(newRequest =>
+      this.setState({
+        requests: newRequest,
+        
+        
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          requests: [],
+        })
+      );
+ 
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
   }
   loadGroups = () => {
     AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
@@ -96,7 +115,11 @@ import RequestBO from '../api/RequestBO'
         {
             this.state.groups.map(group => <GroupDetail memberships={memberships} groupID={group.id_}/> )
           }
-
+          <div>
+          {
+            console.log('sender', this.state.requests)
+          }
+          </div>
       </div>
 
     );
@@ -111,11 +134,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-AllProfileList.propTypes = {
+ChatList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(AllProfileList);
+export default withStyles(styles)(ChatList);
