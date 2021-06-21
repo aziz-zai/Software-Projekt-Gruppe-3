@@ -13,12 +13,13 @@ import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
 import TabPanel from './TabPanel'
+import RequestBO from '../api/RequestBO'
 
 /**
  * Shows all profiles of the app.
  * 
  */
-class AllProfileList extends Component {
+ class ChatList extends Component {
 
   constructor(props) {
     super(props);
@@ -27,7 +28,8 @@ class AllProfileList extends Component {
     this.state = {
        person: [],
        groups: [],
-       memberships: []
+       memberships: [],
+       requests: []
     };
   }
 
