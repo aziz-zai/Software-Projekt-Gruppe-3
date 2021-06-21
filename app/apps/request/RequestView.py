@@ -36,7 +36,7 @@ class CreateRequestAPI(Resource):
     #@secured
     def post(self, sender: int, receiver: int) -> dict:
         request = RequestObject
-        request.sender=sender
-        request.receiver=receiver
+        request.is_open = False
+        request.is_accepted = False
         request = RequestAdministration.send_request(request=request)
         return request

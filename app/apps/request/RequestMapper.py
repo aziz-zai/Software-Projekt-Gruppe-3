@@ -64,36 +64,25 @@ class RequestMapper(Mapper):
         return result
 
     def find_by_person_id(cnx: db_connector, receiver: int) -> RequestObject:
-        
         result = []
+
         cursor = cnx.cursor(buffered=True)
-        
-        command = """
-        SELECT
-         id,
-         is_accepted, 
-         is_open,
-         sender,
-         receiver,
-        FROM request WHERE receiver=%s
-        """
+        command = " SELECT id, is_accepted, is_open, sender,  receiver FROM request WHERE receiver=%s "
         cursor.execute(command,(receiver, ))
         tuples = cursor.fetchall()
-
-        for (id, is_accepted, sender, is_open, receiver) in tuples:
-            request = RequestObject()
+        
+        for (id, is_accepted,is_open, sender, receiver) in tuples:
+            request = RequestObject
             request.id_ = id
             request.is_accepted = is_accepted
-            request.sender = sender
             request.is_open = is_open
+            request.sender = sender
             request.receiver = receiver
-
             result.append(request)
 
         cursor.close()
 
         return result
-
     @staticmethod
     def insert(cnx: db_connector, object: RequestObject) -> RequestObject:
         """Create Request Object."""
