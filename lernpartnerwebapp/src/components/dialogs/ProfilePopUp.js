@@ -53,27 +53,27 @@ class ProfilePopUp extends Component {
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                   Type: {profile.type_}
+                   Learning type: {profile.type_}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Online:  {profile.online}
+                  Online preference:  {profile.online}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Frequency:  {profile.frequency}
+                  Learning frequency:  {profile.frequency}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Expertise:  {profile.expertise}
+                  Personal competencies:  {profile.expertise}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                 Extroversion: {profile.extroversion}
+                 Personality trait: {profile.extroversion}
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>

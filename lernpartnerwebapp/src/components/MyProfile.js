@@ -116,7 +116,7 @@ class MyProfile extends Component {
                 Learning type:            {profile.getType()} <br></br>
                 Online preference:        {profile.getOnline()} <br></br>
                 Learning frequency:       {profile.getFrequency()} <br></br>
-                Personal compentencies:   {profile.getExpertise()} <br></br>
+                Personal competencies:   {profile.getExpertise()} <br></br>
                 Personality trait:        {profile.getExtroversion()} <br></br>
                 </Typography>
                 <ButtonGroup variant='text' size='large'>
