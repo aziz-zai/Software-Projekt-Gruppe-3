@@ -110,14 +110,14 @@ class MyProfile extends Component {
       </Paper>
         <ListItem align='center'>
           <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
-                Firstname:      {profile.getFirstName()} <br></br>
-                Lastname:       {profile.getLastName()} <br></br>
-                Interests:      {profile.getInterests()} <br></br>
-                Type:           {profile.getType()} <br></br>
-                Online:         {profile.getOnline()} <br></br>
-                Frequency:      {profile.getFrequency()} <br></br>
-                Expertise:      {profile.getExpertise()} <br></br>
-                Extroversion:   {profile.getExtroversion()} <br></br>
+                Firstname:                {profile.getFirstName()} <br></br>
+                Lastname:                 {profile.getLastName()} <br></br>
+                Interests:                {profile.getInterests()} <br></br>
+                Learning type:            {profile.getType()} <br></br>
+                Online preference:        {profile.getOnline()} <br></br>
+                Learning frequency:       {profile.getFrequency()} <br></br>
+                Personal compentencies:   {profile.getExpertise()} <br></br>
+                Personality trait:        {profile.getExtroversion()} <br></br>
                 </Typography>
                 <ButtonGroup variant='text' size='large'>
                   <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
