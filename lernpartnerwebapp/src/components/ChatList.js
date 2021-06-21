@@ -27,7 +27,8 @@ class AllProfileList extends Component {
     this.state = {
        person: [],
        groups: [],
-       memberships: []
+       memberships: [],
+       group: [],
     };
   }
 
@@ -74,6 +75,19 @@ class AllProfileList extends Component {
     });
   }
 
+  createGroup = () => {
+    AppAPI.getAPI().createGroup(1).then(newGroup=>
+      this.setState({
+        group: newGroup
+      })).catch(e=>
+        this.setState({
+          group: [],
+        }));
+        this.setState({
+          loadingInProgress: true,
+          error: null
+        })
+  }
 
   render() {
     const { classes } = this.props;
@@ -83,11 +97,13 @@ class AllProfileList extends Component {
 
       <div className={classes.root}>
         <TabPanel value={1} ></TabPanel>
-        {console.log('Chatlist', memberships)}
+        {console.log('person', this.state.person.id_)}
         {
             this.state.groups.map(group => <GroupDetail memberships={memberships} groupID={group.id_}/> )
           }
-
+        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroup}>
+            Neue Gruppe
+        </Button>
       </div>
 
     );

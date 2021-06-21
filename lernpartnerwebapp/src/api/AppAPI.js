@@ -41,7 +41,7 @@ export default class AppAPI {
   #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
-  //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  #createGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -204,6 +204,23 @@ export default class AppAPI {
      return new Promise(function(resolve){
        resolve(memberBOs);
      })
+  })
+}
+createGroup(id) {
+  return this.#fetchAdvanced(this.#createGroupURL(id), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(id)
+  }).then((responseJSON) => {
+    // We always get an array of PersonBOs.fromJSON, but only need one object
+    let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+    // console.info(profileBOs);
+    return new Promise(function (resolve) {
+      resolve(responseGroupBO);
+      })
   })
 }
  
