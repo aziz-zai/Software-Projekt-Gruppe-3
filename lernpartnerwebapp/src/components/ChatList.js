@@ -74,6 +74,13 @@ class AllProfileList extends Component {
     });
   }
 
+  sendRequestButton = (item) => {
+    this.setState({
+      person: item,
+      sendRequestButton: true
+    })
+  }
+
 
   render() {
     const { classes } = this.props;

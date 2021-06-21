@@ -67,6 +67,13 @@ class ProfileDetail extends Component {
     }
   }
 
+  sendRequestButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showRequestForm: true
+    });
+  }
+
   render() {
     const { classes, Firstname, Lastname, profileID} = this.props;
     const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
@@ -77,6 +84,8 @@ class ProfileDetail extends Component {
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
+        </Button>
+        <Button color='primary' onClick={this.sendRequestButton}>
         </Button>
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
