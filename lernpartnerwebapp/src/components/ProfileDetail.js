@@ -104,9 +104,16 @@ class ProfileDetail extends Component {
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
+        </Button>&nbsp; &nbsp;
+        <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
+        {console.log('request', this.state.request)}Request
         </Button>
-        <Button color='primary' onClick={this.sendRequestButton}>
-        </Button>
+        {
+        this.state.requestSent ? 
+        <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
+        </Button> 
+        : null
+        }
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
