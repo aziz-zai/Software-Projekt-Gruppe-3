@@ -2,33 +2,42 @@ import BusinessObject from './BusinessObject';
 
 export default class GroupBO extends BusinessObject {
 
-  constructor(aGroupname) {
+  /**
+   * Constructs a GroupBO object with a given groupname.
+   * 
+   * @param {String} aGroupname - the groupname of this GroupBO.
+   */
+  constructor(aGroupname, aInfo) {
     super();
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
+    this.info = aInfo
   }
 
   setGroupName(aGroupname) {
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
   }
 
   getGroupName() {
-    return this.group_name;
+    return this.groupname;
   }
 
-  static fromJSON(groups) {
-    let result = [];
+  setInfo(aInfo) {
+    this.info = aInfo;
+  }
 
-    if (Array.isArray(groups)) {
-      groups.forEach((g) => {
-        Object.setPrototypeOf(g, GroupBO.prototype);
-        result.push(g);
-      })
-    } else {
-      // Es handelt sich offenbar um ein singuläres Objekt
-      let g = groups;
-      Object.setPrototypeOf(g, GroupBO.prototype);
-      result.push(g);
-    }
-    return result;
+  /**
+   * Gets the groupname.
+   */
+  getInfo() {
+    return this.info;
+  }
+
+  /** 
+   * Returns an Array of GroupBOs from a given JSON structure.
+   */
+   static fromJSON(group) {
+    let g = Object.setPrototypeOf(group, GroupBO.prototype);
+    return g;
+
   }
 }

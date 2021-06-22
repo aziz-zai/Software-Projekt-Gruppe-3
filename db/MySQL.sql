@@ -20,6 +20,7 @@ USE `mydb` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`learning_group` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `groupname` VARCHAR(45) NULL DEFAULT NULL,
+  `info` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -87,14 +88,9 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `person` INT NOT NULL,
   `learning_group` INT NOT NULL,
   `profile` INT NOT NULL,
   PRIMARY KEY (`id`),
-   CONSTRAINT `person_memberhsip`
-   FOREIGN KEY (`person`)
-        REFERENCES mydb.person(id)
-        ON DELETE CASCADE,
    CONSTRAINT `learning_group_membership`
    FOREIGN KEY (`learning_group`)
         REFERENCES mydb.learning_group(id)

@@ -1,7 +1,8 @@
 import PersonBO from './PersonBO';
 import ProfileBO from './ProfileBO';
+import MembershipBO from './MembershipBO';
 //import ConversationBO from './ConversationBO';
-//import GroupBO from './GroupBO';
+import GroupBO from './GroupBO';
 //import MessageBO from './MessageBO';
 //import firebase from './firebase';
 
@@ -32,9 +33,10 @@ export default class AppAPI {
   //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
 
   //Group related
-  //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
-  //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
+  #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
+  #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
+  #createGroupURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}/${id}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -167,6 +169,51 @@ export default class AppAPI {
     })
   }
 
+  getGroups(id){
+    return this.#fetchAdvanced(this.#getGroupsURL(id)).then((responseJSON) => {
+      let groupBOs = MembershipBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(groupBOs);
+     })
+ })
+  }
+  getGroupForPerson(id) {
+    return this.#fetchAdvanced(this.#getGroupURL(id))
+     .then((responseJSON) => {
+       let groupBOs = GroupBO.fromJSON(responseJSON);
+       return new Promise(function(resolve){
+         resolve(groupBOs);
+       })
+    })
+ }
+ 
+ getMembersOfGroup(id) {
+  return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
+   .then((responseJSON) => {
+     let memberBOs = MembershipBO.fromJSON(responseJSON);
+     return new Promise(function(resolve){
+       resolve(memberBOs);
+     })
+  })
+}
+createGroup(groupname, groupinfo, id) {
+  return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo, id), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(groupname, groupinfo, id)
+  }).then((responseJSON) => {
+    // We always get an array of GroupBOs.fromJSON, but only need one object
+    let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+    // console.info(groupBOs);
+    return new Promise(function (resolve) {
+      resolve(responseGroupBO);
+      })
+  })
+}
+ 
  // matchGroup(id) {
  //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
  //     let groupList = [];
