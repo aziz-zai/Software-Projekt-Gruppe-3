@@ -119,6 +119,19 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
+-- -----------------------------------------------------
+-- Table `mydb`.`request`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`request` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `is_accepted` TINYINT NOT NULL DEFAULT NULL,
+  `is_open` TINYINT NOT NULL DEFAULT NULL,
+  `sender` INT NOT NULL ,
+  `receiver` INT NOT NULL ,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
