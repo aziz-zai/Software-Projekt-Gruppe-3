@@ -10,23 +10,11 @@ class ProfilePopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
-      
     };
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
- 
-
-  /** Updates the profile */
-
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -35,7 +23,6 @@ class ProfilePopUp extends Component {
     this.props.onClose(null);
   }
 
-  /** Renders the component */
   render() {
     const { classes, profile, show } = this.props;
   

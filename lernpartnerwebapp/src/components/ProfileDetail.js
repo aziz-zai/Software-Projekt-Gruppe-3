@@ -5,9 +5,7 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ProfileForm from './dialogs/ProfileForm'
 import ProfilePopUp from './dialogs/ProfilePopUp'
-
 
 class ProfileDetail extends Component {
 
@@ -40,7 +38,6 @@ class ProfileDetail extends Component {
           loadingError: e
         })
       );
-
     // set loading to true
     this.setState({
       loadingInProgress: true,
@@ -53,7 +50,6 @@ class ProfileDetail extends Component {
       showProfileForm: true
     });
   }
-
   profileFormClosed = (profile) => {
     if (profile) {
       this.setState({
@@ -68,8 +64,8 @@ class ProfileDetail extends Component {
   }
 
   render() {
-    const { classes, Firstname, Lastname, profileID} = this.props;
-    const {loadingInProgress, loadingError, showProfileForm, profile, history } = this.state;
+    const { classes, Firstname, Lastname} = this.props;
+    const {loadingInProgress, loadingError, showProfileForm, profile} = this.state;
 
     return (
       <div>
@@ -83,7 +79,6 @@ class ProfileDetail extends Component {
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
       </Paper>
-      
       </div>
     );
   }

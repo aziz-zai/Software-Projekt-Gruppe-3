@@ -5,16 +5,8 @@ import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
-/**
- * Shows an in-line error message in a given component context,
- * if the error obejct is not null
- * 
- * @See See Material-UIs [Alert](https://material-ui.com/api/alert/)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
 class ContextErrorMessage extends Component {
-  #standardText = 'This should not have happend. Soooo sorry...';
+  #standardText = 'This should not have happened. Soooo sorry...';
 
   /** Renders the ContextErrorMessage if error object is not null  */
   render() {

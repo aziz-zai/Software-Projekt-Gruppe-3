@@ -59,12 +59,7 @@ class ProfileForm extends Component {
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
  
-
   /** Updates the profile */
   updateProfile = () => {
     // clone the original person, in case the backend call fails
@@ -236,7 +231,6 @@ class ProfileForm extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',

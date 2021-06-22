@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Paper, ListItem, ButtonGroup, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add'
-import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
 import { Button} from '@material-ui/core';
 import { AppAPI} from '../api';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import ProfileBO from '../api/ProfileBO';
-import PersonBO from '../api/PersonBO';
 import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
 
@@ -17,8 +14,6 @@ class MyProfile extends Component {
 
   constructor(props) {
     super(props);
-
-
     // Init the state
     this.state = {
       error: null,
@@ -36,7 +31,6 @@ class MyProfile extends Component {
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })}
-      
       )
       .catch((e) =>
         this.setState({
@@ -44,9 +38,7 @@ class MyProfile extends Component {
           loadingInProgress: false,
           loadingProfileError: e,
         })
-      
       );
-
     this.setState({
       loadingInProgress: true,
       loadingProfileError: null
@@ -90,16 +82,12 @@ class MyProfile extends Component {
     });
   }
   
-  
-
   componentDidMount() {
     this.getPersonByGoogleUserID();
   }
 
-  
-
   render() 
-  {const { classes, currentUser} = this.props;
+  {const { classes} = this.props;
   {const { profile, showProfileForm} = this.state;
     return (
       <div className={classes.root}>
@@ -126,14 +114,11 @@ class MyProfile extends Component {
                 </ButtonGroup>
                 </ListItem>
                 <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
-                
-        
       </div>
     );
   }
 }
 }
-
 
 const styles = theme => ({
   root: {

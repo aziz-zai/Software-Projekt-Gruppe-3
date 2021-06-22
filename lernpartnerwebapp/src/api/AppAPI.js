@@ -5,7 +5,6 @@ import ProfileBO from './ProfileBO';
 //import MessageBO from './MessageBO';
 //import firebase from './firebase';
 
-
 export default class AppAPI {
 
   static #api = null;
@@ -21,20 +20,16 @@ export default class AppAPI {
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
   #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
   
-
-
   //Conversation related
   //#getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
   //#getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-
 
   //Group related
   //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
@@ -52,9 +47,6 @@ export default class AppAPI {
   //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`
 
-
-
-
    static getAPI() {
     if (this.#api == null) {
       this.#api = new AppAPI();
@@ -70,8 +62,6 @@ export default class AppAPI {
       return res.json();
   })
 
-
- 
   getPersons() {
        return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
@@ -81,7 +71,6 @@ export default class AppAPI {
       })
   }
 
-  
   getPerson(personID) {
     return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
       let person = PersonBO.fromJSON(responseJSON);
@@ -90,7 +79,6 @@ export default class AppAPI {
       })
     })
   }
-
 
   addPerson(personBO) {
       return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -122,6 +110,7 @@ export default class AppAPI {
       })
     })
   }
+
   searchProfile(firstname, lastname) {
       return this.#fetchAdvanced(this.#searchProfileURL(firstname, lastname)).then((responseJSON) => {
         let ProfileBOs = ProfileBO.fromJSON(responseJSON);
@@ -150,6 +139,7 @@ export default class AppAPI {
         })
      })
   }
+
   updateProfile(profileBO) {
     return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getPersonID()), {
       method: 'PUT',
@@ -189,6 +179,4 @@ export default class AppAPI {
  //     })
  //   })
  // }
-
-
 } 
