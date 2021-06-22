@@ -7,6 +7,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileForm from './dialogs/ProfileForm'
 import GroupPopUp from './dialogs/GroupPopUp'
+import GroupBO from '../api/GroupBO'
 
 
 class GroupDetail extends Component {
@@ -16,12 +17,11 @@ class GroupDetail extends Component {
 
     // Init state
     this.state = {
-      group: [],
+      group: new GroupBO,
       showGroupForm: false,
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
-      memberList:[]
     };
   }
 
@@ -30,9 +30,9 @@ class GroupDetail extends Component {
   }
 
   getGroup = () => {
-    AppAPI.getAPI().getGroupForPerson(this.props.groupID).then(group =>
+    AppAPI.getAPI().getGroupForPerson(this.props.membership.learning_group).then(group =>
       this.setState({
-        group: group[0],
+        group: group,
         loadingInProgress: false,
         loadingError: null
       })).catch(e =>
@@ -77,9 +77,10 @@ class GroupDetail extends Component {
 
     return (
       <div>
+        {console.log('memberID', this.props.membership.learning_group)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {group.groupname} 
+        {group.info}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
         <GroupPopUp show={showGroupForm} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
@@ -107,8 +108,7 @@ const styles = theme => ({
 
 GroupDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  groupID: PropTypes.any.isRequired,
-  memberships: PropTypes.any.isRequired
+  membership: PropTypes.any.isRequired
 
 }
 

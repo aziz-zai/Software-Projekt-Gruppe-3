@@ -26,8 +26,7 @@ export default class AppAPI {
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
-  #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
-  
+  #matchProfilesURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
 
 
   //Conversation related
@@ -41,7 +40,7 @@ export default class AppAPI {
   #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
-  #createGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
+  #createGroupURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}/${id}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -206,18 +205,18 @@ export default class AppAPI {
      })
   })
 }
-createGroup(id) {
-  return this.#fetchAdvanced(this.#createGroupURL(id), {
+createGroup(groupname, groupinfo, id) {
+  return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo, id), {
     method: 'POST',
     headers: {
       'Accept': 'application/json, text/plain',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify(id)
+    body: JSON.stringify(groupname, groupinfo, id)
   }).then((responseJSON) => {
-    // We always get an array of PersonBOs.fromJSON, but only need one object
+    // We always get an array of GroupBOs.fromJSON, but only need one object
     let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
-    // console.info(profileBOs);
+    // console.info(groupBOs);
     return new Promise(function (resolve) {
       resolve(responseGroupBO);
       })

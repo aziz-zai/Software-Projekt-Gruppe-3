@@ -31,10 +31,11 @@ class CreateGroupForm extends Component {
     
   /** Updates the profile */
   createGroup = () => {
-    AppAPI.getAPI().createGroup(this.props.person.id_).then(newGroup=>
+    AppAPI.getAPI().createGroup(this.state.groupname, this.state.groupinfo, this.props.person.id_).then(newGroup=>
       this.setState({
         group: newGroup
-      })).catch(e=>
+      })
+      ).catch(e=>
         this.setState({
           group: [],
         }));
@@ -43,20 +44,33 @@ class CreateGroupForm extends Component {
           error: null
         })
   }
+  textFieldValueChange = (event) => {
+    const value = event.target.value;
 
+    let error = false;
+    if (value.trim().length === 0) {
+      error = true;
+    }
+
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
+  }
   /** Handles the close / cancel button click event */
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
     this.props.onClose(null);
   }
+
+
   componentDidMount() {
-    this.getMembers();
+   
   }
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList } = this.state;
+    const { memberList, groupname, groupinfo} = this.state;
   
     return (
       show ?
@@ -66,17 +80,19 @@ class CreateGroupForm extends Component {
               <CloseIcon />
             </IconButton>
             <DialogContent>
-            <TextField autoFocus type='text' required fullWidth margin='normal' id='Groupname' label='Groupname:' value={groupname} 
+            <form className={classes.root} noValidate autoComplete='off'>
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='groupname' label='Groupname:' value={groupname} 
                 onChange={this.textFieldValueChange}  />
-            <TextField autoFocus type='text' required fullWidth margin='normal' id='Groupinfo' label='Groupname:' value={groupinfo} 
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='groupinfo' label='Groupinfo:' value={groupinfo} 
                 onChange={this.textFieldValueChange}  />
+                </form>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
             Partner hinzufügen
           </Button>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small' onClick={this.createGroup}>
             Create Group
           </Button>
           
@@ -101,7 +117,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-CreateGroupFor.propTypes = {
+CreateGroupForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be edited */
@@ -117,4 +133,4 @@ CreateGroupFor.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(CreateGroupFor);
+export default withStyles(styles)(CreateGroupForm);

@@ -13,6 +13,7 @@ import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
 import TabPanel from './TabPanel'
+import CreateGroupForm from './dialogs/CreateGroupForm'
 
 /**
  * Shows all profiles of the app.
@@ -26,9 +27,8 @@ class ChatList extends Component {
     // Init an empty state
     this.state = {
        person: [],
-       groups: [],
        memberships: [],
-       group: [],
+       showCreateGroupForm: false
     };
   }
 
@@ -59,12 +59,11 @@ class ChatList extends Component {
   loadGroups = () => {
     AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
       this.setState({
-        groups: groups,
         memberships: groups
         
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          groups: []
+          memberships: []
         })
       );
 
@@ -74,20 +73,24 @@ class ChatList extends Component {
       error: null
     });
   }
-
-  createGroup = () => {
-    AppAPI.getAPI().createGroup(this.state.person.id_).then(newGroup=>
+  profileFormClosed = (group) => {
+    if (group) {
       this.setState({
-        group: newGroup
-      })).catch(e=>
-        this.setState({
-          group: [],
-        }));
-        this.setState({
-          loadingInProgress: true,
-          error: null
-        })
+        showCreateGroupForm: false
+      });
+    } else {
+      this.setState({
+        showCreateGroupForm: false
+      })
+    }
   }
+  createGroupButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showCreateGroupForm: true
+    });
+  }
+  
 
   render() {
     const { classes } = this.props;
@@ -97,13 +100,14 @@ class ChatList extends Component {
 
       <div className={classes.root}>
         <TabPanel value={1} ></TabPanel>
-        {console.log('person', this.state.person.id_)}
+        {console.log('memberships', this.state.memberships)}
         {
-            this.state.groups.map(group => <GroupDetail memberships={memberships} groupID={group.id_}/> )
+            this.state.memberships.map(membership =>  <GroupDetail membership={membership}/> )
           }
-        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroup}>
+        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
         </Button>
+          <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
       </div>
 
     );

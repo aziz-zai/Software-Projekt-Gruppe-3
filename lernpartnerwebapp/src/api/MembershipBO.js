@@ -52,19 +52,19 @@ export default class MembershipBO extends BusinessObject {
   /** 
    * Returns an Array of GroupBOs from a given JSON structure.
    */
-  static fromJSON(groups) {
+   static fromJSON(membership) {
     let result = [];
 
-    if (Array.isArray(groups)) {
-      groups.forEach((g) => {
-        Object.setPrototypeOf(g, MembershipBO.prototype);
-        result.push(g);
+    if (Array.isArray(membership)) {
+      membership.forEach((me) => {
+        Object.setPrototypeOf(me, MembershipBO.prototype);
+        result.push(me);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let g = groups;
-      Object.setPrototypeOf(g, MembershipBO.prototype);
-      result.push(g);
+      let me = membership;
+      Object.setPrototypeOf(me, MembershipBO.prototype);
+      result.push(me);
     }
 
     return result;
