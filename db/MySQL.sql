@@ -106,16 +106,29 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`request`
+-- Table `mydb`.`chatroom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `is_accepted` TINYINT NULL DEFAULT NULL,
   `is_open` TINYINT NULL DEFAULT NULL,
-  `sender` INT NOT NULL ,
-  `receiver` INT NOT NULL ,
-  `group` INT NOT NULL ,
-  PRIMARY KEY (`id`))
+  `sender` INT,
+  `receiver` INT,
+  `learning_group` INT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `chatroom_sender`
+   FOREIGN KEY (`sender`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE,
+CONSTRAINT `chatroom_receiver`
+   FOREIGN KEY (`receiver`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE,
+CONSTRAINT `chatroom_group`
+   FOREIGN KEY (`learning_group`)
+        REFERENCES mydb.learning_group(id)
+        ON DELETE CASCADE)
+        
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
