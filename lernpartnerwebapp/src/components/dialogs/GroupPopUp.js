@@ -6,15 +6,49 @@ import { AppAPI, ProfileBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
-class ProfilePopUp extends Component {
+import ProfileDetail from '../ProfileDetail'
+class GroupPopUp extends Component {
   constructor(props) {
     super(props);
 
+    
+
+    // Init the state
     this.state = {
+        error: null,
+        person: [],
+        memberList: [],
     };
     // save this state for canceling
     this.baseState = this.state;
   }
+
+  /** Adds the profile */
+
+    // set loading to true
+ 
+    getMembers = () => {
+      AppAPI.getAPI().getMembersOfGroup(1).then(members =>
+        this.setState({
+          memberList: members,
+          loadingInProgress: false,
+          loadingError: null
+        })).catch(e =>
+          this.setState({ // Reset state with error from catch 
+            memberList: [],
+            loadingInProgress: false,
+            loadingError: e
+          })
+        );
+  
+      // set loading to true
+      this.setState({
+        loadingInProgress: true,
+        loadingError: null
+      });
+    }
+  /** Updates the profile */
+
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -22,51 +56,38 @@ class ProfilePopUp extends Component {
     this.setState(this.baseState);
     this.props.onClose(null);
   }
-
+  componentDidMount() {
+    this.getMembers();
+  }
+  /** Renders the component */
   render() {
-    const { classes, profile, show } = this.props;
+    const { classes, group, show} = this.props;
+    const { memberList } = this.state;
   
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{profile.firstname} {profile.lastname}<br /><br />
+          <DialogTitle id='form-dialog-title'>{group.getInfo()} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                   Interests: {profile.interests}
+                Gruppeninfo: {group.getGroupName()}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                   Learning type: {profile.type_}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Online preference:  {profile.online}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Learning frequency:  {profile.frequency}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Personal competencies:  {profile.expertise}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                 Personality trait: {profile.extroversion}
+                Teilnehmer: 
+                {
+            memberList.map(member => console.log('member', member.profile))
+          }
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Chat
+            Partner hinzufügen
           </Button>
           
         </DialogActions>
@@ -90,11 +111,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ProfilePopUp.propTypes = {
+GroupPopUp.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be edited */
-  profile: PropTypes.any.isRequired,
+  group: PropTypes.any.isRequired,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**  
@@ -106,4 +127,4 @@ ProfilePopUp.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(ProfilePopUp);
+export default withStyles(styles)(GroupPopUp);

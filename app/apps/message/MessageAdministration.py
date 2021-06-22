@@ -11,5 +11,4 @@ class MessageAdministration:
         """Insert Message Manager."""
         with db_connector as db:
             cnx = db._cnx
-            return MessageMapper.insert(cnx=cnx, object=message
-            )
+            return MessageMapper.insert(cnx=cnx, object=message)

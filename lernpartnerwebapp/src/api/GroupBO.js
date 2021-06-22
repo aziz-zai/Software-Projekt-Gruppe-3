@@ -1,7 +1,5 @@
 import BusinessObject from './BusinessObject';
 
-/**
- */
 export default class GroupBO extends BusinessObject {
 
   /**
@@ -9,45 +7,37 @@ export default class GroupBO extends BusinessObject {
    * 
    * @param {String} aGroupname - the groupname of this GroupBO.
    */
-  constructor(aGroupname) {
+  constructor(aGroupname, aInfo) {
     super();
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
+    this.info = aInfo
   }
 
-  /**
-   * Sets a new groupname.
-   * 
-   * @param {String} aGroupname - the new groupname of this GroupBO.
-   */
   setGroupName(aGroupname) {
-    this.group_name = aGroupname;
+    this.groupname = aGroupname;
+  }
+
+  getGroupName() {
+    return this.groupname;
+  }
+
+  setInfo(aInfo) {
+    this.info = aInfo;
   }
 
   /**
    * Gets the groupname.
    */
-  getGroupName() {
-    return this.group_name;
+  getInfo() {
+    return this.info;
   }
 
   /** 
    * Returns an Array of GroupBOs from a given JSON structure.
    */
-  static fromJSON(groups) {
-    let result = [];
+   static fromJSON(group) {
+    let g = Object.setPrototypeOf(group, GroupBO.prototype);
+    return g;
 
-    if (Array.isArray(groups)) {
-      groups.forEach((g) => {
-        Object.setPrototypeOf(g, GroupBO.prototype);
-        result.push(g);
-      })
-    } else {
-      // Es handelt sich offenbar um ein singuläres Objekt
-      let g = groups;
-      Object.setPrototypeOf(g, GroupBO.prototype);
-      result.push(g);
-    }
-
-    return result;
   }
 }

@@ -3,8 +3,6 @@ from .ProfileBO import ProfileObject
 from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 
-
-
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
         

@@ -1,9 +1,12 @@
 import PersonBO from './PersonBO';
 import ProfileBO from './ProfileBO';
+import MembershipBO from './MembershipBO';
 //import ConversationBO from './ConversationBO';
-//import GroupBO from './GroupBO';
+import GroupBO from './GroupBO';
 //import MessageBO from './MessageBO';
 //import firebase from './firebase';
+
+import RequestBO from './RequestBO'
 
 
 export default class AppAPI {
@@ -21,24 +24,23 @@ export default class AppAPI {
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #addProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
   #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
   
-
-
   //Conversation related
   //#getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
   //#getConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#updateConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
   //#deleteConversationURL = (id) => `${this.#AppServerBaseURL}/conversation/${id}`;
-
+  #getRequestsForPersonURL = (id) => `${this.#AppServerBaseURL}/request/${id}`;
+  #sendRequestURL = (sender,receiver) => `${this.#AppServerBaseURL}/request/${sender}/${receiver}`
 
   //Group related
-  //#getGroupsURL = () => `${this.#AppServerBaseURL}/groups`;
-  //#getPersonsFromGroupURL = () => `${this.#AppServerBaseURL}/persons/${id}/groups`;
-  //#addPersonToGroupURL = (id) => `${this.#AppServerBaseURL}/persons/${id}/groups`;
+  #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
+  #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
+  #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
+  #createGroupURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}/${id}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -50,9 +52,6 @@ export default class AppAPI {
   //#getMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#updateMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`;
   //#deleteMessageURL = (id) => `${this.#AppServerBaseURL}/messages/${id}`
-
-
-
 
    static getAPI() {
     if (this.#api == null) {
@@ -69,8 +68,6 @@ export default class AppAPI {
       return res.json();
   })
 
-
- 
   getPersons() {
        return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
@@ -80,7 +77,6 @@ export default class AppAPI {
       })
   }
 
-  
   getPerson(personID) {
     return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
       let person = PersonBO.fromJSON(responseJSON);
@@ -89,7 +85,6 @@ export default class AppAPI {
       })
     })
   }
-
 
   addPerson(personBO) {
       return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -121,7 +116,7 @@ export default class AppAPI {
       })
     })
   }
-  
+
   searchProfile(firstname, lastname) {
       return this.#fetchAdvanced(this.#searchProfileURL(firstname, lastname)).then((responseJSON) => {
         let ProfileBOs = ProfileBO.fromJSON(responseJSON);
@@ -150,6 +145,7 @@ export default class AppAPI {
         })
      })
   }
+
   updateProfile(profileBO) {
     return this.#fetchAdvanced(this.#updateProfileURL(profileBO.getPersonID()), {
       method: 'PUT',
@@ -177,6 +173,76 @@ export default class AppAPI {
     })
   }
 
+  getGroups(id){
+    return this.#fetchAdvanced(this.#getGroupsURL(id)).then((responseJSON) => {
+      let groupBOs = MembershipBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(groupBOs);
+     })
+ })
+  }
+  getGroupForPerson(id) {
+    return this.#fetchAdvanced(this.#getGroupURL(id))
+     .then((responseJSON) => {
+       let groupBOs = GroupBO.fromJSON(responseJSON);
+       return new Promise(function(resolve){
+         resolve(groupBOs);
+       })
+    })
+ }
+ 
+ getMembersOfGroup(id) {
+  return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
+   .then((responseJSON) => {
+     let memberBOs = MembershipBO.fromJSON(responseJSON);
+     return new Promise(function(resolve){
+       resolve(memberBOs);
+     })
+  })
+}
+
+sendRequest(sender, receiver){
+  return this.#fetchAdvanced(this.#sendRequestURL(sender, receiver),{
+    method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+  },
+  }).then((responseJSON) => {
+    let requestBOs = RequestBO.fromJSON(responseJSON);
+    return new Promise(function (resolve) {
+      resolve(requestBOs);
+    })
+  })
+}
+getRequestsForPerson(id){
+  return this.#fetchAdvanced(this.#getRequestsForPersonURL(id))
+   .then((responseJSON) => {
+     let requestBOs = RequestBO.fromJSON(responseJSON);
+     return new Promise(function(resolve){
+       resolve(requestBOs);
+     })
+  })
+}
+
+createGroup(groupname, groupinfo, id) {
+  return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo, id), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(groupname, groupinfo, id)
+  }).then((responseJSON) => {
+    // We always get an array of GroupBOs.fromJSON, but only need one object
+    let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+    // console.info(groupBOs);
+    return new Promise(function (resolve) {
+      resolve(responseGroupBO);
+      })
+  })
+}
+ 
  // matchGroup(id) {
  //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
  //     let groupList = [];
@@ -189,6 +255,4 @@ export default class AppAPI {
  //     })
  //   })
  // }
-
-
 } 

@@ -13,13 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-/**
- * Shows the about page with the impressum
- * 
 
- * @author [Christoph Kunz](https://github.com/christophkunz)
->>>>>>> origin/LogIn-Page
- */
 function About() {
 
   const classes = useStyles();

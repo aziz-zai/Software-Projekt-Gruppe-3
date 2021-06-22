@@ -10,6 +10,7 @@ from app.apps.message.MessageViews import namespace as message_namespace
 from app.apps.conversation.ConversationViews import namespace as conversation_namespace
 from app.apps.group.GroupViews import namespace as group_namespace
 from app.apps.membership.MembershipViews import namespace as membership_namespace
+from app.apps.request.RequestView import namespace as request_namespace
 
 
 load_dotenv()
@@ -41,6 +42,7 @@ def init_routes() -> None:
     api.add_namespace(conversation_namespace)
     api.add_namespace(group_namespace)
     api.add_namespace(membership_namespace)
+    api.add_namespace(request_namespace)
 
 if __name__ == "__main__":
     app = create_app()

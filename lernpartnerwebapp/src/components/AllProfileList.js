@@ -5,14 +5,10 @@ import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
-import Header from '../components/Layouts/Header';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 
-/**
- * Shows all profiles of the app.
- * 
- */
+/** Shows all profiles of the app*/
 class AllProfileList extends Component {
 
   constructor(props) {
@@ -77,7 +73,7 @@ class AllProfileList extends Component {
       profileFilter: ''
     });
   }
-  /** Renders the component */
+
   render() {
     const { classes } = this.props;
     const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
@@ -129,14 +125,12 @@ class AllProfileList extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
   }
 });
 
-/** PropTypes */
 AllProfileList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,

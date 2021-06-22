@@ -16,6 +16,7 @@ import firebaseConfig from './firebaseconfig';
 import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
 import Matchmaking from './components/Matchmaking'
+import ChatList from './components/ChatList'
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -109,7 +110,9 @@ class App extends React.Component {
 									</Route>
 									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
-									<Route path='/about' component={About} />	
+									<Route path='/ChatList' component={() => <ChatList currentUser={currentUser}/>} />	
+									<Route path='/about' component={About} />
+
 								</>
 								:
 								// else show the sign in page

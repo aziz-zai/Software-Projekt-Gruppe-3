@@ -10,17 +10,15 @@ import { AppAPI} from '../api';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import ProfileBO from '../api/ProfileBO';
-import PersonBO from '../api/PersonBO';
 import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
+import PersonBO from '../api/PersonBO'
 
 class MyProfile extends Component {
 
   constructor(props) {
     super(props);
-
-
     // Init the state
     this.state = {
       error: null,
@@ -39,7 +37,6 @@ class MyProfile extends Component {
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })}
-      
       )
       .catch((e) =>
         this.setState({
@@ -47,9 +44,7 @@ class MyProfile extends Component {
           loadingInProgress: false,
           loadingProfileError: e,
         })
-      
       );
-
     this.setState({
       loadingInProgress: true,
       loadingProfileError: null
@@ -93,6 +88,7 @@ class MyProfile extends Component {
     });
   }
 
+
    /** Handles the onClick event of the delete customer button */
    deleteProfileButtonClicked = (event) => {
     event.stopPropagation();
@@ -115,6 +111,7 @@ class MyProfile extends Component {
       })
     }
   }
+
   componentDidMount() {
     this.getPersonByGoogleUserID();
   }
@@ -200,12 +197,11 @@ deletePerson = () => {
           </DialogActions>
         </Dialog>
         : null}
-      </div>  
-    );
+      </div> 
+    ); 
   }
 }
 }
-
 
 const styles = theme => ({
   root: {
