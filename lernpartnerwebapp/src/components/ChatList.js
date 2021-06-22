@@ -18,7 +18,7 @@ import TabPanel from './TabPanel'
  * Shows all profiles of the app.
  * 
  */
-class AllProfileList extends Component {
+class ChatList extends Component {
 
   constructor(props) {
     super(props);
@@ -76,7 +76,7 @@ class AllProfileList extends Component {
   }
 
   createGroup = () => {
-    AppAPI.getAPI().createGroup(1).then(newGroup=>
+    AppAPI.getAPI().createGroup(this.state.person.id_).then(newGroup=>
       this.setState({
         group: newGroup
       })).catch(e=>
@@ -118,11 +118,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-AllProfileList.propTypes = {
+ChatList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(AllProfileList);
+export default withStyles(styles)(ChatList);

@@ -1,136 +1,120 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import SaveIcon from "@material-ui/icons/Save";
-import AppApi from "../../api/AppApi";
-import { TextField, Button, Grid } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import LearnGroupBO from "../../api/LearnGroupBO";
-
-class CreateLearnGroup extends Component {
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { AppAPI, ProfileBO } from '../../api';
+import ContextErrorMessage from './ContextErrorMessage';
+import LoadingProgress from './LoadingProgress';
+import AddIcon from '@material-ui/icons/Add';
+import ProfileDetail from '../ProfileDetail'
+class CreateGroupForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      name: "",
-      person_id: "",
-      learnGroup: null, //für addLearnGroup
-      loadingInProgress: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  
-  async componentDidMount() {
     
-    let uid = getCookie("uid")
-    let app = new AppApi()
-    let session_id = await app.getPersonByGoogleId(uid)
-    session_id = session_id[0].id
-    this.state.person_id = session_id
-}
-  
 
-  /** Create LearnGroupProfile*/
-  addLearnGroup(name, person_id) {
+    // Init the state
+    this.state = {
+        error: null,
+        groupinfo: '',
+        groupname: '',
+        group: []
+    };
+    // save this state for canceling
+    this.baseState = this.state;
+  }
 
-    var learnGroup = new LearnGroupBO
-    learnGroup.setName(name)
-    learnGroup.setPersonId(person_id)
+  /** Adds the profile */
 
-
-
-    var api = AppApi.getApi();
-    // console.log(api)
-    api
-      .addLearnGroup(learnGroup)
-      .then((learnGroup) => {
+    // set loading to true
+ 
+    
+  /** Updates the profile */
+  createGroup = () => {
+    AppAPI.getAPI().createGroup(this.props.person.id_).then(newGroup=>
+      this.setState({
+        group: newGroup
+      })).catch(e=>
         this.setState({
-          learnGroup: learnGroup,
-        });
-      });
-    console.log(this.state.learnGroup);
+          group: [],
+        }));
+        this.setState({
+          loadingInProgress: true,
+          error: null
+        })
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-    // console.log({ [e.target.name]: e.target.value })
+  /** Handles the close / cancel button click event */
+  handleClose = () => {
+    // Reset the state
+    this.setState(this.baseState);
+    this.props.onClose(null);
   }
-
-  handleSubmit = (event) => {
-    event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.addLearnGroup(
-      this.state.name,
-      this.state.person_id,
-    );
-  };
-
+  componentDidMount() {
+    this.getMembers();
+  }
+  /** Renders the component */
   render() {
-    const { classes } = this.props;
-    console.log(this.state);
-
+    const { classes, group, show} = this.props;
+    const { memberList } = this.state;
+  
     return (
-      <div className={classes.roott}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <div>
-                <h1>Lege deine Lerngruppe an:</h1>
-              </div>
-              <div>
-                <form className={classes.root} onSubmit={this.handleSubmit}>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Wie soll die Lerngruppe heißen?"
-                      variant="outlined"
-                      name="name"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    variant="text"
-                    color="default"
-                    size="small"
-                    className={classes.button}
-                    startIcon={<SaveIcon />}
-                  >
-                    Bestätigen
-                  </Button>
-                </form>
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
+      show ?
+        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+          <DialogTitle id='form-dialog-title'>Create A New Group <br /><br />
+            <IconButton className={classes.closeButton} onClick={this.handleClose}>
+              <CloseIcon />
+            </IconButton>
+            <DialogContent>
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='Groupname' label='Groupname:' value={groupname} 
+                onChange={this.textFieldValueChange}  />
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='Groupinfo' label='Groupname:' value={groupinfo} 
+                onChange={this.textFieldValueChange}  />
+            </DialogContent>
+          </DialogTitle>
+          <DialogActions>
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+            Partner hinzufügen
+          </Button>
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+            Create Group
+          </Button>
+          
+        </DialogActions>
+        </Dialog>
+        : null
     );
   }
-  
 }
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
-const styles = (theme) => ({
+
+/** Component specific styles */
+const styles = theme => ({
   root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "30ch",
-    },
-    roott: {
-      flexGrow: 1,
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: "center",
-      color: theme.palette.text.secondary,
-    },
+    width: '100%',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
   },
 });
 
-export default withStyles(styles)(CreateLearnGroup);
+/** PropTypes */
+CreateGroupFor.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  /** The CustomerBO to be edited */
+  person: PropTypes.any.isRequired,
+  /** If true, the form is rendered */
+  show: PropTypes.bool.isRequired,
+  /**  
+   * Handler function which is called, when the dialog is closed.
+   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
+   *  
+   * Signature: onClose(CustomerBO customer);
+   */
+  onClose: PropTypes.func.isRequired,
+}
+
+export default withStyles(styles)(CreateGroupFor);
