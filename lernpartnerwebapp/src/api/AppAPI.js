@@ -19,13 +19,12 @@ export default class AppAPI {
   #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
-  #deletePersonURL = (id) => `${this.#AppServerBaseURL}/person/${id}`;
+  #deletePersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #deleteProfileIdURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
   #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
   
@@ -105,8 +104,8 @@ export default class AppAPI {
       })
   }
 
-  deletePerson(personID) {
-    return this.#fetchAdvanced(this.#deletePersonURL(personID), {
+  deletePerson(google_user_id) {
+    return this.#fetchAdvanced(this.#deletePersonURL(google_user_id), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON

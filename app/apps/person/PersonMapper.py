@@ -90,5 +90,13 @@ class PersonMapper(Mapper):
         cnx.commit()
         cursor.close()
 
-    def delete(object):
-        pass
+    def delete(cnx: db_connector, person: int):
+        cursor = cnx.cursor(buffered=True)
+        command = ("DELETE FROM person WHERE google_user_id=%s")
+        try: 
+            cursor.execute(command, (person,))
+        except:
+            print("Person does not exist!")
+
+        cnx.commit()
+        cursor.close()
