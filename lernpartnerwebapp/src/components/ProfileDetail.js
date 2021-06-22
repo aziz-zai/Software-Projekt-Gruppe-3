@@ -6,6 +6,8 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfilePopUp from './dialogs/ProfilePopUp'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import AddIcon from '@material-ui/icons/Add';
 
 class ProfileDetail extends Component {
 
@@ -18,6 +20,8 @@ class ProfileDetail extends Component {
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
+      request:[],
+      requestSent:false
     };
   }
 
@@ -63,6 +67,29 @@ class ProfileDetail extends Component {
     }
   }
 
+  sendRequest = () => {
+    AppAPI.getAPI().sendRequest(2,3).then(newRequest =>
+      this.setState({
+        request: newRequest,
+        loadingInProgress: false,
+        loadingError: null,
+        requestSent: true
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          request: [],
+          loadingInProgress: false,
+          loadingError: e,
+          requestSent: false
+        })
+      );
+ 
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
+      requestSent: false
+    });
+  }
   render() {
     const { classes, Firstname, Lastname} = this.props;
     const {loadingInProgress, loadingError, showProfileForm, profile} = this.state;
@@ -73,7 +100,16 @@ class ProfileDetail extends Component {
         <Typography className={classes.profileEntry}>
         {Firstname} {Lastname} &nbsp; 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
+        </Button>&nbsp; &nbsp;
+        <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
+        {console.log('request', this.state.request)}Request
         </Button>
+        {
+        this.state.requestSent ? 
+        <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
+        </Button> 
+        : null
+        }
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />

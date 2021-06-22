@@ -13,13 +13,17 @@ import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
 import TabPanel from './TabPanel'
+import RequestBO from '../api/RequestBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
+
 
 /**
  * Shows all profiles of the app.
  * 
  */
-class ChatList extends Component {
+
+ class ChatList extends Component {
+
 
   constructor(props) {
     super(props);
@@ -27,8 +31,11 @@ class ChatList extends Component {
     // Init an empty state
     this.state = {
        person: [],
+       groups: [],
        memberships: [],
+       requests: []
        showCreateGroupForm: false
+
     };
   }
 
@@ -47,6 +54,7 @@ class ChatList extends Component {
         person: personBO
       })
       this.loadGroups()
+      this.getRequests()
     },
       )
       .catch((e) =>
@@ -55,6 +63,24 @@ class ChatList extends Component {
         
         })
       )
+  }
+  getRequests= () => {
+    AppAPI.getAPI().getRequestsForPerson(3).then(newRequest =>
+      this.setState({
+        requests: newRequest,
+        
+        
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          requests: [],
+        })
+      );
+ 
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
   }
   loadGroups = () => {
     AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
@@ -73,6 +99,15 @@ class ChatList extends Component {
       error: null
     });
   }
+
+
+  sendRequestButton = (item) => {
+    this.setState({
+      person: item,
+      sendRequestButton: true
+    })
+  }
+
   profileFormClosed = (group) => {
     if (group) {
       this.setState({
@@ -104,6 +139,11 @@ class ChatList extends Component {
         {
             this.state.memberships.map(membership =>  <GroupDetail membership={membership}/> )
           }
+          <div>
+          {
+            console.log('sender', this.state.requests)
+          }
+          </div>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
         </Button>
