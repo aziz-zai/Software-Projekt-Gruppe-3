@@ -1,7 +1,5 @@
 import BusinessObject from './BusinessObject';
 
-/**
- */
 export default class GroupBO extends BusinessObject {
 
   /**
@@ -15,18 +13,10 @@ export default class GroupBO extends BusinessObject {
     this.info = aInfo
   }
 
-  /**
-   * Sets a new groupname.
-   * 
-   * @param {String} aGroupname - the new groupname of this GroupBO.
-   */
   setGroupName(aGroupname) {
     this.groupname = aGroupname;
   }
 
-  /**
-   * Gets the groupname.
-   */
   getGroupName() {
     return this.groupname;
   }
@@ -48,5 +38,6 @@ export default class GroupBO extends BusinessObject {
    static fromJSON(group) {
     let g = Object.setPrototypeOf(group, GroupBO.prototype);
     return g;
+
   }
 }

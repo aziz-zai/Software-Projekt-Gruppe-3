@@ -6,7 +6,6 @@ from .PersonAdministration import PersonAdministration
 from app.apps.profile.ProfileAdministration import ProfileAdministration
 from app.apps.core.SecurityDecorator import secured
 
-
 namespace = api.namespace(
     "/person",
     description="Namespace for person APIs."
@@ -16,7 +15,6 @@ namespace = api.namespace(
 @namespace.route("/")
 class PersonAPI(Resource):
     """Basic API for profile."""
-
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
     @secured
@@ -29,7 +27,6 @@ class PersonAPI(Resource):
 @namespace.route("/<string:google_user_id>")
 class PersonAPI(Resource):
     """Basic API for profile."""
-
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
     @secured

@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  withStyles,
-  Typography,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-} from "@material-ui/core"
+import { withStyles} from "@material-ui/core"
 import { AppAPI } from "../api"
-import ArrowBackIcon from "@material-ui/icons/ArrowBack"
 import ProfileBO from "../api/ProfileBO"
 import ProfileDetail from "../components/ProfileDetail"
 //import ContextErrorMessage from './ContextErrorMessage';
@@ -41,10 +33,8 @@ class Matchmaking extends Component {
         loadingInProgress: false, // loading indicator 
         loadingProfileError: null
       })
-    
       this.matchProfiles();
     }
-      
       )
       .catch((e) =>
         this.setState({
@@ -52,9 +42,7 @@ class Matchmaking extends Component {
           loadingInProgress: false,
           loadingProfileError: e,
         })
-      
       );
-
     this.setState({
       loadingInProgress: true,
       loadingProfileError: null
@@ -74,7 +62,6 @@ class Matchmaking extends Component {
       .catch((e) =>
         this.setState({
           person: []
-        
         })
       )
   }
@@ -129,7 +116,6 @@ class Matchmaking extends Component {
     this.props.onClose();
   };
 
-  /** Renders the component */
   render() {
     const { classes } = this.props;
     const { personList } = this.state;

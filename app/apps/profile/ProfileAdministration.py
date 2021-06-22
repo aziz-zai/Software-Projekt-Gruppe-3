@@ -22,7 +22,6 @@ class ProfileAdministration:
             cnx = db._cnx
             return ProfileMapper.find_by_personID(cnx=cnx, person = person.id_)
     
-    
     @staticmethod
     def update_profile(profile: ProfileObject) -> ProfileObject:
         with db_connector as db:
@@ -49,7 +48,6 @@ class ProfileAdministration:
         for profile in profileList:
             if profile.person != person:
                 value = 0  
-
                 if profile.interests == myProfile.interests:
                     value += 1
                 if profile.type_ == myProfile.type_:
