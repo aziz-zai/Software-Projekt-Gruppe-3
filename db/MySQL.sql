@@ -86,21 +86,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `mydb`.`membership`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `learning_group` INT NOT NULL,
-  `profile` INT NOT NULL,
-  PRIMARY KEY (`id`),
-   CONSTRAINT `learning_group_membership`
-   FOREIGN KEY (`learning_group`)
-        REFERENCES mydb.learning_group(id)
-        ON DELETE CASCADE,
-   CONSTRAINT `profile_membership`
-   FOREIGN KEY (`profile`)
-        REFERENCES mydb.profile(id)
-        ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+
 
 
 -- -----------------------------------------------------
@@ -122,12 +108,13 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `mydb`.`request`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`request` (
+CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `is_accepted` TINYINT NULL DEFAULT NULL,
   `is_open` TINYINT NULL DEFAULT NULL,
   `sender` INT NOT NULL ,
   `receiver` INT NOT NULL ,
+  `group` INT NOT NULL ,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
