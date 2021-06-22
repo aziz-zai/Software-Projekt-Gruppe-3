@@ -1,0 +1,198 @@
+from app.apps.core.mapper import Mapper
+from .ChatRoomBO import ChatRoomObject
+from app.configs.base import db_connector
+
+
+class ChatRoomMapper(Mapper):
+    def find_open_received_requests(cnx: db_connector):
+        
+        result = []
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("""
+        SELECT * FROM chatroom
+        WHERE receiver=%s AND is_open=TRUE AND is_accepted=FALSE
+        """)
+        tuples = cursor.fetchall()
+
+        for (id, is_accepted, sender, is_open, receiver, timestamp, learning_group) in tuples:
+            chatroom = ChatRoomObject()
+            chatroom.id_ = id
+            chatroom.is_accepted = is_accepted
+            chatroom.sender = sender
+            chatroom.is_open= is_open
+            chatroom.receiver=receiver
+            chatroom.timestamp = timestamp
+            chatroom.learning_group = learning_group
+
+            result.append(chatroom)
+
+        cnx.commit()
+        cursor.close()
+
+        return result
+
+    def reject_open_request(cnx: db_connector, object: ChatRoomObject):
+        cursor = cnx.cursor(buffered=True)
+
+        command = """DELETE FROM chatroom
+            WHERE id=%s AND receiver=%s
+            """
+        cursor.execute(command, (
+            object.id_,
+            object.is_accepted,
+            object.sender,
+            object.is_open,
+            object.receiver,
+            object.timestamp,
+            object.learning_group,
+        ))
+
+        cnx.commit()
+        cursor.close()
+
+    def accept_open_request(cnx: db_connector, object: ChatRoomObject):
+        cursor = cnx.cursor(buffered=True)
+
+        command = """UPDATE chatroom
+            SET is_accepted=TRUE, is_open=FALSE
+            WHERE id=%s AND receiver=%s
+            """
+        cursor.execute(command, (
+            object.id_,
+            object.is_accepted,
+            object.sender,
+            object.is_open,
+            object.receiver,
+            object.timestamp,
+            object.learning_group,
+        ))
+
+        cnx.commit()
+        cursor.close()
+
+    def find_open_sent_requests(cnx: db_connector):
+        
+        result = []
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("""
+        SELECT * FROM chatroom
+        WHERE sender=%s AND is_open=TRUE AND is_accepted=FALSE
+        """)
+        tuples = cursor.fetchall()
+
+        for (id, is_accepted, sender, is_open, receiver, timestamp, learning_group) in tuples:
+            chatroom = ChatRoomObject()
+            chatroom.id_ = id
+            chatroom.is_accepted = is_accepted
+            chatroom.sender = sender
+            chatroom.is_open= is_open
+            chatroom.receiver=receiver
+            chatroom.timestamp = timestamp
+            chatroom.learning_group = learning_group
+
+            result.append(chatroom)
+
+        cnx.commit()
+        cursor.close()
+
+        return result
+
+    def delete_open_sent_request(cnx: db_connector, person: int):
+        cursor = cnx.cursor(buffered=True)
+        command = """DELETE FROM chatroom
+            WHERE id=%s AND sender=%s
+            """
+        try: 
+            cursor.execute(command, (person,))
+        except:
+            print("Sent request does not exist!")
+
+        cnx.commit()
+        cursor.close()
+
+
+    def find_by_request_id(cnx: db_connector, id: int) -> ChatRoomObject:
+        
+        result = None
+        cursor = cnx.cursor(buffered=True)
+        
+        command = """
+        SELECT
+         id,
+         is_accepted, 
+         sender,
+         is_open,
+         receiver
+
+        FROM request WHERE id=%s
+        """
+        cursor.execute(command,(id, ))
+        entity = cursor.fetchone()
+
+        try:
+            (id, is_accepted, sender, is_open, receiver, timestamp, learning_group) = entity
+            result = ChatRoomObject(
+                id_=id,
+                is_accepted=is_accepted,
+                sender=sender,
+                is_open=is_open,
+                receiver=receiver,
+                timestamp=timestamp,
+                learning_group=learning_group
+           )
+        except IndexError:
+            result = None
+
+        cursor.close()
+
+        return result
+
+    def find_single_chats(cnx: db_connector, person: int) -> ChatRoomObject:
+        result = []
+
+        cursor = cnx.cursor(buffered=True)
+        command = "SELECT * FROM chatroom WHERE is_accepted=True AND (sender=%s OR receiver=%s) AND learning_group IS NULL;"
+        cursor.execute(command,(person, person ))
+        tuples = cursor.fetchall()
+        
+        for (id, is_accepted,is_open, sender, receiver, timestamp, learning_group) in tuples:
+            chatroom = ChatRoomObject
+            chatroom.id_ = id
+            chatroom.is_accepted = is_accepted
+            chatroom.is_open = is_open
+            chatroom.sender = sender
+            chatroom.receiver = receiver
+            chatroom.timestamp = timestamp
+            chatroom.learning_group = learning_group
+            result.append(chatroom)
+
+        cursor.close()
+
+        return result
+    @staticmethod
+    def insert(cnx: db_connector, object: RequestObject) -> RequestObject:
+        """Create Request Object."""
+        cursor = cnx.cursor(buffered=True)
+        command = """
+            INSERT INTO request (
+                is_accepted, 
+                sender,
+                is_open,
+                receiver
+            ) VALUES (%s,%s,%s,%s)
+        """
+        cursor.execute(command, (
+            object.is_accepted,
+            object.sender,
+            object.is_open,
+            object.receiver
+        ))
+        cnx.commit()
+        cursor.execute("SELECT MAX(id) FROM request")
+        max_id = cursor.fetchone()[0]
+        object.id_ = max_id
+        return object
+
+
+    def delete(object):
+        pass
