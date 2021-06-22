@@ -42,7 +42,7 @@ class Header extends Component {
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
           LernApp
-        </Typography>s
+        </Typography>
         {
           user ?
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >

@@ -10,23 +10,11 @@ class ProfilePopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
-      
     };
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
- 
-
-  /** Updates the profile */
-
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -35,7 +23,6 @@ class ProfilePopUp extends Component {
     this.props.onClose(null);
   }
 
-  /** Renders the component */
   render() {
     const { classes, profile, show } = this.props;
   
@@ -53,27 +40,27 @@ class ProfilePopUp extends Component {
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                   Type: {profile.type_}
+                   Learning type: {profile.type_}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Online:  {profile.online}
+                  Online preference:  {profile.online}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Frequency:  {profile.frequency}
+                  Learning frequency:  {profile.frequency}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Expertise:  {profile.expertise}
+                  Personal competencies:  {profile.expertise}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                 Extroversion: {profile.extroversion}
+                 Personality trait: {profile.extroversion}
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>

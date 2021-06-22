@@ -59,12 +59,7 @@ class ProfileForm extends Component {
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
  
-
   /** Updates the profile */
   updateProfile = () => {
     // clone the original person, in case the backend call fails
@@ -169,35 +164,35 @@ class ProfileForm extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='First name:' value={firstName} 
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='Firstname:' value={firstName} 
                 onChange={this.textFieldValueChange} error={firstNameValidationFailed} 
                 helperText={firstNameValidationFailed ? 'The first name must contain at least one character' : ' '} />
 
-              <TextField type='text' required fullWidth margin='normal' id='lastName' label='Last name:' value={lastName}
+              <TextField type='text' required fullWidth margin='normal' id='lastName' label='Lastname:' value={lastName}
                 onChange={this.textFieldValueChange} error={lastNameValidationFailed}
                 helperText={lastNameValidationFailed ? 'The last name must contain at least one character' : ' '} />
 
-              <TextField type='text' required fullWidth margin='normal' id='interests' label='Interest:' value={interests}
+              <TextField type='text' required fullWidth margin='normal' id='interests' label='Interests:' value={interests}
                 onChange={this.textFieldValueChange} error={interestsValidationFailed}
                 helperText={interestsValidationFailed ? 'The interests must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='type' label='Type:' value={type}
+              <TextField type='text' required fullWidth margin='normal' id='type' label='Learning type:' value={type}
                 onChange={this.textFieldValueChange} error={typeValidationFailed}
                 helperText={typeValidationFailed ? 'The Type must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='online' label='Online:' value={online}
+              <TextField type='text' required fullWidth margin='normal' id='online' label='Online preference:' value={online}
                 onChange={this.textFieldValueChange} error={onlineValidationFailed}
                 helperText={onlineValidationFailed ? 'Online must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='frequency' label='Frequency:' value={frequency}
+              <TextField type='text' required fullWidth margin='normal' id='frequency' label='Learning frequency:' value={frequency}
                 onChange={this.textFieldValueChange} error={frequencyValidationFailed}
                 helperText={frequencyValidationFailed ? 'The Frequency must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Expertise:' value={expertise}
+              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Personal competencies:' value={expertise}
                 onChange={this.textFieldValueChange} error={expertiseValidationFailed}
                 helperText={expertiseValidationFailed ? 'The Expertise must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='extroversion' label='Extroversion:' value={extroversion}
+              <TextField type='text' required fullWidth margin='normal' id='extroversion' label='Personality trait:' value={extroversion}
                 onChange={this.textFieldValueChange} error={extroversionValidationFailed}
                 helperText={extroversionValidationFailed ? 'The Extroversion must contain at least one character' : ' '} />
             </form>
@@ -236,7 +231,6 @@ class ProfileForm extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
