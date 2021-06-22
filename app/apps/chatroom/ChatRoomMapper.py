@@ -31,21 +31,15 @@ class ChatRoomMapper(Mapper):
 
         return result
 
-    def reject_open_request(cnx: db_connector, object: ChatRoomObject):
+    def reject_open_sent_request(cnx: db_connector, person: int):
         cursor = cnx.cursor(buffered=True)
-
         command = """DELETE FROM chatroom
-            WHERE id=%s AND receiver=%s
+        WHERE id=%s AND receiver=%s
             """
-        cursor.execute(command, (
-            object.id_,
-            object.is_accepted,
-            object.sender,
-            object.is_open,
-            object.receiver,
-            object.timestamp,
-            object.learning_group,
-        ))
+        try: 
+            cursor.execute(command, (person, ))
+        except:
+            print("Received request does not exist!")
 
         cnx.commit()
         cursor.close()
@@ -169,26 +163,31 @@ class ChatRoomMapper(Mapper):
         cursor.close()
 
         return result
+        
     @staticmethod
-    def insert(cnx: db_connector, object: RequestObject) -> RequestObject:
-        """Create Request Object."""
+    def create_chatroom(cnx: db_connector, object: ChatRoomObject) -> ChatRoomObject:
+        """Create Chatroom Object."""
         cursor = cnx.cursor(buffered=True)
         command = """
-            INSERT INTO request (
+            INSERT INTO chatroom (
                 is_accepted, 
                 sender,
                 is_open,
-                receiver
-            ) VALUES (%s,%s,%s,%s)
+                receiver,
+                timestamp,
+                learning_group
+            ) VALUES (%s,%s,%s,%s,%s,%s)
         """
         cursor.execute(command, (
             object.is_accepted,
             object.sender,
             object.is_open,
-            object.receiver
+            object.receiver,
+            object.timestamp,
+            object.learning_group
         ))
         cnx.commit()
-        cursor.execute("SELECT MAX(id) FROM request")
+        cursor.execute("SELECT MAX(id) FROM chatroom")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
         return object

@@ -6,11 +6,11 @@ from app.apps.chatroom.ChatRoomBO import ChatRoomObject
 class ChatRoomAdministration:
     """Chatroom Manager class. For managing database interactions."""
     @staticmethod
-    def insert(chatroom: ChatRoomObject) -> ChatRoomObject:
+    def create_chatroom(chatroom: ChatRoomObject) -> ChatRoomObject:
         """Insert Chatroom Manager."""
         with db_connector as db:
             cnx = db._cnx
-            return ChatRoomMapper.insert(cnx=cnx, object=chatroom)
+            return ChatRoomMapper.create_chatroom(cnx=cnx, object=chatroom)
     
     @staticmethod
     def get_single_chats(person: int) -> ChatRoomObject:
