@@ -33,7 +33,7 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
        person: [],
        groups: [],
        memberships: [],
-       requests: []
+       requests: [],
        showCreateGroupForm: false
 
     };

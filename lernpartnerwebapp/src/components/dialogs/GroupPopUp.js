@@ -80,7 +80,7 @@ class GroupPopUp extends Component {
                 <DialogContentText>
                 Teilnehmer: 
                 {
-            memberList.map(member => console.log('member', member))
+            memberList.map(member => console.log('member', member.profile))
           }
                 </DialogContentText>
             </DialogContent>
