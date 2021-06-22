@@ -16,10 +16,10 @@ class MembershipMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, learning_group, profile) in tuples:
-            membership = MembershipObject
-            membership.id_=id
-            membership.learning_group = learning_group
-            membership.profile = profile
+            membership = MembershipObject(
+            id_=id,
+            learning_group = learning_group,
+            profile = profile)
             result.append(membership)
 
         cnx.commit()

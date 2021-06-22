@@ -28,9 +28,9 @@ class GroupPopUp extends Component {
     // set loading to true
  
     getMembers = () => {
-      AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
+      AppAPI.getAPI().getMembersOfGroup(1).then(members =>
         this.setState({
-          membersList: members,
+          memberList: members,
           loadingInProgress: false,
           loadingError: null
         })).catch(e =>
@@ -67,18 +67,21 @@ class GroupPopUp extends Component {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.getID()} <br /><br />
+          <DialogTitle id='form-dialog-title'>{group.getInfo()} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Gruppeninfo: {group.getInfo()}
+                Gruppeninfo: {group.getGroupName()}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                Teilnehmer: {console.log('members', memberList)}
+                Teilnehmer: 
+                {
+            memberList.map(member => console.log('member', member))
+          }
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>

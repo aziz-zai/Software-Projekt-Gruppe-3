@@ -14,12 +14,16 @@ import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
 import TabPanel from './TabPanel'
 import RequestBO from '../api/RequestBO'
+import CreateGroupForm from './dialogs/CreateGroupForm'
+
 
 /**
  * Shows all profiles of the app.
  * 
  */
+
  class ChatList extends Component {
+
 
   constructor(props) {
     super(props);
@@ -30,6 +34,8 @@ import RequestBO from '../api/RequestBO'
        groups: [],
        memberships: [],
        requests: []
+       showCreateGroupForm: false
+
     };
   }
 
@@ -79,12 +85,11 @@ import RequestBO from '../api/RequestBO'
   loadGroups = () => {
     AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
       this.setState({
-        groups: groups,
         memberships: groups
         
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          groups: []
+          memberships: []
         })
       );
 
@@ -95,6 +100,7 @@ import RequestBO from '../api/RequestBO'
     });
   }
 
+
   sendRequestButton = (item) => {
     this.setState({
       person: item,
@@ -102,6 +108,24 @@ import RequestBO from '../api/RequestBO'
     })
   }
 
+  profileFormClosed = (group) => {
+    if (group) {
+      this.setState({
+        showCreateGroupForm: false
+      });
+    } else {
+      this.setState({
+        showCreateGroupForm: false
+      })
+    }
+  }
+  createGroupButton = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showCreateGroupForm: true
+    });
+  }
+  
 
   render() {
     const { classes } = this.props;
@@ -111,15 +135,19 @@ import RequestBO from '../api/RequestBO'
 
       <div className={classes.root}>
         <TabPanel value={1} ></TabPanel>
-        {console.log('Chatlist', memberships)}
+        {console.log('memberships', this.state.memberships)}
         {
-            this.state.groups.map(group => <GroupDetail memberships={memberships} groupID={group.id_}/> )
+            this.state.memberships.map(membership =>  <GroupDetail membership={membership}/> )
           }
           <div>
           {
             console.log('sender', this.state.requests)
           }
           </div>
+        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
+            Neue Gruppe
+        </Button>
+          <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
       </div>
 
     );

@@ -12,15 +12,17 @@ namespace = api.namespace(
 )
 
 
-@namespace.route("/<int:person>")
+@namespace.route("/<string:groupname>/<string:groupinfo>/<int:person>")
 class GroupAPI(Resource):
     """Basic API for group."""
 
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
-    def post(self, person) -> dict:
+    def post(self, person, groupname, groupinfo) -> dict:
         """Create group Endpoint."""
-        group = GroupObject(**api.payload)
+        group = GroupObject
+        group.groupname = groupname
+        group.info = groupinfo
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
         group = GroupAdministration.insert_group(group=group) 

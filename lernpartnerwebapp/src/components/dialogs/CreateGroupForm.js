@@ -6,16 +6,56 @@ import { AppAPI, ProfileBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
-class ProfilePopUp extends Component {
+import ProfileDetail from '../ProfileDetail'
+class CreateGroupForm extends Component {
   constructor(props) {
     super(props);
 
+    
+
+    // Init the state
     this.state = {
+        error: null,
+        groupinfo: '',
+        groupname: '',
+        group: []
     };
     // save this state for canceling
     this.baseState = this.state;
   }
 
+  /** Adds the profile */
+
+    // set loading to true
+ 
+    
+  /** Updates the profile */
+  createGroup = () => {
+    AppAPI.getAPI().createGroup(this.state.groupname, this.state.groupinfo, this.props.person.id_).then(newGroup=>
+      this.setState({
+        group: newGroup
+      })
+      ).catch(e=>
+        this.setState({
+          group: [],
+        }));
+        this.setState({
+          loadingInProgress: true,
+          error: null
+        })
+  }
+  textFieldValueChange = (event) => {
+    const value = event.target.value;
+
+    let error = false;
+    if (value.trim().length === 0) {
+      error = true;
+    }
+
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
+  }
   /** Handles the close / cancel button click event */
   handleClose = () => {
     // Reset the state
@@ -23,50 +63,37 @@ class ProfilePopUp extends Component {
     this.props.onClose(null);
   }
 
+
+  componentDidMount() {
+   
+  }
+  /** Renders the component */
   render() {
-    const { classes, profile, show } = this.props;
+    const { classes, group, show} = this.props;
+    const { memberList, groupname, groupinfo} = this.state;
   
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{profile.firstname} {profile.lastname}<br /><br />
+          <DialogTitle id='form-dialog-title'>Create A New Group <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
-                <DialogContentText>
-                   Interests: {profile.interests}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                   Learning type: {profile.type_}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Online preference:  {profile.online}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Learning frequency:  {profile.frequency}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                  Personal competencies:  {profile.expertise}
-                </DialogContentText>
-            </DialogContent>
-            <DialogContent>
-                <DialogContentText>
-                 Personality trait: {profile.extroversion}
-                </DialogContentText>
+            <form className={classes.root} noValidate autoComplete='off'>
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='groupname' label='Groupname:' value={groupname} 
+                onChange={this.textFieldValueChange}  />
+            <TextField autoFocus type='text' required fullWidth margin='normal' id='groupinfo' label='Groupinfo:' value={groupinfo} 
+                onChange={this.textFieldValueChange}  />
+                </form>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Chat
+            Partner hinzufügen
+          </Button>
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small' onClick={this.createGroup}>
+            Create Group
           </Button>
           
         </DialogActions>
@@ -90,11 +117,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ProfilePopUp.propTypes = {
+CreateGroupForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be edited */
-  profile: PropTypes.any.isRequired,
+  person: PropTypes.any.isRequired,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**  
@@ -106,4 +133,4 @@ ProfilePopUp.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(ProfilePopUp);
+export default withStyles(styles)(CreateGroupForm);
