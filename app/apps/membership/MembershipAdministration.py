@@ -9,12 +9,12 @@ class MembershipAdministration:
     """Profile Manager class. For managing database interactions."""
 
     @staticmethod
-    def insert_membership(learning_group: GroupObject, person: int) -> MembershipObject:
+    def insert_membership(learning_group: int, person: int) -> MembershipObject:
         """Insert Gruppengründer."""
         with db_connector as db:
             cnx = db._cnx
             membership = MembershipObject(
-                learning_group=learning_group.id_,
+                learning_group=learning_group,
                 person=person,
                 is_open=False,
                 is_accepted=True
@@ -26,7 +26,7 @@ class MembershipAdministration:
         with db_connector as db:
             cnx = db._cnx
             membership = MembershipObject(
-                learning_group=learning_group.id_,
+                learning_group=learning_group,
                 person=person,
             )
             return MembershipMapper.insert(cnx=cnx, object=membership)
@@ -35,16 +35,28 @@ class MembershipAdministration:
     def get_membership_by_group(learning_group: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.find_by_groupID(cnx=cnx, groupID = learning_group)
+            return MembershipMapper.find_by_groupID(cnx=cnx, groupID=learning_group)
 
     @staticmethod
     def get_groups_by_person(person: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.find_by_person(cnx=cnx, person = person)
+            return MembershipMapper.find_by_person(cnx=cnx, person=person)
 
     @staticmethod
     def delete_membership(learning_group: int, person: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.delete(cnx=cnx, learning_group= learning_group, person = person)
+            return MembershipMapper.delete_membership(cnx=cnx, learning_group=learning_group, person=person)
+
+    @staticmethod
+    def delete_membership_request(learning_group: int, person: int):
+        with db_connector as db:
+            cnx=db._cnx
+            return MembershipMapper.delete_membership_request(cnx=cnx, learning_group=learning_group, person=person)
+
+    @staticmethod
+    def get_all_requests(person: int):
+        with db_connector as db:
+            cnx=db._cnx
+            return MembershipMapper.find_all_requests(cnx=cnx, person=person)
