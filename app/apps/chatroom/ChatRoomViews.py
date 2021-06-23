@@ -23,7 +23,6 @@ class ChatRoomSingleChats(Resource):
 
 @namespace.route("/singlechat/<int:person>")
 class ChatRoomSingleChats(Resource):
-    
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person):
@@ -61,8 +60,6 @@ class ChatRoomAcceptRequest(Resource):
         accept_open_request = ChatRoomAdministration.accept_open_request(person=person, chatroom= chatroom)
         return accept_open_request
 
-
-
 @namespace.route("/chatroom_to_delete/<int:chatroom>/<int:person>")
 class ChatRoomDelete(Resource):
     @api.marshal_with(chatroom_marshalling, code=200)
@@ -90,4 +87,3 @@ class ChatRoomDeleteReceivedRequest(Resource):
         """Delete received request."""
         reject_open_request = ChatRoomAdministration.reject_received_request(chatroom = chatroom,person=person)
         return reject_open_request
-

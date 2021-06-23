@@ -8,7 +8,6 @@ chatroom_marshalling = api.model('chatroom', {
     "is_open": fields.Boolean(),
     "sender": fields.Integer(readOnly=True),
     "receiver": fields.Integer(readOnly=True),
-    "learning_group": fields.Integer(),
     "timestamp": fields.String(),
     
 })

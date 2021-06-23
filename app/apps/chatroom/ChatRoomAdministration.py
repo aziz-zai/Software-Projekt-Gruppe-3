@@ -5,19 +5,19 @@ from app.apps.chatroom.ChatRoomBO import ChatRoomObject
 from datetime import datetime
 from time import time
 
+
 class ChatRoomAdministration:
     """Chatroom Manager class. For managing database interactions."""
     @staticmethod
-    def insert_groupchatroom(learning_group: int, sender: int, receiver: int) -> ChatRoomObject:
+    def insert_groupchatroom(sender: int, receiver: int) -> ChatRoomObject:
         """Insert Chatroom Manager."""
         with db_connector as db:
             cnx = db._cnx
             chatroom = ChatRoomObject(
-            learning_group = learning_group,
-            sender = sender,
-            receiver = receiver,
-            is_accepted = True,
-            is_open = False,
+            sender=sender,
+            receiver=receiver,
+            is_accepted=True,
+            is_open=False,
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             return ChatRoomMapper.insert_chatroom(cnx=cnx, object=chatroom)
 
@@ -27,12 +27,11 @@ class ChatRoomAdministration:
         with db_connector as db:
             cnx = db._cnx
             chatroom = ChatRoomObject(
-            learning_group = None,
-            sender = sender,
-            receiver = receiver,
-            is_accepted = False,
-            is_open = True,
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            sender=sender,
+            receiver=receiver,
+            is_accepted=False,
+            is_open=True,
+            timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             return ChatRoomMapper.insert_chatroom(cnx=cnx, object=chatroom)
 
     @staticmethod
@@ -45,8 +44,8 @@ class ChatRoomAdministration:
     def get_single_chats(person: int) -> ChatRoomObject:
         with db_connector as db:
             cnx = db._cnx
-            return ChatRoomMapper.find_single_chats(cnx=cnx, person = person)
-    
+            return ChatRoomMapper.find_single_chats(cnx=cnx, person=person)
+
     @staticmethod
     def reject_received_request(chatroom: int, person: int) -> ChatRoomObject:
         with db_connector as db:
@@ -58,6 +57,7 @@ class ChatRoomAdministration:
         with db_connector as db:
             cnx= db._cnx
             ChatRoomMapper.delete_sent_request(cnx=cnx,chatroom=chatroom,person=person)
+
     @staticmethod
     def accept_open_request(chatroom: int, person: int) -> ChatRoomObject:
         with db_connector as db:

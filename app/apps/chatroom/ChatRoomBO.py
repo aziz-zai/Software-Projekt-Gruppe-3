@@ -4,14 +4,13 @@ from datetime import datetime
 
 
 class ChatRoomObject(BusinessObject):
-    def __init__(self, is_open: bool, is_accepted: bool ,sender: int, receiver: int, timestamp: datetime.now, 
-                learning_group: int, id_: int = 0):
+    def __init__(self, is_open: bool, is_accepted: bool, sender: int, receiver: int, timestamp: datetime.now, 
+                id_: int = 0):
         self.id_=id_
         self.is_accepted = is_accepted
         self.is_open=is_open
         self.sender=sender
         self.receiver=receiver
         self.timestamp = timestamp
-        self.learning_group = learning_group
 
         super().__init__(id_=id_)
