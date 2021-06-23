@@ -6,7 +6,7 @@ from app.configs.base import db_connector
 
 class ChatRoomMapper(Mapper):
 
-    @staticmethod
+    
     def insert_chatroom(cnx: db_connector, object: ChatRoomObject) -> ChatRoomObject:
         """Create Chatroom Object."""
         cursor = cnx.cursor(buffered=True)

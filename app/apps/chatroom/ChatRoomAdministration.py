@@ -8,12 +8,26 @@ from time import time
 class ChatRoomAdministration:
     """Chatroom Manager class. For managing database interactions."""
     @staticmethod
-    def insert_chatroom(learning_group: int, sender: int, receiver: int) -> ChatRoomObject:
+    def insert_groupchatroom(learning_group: int, sender: int, receiver: int) -> ChatRoomObject:
         """Insert Chatroom Manager."""
         with db_connector as db:
             cnx = db._cnx
             chatroom = ChatRoomObject(
             learning_group = learning_group,
+            sender = sender,
+            receiver = receiver,
+            is_accepted = True,
+            is_open = False,
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            return ChatRoomMapper.insert_chatroom(cnx=cnx, object=chatroom)
+
+    @staticmethod
+    def insert_chatroom( sender: int, receiver: int) -> ChatRoomObject:
+        """Insert Chatroom Manager."""
+        with db_connector as db:
+            cnx = db._cnx
+            chatroom = ChatRoomObject(
+            learning_group = None,
             sender = sender,
             receiver = receiver,
             is_accepted = False,

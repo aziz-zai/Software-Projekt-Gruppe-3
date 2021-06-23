@@ -27,7 +27,7 @@ class GroupAPI(Resource):
         group.info = groupinfo
         group = GroupAdministration.insert_group(group=group) 
         MembershipAdministration.insert_membership(learning_group=group, person=person)
-        ChatRoomAdministration.insert_chatroom(sender= person, receiver= person, learning_group= group.id_)
+        ChatRoomAdministration.insert_groupchatroom(sender= person, receiver= person, learning_group= group.id_)
         return group
 @namespace.route("/<int:group>")
 class MembershipGroupAPI(Resource):

@@ -13,8 +13,17 @@ namespace = api.namespace(
 )
 
 
+@namespace.route("/sender/<int:sender>/receiver/<int:receiver>")
+class ChatRoomSingleChats(Resource):
+    @namespace.marshal_with(chatroom_marshalling)
+    #@secured
+    def post(self, sender: int, receiver: int):
+        singlechat = ChatRoomAdministration.insert_chatroom(sender= sender, receiver=receiver)
+        return singlechat
+
 @namespace.route("/singlechat/<int:person>")
 class ChatRoomSingleChats(Resource):
+    
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person):
