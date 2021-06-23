@@ -4,25 +4,26 @@ from app.configs.base import db_connector
 
 
 class ChatRoomMapper(Mapper):
-    def find_open_received_requests(cnx: db_connector):
+    def find_open_received_requests(cnx: db_connector, person: int):
         
         result = []
         cursor = cnx.cursor(buffered=True)
-        cursor.execute("""
+        command=("""
         SELECT * FROM chatroom
         WHERE receiver=%s AND is_open=TRUE AND is_accepted=FALSE
         """)
+        cursor.execute(command,(person,))
         tuples = cursor.fetchall()
 
-        for (id, is_accepted, sender, is_open, receiver, timestamp, learning_group) in tuples:
-            chatroom = ChatRoomObject()
+        for (id, is_accepted, is_open, sender, receiver, learning_group, timestamp) in tuples:
+            chatroom = ChatRoomObject
             chatroom.id_ = id
             chatroom.is_accepted = is_accepted
-            chatroom.sender = sender
             chatroom.is_open= is_open
+            chatroom.sender = sender
             chatroom.receiver=receiver
-            chatroom.timestamp = timestamp
             chatroom.learning_group = learning_group
+            chatroom.timestamp = timestamp
 
             result.append(chatroom)
 
@@ -31,58 +32,52 @@ class ChatRoomMapper(Mapper):
 
         return result
 
-    def reject_open_sent_request(cnx: db_connector, person: int):
+    def delete_received_request(cnx: db_connector, chatroom: int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """DELETE FROM chatroom
         WHERE id=%s AND receiver=%s
             """
         try: 
-            cursor.execute(command, (person, ))
+            cursor.execute(command, (chatroom,person ))
         except:
             print("Received request does not exist!")
 
         cnx.commit()
         cursor.close()
 
-    def accept_open_request(cnx: db_connector, object: ChatRoomObject):
+    def accept_open_request(cnx: db_connector, chatroom: int, person: int):
         cursor = cnx.cursor(buffered=True)
 
         command = """UPDATE chatroom
             SET is_accepted=TRUE, is_open=FALSE
             WHERE id=%s AND receiver=%s
             """
-        cursor.execute(command, (
-            object.id_,
-            object.is_accepted,
-            object.sender,
-            object.is_open,
-            object.receiver,
-            object.timestamp,
-            object.learning_group,
-        ))
+        cursor.execute(command, (chatroom, person))
 
         cnx.commit()
         cursor.close()
 
-    def find_open_sent_requests(cnx: db_connector):
+    def find_open_sent_requests(cnx: db_connector, person: int):
         
         result = []
         cursor = cnx.cursor(buffered=True)
-        cursor.execute("""
+        command=("""
         SELECT * FROM chatroom
         WHERE sender=%s AND is_open=TRUE AND is_accepted=FALSE
         """)
+        cursor.execute(command,(person,))
         tuples = cursor.fetchall()
+        
 
-        for (id, is_accepted, sender, is_open, receiver, timestamp, learning_group) in tuples:
-            chatroom = ChatRoomObject()
+        for (id, is_accepted, is_open, sender, receiver, learning_group, timestamp) in tuples:
+            chatroom = ChatRoomObject
             chatroom.id_ = id
             chatroom.is_accepted = is_accepted
-            chatroom.sender = sender
             chatroom.is_open= is_open
+            chatroom.sender = sender
             chatroom.receiver=receiver
+            chatroom.learning_group = learning_group 
             chatroom.timestamp = timestamp
-            chatroom.learning_group = learning_group
 
             result.append(chatroom)
 
@@ -91,13 +86,13 @@ class ChatRoomMapper(Mapper):
 
         return result
 
-    def delete_open_sent_request(cnx: db_connector, person: int):
+    def delete_sent_request(cnx: db_connector, chatroom:int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """DELETE FROM chatroom
             WHERE id=%s AND sender=%s
             """
         try: 
-            cursor.execute(command, (person,))
+            cursor.execute(command, (chatroom, person,))
         except:
             print("Sent request does not exist!")
 

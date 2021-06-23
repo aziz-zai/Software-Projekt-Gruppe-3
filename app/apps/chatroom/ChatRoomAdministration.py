@@ -28,16 +28,16 @@ class ChatRoomAdministration:
             return ChatRoomMapper.find_single_chats(cnx=cnx, person = person)
     
     @staticmethod
-    def reject_open_request(chatroom: ChatRoomObject) -> ChatRoomObject:
+    def reject_received_request(chatroom: int, person: int) -> ChatRoomObject:
         with db_connector as db:
             cnx= db._cnx
-            return ChatRoomMapper.reject_open_request(cnx=cnx, object=chatroom)
+            return ChatRoomMapper.delete_received_request(cnx=cnx, chatroom=chatroom, person= person)
 
     @staticmethod
-    def accept_open_request(chatroom: ChatRoomObject) -> ChatRoomObject:
+    def accept_open_request(chatroom: int, person: int) -> ChatRoomObject:
         with db_connector as db:
             cnx= db._cnx
-            return ChatRoomMapper.accept_open_request(cnx=cnx, object=chatroom)
+            return ChatRoomMapper.accept_open_request(cnx=cnx, chatroom= chatroom, person = person)
 
     @staticmethod
     def get_open_received_requests(person: int) -> ChatRoomObject:
@@ -52,10 +52,10 @@ class ChatRoomAdministration:
             return ChatRoomMapper.find_open_sent_requests(cnx=cnx, person=person)
 
     @staticmethod
-    def delete_open_sent_request(person: int):
+    def delete_sent_request(chatroom: int, person: int):
         with db_connector as db:
             cnx= db._cnx
-            ChatRoomMapper.delete_open_sent_request(cnx=cnx, person=person)
+            ChatRoomMapper.delete_sent_request(cnx=cnx,chatroom=chatroom,person=person)
     
     @staticmethod
     def delete_singlechat(chatroom: int, person: int):
