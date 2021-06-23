@@ -17,7 +17,6 @@ namespace = api.namespace(
 @namespace.route("/group/<int:group>")
 class MembershipGroupAPI(Resource):
 
-
     @namespace.marshal_with(membership_marshalling, code=201)
     @namespace.expect(membership_marshalling)
     def get(self, group: int) -> dict:

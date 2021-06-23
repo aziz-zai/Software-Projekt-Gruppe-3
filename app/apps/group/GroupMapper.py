@@ -8,13 +8,13 @@ class GroupMapper(Mapper):
         pass
 
     def find_by_groupID(cnx: db_connector, learning_group: int):
-        result=[]
+        result = []
         cursor = cnx.cursor(buffered=True)
         command = """
         SELECT id, groupname, info from `mydb`.`learning_group` 
         WHERE id=%s
         """
-        cursor.execute(command,(learning_group, ))
+        cursor.execute(command, (learning_group, ))
         entity = cursor.fetchone()
 
         try:
@@ -45,7 +45,7 @@ class GroupMapper(Mapper):
         cursor.execute("SELECT MAX(id) FROM learning_group")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
-        
+
         return object
 
     def update(object):
@@ -54,7 +54,7 @@ class GroupMapper(Mapper):
     def delete(cnx:db_connector, learning_group: int):
         cursor = cnx.cursor(buffered=True)
         command = ("DELETE FROM learning_group WHERE id=%s")
-        try: 
+        try:
             cursor.execute(command, (learning_group,))
         except:
             print("Group does not exist!")
