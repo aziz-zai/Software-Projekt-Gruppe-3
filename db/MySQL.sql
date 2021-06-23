@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `person` INT NOT NULL,
   `learning_group` INT NOT NULL,
-  `profile` INT NOT NULL,
+  `is_open` tinyint DEFAULT true,
+  `is_accepted` tinyint DEFAULT false,
+  `timestamp` datetime,
   PRIMARY KEY (`id`),
    CONSTRAINT `person_memberhsip`
    FOREIGN KEY (`person`)
@@ -53,14 +55,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
    CONSTRAINT `learning_group_membership`
    FOREIGN KEY (`learning_group`)
         REFERENCES mydb.learning_group(id)
-        ON DELETE CASCADE,
-   CONSTRAINT `profile_membership`
-   FOREIGN KEY (`profile`)
-        REFERENCES mydb.profile(id)
         ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`conversation`

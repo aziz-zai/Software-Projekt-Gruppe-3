@@ -17,9 +17,9 @@ class GroupAdministration:
     def get_by_groupID(learning_group: int):
         with db_connector as db:
             cnx=db._cnx
-            return GroupMapper.find_by_groupID(cnx=cnx, learning_group = learning_group)
+            return GroupMapper.find_by_groupID(cnx=cnx, learning_group=learning_group)
     @staticmethod
     def delete_group(learning_group: int):
         with db_connector as db:
             cnx=db._cnx
-            return GroupMapper.delete(cnx=cnx, learning_group = learning_group)
+            return GroupMapper.delete(cnx=cnx, learning_group=learning_group)

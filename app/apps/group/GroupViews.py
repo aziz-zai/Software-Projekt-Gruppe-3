@@ -15,22 +15,24 @@ namespace = api.namespace(
 
 
 @namespace.route("/<string:groupname>/<string:groupinfo>/<int:person>")
-class GroupAPI(Resource):
+class CreateGroupAPI(Resource):
     """Basic API for group."""
 
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def post(self, person, groupname, groupinfo) -> dict:
         """Create group Endpoint."""
-        group = GroupObject
-        group.groupname = groupname
-        group.info = groupinfo
-        group = GroupAdministration.insert_group(group=group) 
+        group = GroupObject(
+            groupname=groupname,
+            info=groupinfo
+        )
+        group = GroupAdministration.insert_group(group=group)
         MembershipAdministration.insert_membership(learning_group=group, person=person)
-        ChatRoomAdministration.insert_groupchatroom(sender= person, receiver= person, learning_group= group.id_)
         return group
+
+
 @namespace.route("/<int:group>")
-class MembershipGroupAPI(Resource):
+class GroupAPI(Resource):
     """Get All Members of a group."""
 
     @api.marshal_with(group_marshalling, code=201)
