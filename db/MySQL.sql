@@ -37,6 +37,27 @@ CREATE TABLE IF NOT EXISTS `mydb`.`person` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table `mydb`.`membership`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `person` INT NOT NULL,
+  `learning_group` INT NOT NULL,
+  `is_open` tinyint DEFAULT true,
+  `is_accepted` tinyint DEFAULT false,
+  `timestamp` datetime,
+  PRIMARY KEY (`id`),
+   CONSTRAINT `person_memberhsip`
+   FOREIGN KEY (`person`)
+        REFERENCES mydb.person(id)
+        ON DELETE CASCADE,
+   CONSTRAINT `learning_group_membership`
+   FOREIGN KEY (`learning_group`)
+        REFERENCES mydb.learning_group(id)
+        ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`conversation`
@@ -114,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
   `is_open` TINYINT NULL DEFAULT NULL,
   `sender` INT,
   `receiver` INT,
-  `learning_group` INT,
+  `timestamp` datetime,
   PRIMARY KEY (`id`),
   CONSTRAINT `chatroom_sender`
    FOREIGN KEY (`sender`)
@@ -123,12 +144,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
 CONSTRAINT `chatroom_receiver`
    FOREIGN KEY (`receiver`)
         REFERENCES mydb.person(id)
-        ON DELETE CASCADE,
-CONSTRAINT `chatroom_group`
-   FOREIGN KEY (`learning_group`)
-        REFERENCES mydb.learning_group(id)
         ON DELETE CASCADE)
-        
+
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;

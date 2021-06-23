@@ -13,7 +13,7 @@ namespace = api.namespace(
 
 
 @namespace.route("/")
-class PersonAPI(Resource):
+class PersonOperationAPI(Resource):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
@@ -42,3 +42,25 @@ class PersonAPI(Resource):
         """Delete Person Endpoint."""
         PersonAdministration.delete_person(person=google_user_id)
         return '', 200
+@namespace.route("/group/<int:group>")
+class PotentialPersonAPI(Resource):
+    """Basic API for profile."""
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
+    #@secured
+    def get(self, group: int) -> dict:
+        """Create Person Endpoint."""
+        pers = PersonAdministration.get_potential_persons_for_group(learning_group=group)
+        return pers
+@namespace.route("/potential_singlechat/<int:person>")
+class PotentialPersonAPI(Resource):
+    """Basic API for profile."""
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
+    #@secured
+    def get(self, person: int) -> dict:
+        """Create Person Endpoint."""
+        pers = PersonAdministration.get_potential_singlechat(person=person)
+        return pers
+
+

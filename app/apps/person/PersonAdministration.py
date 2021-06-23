@@ -40,4 +40,16 @@ class PersonAdministration:
     def delete_person(person: int):
         with db_connector as db:
             cnx = db._cnx
-            PersonMapper.delete(cnx=cnx, person=person)
+            PersonMapper.delete(cnx=cnx, person=person) 
+    
+    @staticmethod
+    def get_potential_persons_for_group(learning_group: int):
+        with db_connector as db:
+            cnx = db._cnx
+            return PersonMapper.find_potential_persons_for_group(cnx=cnx, learning_group= learning_group)
+    
+    @staticmethod
+    def get_potential_singlechat(person: int) -> PersonObject:
+        with db_connector as db:
+            cnx= db._cnx
+            return PersonMapper.find_potential_singlechat(cnx=cnx, person=person)
