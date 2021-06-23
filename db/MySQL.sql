@@ -145,6 +145,7 @@ CONSTRAINT `chatroom_receiver`
    FOREIGN KEY (`receiver`)
         REFERENCES mydb.person(id)
         ON DELETE CASCADE)
+
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;

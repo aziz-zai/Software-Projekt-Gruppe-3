@@ -27,7 +27,7 @@ class CreateGroupAPI(Resource):
             info=groupinfo
         )
         group = GroupAdministration.insert_group(group=group)
-        MembershipAdministration.insert_membership(learning_group=group, person=person)
+        MembershipAdministration.insert_membership(learning_group=group.id_, person=person)
         return group
 
 

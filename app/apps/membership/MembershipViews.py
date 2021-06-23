@@ -16,19 +16,18 @@ namespace = api.namespace(
 
 @namespace.route("/group/<int:group>")
 class MembershipGroupAPI(Resource):
-    """Get All Members of a group."""
 
     @namespace.marshal_with(membership_marshalling, code=201)
     @namespace.expect(membership_marshalling)
     def get(self, group: int) -> dict:
-        """Create Person Endpoint."""
+        """Get All Members of a group."""
         membership = MembershipAdministration.get_membership_by_group(learning_group=group)
         return membership
 
     @namespace.marshal_with(membership_marshalling, code=201)
     @namespace.expect(membership_person_marshalling, validate=True)
     def delete(self, group: int,) -> dict:
-        """Create Person Endpoint."""
+        """Membership löschen."""
         membership = MembershipAdministration.delete_membership(
             learning_group=group, person=namespace.payload.get("person")
         )
@@ -38,7 +37,10 @@ class MembershipGroupAPI(Resource):
     @namespace.expect(membership_person_marshalling, validate=True)
     def post(self, group: int):
         """ Person der Gruppe hinzufügen"""
-        membership = MembershipAdministration.invite_membership(group=group, person=namespace.payload.get("person"))
+        membership = MembershipAdministration.insert_membership(
+            learning_group=group,
+            person=namespace.payload.get("person")
+            )
         return membership
 
 
@@ -53,3 +55,30 @@ class MembershipPersonAPI(Resource):
         membership = MembershipAdministration.get_groups_by_person(person=person)
         return membership
 
+
+@namespace.route("/Membershiprequest/<int:person>")
+class MembershipRequestAPI(Resource):
+
+    @api.marshal_with(membership_marshalling, code=201)
+    @api.expect(membership_marshalling)
+    def get(self, person: int):
+        """ Get All Group/Membership-Requests """
+        requeslist = MembershipAdministration.get_all_requests(person=person)
+        return requeslist
+
+    @api.marshal_with(membership_marshalling, code=201)
+    @api.expect(membership_marshalling)
+    def post(self, person: int):
+        """ Eine Anfrage verschicken """
+        request = MembershipAdministration.invite_membership(
+            person=person,
+            learning_group=namespace.payload.get("learning_group")
+        )
+        return request
+
+    def delete(self, person):
+        """ Lehne eine Anfrage ab """
+        MembershipAdministration.delete_membership_request(
+            person=person,
+            learning_group=namespace.payload.get("learning_group")
+            )
