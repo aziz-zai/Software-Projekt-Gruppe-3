@@ -15,14 +15,16 @@ namespace = api.namespace(
 
 @namespace.route("/sender/<int:sender>/receiver/<int:receiver>")
 class ChatRoomSingleChats(Resource):
+    """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def post(self, sender: int, receiver: int):
-        singlechat = ChatRoomAdministration.insert_chatroom(sender= sender, receiver=receiver)
+        singlechat = ChatRoomAdministration.insert_chatroom(sender=sender, receiver=receiver)
         return singlechat
 
 @namespace.route("/singlechat/<int:person>")
 class ChatRoomSingleChats(Resource):
+    """Get A Single Chat"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person):
@@ -31,6 +33,7 @@ class ChatRoomSingleChats(Resource):
 
 @namespace.route("/singlechats/<int:person>")
 class ChatRoomAllSingleChats(Resource):
+    """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person):
@@ -39,6 +42,7 @@ class ChatRoomAllSingleChats(Resource):
 
 @namespace.route("/open_received_requests/<int:person>")
 class ChatRoomReceivedRequests(Resource):
+    """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person: int):
@@ -47,6 +51,7 @@ class ChatRoomReceivedRequests(Resource):
 
 @namespace.route("/open_sent_requests/<int:person>")
 class ChatRoomSentRequests(Resource):
+    """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, person: int):
         open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=person)
@@ -54,7 +59,7 @@ class ChatRoomSentRequests(Resource):
 
 @namespace.route("/accept_request/<int:chatroom>/<int:person>")
 class ChatRoomAcceptRequest(Resource):
-    """Basic API for requests."""
+    """Accept A Received Request"""
     @namespace.marshal_with(chatroom_marshalling)
     def put(self, person: int, chatroom: int):
         accept_open_request = ChatRoomAdministration.accept_open_request(person=person, chatroom= chatroom)
@@ -62,6 +67,7 @@ class ChatRoomAcceptRequest(Resource):
 
 @namespace.route("/chatroom_to_delete/<int:chatroom>/<int:person>")
 class ChatRoomDelete(Resource):
+    """Delete A Singlechat"""
     @api.marshal_with(chatroom_marshalling, code=200)
     @api.expect(chatroom_marshalling)
     #@secured
@@ -72,6 +78,7 @@ class ChatRoomDelete(Resource):
 
 @namespace.route("/delete_sent/<int:chatroom>/<int:person>")
 class ChatRoomDeleteSentRequest(Resource):
+    """Delete A Sent Request"""
     @api.marshal_with(chatroom_marshalling, code=200)
     @api.expect(chatroom_marshalling)
     #@secured

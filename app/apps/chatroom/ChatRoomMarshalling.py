@@ -9,5 +9,4 @@ chatroom_marshalling = api.model('chatroom', {
     "sender": fields.Integer(readOnly=True),
     "receiver": fields.Integer(readOnly=True),
     "timestamp": fields.String(),
-    
 })

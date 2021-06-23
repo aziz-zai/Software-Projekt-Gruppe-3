@@ -10,7 +10,7 @@ class ChatRoomMapper(Mapper):
         cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO chatroom (
-                is_accepted, 
+                is_accepted,
                 sender,
                 is_open,
                 receiver,
@@ -30,25 +30,24 @@ class ChatRoomMapper(Mapper):
         object.id_ = max_id
         return object
 
-
     def find_open_received_requests(cnx: db_connector, person: int):
-        
+
         result = []
         cursor = cnx.cursor(buffered=True)
-        command=("""
-        SELECT * FROM chatroom
-        WHERE receiver =%s AND sender !=%s AND is_open=TRUE AND is_accepted=FALSE
-        """)
-        cursor.execute(command,(person, person))
+        command = """
+            SELECT * FROM chatroom
+            WHERE receiver =%s AND sender !=%s AND is_open=TRUE AND is_accepted=FALSE
+        """
+        cursor.execute(command, (person, person))
         tuples = cursor.fetchall()
 
         for (id, is_accepted, is_open, sender, receiver, timestamp) in tuples:
             chatroom = ChatRoomObject
             chatroom.id_ = id
             chatroom.is_accepted = is_accepted
-            chatroom.is_open= is_open
+            chatroom.is_open = is_open
             chatroom.sender = sender
-            chatroom.receiver=receiver
+            chatroom.receiver = receiver
             chatroom.timestamp = timestamp
 
             result.append(chatroom)
@@ -57,17 +56,17 @@ class ChatRoomMapper(Mapper):
         cursor.close()
 
         return result
+
     def find_open_sent_requests(cnx: db_connector, person: int):
-        
+
         result = []
         cursor = cnx.cursor(buffered=True)
-        command=("""
-        SELECT * FROM chatroom
-        WHERE sender=%s AND receiver !=%s AND is_open=TRUE AND is_accepted=FALSE
-        """)
-        cursor.execute(command,(person, person))
+        command = """
+            SELECT * FROM chatroom
+            WHERE sender=%s AND receiver !=%s AND is_open=TRUE AND is_accepted=FALSE
+        """
+        cursor.execute(command, (person, person))
         tuples = cursor.fetchall()
-        
 
         for (id, is_accepted, is_open, sender, receiver, timestamp) in tuples:
             chatroom = ChatRoomObject
@@ -97,23 +96,23 @@ class ChatRoomMapper(Mapper):
         cnx.commit()
         cursor.close()
 
-    def find_by_chatroom_id(cnx: db_connector, id: int) -> ChatRoomObject:
-        
+    def find_by_chatroom_id(cnx: db_connector, chatroom: int) -> ChatRoomObject:
+
         result = None
         cursor = cnx.cursor(buffered=True)
-        
+
         command = """
         SELECT
          id,
-         is_accepted, 
+         is_accepted,
          sender,
          is_open,
          receiver,
          timestamp
 
-        FROM request WHERE id=%s
+        FROM chatroom WHERE id=%s
         """
-        cursor.execute(command,(id, ))
+        cursor.execute(command, (chatroom, ))
         entity = cursor.fetchone()
 
         try:
@@ -125,7 +124,7 @@ class ChatRoomMapper(Mapper):
                 is_open=is_open,
                 receiver=receiver,
                 timestamp=timestamp,
-           )
+            )
         except IndexError:
             result = None
 
@@ -139,9 +138,9 @@ class ChatRoomMapper(Mapper):
 
         cursor = cnx.cursor(buffered=True)
         command = "SELECT * FROM chatroom WHERE is_accepted=True AND (sender=%s OR receiver=%s);"
-        cursor.execute(command,(person, person ))
+        cursor.execute(command, (person, person))
         tuples = cursor.fetchall()
-        
+
         for (id, is_accepted, is_open, sender, receiver, timestamp) in tuples:
             chatroom = ChatRoomObject
             chatroom.id_ = id
@@ -150,7 +149,7 @@ class ChatRoomMapper(Mapper):
             chatroom.sender = sender
             chatroom.receiver = receiver
             chatroom.timestamp = timestamp
-            
+
             result.append(chatroom)
 
         cursor.close()
@@ -164,9 +163,9 @@ class ChatRoomMapper(Mapper):
         DELETE FROM chatroom
         WHERE id=%s AND (receiver=%s OR sender=%s)
         """
-        try: 
+        try:
             cursor.execute(command, (chatroom, person, person))
-        except:
+        except Exception:
             print("singlechat does not exist!")
 
         cnx.commit()
@@ -177,9 +176,9 @@ class ChatRoomMapper(Mapper):
         command = """DELETE FROM chatroom
         WHERE id=%s AND receiver=%s
             """
-        try: 
-            cursor.execute(command, (chatroom, person ))
-        except:
+        try:
+            cursor.execute(command, (chatroom, person))
+        except Exception:
             print("Received request does not exist!")
 
         cnx.commit()
@@ -190,9 +189,9 @@ class ChatRoomMapper(Mapper):
         command = """DELETE FROM chatroom
             WHERE id=%s AND sender=%s
             """
-        try: 
+        try:
             cursor.execute(command, (chatroom, person,))
-        except:
+        except Exception:
             print("Sent request does not exist!")
 
         cnx.commit()

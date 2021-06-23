@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
   `is_open` TINYINT NULL DEFAULT NULL,
   `sender` INT,
   `receiver` INT,
-  `learning_group` INT,
+  `timestamp` datetime,
   PRIMARY KEY (`id`),
   CONSTRAINT `chatroom_sender`
    FOREIGN KEY (`sender`)
@@ -144,12 +144,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
 CONSTRAINT `chatroom_receiver`
    FOREIGN KEY (`receiver`)
         REFERENCES mydb.person(id)
-        ON DELETE CASCADE,
-CONSTRAINT `chatroom_group`
-   FOREIGN KEY (`learning_group`)
-        REFERENCES mydb.learning_group(id)
         ON DELETE CASCADE)
-        
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
