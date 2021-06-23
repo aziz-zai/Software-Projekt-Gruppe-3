@@ -12,7 +12,7 @@ namespace = api.namespace(
     description="Namespace for chatroom APIs."
 )
 
-@namespace.route("/<int:person>")
+@namespace.route("/singlechats/<int:person>")
 class ChatRoomOperation(Resource):
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
@@ -20,13 +20,22 @@ class ChatRoomOperation(Resource):
         person_chat_list = ChatRoomAdministration.get_single_chats(person)
         return person_chat_list
 
+@namespace.route("/open_received_requests/<int:person>")
+class ChatRoomOperation(Resource):
+    @namespace.marshal_with(chatroom_marshalling)
+    #@secured
+    def get(self, person: int):
+        open_received_requests = ChatRoomAdministration.get_open_received_requests(person=person)
+        return open_received_requests
+
+    
+
 @namespace.route("/<int:person>/<int:receiver>")
 class ChatRoomRequestsAPI(Resource):
     """Basic API for requests."""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person: int, receiver: int):
-        receiver=person
         open_received_requests = ChatRoomAdministration.get_open_received_requests(person=receiver)
         return open_received_requests
 
@@ -56,17 +65,14 @@ class ChatRoomRequestsAPI(Resource):
         ChatRoomAdministration.delete_open_sent_request(person=sender)
         return '', 200
 
-@namespace.route("/<int:sender>/<int:receiver>")
-class CreateChatRoomAPI(Resource):
-    """Basic API for creating chatrooms"""
-    @namespace.marshal_with(chatroom_marshalling)
+@namespace.route("/chatroom_to_delete/<int:chatroom>/<int:person>")
+class ChatRoomRequestsAPI(Resource):
+    @api.marshal_with(chatroom_marshalling, code=200)
+    @api.expect(chatroom_marshalling)
     #@secured
-    def post(self, sender: int, receiver: int) -> dict:
-        chatroom = ChatRoomObject
-        chatroom.sender=sender
-        chatroom.receiver=receiver
-        chatroom.is_open = False
-        chatroom.is_accepted = False
+    def delete(self, chatroom: int, person: int):
+        """Delete sent request."""
+        ChatRoomAdministration.delete_singlechat(chatroom=chatroom,person=person)
+        return '', 200
 
-        chatroom = ChatRoomAdministration.create_chatroom(chatroom=chatroom)
-        return chatroom
+

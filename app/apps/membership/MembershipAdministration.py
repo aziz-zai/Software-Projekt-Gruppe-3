@@ -10,13 +10,13 @@ class MembershipAdministration:
     """Profile Manager class. For managing database interactions."""
 
     @staticmethod
-    def insert_membership(learning_group: GroupObject, profile: ProfileObject) -> MembershipObject:
+    def insert_membership(learning_group: GroupObject, person: int) -> MembershipObject:
         """Insert Person Manager."""
         with db_connector as db:
             cnx = db._cnx
             membership = MembershipObject
             membership.learning_group = learning_group.id_
-            membership.profile= profile.id_
+            membership.person= person
             return MembershipMapper.insert(cnx=cnx, object=membership)
     
     @staticmethod
@@ -26,8 +26,15 @@ class MembershipAdministration:
             return MembershipMapper.find_by_groupID(cnx=cnx, groupID = learning_group)
     
     @staticmethod
-    def get_groups_by_person(profile: int):
+    def get_groups_by_person(person: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.find_by_profile(cnx=cnx, profile = profile)
+            return MembershipMapper.find_by_person(cnx=cnx, person = person)
+    
+    @staticmethod
+    def delete_membership(learning_group: int, person: int):
+        with db_connector as db:
+            cnx=db._cnx
+            return MembershipMapper.delete(cnx=cnx, learning_group= learning_group, person = person)
    
+

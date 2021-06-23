@@ -100,3 +100,69 @@ class PersonMapper(Mapper):
 
         cnx.commit()
         cursor.close()
+
+    def find_potential_persons_for_group(cnx: db_connector,learning_group: int):
+    
+        result = []
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        SELECT id, email, google_user_id FROM person
+        WHERE id NOT IN (
+        SELECT sender FROM chatroom
+            WHERE learning_group = %s
+        UNION 
+        SELECT receiver FROM chatroom
+            WHERE learning_group = %s
+        )
+        """
+        cursor.execute(command,(learning_group,learning_group ))
+        tuples = cursor.fetchall()
+
+        for(id, email, google_user_id) in tuples:
+            person = PersonObject(
+            id_=id,
+            email=email,
+            google_user_id=google_user_id)
+            result.append(person)
+        
+        cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_potential_singlechat(cnx: db_connector, person: int):
+        result = []
+
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        SELECT * FROM person
+        WHERE id !=%s AND id NOT IN (
+        SELECT chatroom.receiver FROM chatroom
+            WHERE chatroom.sender = %s
+                AND chatroom.learning_group IS NULL
+                AND (
+                    is_open=FALSE OR is_accepted=TRUE
+                )
+        UNION 
+        SELECT chatroom.sender FROM chatroom
+            WHERE chatroom.receiver = %s
+                AND chatroom.learning_group IS NULL
+                AND (
+                    is_open = FALSE OR is_accepted = TRUE
+                )
+            )
+        """
+        cursor.execute(command,(person, person, person ))
+        tuples = cursor.fetchall()
+        
+        for (id, email, google_user_id) in tuples:
+            person = PersonObject(
+                id_=id,
+                email=email,
+                google_user_id=google_user_id
+            )
+            result.append(person)
+
+        cursor.close()
+
+        return result

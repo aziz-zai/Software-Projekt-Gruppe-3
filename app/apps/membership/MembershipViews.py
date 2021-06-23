@@ -32,8 +32,16 @@ class MembershipPersonAPI(Resource):
     @api.expect(membership_marshalling)
     def get(self, person: int) -> dict:
         """Create Person Endpoint."""
-        pers = PersonAdministration.get_person_by_id(person)
-        profile = ProfileAdministration.get_profile_of_person(pers)
-        membership = MembershipAdministration.get_groups_by_person(profile=profile.id_)
+        membership = MembershipAdministration.get_groups_by_person(person=person)
         return membership
 
+@namespace.route("/group/<int:group>/person/<int:person>")
+class MembershipGroupAPI(Resource):
+    """Delete a Member of a Group."""
+
+    @api.marshal_with(membership_marshalling, code=201)
+    @api.expect(membership_marshalling)
+    def delete(self, group: int, person:int) -> dict:
+        """Create Person Endpoint."""
+        membership = MembershipAdministration.delete_membership(learning_group=group, person=person)
+        return membership

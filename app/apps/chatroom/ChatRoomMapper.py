@@ -149,15 +149,16 @@ class ChatRoomMapper(Mapper):
         cursor.execute(command,(person, person ))
         tuples = cursor.fetchall()
         
-        for (id, is_accepted,is_open, sender, receiver, timestamp, learning_group) in tuples:
+        for (id, is_accepted,is_open, sender, receiver, learning_group, timestamp) in tuples:
             chatroom = ChatRoomObject
             chatroom.id_ = id
             chatroom.is_accepted = is_accepted
             chatroom.is_open = is_open
             chatroom.sender = sender
             chatroom.receiver = receiver
-            chatroom.timestamp = timestamp
             chatroom.learning_group = learning_group
+            chatroom.timestamp = timestamp
+            
             result.append(chatroom)
 
         cursor.close()
@@ -165,7 +166,7 @@ class ChatRoomMapper(Mapper):
         return result
         
     @staticmethod
-    def create_chatroom(cnx: db_connector, object: ChatRoomObject) -> ChatRoomObject:
+    def insert_chatroom(cnx: db_connector, object: ChatRoomObject) -> ChatRoomObject:
         """Create Chatroom Object."""
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -193,5 +194,18 @@ class ChatRoomMapper(Mapper):
         return object
 
 
-    def delete(object):
-        pass
+    def delete_singlechat(cnx: db_connector, chatroom: int, person: int):
+
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        DELETE FROM chatroom
+        WHERE id=%s AND (receiver=%s OR sender=%s)
+        """
+        try: 
+            cursor.execute(command, (chatroom, person, person))
+        except:
+            print("singlechat does not exist!")
+
+        cnx.commit()
+        cursor.close()
+

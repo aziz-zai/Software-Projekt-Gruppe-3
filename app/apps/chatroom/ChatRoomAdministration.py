@@ -2,15 +2,24 @@ from .ChatRoomMapper import ChatRoomMapper
 from app.apps.person.PersonBO import PersonObject
 from app.configs.base import db_connector
 from app.apps.chatroom.ChatRoomBO import ChatRoomObject
+from datetime import datetime
+from time import time
 
 class ChatRoomAdministration:
     """Chatroom Manager class. For managing database interactions."""
     @staticmethod
-    def create_chatroom(chatroom: ChatRoomObject) -> ChatRoomObject:
+    def insert_chatroom(learning_group: int, sender: int, receiver: int) -> ChatRoomObject:
         """Insert Chatroom Manager."""
         with db_connector as db:
             cnx = db._cnx
-            return ChatRoomMapper.create_chatroom(cnx=cnx, object=chatroom)
+            chatroom = ChatRoomObject(
+            learning_group = learning_group,
+            sender = sender,
+            receiver = receiver,
+            is_accepted = True,
+            is_open = False,
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            return ChatRoomMapper.insert_chatroom(cnx=cnx, object=chatroom)
     
     @staticmethod
     def get_single_chats(person: int) -> ChatRoomObject:
@@ -48,3 +57,11 @@ class ChatRoomAdministration:
             cnx= db._cnx
             ChatRoomMapper.delete_open_sent_request(cnx=cnx, person=person)
     
+    @staticmethod
+    def delete_singlechat(chatroom: int, person: int):
+        with db_connector as db:
+            cnx= db._cnx
+            ChatRoomMapper.delete_singlechat(cnx=cnx, chatroom= chatroom, person=person)
+    
+   
+   

@@ -51,5 +51,14 @@ class GroupMapper(Mapper):
     def update(object):
         pass
 
-    def delete(object):
-        pass
+    def delete(cnx:db_connector, learning_group: int):
+        cursor = cnx.cursor(buffered=True)
+        command = ("DELETE FROM learning_group WHERE id=%s")
+        try: 
+            cursor.execute(command, (learning_group,))
+        except:
+            print("Group does not exist!")
+
+        cnx.commit()
+        cursor.close()
+

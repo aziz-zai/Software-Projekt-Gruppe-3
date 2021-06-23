@@ -5,21 +5,21 @@ from app.configs.base import db_connector
 
 
 class MembershipMapper(Mapper):
-    def find_by_profile(cnx: db_connector, profile: int):
+    def find_by_person(cnx: db_connector, person: int):
         result=[]
         cursor = cnx.cursor(buffered=True)
         command = """
         SELECT id, learning_group, profile from `mydb`.`membership` 
         WHERE profile=%s
         """
-        cursor.execute(command,(profile, ))
+        cursor.execute(command,(person, ))
         tuples = cursor.fetchall()
 
         for (id, learning_group, profile) in tuples:
             membership = MembershipObject(
             id_=id,
             learning_group = learning_group,
-            profile = profile)
+            person = profile)
             result.append(membership)
 
         cnx.commit()
@@ -38,10 +38,10 @@ class MembershipMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, learning_group, profile) in tuples:
-            membership = MembershipObject
-            membership.id_=id
-            membership.learning_group = learning_group
-            membership.profile = profile
+            membership = MembershipObject(
+            id_=id,
+            learning_group = learning_group,
+            person = profile)
             result.append(membership)
 
         cnx.commit()
@@ -60,7 +60,7 @@ class MembershipMapper(Mapper):
         """
         cursor.execute(command, (
             object.learning_group,
-            object.profile
+            object.person
         ))
         cnx.commit()
         cursor.execute("SELECT MAX(id) FROM membership")
@@ -71,5 +71,30 @@ class MembershipMapper(Mapper):
     def update(object):
         pass
 
-    def delete(object):
-        pass
+    def delete(cnx: db_connector, learning_group: int, person:int):
+        cursor = cnx.cursor(buffered=True)
+        command = ("""
+        DELETE FROM chatroom 
+        WHERE learning_group=%s
+            AND (sender=%s OR receiver=%s)
+        """
+        )
+        try: 
+            cursor.execute(command,
+            (learning_group, person, person))
+        except:
+            print("Chatroom does not exist!")
+        
+        command = ("""
+        DELETE FROM membership
+        WHERE profile=%s AND learning_group=%s
+        """
+        )
+        try: 
+            cursor.execute(command,
+            (person, learning_group))
+        except:
+            print("Member does not exist!")
+        
+        cnx.commit()
+        cursor.close()
