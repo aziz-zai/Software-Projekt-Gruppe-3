@@ -1,6 +1,7 @@
 from os import name
 from app.apps.core.SecurityDecorator import secured
 from flask_restx import Resource
+from app.apps.core.auth import AuthView
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
 from app.apps.group.GroupMarshalling import group_marshalling
@@ -16,9 +17,8 @@ namespace = api.namespace(
 
 
 @namespace.route("/")
-class AllProfilesOperation(Resource):
+class AllProfilesOperation(AuthView):
     @namespace.marshal_with(profile_marshalling)
-    @secured
     def get(self):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list

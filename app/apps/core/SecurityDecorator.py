@@ -29,7 +29,7 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
-    
+
         if id_token:
             try:
                 # Verify the token against the Firebase Auth API. This example
