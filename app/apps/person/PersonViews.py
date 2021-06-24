@@ -4,8 +4,8 @@ from .PersonMarshalling import person_marshalling
 from .PersonBO import PersonObject
 from .PersonAdministration import PersonAdministration
 from app.apps.profile.ProfileAdministration import ProfileAdministration
-from app.apps.core.SecurityDecorator import secured
 from app.apps.core.auth import AuthView
+
 
 namespace = api.namespace(
     "/person",
@@ -18,7 +18,6 @@ class PersonOperationAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
-    @secured
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
@@ -30,7 +29,6 @@ class PersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
-    @secured
     def get(self, google_user_id) -> dict:
         """Get a person by google_user_id"""
         pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
@@ -55,7 +53,7 @@ class PotentialGroupAPI(AuthView):
         return pers
 
 
-@namespace.route("/potential_singlechat/<int:person>")
+@namespace.route("/potential_singlechat")
 class PotentialPersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
