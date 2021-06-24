@@ -31,7 +31,7 @@ class PersonAPI(Resource):
     @api.expect(person_marshalling)
     @secured
     def get(self, google_user_id) -> dict:
-        """Create Person Endpoint."""
+        """Get a person by google_user_id"""
         pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
         return pers
         
@@ -51,7 +51,7 @@ class PotentialGroupAPI(Resource):
     @api.expect(person_marshalling)
     #@secured
     def get(self, group: int) -> dict:
-        """Create Person Endpoint."""
+        """Get All Persons that are not requested for a groupmembership"""
         pers = PersonAdministration.get_potential_persons_for_group(learning_group=group)
         return pers
 
@@ -63,8 +63,6 @@ class PotentialPersonAPI(Resource):
     @api.expect(person_marshalling)
     #@secured
     def get(self, person: int) -> dict:
-        """Create Person Endpoint."""
+        """Get All Persons that are not already requested for a singlechat."""
         pers = PersonAdministration.get_potential_singlechat(person=person)
         return pers
-
-

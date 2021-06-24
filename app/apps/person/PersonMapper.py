@@ -108,14 +108,11 @@ class PersonMapper(Mapper):
         command = """
         SELECT id, email, google_user_id FROM person
         WHERE id NOT IN (
-        SELECT sender FROM membership
-            WHERE learning_group = %s
-        UNION
-        SELECT receiver FROM membership
+        SELECT person FROM membership
             WHERE learning_group = %s
         )
         """
-        cursor.execute(command, (learning_group, learning_group))
+        cursor.execute(command, (learning_group,))
         tuples = cursor.fetchall()
 
         for(id, email, google_user_id) in tuples:

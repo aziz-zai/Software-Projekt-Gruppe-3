@@ -11,16 +11,16 @@ class ChatRoomMapper(Mapper):
         command = """
             INSERT INTO chatroom (
                 is_accepted,
-                sender,
                 is_open,
+                sender,
                 receiver,
-                timestamp,
+                timestamp
             ) VALUES (%s,%s,%s,%s,%s)
         """
         cursor.execute(command, (
             object.is_accepted,
-            object.sender,
             object.is_open,
+            object.sender,
             object.receiver,
             object.timestamp,
         ))

@@ -62,7 +62,7 @@ class ChatRoomAcceptRequest(Resource):
     """Accept A Received Request"""
     @namespace.marshal_with(chatroom_marshalling)
     def put(self, person: int, chatroom: int):
-        accept_open_request = ChatRoomAdministration.accept_open_request(person=person, chatroom= chatroom)
+        accept_open_request = ChatRoomAdministration.accept_open_request(person=person, chatroom=chatroom)
         return accept_open_request
 
 @namespace.route("/chatroom_to_delete/<int:chatroom>/<int:person>")
@@ -73,7 +73,7 @@ class ChatRoomDelete(Resource):
     #@secured
     def delete(self, chatroom: int, person: int):
         """Delete singlechat."""
-        ChatRoomAdministration.delete_singlechat(chatroom=chatroom,person=person)
+        ChatRoomAdministration.delete_singlechat(chatroom=chatroom, person=person)
         return '', 200
 
 @namespace.route("/delete_sent/<int:chatroom>/<int:person>")
@@ -82,9 +82,9 @@ class ChatRoomDeleteSentRequest(Resource):
     @api.marshal_with(chatroom_marshalling, code=200)
     @api.expect(chatroom_marshalling)
     #@secured
-    def delete(self, person:int, chatroom:int) -> dict:
+    def delete(self, person: int, chatroom: int) -> dict:
         """Delete sent request."""
-        ChatRoomAdministration.delete_sent_request(chatroom = chatroom, person=person)
+        ChatRoomAdministration.delete_sent_request(chatroom=chatroom, person=person)
         return '', 200
 
 @namespace.route("/delete_received/<int:chatroom>/<int:person>")
@@ -92,5 +92,5 @@ class ChatRoomDeleteReceivedRequest(Resource):
     @namespace.marshal_with(chatroom_marshalling)
     def delete(self, person: int, chatroom: int):
         """Delete received request."""
-        reject_open_request = ChatRoomAdministration.reject_received_request(chatroom = chatroom,person=person)
+        reject_open_request = ChatRoomAdministration.reject_received_request(chatroom=chatroom, person=person)
         return reject_open_request
