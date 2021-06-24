@@ -22,13 +22,13 @@ class ChatRoomSingleChats(Resource):
         singlechat = ChatRoomAdministration.insert_chatroom(sender=sender, receiver=receiver)
         return singlechat
 
-@namespace.route("/singlechat/<int:person>")
+@namespace.route("/singlechat/<int:chatroom>")
 class ChatRoomSingleChats(Resource):
     """Get A Single Chat"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
-    def get(self, person):
-        singlechat = ChatRoomAdministration.get_single_chat(person)
+    def get(self, chatroom):
+        singlechat = ChatRoomAdministration.get_single_chat(chatroom)
         return singlechat
 
 @namespace.route("/singlechats/<int:person>")

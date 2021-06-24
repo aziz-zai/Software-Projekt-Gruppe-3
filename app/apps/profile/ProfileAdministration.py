@@ -38,16 +38,16 @@ class ProfileAdministration:
     def matching(person):
         with db_connector as db:
             cnx = db._cnx
-            myProfile = ProfileMapper.find_by_personID(cnx= cnx, person = person)    
-            profileList = ProfileMapper.find_all(cnx= cnx) 
+            myProfile = ProfileMapper.find_by_personID(cnx=cnx, person=person)    
+            profileList = ProfileMapper.find_all(cnx=cnx)
 
-        result = []     
-        personList= []    
+        result = []
+        personList = []
         groupList = []
         profile = ProfileObject
         for profile in profileList:
             if profile.person != person:
-                value = 0  
+                value = 0
                 if profile.interests == myProfile.interests:
                     value += 1
                 if profile.type_ == myProfile.type_:
@@ -60,9 +60,9 @@ class ProfileAdministration:
                     value += 1
                 if profile.extroversion == myProfile.extroversion:
                     value += 1
-                else: 
-                    value +=0
-                value= value/6 *100
+                else:
+                    value += 0
+                value = value/6*100
                 if value >= 50:
                    result.append(profile)
 

@@ -12,10 +12,10 @@ class PersonMapper(Mapper):
 
         cursor = cnx.cursor(buffered=True)
         command = """
-        SELECT id, email, google_user_id from `mydb`.`person` 
+        SELECT id, email, google_user_id from `mydb`.`person`
         WHERE google_user_id=%s
         """
-        cursor.execute(command,(google_user_id, ))
+        cursor.execute(command, (google_user_id, ))
         entity = cursor.fetchone()
 
         try:
@@ -24,7 +24,7 @@ class PersonMapper(Mapper):
                 id_=id,
                 email=email,
                 google_user_id=google_user_id
-           )
+            )
         except TypeError:
             result = None
 
@@ -41,7 +41,7 @@ class PersonMapper(Mapper):
         id, email, google_user_id
         FROM person WHERE id=%s
         """
-        cursor.execute(command,(key, ))
+        cursor.execute(command, (key, ))
         entity = cursor.fetchone()
 
         try:
@@ -50,7 +50,7 @@ class PersonMapper(Mapper):
                 id_=id,
                 email=email,
                 google_user_id=google_user_id
-           )
+            )
         except IndexError:
             result = None
 
@@ -75,11 +75,11 @@ class PersonMapper(Mapper):
         cursor.execute("SELECT MAX(id) FROM person")
         max_id = cursor.fetchone()[0]
         object.id_ = max_id
-        ProfileAdministration.insert_profile(profile = None, person = object)
+        ProfileAdministration.insert_profile(profile=None, person=object)
         return object
 
     def update(cnx: db_connector, person: PersonObject):
-        
+
         cursor = cnx.cursor(buffered=True)
         command = "UPDATE person " + "SET email=%s WHERE google_user_id=%s"
         cursor.execute(command, (
@@ -93,38 +93,39 @@ class PersonMapper(Mapper):
     def delete(cnx: db_connector, person: int):
         cursor = cnx.cursor(buffered=True)
         command = ("DELETE FROM person WHERE google_user_id=%s")
-        try: 
+        try:
             cursor.execute(command, (person,))
-        except:
+        except Exception:
             print("Person does not exist!")
 
         cnx.commit()
         cursor.close()
 
-    def find_potential_persons_for_group(cnx: db_connector,learning_group: int):
-    
+    def find_potential_persons_for_group(cnx: db_connector, learning_group: int):
+
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
         SELECT id, email, google_user_id FROM person
         WHERE id NOT IN (
-        SELECT sender FROM chatroom
+        SELECT sender FROM membership
             WHERE learning_group = %s
-        UNION 
-        SELECT receiver FROM chatroom
+        UNION
+        SELECT receiver FROM membership
             WHERE learning_group = %s
         )
         """
-        cursor.execute(command,(learning_group,learning_group ))
+        cursor.execute(command, (learning_group, learning_group))
         tuples = cursor.fetchall()
 
         for(id, email, google_user_id) in tuples:
             person = PersonObject(
             id_=id,
             email=email,
-            google_user_id=google_user_id)
+            google_user_id=google_user_id
+            )
             result.append(person)
-        
+
         cnx.commit()
         cursor.close()
 
@@ -139,22 +140,20 @@ class PersonMapper(Mapper):
         WHERE id !=%s AND id NOT IN (
         SELECT chatroom.receiver FROM chatroom
             WHERE chatroom.sender = %s
-                AND chatroom.learning_group IS NULL
                 AND (
                     is_open=FALSE OR is_accepted=TRUE
                 )
-        UNION 
+        UNION
         SELECT chatroom.sender FROM chatroom
             WHERE chatroom.receiver = %s
-                AND chatroom.learning_group IS NULL
                 AND (
                     is_open = FALSE OR is_accepted = TRUE
                 )
             )
         """
-        cursor.execute(command,(person, person, person ))
+        cursor.execute(command, (person, person, person))
         tuples = cursor.fetchall()
-        
+
         for (id, email, google_user_id) in tuples:
             person = PersonObject(
                 id_=id,
