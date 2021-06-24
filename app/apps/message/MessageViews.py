@@ -6,6 +6,7 @@ from .MessageBO import MessageObject
 from .MessageAdministration import MessageAdministration
 
 
+
 namespace = api.namespace(
     "/message",
     description="Namespace for message APIs."

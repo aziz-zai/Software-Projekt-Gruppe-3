@@ -1,6 +1,5 @@
 from os import name
 from app.apps.core.SecurityDecorator import secured
-from flask_restx import Resource
 from app.apps.core.auth import AuthView
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
@@ -9,6 +8,7 @@ from .ProfileBO import ProfileObject
 from .ProfileAdministration import ProfileAdministration
 from app.apps.person.PersonAdministration import PersonAdministration
 from app.apps.core.SecurityDecorator import secured
+from app.apps.core.auth import AuthView
 
 namespace = api.namespace(
     "/profile",
@@ -23,18 +23,16 @@ class AllProfilesOperation(AuthView):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list
 
-@namespace.route("/<int:person>")
-class ProfileAPI(Resource):
+@namespace.route("/")
+class ProfileAPI(AuthView):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
-    @secured
     def get(self, person: int):
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
 
     @namespace.marshal_with(profile_marshalling)
-    @secured
     def put(self, person: int) -> dict:
         profile = ProfileObject(**api.payload)
         profile.person = person
@@ -42,19 +40,17 @@ class ProfileAPI(Resource):
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
-@namespace.route("/match_person/<int:person>")
-class ProfileMatchAPI(Resource):
+@namespace.route("/match_person")
+class ProfileMatchAPI(AuthView):
     """Basic API for Matchmaking"""
     @namespace.marshal_with(profile_marshalling)
-    #@secured
-    def get(self, person: int):
-        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+    def get(self):
+        matched_profiles, matched_groups = ProfileAdministration.matching(person=self.person.id_)
         return matched_profiles #PersonList zurückgeben
-@namespace.route("/match_group/<int:person>")
-class GroupMatchAPI(Resource):
+@namespace.route("/match_group")
+class GroupMatchAPI(AuthView):
     """Basic API for Matchmaking"""
     @namespace.marshal_with(group_marshalling)
-    #@secured
-    def get(self, person: int):
-        matched_profiles, matched_groups = ProfileAdministration.matching(person)
+    def get(self):
+        matched_profiles, matched_groups = ProfileAdministration.matching(person=self.person.id_)
         return matched_groups #GroupList zurückgeben

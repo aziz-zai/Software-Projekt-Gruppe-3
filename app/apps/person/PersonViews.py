@@ -5,6 +5,7 @@ from .PersonBO import PersonObject
 from .PersonAdministration import PersonAdministration
 from app.apps.profile.ProfileAdministration import ProfileAdministration
 from app.apps.core.SecurityDecorator import secured
+from app.apps.core.auth import AuthView
 
 namespace = api.namespace(
     "/person",
@@ -13,7 +14,7 @@ namespace = api.namespace(
 
 
 @namespace.route("/")
-class PersonOperationAPI(Resource):
+class PersonOperationAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
@@ -21,11 +22,11 @@ class PersonOperationAPI(Resource):
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)
-        person = PersonAdministration.insert_person(person=person)
+        person = PersonAdministration.insert_person(person=self.person.id_)
         return person
 
 @namespace.route("/<string:google_user_id>")
-class PersonAPI(Resource):
+class PersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
@@ -37,7 +38,6 @@ class PersonAPI(Resource):
         
     @api.marshal_with(person_marshalling, code=200)
     @api.expect(person_marshalling)
-    #@secured
     def delete(self, google_user_id) -> dict:
         """Delete Person Endpoint."""
         PersonAdministration.delete_person(person=google_user_id)
@@ -45,11 +45,10 @@ class PersonAPI(Resource):
 
 
 @namespace.route("/group/<int:group>")
-class PotentialGroupAPI(Resource):
+class PotentialGroupAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
-    #@secured
     def get(self, group: int) -> dict:
         """Get All Persons that are not requested for a groupmembership"""
         pers = PersonAdministration.get_potential_persons_for_group(learning_group=group)
@@ -57,12 +56,11 @@ class PotentialGroupAPI(Resource):
 
 
 @namespace.route("/potential_singlechat/<int:person>")
-class PotentialPersonAPI(Resource):
+class PotentialPersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
-    #@secured
-    def get(self, person: int) -> dict:
+    def get(self) -> dict:
         """Get All Persons that are not already requested for a singlechat."""
-        pers = PersonAdministration.get_potential_singlechat(person=person)
+        pers = PersonAdministration.get_potential_singlechat(person=self.person.id_)
         return pers

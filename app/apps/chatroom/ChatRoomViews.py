@@ -1,11 +1,9 @@
 from os import name
-from app.apps.core.SecurityDecorator import secured
-from flask_restx import Resource
 from app.configs.base import api
 from .ChatRoomMarshalling import chatroom_marshalling
 from .ChatRoomBO import ChatRoomObject
-from app.apps.core.SecurityDecorator import secured
 from .ChatRoomAdministration import ChatRoomAdministration
+from app.apps.core.auth import AuthView
 
 namespace = api.namespace(
     "/chatroom",
@@ -14,83 +12,77 @@ namespace = api.namespace(
 
 
 @namespace.route("/sender/<int:sender>/receiver/<int:receiver>")
-class ChatRoomSingleChats(Resource):
+class ChatRoomSingleChats(AuthView):
     """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
-    #@secured
     def post(self, sender: int, receiver: int):
         singlechat = ChatRoomAdministration.insert_chatroom(sender=sender, receiver=receiver)
         return singlechat
 
 @namespace.route("/singlechat/<int:chatroom>")
-class ChatRoomSingleChats(Resource):
+class ChatRoomSingleChats(AuthView):
     """Get A Single Chat"""
     @namespace.marshal_with(chatroom_marshalling)
-    #@secured
     def get(self, chatroom):
         singlechat = ChatRoomAdministration.get_single_chat(chatroom)
         return singlechat
 
-@namespace.route("/singlechats/<int:person>")
-class ChatRoomAllSingleChats(Resource):
+@namespace.route("/singlechats")
+class ChatRoomAllSingleChats(AuthView):
     """Sent All Singlechats"""
     @namespace.marshal_with(chatroom_marshalling)
-    #@secured
-    def get(self, person):
-        person_chat_list = ChatRoomAdministration.get_single_chats(person)
+    def get(self):
+        person_chat_list = ChatRoomAdministration.get_single_chats(person=self.person.id_)
         return person_chat_list
 
-@namespace.route("/open_received_requests/<int:person>")
-class ChatRoomReceivedRequests(Resource):
+@namespace.route("/open_received_requests")
+class ChatRoomReceivedRequests(AuthView):
     """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
-    #@secured
-    def get(self, person: int):
-        open_received_requests = ChatRoomAdministration.get_open_received_requests(person=person)
+    def get(self):
+        open_received_requests = ChatRoomAdministration.get_open_received_requests(person=self.person.id_)
         return open_received_requests
 
-@namespace.route("/open_sent_requests/<int:person>")
-class ChatRoomSentRequests(Resource):
+@namespace.route("/open_sent_requests")
+class ChatRoomSentRequests(AuthView):
     """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
-    def get(self, person: int):
-        open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=person)
+    def get(self):
+        open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=self.person.id_)
         return open_sent_requests
 
-@namespace.route("/accept_request/<int:chatroom>/<int:person>")
-class ChatRoomAcceptRequest(Resource):
+@namespace.route("/accept_request/<int:chatroom>")
+class ChatRoomAcceptRequest(AuthView):
     """Accept A Received Request"""
     @namespace.marshal_with(chatroom_marshalling)
-    def put(self, person: int, chatroom: int):
-        accept_open_request = ChatRoomAdministration.accept_open_request(person=person, chatroom=chatroom)
+    def put(self, chatroom: int):
+        accept_open_request = ChatRoomAdministration.accept_open_request(person=self.person.id_, chatroom=chatroom)
         return accept_open_request
 
-@namespace.route("/chatroom_to_delete/<int:chatroom>/<int:person>")
-class ChatRoomDelete(Resource):
+@namespace.route("/chatroom_to_delete/<int:chatroom>")
+class ChatRoomDelete(AuthView):
     """Delete A Singlechat"""
     @api.marshal_with(chatroom_marshalling, code=200)
     @api.expect(chatroom_marshalling)
-    #@secured
-    def delete(self, chatroom: int, person: int):
+    def delete(self, chatroom: int):
         """Delete singlechat."""
-        ChatRoomAdministration.delete_singlechat(chatroom=chatroom, person=person)
+        ChatRoomAdministration.delete_singlechat(chatroom=chatroom, person=self.person.id_)
         return '', 200
 
-@namespace.route("/delete_sent/<int:chatroom>/<int:person>")
-class ChatRoomDeleteSentRequest(Resource):
+@namespace.route("/delete_sent/<int:chatroom>")
+class ChatRoomDeleteSentRequest(AuthView):
     """Delete A Sent Request"""
     @api.marshal_with(chatroom_marshalling, code=200)
     @api.expect(chatroom_marshalling)
-    #@secured
-    def delete(self, person: int, chatroom: int) -> dict:
+    def delete(self, chatroom: int) -> dict:
         """Delete sent request."""
-        ChatRoomAdministration.delete_sent_request(chatroom=chatroom, person=person)
+        ChatRoomAdministration.delete_sent_request(chatroom=chatroom, person=self.person.id_)
         return '', 200
 
-@namespace.route("/delete_received/<int:chatroom>/<int:person>")
-class ChatRoomDeleteReceivedRequest(Resource):
+@namespace.route("/delete_received/<int:chatroom>")
+class ChatRoomDeleteReceivedRequest(AuthView):
     @namespace.marshal_with(chatroom_marshalling)
-    def delete(self, person: int, chatroom: int):
+    def delete(self, chatroom: int):
         """Delete received request."""
-        reject_open_request = ChatRoomAdministration.reject_received_request(chatroom=chatroom, person=person)
+        reject_open_request = ChatRoomAdministration.reject_received_request(chatroom=chatroom, person=self.person.id_)
         return reject_open_request
