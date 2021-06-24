@@ -109,17 +109,16 @@ CONSTRAINT `chatroom_receiver`
 -- -----------------------------------------------------
 
 CREATE TABLE `mydb`.`message` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(45) NULL,
   `sender` INT NOT NULL,
   `thread_id` BIGINT NOT NULL,
   `is_singlechat` tinyint NULL,
+  `timestamp` datetime,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

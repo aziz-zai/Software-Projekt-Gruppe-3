@@ -4,7 +4,8 @@ from app.configs.base import db_connector
 
 
 class MessageMapper(Mapper):
-    def find_all():
+    def find_all_messages(cnx: db_connector):
+        
         pass
 
     def find_by_key(key):
