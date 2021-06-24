@@ -24,3 +24,9 @@ class GroupAdministration:
         with db_connector as db:
             cnx=db._cnx
             return GroupMapper.delete(cnx=cnx, learning_group=learning_group)
+
+    @staticmethod
+    def get_all_groups():
+        with db_connector as db:
+            cnx=db._cnx
+            return GroupMapper.find_all(cnx=cnx)

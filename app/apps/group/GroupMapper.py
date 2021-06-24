@@ -4,8 +4,26 @@ from app.configs.base import db_connector
 
 
 class GroupMapper(Mapper):
-    def find_all():
-        pass
+    def find_all(cnx: db_connector):
+
+        result = []
+        cursor = cnx.cursor(buffered=True)
+        command = """
+        SELECT id, groupname, info from `mydb`.`learning_group`
+        """
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, groupname, info) in tuples:
+            learning_group = GroupObject(
+                id_=id,
+                groupname=groupname,
+                info=info
+            )
+            result.append(learning_group)
+        cursor.close()
+
+        return result
 
     def find_by_groupID(cnx: db_connector, learning_group: int):
         result = []

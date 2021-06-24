@@ -3,6 +3,7 @@ from .ProfileBO import ProfileObject
 from app.configs.base import db_connector
 from app.apps.person.PersonBO import PersonObject
 from app.apps.group.GroupMapper import GroupMapper
+from app.apps.membership.MembershipMapper import MembershipMapper
 
 class ProfileAdministration:
     """Profile Manager class. For managing database interactions."""
@@ -40,7 +41,6 @@ class ProfileAdministration:
             cnx = db._cnx
             myProfile = ProfileMapper.find_by_personID(cnx=cnx, person=person)    
             profileList = ProfileMapper.find_all(cnx=cnx)
-
         result = []
         personList = []
         groupList = []
@@ -64,14 +64,31 @@ class ProfileAdministration:
                     value += 0
                 value = value/6*100
                 if value >= 50:
-                   result.append(profile)
+                    result.append(profile)
 
         for profile in result:
-            #    Group = GroupMapper.find_by_profileID(profile.id_)
-            #    if Group != None:
-            #        groupList.append(Group)
-            #    else:
-             #       person = ProfileMapper.find_by_personID(profile.person)
-                    personList.append(profile)
+            personList.append(profile)
+
+        with db_connector as db:
+            cnx = db._cnx
+            all_groups = GroupMapper.find_all(cnx=cnx)
+
+        for group in all_groups:
+            with db_connector as db:
+                cnx = db._cnx
+                membershipList = MembershipMapper.find_by_groupID(cnx=cnx, groupID=group.id_)
+            value = 0
+            for person in personList:
+                for membership in membershipList:
+                    if (membership.person == person.person):
+                        value += 1
+                    else:
+                        value += 0
+            if (len(membershipList) > 0):
+                value = value/len(membershipList)*100
+            else:
+                print('group' ' ' + str(group.id_) + ' ' 'has no member')
+            if value >= 50:
+                groupList.append(group)
 
         return personList, groupList

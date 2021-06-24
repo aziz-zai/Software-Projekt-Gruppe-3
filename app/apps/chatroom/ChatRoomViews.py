@@ -33,7 +33,7 @@ class ChatRoomSingleChats(Resource):
 
 @namespace.route("/singlechats/<int:person>")
 class ChatRoomAllSingleChats(Resource):
-    """Sent A Singlechat-Request"""
+    """Sent All Singlechats"""
     @namespace.marshal_with(chatroom_marshalling)
     #@secured
     def get(self, person):

@@ -3,6 +3,7 @@ from app.apps.core.SecurityDecorator import secured
 from flask_restx import Resource
 from app.configs.base import api
 from .ProfileMarshalling import profile_marshalling
+from app.apps.group.GroupMarshalling import group_marshalling
 from .ProfileBO import ProfileObject
 from .ProfileAdministration import ProfileAdministration
 from app.apps.person.PersonAdministration import PersonAdministration
@@ -27,17 +28,17 @@ class ProfileAPI(Resource):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
     @secured
-    def get(self,person: int):
+    def get(self, person: int):
         pers = PersonAdministration.get_person_by_id(person)
         profile = ProfileAdministration.get_profile_of_person(pers)
         return profile
-    
+
     @namespace.marshal_with(profile_marshalling)
     @secured
     def put(self, person: int) -> dict:
         profile = ProfileObject(**api.payload)
         profile.person = person
-        profile.id_=person
+        profile.id_ = person
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
@@ -52,7 +53,7 @@ class ProfileMatchAPI(Resource):
 @namespace.route("/match_group/<int:person>")
 class GroupMatchAPI(Resource):
     """Basic API for Matchmaking"""
-    @namespace.marshal_with(profile_marshalling)
+    @namespace.marshal_with(group_marshalling)
     #@secured
     def get(self, person: int):
         matched_profiles, matched_groups = ProfileAdministration.matching(person)

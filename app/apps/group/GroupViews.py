@@ -33,17 +33,29 @@ class CreateGroupAPI(Resource):
 
 @namespace.route("/<int:group>")
 class GroupAPI(Resource):
-    """Get All Members of a group."""
-
+    """Get a group."""
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self, group: int) -> dict:
         """Create Person Endpoint."""
         Group = GroupAdministration.get_by_groupID(learning_group=group)
         return Group
+
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def delete(self, group: int) -> dict:
         """Create Person Endpoint."""
         Group = GroupAdministration.delete_group(learning_group=group)
         return Group
+
+
+@namespace.route("/")
+class AllGroupAPI(Resource):
+    """Basic API for group."""
+
+    @api.marshal_with(group_marshalling, code=201)
+    @api.expect(group_marshalling)
+    def get(self) -> dict:
+        """Get All Groups"""
+        groupList = GroupAdministration.get_all_groups()
+        return groupList
