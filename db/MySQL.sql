@@ -59,26 +59,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`membership` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
--- -----------------------------------------------------
--- Table `mydb`.`conversation`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`conversation` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `conversationstatus` TINYINT NULL DEFAULT NULL,
-  `learning_group` INT NOT NULL,
-  `person` INT NOT NULL,
-  PRIMARY KEY (`id`),
-   CONSTRAINT `person_conversation`
-   FOREIGN KEY (`person`)
-        REFERENCES mydb.person(id)
-        ON DELETE CASCADE,
-   CONSTRAINT `learning_group_conversation`
-   FOREIGN KEY (`learning_group`)
-        REFERENCES mydb.learning_group(id)
-        ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`profile`
@@ -105,28 +85,6 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`membership`
--- -----------------------------------------------------
-
-
-
--- -----------------------------------------------------
--- Table `mydb`.`message`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`message` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `content` VARCHAR(45) NULL DEFAULT NULL,
-  `conversation` INT NOT NULL,
-  PRIMARY KEY (`id`),
-   CONSTRAINT `conversation_message`
-   FOREIGN KEY (`conversation`)
-        REFERENCES mydb.conversation(id)
-        ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`chatroom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`chatroom` (
@@ -145,6 +103,20 @@ CONSTRAINT `chatroom_receiver`
    FOREIGN KEY (`receiver`)
         REFERENCES mydb.person(id)
         ON DELETE CASCADE)
+
+-- -----------------------------------------------------
+-- Table `mydb`.`message`
+-- -----------------------------------------------------
+
+CREATE TABLE `mydb`.`message` (
+  `id` INT NOT NULL,
+  `content` VARCHAR(45) NULL,
+  `sender` INT NOT NULL,
+  `thread_id` BIGINT NOT NULL,
+  `is_singlechat` tinyint NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
