@@ -11,12 +11,12 @@ namespace = api.namespace(
 )
 
 
-@namespace.route("/sender/<int:sender>/receiver/<int:receiver>")
+@namespace.route("/receiver/<int:receiver>")
 class ChatRoomSingleChats(AuthView):
     """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
-    def post(self, sender: int, receiver: int):
-        singlechat = ChatRoomAdministration.insert_chatroom(sender=sender, receiver=receiver)
+    def post(self, receiver: int):
+        singlechat = ChatRoomAdministration.insert_chatroom(sender=self.person.id_, receiver=receiver)
         return singlechat
 
 @namespace.route("/singlechat/<int:chatroom>")
@@ -45,7 +45,7 @@ class ChatRoomReceivedRequests(AuthView):
 
 @namespace.route("/open_sent_requests")
 class ChatRoomSentRequests(AuthView):
-    """Get All Received Requests"""
+    """Get All Sent Requests"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self):
         open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=self.person.id_)
