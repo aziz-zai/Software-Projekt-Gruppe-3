@@ -2,10 +2,13 @@ import BusinessObject from './BusinessObject';
 
 export default class MessageBO extends BusinessObject {
 
-  constructor(aContent, aConversationID) {
+  constructor(aContent, aSender, aThread_id, aIs_Singlechat, aTimestamp) {
     super();
     this.content = aContent;
-    this.conversation_ID = aConversationID;
+    this.sender = aSender;
+    this.thread_id = aThread_id;
+    this.is_singlechat = aIs_Singlechat;
+    this.timestamp = aTimestamp;
   }
 
   setFirstName(aContent) {
@@ -16,13 +19,31 @@ export default class MessageBO extends BusinessObject {
     return this.content;
   }
 
-  setLastName(aConversationID) {
-    this.conversation_ID = aConversationID;
+  setLastName(aSender) {
+    this.sender = aSender;
   }
 
   getConversationID() {
-    return this.conversation_ID;
+    return this.sender;
   }
+
+  setThread_id(aThread_id) {
+    this.thread_id = aThread_id;
+  }
+
+  getThread_id() {
+    return this.thread_id;
+  }
+
+  setTimestamp(aTimestamp) {
+    this.timestamp = aTimestamp;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
+  }
+
+
 
   static fromJSON(messages) {
     let result = [];

@@ -1,57 +1,57 @@
 import BusinessObject from './BusinessObject';
 
-/**
- */
+
 export default class MembershipBO extends BusinessObject {
-
-  /**
-   * Constructs a GroupBO object with a given groupname.
-   * 
-   * @param {String} aGroup
-   * @param {String} aProfile - the groupname of this GroupBO.
-   */
      
-  constructor(aGroup, aProfile) {
+  constructor(aLearning_group, aPerson, aIs_Open, aIs_Accepted, aTimestamp) {
     super();
-    this.learning_group = aGroup;
-    this.profile = aProfile
+    this.learning_group = aLearning_group;
+    this.person = aPerson;
+    this.is_open = aIs_Open
+    this.is_accepted = aIs_Accepted
+    this.timestamp = aTimestamp
   }
 
-  /**
-   * Sets a new groupname.
-   * 
-   * @param {Integer} aGroup - the new groupname of this GroupBO.
-   */
-  setGroup(aGroup) {
-    this.learning_group = aGroup;
+  setLearning_group(aLearning_group) {
+    this.learning_group = aLearning_group;
   }
 
-  /**
-   * Gets the groupname.
-   */
-  getGroup() {
-    return this.group;
+  getLearning_group() {
+    return this.learning_group;
   }
 
-  /**
-   * Sets a new profile.
-   * 
-   * @param {Integer} aProfile - the new groupname of this GroupBO.
-   */
-  setProfile(aProfile) {
-    this.profile = aProfile;
+  setPerson(aPerson) {
+    this.person = aPerson;
   }
 
-  /**
-   * Gets the groupname.
-   */
-  getProfile() {
-    return this.profile;
+  getPerson() {
+    return this.person;
   }
 
-  /** 
-   * Returns an Array of GroupBOs from a given JSON structure.
-   */
+  setIs_Open(aIs_Open) {
+    this.is_open = aIs_Open;
+  }
+
+  getIs_Open() {
+    return this.this.is_open;
+  }
+
+  setIs_Accepted(aIs_Accepted) {
+    this.is_accepted = aIs_Accepted;
+  }
+
+  getIs_Accepted() {
+    return this.is_accepted;
+  }
+
+  setTimestamp(aTimestamp) {
+    this.timestamp = aTimestamp;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
+  }
+
    static fromJSON(membership) {
     let result = [];
 
