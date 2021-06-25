@@ -108,9 +108,6 @@ export default class AppAPI {
   deletePerson() {
     return this.#fetchAdvanced(this.#deletePersonURL(), {
       method: 'DELETE',
-      headers:{
-        'Access-Control-Allow-Origin':'*',
-      }
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];

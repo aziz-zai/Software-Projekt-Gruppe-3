@@ -30,6 +30,7 @@ class PersonOperationAPI(AuthView):
         """Delete Person Endpoint."""
         PersonAdministration.delete_person(person=self.person.id_)
         return '', 200
+
 @namespace.route("/<string:google_user_id>")
 class PersonAPI(AuthView):
     """Basic API for profile."""
