@@ -88,7 +88,7 @@ class Matchmaking extends Component {
             <div>
               {
             personList.map(profile => 
-            <ProfileDetail key={profile.id_} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+            <ProfileDetail key={profile.id_} profile={profile} //expandedState={expandedProfileID === profile.getID()}
             />)
 
               }

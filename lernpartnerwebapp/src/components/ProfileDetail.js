@@ -16,7 +16,6 @@ class ProfileDetail extends Component {
 
     // Init state
     this.state = {
-      profile: [],
       loadingInProgress: false,
       loadingError: null,
       showProfileForm: false,
@@ -26,28 +25,9 @@ class ProfileDetail extends Component {
   }
 
   componentDidMount() {
-    this.getProfile();
+  
   }
 
-  getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.props.profileID).then(profile =>
-      this.setState({
-        profile: profile[0],
-        loadingInProgress: false,
-        loadingError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          profile: [],
-          loadingInProgress: false,
-          loadingError: e
-        })
-      );
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      loadingError: null
-    });
-  }
   updateProfileButton = (event) => {
     event.stopPropagation();
     this.setState({
@@ -91,14 +71,14 @@ class ProfileDetail extends Component {
     });
   }
   render() {
-    const { classes, Firstname, Lastname} = this.props;
-    const {loadingInProgress, loadingError, showProfileForm, profile} = this.state;
+    const { classes, Firstname, Lastname, profile} = this.props;
+    const {loadingInProgress, loadingError, showProfileForm} = this.state;
 
     return (
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {Firstname} {Lastname} &nbsp; 
+        {profile.firstname} {profile.lastname} &nbsp; 
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
@@ -110,10 +90,10 @@ class ProfileDetail extends Component {
         </Button> 
         : null
         }
-        <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
+        <ProfilePopUp show={showProfileForm} profile={this.props.profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} onReload={this.getProfile} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} />
       </Paper>
       </div>
     );
@@ -135,7 +115,7 @@ const styles = theme => ({
 
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  profileID: PropTypes.any.isRequired,
+  profile: PropTypes.any.isRequired,
   Firstname: PropTypes.string.isRequired,
   Lastname: PropTypes.string.isRequired,
 }
