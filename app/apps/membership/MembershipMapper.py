@@ -1,5 +1,6 @@
 from app.apps.core.mapper import Mapper
 from .MembershipBO import MembershipObject
+from app.apps.group.GroupBO import GroupObject
 from app.configs.base import db_connector
 
 
@@ -8,22 +9,22 @@ class MembershipMapper(Mapper):
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
-            SELECT id, learning_group, person, is_open, is_accepted, timestamp from `mydb`.`membership`
-            WHERE person=%s AND is_open=%s AND is_accepted=%s
+            SELECT id, groupname, info from learning_group
+            WHERE id IN(
+                SELECT learning_group from membership
+                WHERE person=%s AND is_open=%s AND is_accepted=%s
+            )
             """
         cursor.execute(command, (person, False, True))
         tuples = cursor.fetchall()
 
-        for (id, learning_group, person, is_open, is_accepted, timestamp) in tuples:
-            membership = MembershipObject(
+        for (id, groupname, info) in tuples:
+            group = GroupObject(
                 id_=id,
-                learning_group=learning_group,
-                person=person,
-                is_open=is_open,
-                is_accepted=is_accepted,
-                timestamp=timestamp
+                groupname=groupname,
+                info=info,
             )
-            result.append(membership)
+            result.append(group)
 
         cnx.commit()
         cursor.close()

@@ -1,6 +1,7 @@
 from os import name
 from app.configs.base import api
 from .MembershipMarshalling import membership_marshalling, membership_person_marshalling
+from app.apps.group.GroupMarshalling import group_marshalling
 from .MembershipBO import MembershipObject
 from .MembershipAdministration import MembershipAdministration
 from app.apps.person.PersonAdministration import PersonAdministration
@@ -49,7 +50,7 @@ class MembershipPersonAPI(AuthView):
     """Get All Groups of a Person."""
 
     @api.marshal_with(membership_marshalling, code=201)
-    @api.expect(membership_marshalling)
+    @api.expect(group_marshalling)
     def get(self) -> dict:
         """Create Person Endpoint."""
         membership = MembershipAdministration.get_groups_by_person(person=self.person.id_)
