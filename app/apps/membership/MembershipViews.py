@@ -24,34 +24,34 @@ class MembershipGroupAPI(AuthView):
         membership = MembershipAdministration.get_membership_by_group(learning_group=group)
         return membership
 
+@namespace.route("/group/<int:group>/<int:person>")
+class MembershipGroupPersonAPI(AuthView):
     @namespace.marshal_with(membership_marshalling, code=201)
-    @namespace.expect(membership_person_marshalling, validate=True)
-    def delete(self, group: int,) -> dict:
+    @namespace.expect(membership_marshalling)
+    def delete(self, group: int, person: int) -> dict:
         """Membership löschen."""
         membership = MembershipAdministration.delete_membership(
-            learning_group=group, person=namespace.payload.get("person")
+            learning_group=group, person=person
         )
         return membership
 
     @namespace.marshal_with(membership_marshalling, code=201)
-    @namespace.expect(membership_person_marshalling, validate=True)
-    def post(self, group: int):
+    @namespace.expect(membership_marshalling)
+    def post(self, group: int, person: int):
         """ Person der Gruppe hinzufügen"""
         membership = MembershipAdministration.insert_membership(
             learning_group=group,
-            person=namespace.payload.get("person")
-            )
+            person=person
+        )
         return membership
 
 
 @namespace.route("/person")
 class MembershipPersonAPI(AuthView):
-    """Get All Groups of a Person."""
-
     @api.marshal_with(membership_marshalling, code=201)
     @api.expect(membership_marshalling)
     def get(self) -> dict:
-        """Create Person Endpoint."""
+        """Get All Groups of a Person."""
         membership = MembershipAdministration.get_groups_by_person(person=self.person.id_)
         return membership
 
@@ -63,22 +63,25 @@ class MembershipRequestAPI(AuthView):
     @api.expect(membership_marshalling)
     def get(self):
         """ Get All Group/Membership-Requests """
-        requeslist = MembershipAdministration.get_all_requests(person=self.person.id_)
-        return requeslist
+        requestlist = MembershipAdministration.get_all_requests(person=self.person.id_)
+        return requestlist
 
+
+@namespace.route("/Membershiprequest/<int:group>")
+class MembershipOperations(AuthView):
     @api.marshal_with(membership_marshalling, code=201)
     @api.expect(membership_marshalling)
-    def post(self):
+    def post(self, group: int):
         """ Eine Anfrage verschicken """
         request = MembershipAdministration.invite_membership(
             person=self.person.id_,
-            learning_group=namespace.payload.get("learning_group")
+            learning_group=group
         )
         return request
 
-    def delete(self):
+    def delete(self, group: int):
         """ Lehne eine Anfrage ab """
         MembershipAdministration.delete_membership_request(
             person=self.person.id_,
-            learning_group=namespace.payload.get("learning_group")
+            learning_group=group
             )
