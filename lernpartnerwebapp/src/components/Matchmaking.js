@@ -4,6 +4,7 @@ import { withStyles} from "@material-ui/core"
 import { AppAPI } from "../api"
 import ProfileBO from "../api/ProfileBO"
 import ProfileDetail from "../components/ProfileDetail"
+import GroupDetail from './GroupDetail'
 //import ContextErrorMessage from './ContextErrorMessage';
 //import LoadingProgress from './LoadingProgress';
 
@@ -14,67 +15,26 @@ class Matchmaking extends Component {
 
     // Init the state
     this.state = {
-      person: null,
-      profile: null,
       personList: [],
-      groupList: null,
+      groupList: [],
     };
   }
   componentDidMount() {
-    this.getPersonByGoogleUserID();
-    //this.matchGroups();
+    this.matchProfiles();
   }
 
-  getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
-    .then((profileBO) => {
-      this.setState({  // Set new state when ProfileBOs have been fetched
-        profile: profileBO[0],
-        loadingInProgress: false, // loading indicator 
-        loadingProfileError: null
-      })
-      this.matchProfiles();
-    }
-      )
-      .catch((e) =>
-        this.setState({
-          profile: 'test',
-          loadingInProgress: false,
-          loadingProfileError: e,
-        })
-      );
-    this.setState({
-      loadingInProgress: true,
-      loadingProfileError: null
-    });
-  }
-
-  getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
-    .then((personBO) =>{
-     
-      this.setState({
-        person: personBO
-      })
-    this.getProfile()
-    }, 
-      )
-      .catch((e) =>
-        this.setState({
-          person: []
-        })
-      )
-  }
 
   matchProfiles = () => {
     AppAPI.getAPI()
-      .matchProfiles(this.state.profile.id_)
-      .then((profiles) =>
+      .matchProfiles()
+      .then((profiles) =>{
         this.setState({
           personList: profiles,
           loadingInProgress: false,
           loadingError: null,
         })
+        this.matchGroups()
+      }
       )
       .catch((e) =>
         this.setState({
@@ -86,31 +46,33 @@ class Matchmaking extends Component {
     this.setState({
       loadingInProgress: true,
       loadingError: null,
+    })
+
+  }
+
+  matchGroups = () => {
+    AppAPI.getAPI()
+      .matchGroups()
+      .then((response) =>
+        this.setState({
+          groupList: response,
+          loadingInProgress: false,
+          loadingError: null,
+        })
+      )
+     .catch((e) =>
+        this.setState({
+          groupList: [],
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
     });
   };
 
-//  matchGroups = () => {
-//    AppAPI.getAPI()
-//      .matchGroups(this.props.profile.person())
-//      .then((response) =>
-//        this.setState({
-//          groupList: response,
-//          loadingInProgress: false,
-//          loadingError: null,
-//        })
-//      )
-//      .catch((e) =>
-//        this.setState({
-//          profile: null,
-//          loadingInProgress: false,
-//          loadingError: e,
-//        })
-//      );
-//    this.setState({
-//      loadingInProgress: true,
-//      loadingError: null,
-//    });
-//  };
 
   handleClose = () => {
     this.props.onClose();
@@ -118,7 +80,7 @@ class Matchmaking extends Component {
 
   render() {
     const { classes } = this.props;
-    const { personList } = this.state;
+    const { personList, groupList } = this.state;
 
     return (
       <div>
@@ -126,8 +88,17 @@ class Matchmaking extends Component {
             <div>
               {
             personList.map(profile => 
-            <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+            <ProfileDetail key={profile.id_} profile={profile} //expandedState={expandedProfileID === profile.getID()}
             />)
+
+              }
+
+
+            {
+            groupList.map(group =>
+            <GroupDetail key={group.id_} learngroup={group} //expandedState={expandedProfileID === profile.getID()}
+            />)
+
               }
             </div>
         ) : null

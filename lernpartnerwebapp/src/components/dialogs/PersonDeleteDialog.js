@@ -20,7 +20,7 @@ class PersonDeleteDialog extends Component {
 
   /** Delete the person */
   deletePerson = () => {
-    AppAPI.getAPI().deletePerson(this.props.person.getID()).then(person => {
+    AppAPI.getAPI().deletePerson().then(() => {
       this.setState({
         deletingInProgress: false,              // disable loading indicator  
         deletingError: null                     // no error message

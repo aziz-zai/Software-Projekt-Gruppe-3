@@ -26,8 +26,27 @@ class MyProfile extends Component {
       person: new PersonBO,
       profile: new ProfileBO,
       showProfileForm: false,
-      showProfileDeleteDialog: false
+      showProfileDeleteDialog: false,
+      deletingInProgress: false,              // disable loading indicator  
+      deletingError: null,
     };
+  }
+
+  
+  getPersonByGoogleUserID = () => {
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    .then((personBO) =>{
+      this.setState({
+        person: personBO
+      })
+    this.getProfile()
+    },
+      )
+      .catch((e) =>
+        this.setState({
+          person: []
+        })
+      )
   }
   getProfile = () => {
     AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
@@ -51,23 +70,6 @@ class MyProfile extends Component {
     });
   }
 
-  getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
-    .then((personBO) =>{
-     
-      this.setState({
-        person: personBO
-      })
-    this.getProfile()
-    }, 
-      )
-      .catch((e) =>
-        this.setState({
-          person: []
-        
-        })
-      )
-  }
   profileFormClosed = (profile) => {
     if (profile) {
       this.setState({
@@ -111,38 +113,36 @@ class MyProfile extends Component {
       })
     }
   }
+  deletePerson = () => {
+    AppAPI.getAPI().deletePerson().then(() => {
+      this.setState({
+        deletingInProgress: false,              // disable loading indicator  
+        deletingError: null                     // no error message
+      });
+      this.deleteProfileDialogClosed();  // call the parent with the deleted person
+    }).catch(e =>
+      this.setState({
+        deletingInProgress: false,              // disable loading indicator 
+        deletingError: e                        // show error message
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,                 // show loading indicator
+      deletingError: null                       // disable error message
+    });
+  }
 
-  componentDidMount() {
+ componentDidMount() {
     this.getPersonByGoogleUserID();
   }
 
-deletePerson = () => {
-  AppAPI.getAPI().deletePerson(this.props.currentUser.uid).then(() => {
-    this.setState({  // Set new state when PersonBOs have been fetched
-      deletingInProgress: false, // loading indicator 
-      deletingError: null,
-      showProfileDeleteDialog: false
-    })
-    // console.log(person);
-  }).catch(e =>
-    this.setState({ // Reset state with error from catch 
-      deletingInProgress: false,
-      deletingError: e
-    })
-  );
-    // set loading to true
-    this.setState({
-      deletingInProgress: true,
-      deletingError: null
-    });
-  }
-  
   render() 
   {const { classes, currentUser} = this.props;
-  {const { profile, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
+  {const { profile, session_id, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
-       
+       {console.log('sessionid', currentUser.uid)}
         <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
                   {profile.firstname} {profile.lastname}
@@ -176,32 +176,38 @@ deletePerson = () => {
                 </ListItem>
                 <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
                 {showProfileDeleteDialog ?
-        <Dialog open={showProfileDeleteDialog} onClose={this.deleteProfileDialogClosed}>
-          <DialogTitle id='delete-dialog-title'>Delete person
-            <IconButton className={classes.closeButton} onClick={this.deleteProfileDialogClosed}>
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Really delete person (ID: {person.id_})
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color='secondary'>
-              Cancel
-            </Button>
-            <Button variant='contained' onClick={this.deletePerson} color='primary'>
-              Delete
-            </Button> 
-          </DialogActions>
-        </Dialog>
-        : null}
-      </div> 
-    ); 
+         <Dialog open={showProfileDeleteDialog} onClose={this.deleteProfileDialogClosed}>
+         <DialogTitle id='delete-dialog-title'>Delete person
+           <IconButton className={classes.closeButton} onClick={this.deleteProfileDialogClosed}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+           <DialogContentText>
+             Are you sure, you want to delete your profile Mr.{profile.lastname}?<br></br>
+             You will be gone fore ever...
+           </DialogContentText>
+           <LoadingProgress show={deletingInProgress} />
+           <ContextErrorMessage error={deletingError} contextErrorMsg={`The person '${profile.firstname} ${profile.lastname}' (ID: ${profile.id_}) could not be deleted.`}
+             onReload={this.deletePerson} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.deleteProfileDialogClosed} color='secondary'>
+             Cancel
+           </Button>
+           <Button variant='contained' onClick={this.deletePerson} color='primary'>
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+       : null}
+      </div>
+    );
   }
 }
 }
+
+
 
 const styles = theme => ({
   root: {

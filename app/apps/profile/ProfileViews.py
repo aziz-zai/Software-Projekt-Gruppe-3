@@ -22,13 +22,12 @@ class AllProfilesOperation(AuthView):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list
 
-@namespace.route("/")
+@namespace.route("/person/<int:person>")
 class ProfileAPI(AuthView):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
     def get(self, person: int):
-        pers = PersonAdministration.get_person_by_id(person)
-        profile = ProfileAdministration.get_profile_of_person(pers)
+        profile = ProfileAdministration.get_profile_of_person(person=person)
         return profile
 
     @namespace.marshal_with(profile_marshalling)

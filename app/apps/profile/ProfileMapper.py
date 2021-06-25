@@ -5,7 +5,7 @@ from app.apps.person.PersonBO import PersonObject
 
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
-        
+
         result = []
         cursor = cnx.cursor()
         cursor.execute("""
@@ -37,10 +37,10 @@ class ProfileMapper(Mapper):
         return result
 
     def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
-        
+
         result = None
         cursor = cnx.cursor(buffered=True)
-        
+
         command = """
         SELECT
          id,
@@ -55,7 +55,7 @@ class ProfileMapper(Mapper):
          extroversion
         FROM profile WHERE person=%s
         """
-        cursor.execute(command,(person, ))
+        cursor.execute(command, (person, ))
         entity = cursor.fetchone()
 
         try:

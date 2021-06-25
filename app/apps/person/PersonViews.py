@@ -24,6 +24,13 @@ class PersonOperationAPI(AuthView):
         person = PersonAdministration.insert_person(person=self.person.id_)
         return person
 
+    @api.marshal_with(person_marshalling, code=200)
+    @api.expect(person_marshalling)
+    def delete(self) -> dict:
+        """Delete Person Endpoint."""
+        PersonAdministration.delete_person(person=self.person.id_)
+        return '', 200
+
 @namespace.route("/<string:google_user_id>")
 class PersonAPI(AuthView):
     """Basic API for profile."""
@@ -33,14 +40,6 @@ class PersonAPI(AuthView):
         """Get a person by google_user_id"""
         pers = PersonAdministration.get_person_by_google_user_id(google_user_id)
         return pers
-        
-    @api.marshal_with(person_marshalling, code=200)
-    @api.expect(person_marshalling)
-    def delete(self, google_user_id) -> dict:
-        """Delete Person Endpoint."""
-        PersonAdministration.delete_person(person=google_user_id)
-        return '', 200
-
 
 @namespace.route("/group/<int:group>")
 class PotentialGroupAPI(AuthView):

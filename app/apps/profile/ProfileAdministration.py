@@ -18,10 +18,10 @@ class ProfileAdministration:
             return ProfileMapper.insert(cnx=cnx, object=profile)
     
     @staticmethod
-    def get_profile_of_person(person: PersonObject) -> ProfileObject:
+    def get_profile_of_person(person: int) -> ProfileObject:
         with db_connector as db:
             cnx = db._cnx
-            return ProfileMapper.find_by_personID(cnx=cnx, person = person.id_)
+            return ProfileMapper.find_by_personID(cnx=cnx, person=person)
     
     @staticmethod
     def update_profile(profile: ProfileObject) -> ProfileObject:
@@ -36,10 +36,10 @@ class ProfileAdministration:
             return ProfileMapper.find_all(cnx=cnx)
     
     @staticmethod
-    def matching(person):
+    def matching(person: int):
         with db_connector as db:
             cnx = db._cnx
-            myProfile = ProfileMapper.find_by_personID(cnx=cnx, person=person)    
+            myProfile = ProfileMapper.find_by_personID(cnx=cnx, person=person)
             profileList = ProfileMapper.find_all(cnx=cnx)
         result = []
         personList = []

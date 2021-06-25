@@ -40,7 +40,7 @@ class PersonAdministration:
     def delete_person(person: int):
         with db_connector as db:
             cnx = db._cnx
-            PersonMapper.delete(cnx=cnx, person=person) 
+            PersonMapper.delete(cnx=cnx, person=person)
     
     @staticmethod
     def get_potential_persons_for_group(learning_group: int):

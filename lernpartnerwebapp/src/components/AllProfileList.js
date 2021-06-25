@@ -113,7 +113,7 @@ class AllProfileList extends Component {
       </Grid>
           {
             filteredProfiles.map(profile =>
-              <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+              <ProfileDetail key={profile.getID()} profile={profile} //expandedState={expandedProfileID === profile.getID()}
               //  onExpandedStateChange={this.onExpandedStateChange}
               />)
           }
