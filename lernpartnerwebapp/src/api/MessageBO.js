@@ -35,7 +35,7 @@ export default class MessageBO extends BusinessObject {
     return this.thread_id;
   }
 
-  setTimestamp() {
+  setTimestamp(aTimestamp) {
     this.timestamp = aTimestamp;
   }
 
