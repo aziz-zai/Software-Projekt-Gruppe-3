@@ -23,7 +23,7 @@ export default class AppAPI {
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
-  #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
   #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
@@ -136,8 +136,8 @@ export default class AppAPI {
      })
   }
 
-  getProfileForPerson(id) {
-     return this.#fetchAdvanced(this.#getProfileForPersonURL(id))
+  getProfileForPerson() {
+     return this.#fetchAdvanced(this.#getProfileForPersonURL())
       .then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function(resolve){
@@ -164,8 +164,8 @@ export default class AppAPI {
     })
   }
 
-  matchProfiles(id) {
-    return this.#fetchAdvanced(this.#matchProfilesURL(id)).then((responseJSON) => {
+  matchProfiles() {
+    return this.#fetchAdvanced(this.#matchProfilesURL()).then((responseJSON) => {
         let profileBOs = ProfileBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(profileBOs);

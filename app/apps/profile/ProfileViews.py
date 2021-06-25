@@ -22,20 +22,19 @@ class AllProfilesOperation(AuthView):
         profile_list = ProfileAdministration.get_all_profiles()
         return profile_list
 
-@namespace.route("/")
+@namespace.route("/person")
 class ProfileAPI(AuthView):
     """Basic API for profile."""
     @namespace.marshal_with(profile_marshalling)
-    def get(self, person: int):
-        pers = PersonAdministration.get_person_by_id(person)
-        profile = ProfileAdministration.get_profile_of_person(pers)
+    def get(self):
+        profile = ProfileAdministration.get_profile_of_person(person=self.person.id_)
         return profile
 
     @namespace.marshal_with(profile_marshalling)
-    def put(self, person: int) -> dict:
+    def put(self) -> dict:
         profile = ProfileObject(**api.payload)
-        profile.person = person
-        profile.id_ = person
+        profile.person = self.person.id_
+        profile.id_ = self.person.id_
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 

@@ -30,7 +30,7 @@ class MyProfile extends Component {
     };
   }
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
+    AppAPI.getAPI().getProfileForPerson()
     .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profile: profileBO[0],
