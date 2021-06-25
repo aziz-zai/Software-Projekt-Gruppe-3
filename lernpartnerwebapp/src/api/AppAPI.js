@@ -24,7 +24,7 @@ export default class AppAPI {
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
   #getProfileForPersonURL = (id) => `${this.#AppServerBaseURL}/profile/person/${id}`;
-  #updateProfileURL = () => `${this.#AppServerBaseURL}/profile/person`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/person/${id}`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
   #matchProfilesURL = () => `${this.#AppServerBaseURL}/profile/match_person`;
   #matchGroupsURL = () => `${this.#AppServerBaseURL}/profile/match_group`;

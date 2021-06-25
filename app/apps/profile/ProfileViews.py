@@ -31,10 +31,10 @@ class ProfileAPI(AuthView):
         return profile
 
     @namespace.marshal_with(profile_marshalling)
-    def put(self) -> dict:
+    def put(self, person: int) -> dict:
         profile = ProfileObject(**api.payload)
-        profile.person = self.person.id_
-        profile.id_ = self.person.id_
+        profile.person = person
+        profile.id_ = person
         profile = ProfileAdministration.update_profile(profile=profile)
         return profile
 
