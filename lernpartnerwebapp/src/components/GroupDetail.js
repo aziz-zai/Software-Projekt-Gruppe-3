@@ -25,32 +25,8 @@ class GroupDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getGroup();
-  }
 
-  getGroup = () => {
-    AppAPI.getAPI().getGroupForPerson(this.props.membership.learning_group).then(group =>
-      this.setState({
-        group: group,
-        loadingInProgress: false,
-        loadingError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          group: [],
-          loadingInProgress: false,
-          loadingError: e
-        })
-      );
 
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      loadingError: null
-    });
-  }
-  
- 
   GroupInfo = (event) => {
     event.stopPropagation();
     this.setState({
@@ -77,13 +53,13 @@ class GroupDetail extends Component {
 
     return (
       <div>
-        {console.log('memberID', this.props.membership.learning_group)}
+        {console.log('memberID', this.props.learngroup.id_)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {group.info}
+        {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp show={showGroupForm} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
+        <GroupPopUp></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${group} could not be loaded.`} onReload={this.getGroup} />
@@ -108,7 +84,7 @@ const styles = theme => ({
 
 GroupDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  membership: PropTypes.any.isRequired
+  learngroup: PropTypes.any.isRequired
 
 }
 

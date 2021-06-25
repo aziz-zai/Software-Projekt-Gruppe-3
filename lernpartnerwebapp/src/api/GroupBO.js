@@ -35,9 +35,21 @@ export default class GroupBO extends BusinessObject {
   /** 
    * Returns an Array of GroupBOs from a given JSON structure.
    */
-   static fromJSON(group) {
-    let g = Object.setPrototypeOf(group, GroupBO.prototype);
-    return g;
+   static fromJSON(groups) {
+    let result = [];
+
+    if (Array.isArray(groups)) {
+      groups.forEach((gr) => {
+        Object.setPrototypeOf(gr, GroupBO.prototype);
+        result.push(gr);
+      })
+    } else {
+      // Es handelt sich offenbar um ein singuläres Objekt
+      let gr = groups;
+      Object.setPrototypeOf(gr, GroupBO.prototype);
+      result.push(gr);
+    }
+    return result;
 
   }
 }

@@ -29,7 +29,7 @@ class GroupMapper(Mapper):
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
-        SELECT id, groupname, info from `mydb`.`learning_group` 
+        SELECT id, groupname, info from `mydb`.`learning_group`
         WHERE id=%s
         """
         cursor.execute(command, (learning_group, ))

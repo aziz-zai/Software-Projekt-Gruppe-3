@@ -92,7 +92,7 @@ class PersonMapper(Mapper):
 
     def delete(cnx: db_connector, person: int):
         cursor = cnx.cursor(buffered=True)
-        command = ("DELETE FROM person WHERE google_user_id=%s")
+        command = ("DELETE FROM person WHERE id=%s")
         try:
             cursor.execute(command, (person,))
         except Exception:

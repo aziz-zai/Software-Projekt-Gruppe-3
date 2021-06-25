@@ -19,14 +19,15 @@ export default class AppAPI {
   #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
-  #deletePersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
+  #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
-  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile`;
-  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #getProfileForPersonURL = () => `${this.#AppServerBaseURL}/profile/person`;
+  #updateProfileURL = () => `${this.#AppServerBaseURL}/profile/person`;
   #searchProfileURL = (firstname, lastname) => `${this.#AppServerBaseURL}/profile/${firstname || lastname}`;
-  #matchProfilesURL = (id) => `${this.#AppServerBaseURL}/profile/match_person/${id}`;
+  #matchProfilesURL = () => `${this.#AppServerBaseURL}/profile/match_person`;
+  #matchGroupsURL = () => `${this.#AppServerBaseURL}/profile/match_group`;
   
   //Conversation related
   //#getConversationsURL = () => `${this.#AppServerBaseURL}/conversations`;
@@ -60,7 +61,7 @@ export default class AppAPI {
     return this.#api;
   }
 
-  #fetchAdvanced = (url,init) => fetch(url,{credentials: 'include', ...init} )
+  #fetchAdvanced = (url,init) => fetch(url,{credentials: 'include', ...init})
   .then(res => {
       if (!res.ok){
           throw Error(`${res.status} ${res.statusText}`);
@@ -104,9 +105,12 @@ export default class AppAPI {
       })
   }
 
-  deletePerson(google_user_id) {
-    return this.#fetchAdvanced(this.#deletePersonURL(google_user_id), {
-      method: 'DELETE'
+  deletePerson() {
+    return this.#fetchAdvanced(this.#deletePersonURL(), {
+      method: 'DELETE',
+      headers:{
+        'Access-Control-Allow-Origin':'*',
+      }
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -181,7 +185,7 @@ export default class AppAPI {
      })
  })
   }
-  getGroupForPerson(id) {
+  getGroup(id) {
     return this.#fetchAdvanced(this.#getGroupURL(id))
      .then((responseJSON) => {
        let groupBOs = GroupBO.fromJSON(responseJSON);
@@ -190,7 +194,7 @@ export default class AppAPI {
        })
     })
  }
- 
+
  getMembersOfGroup(id) {
   return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
    .then((responseJSON) => {
@@ -242,17 +246,13 @@ createGroup(groupname, groupinfo, id) {
       })
   })
 }
- 
- // matchGroup(id) {
- //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
- //     let groupList = [];
- //     responseJSON.map(item => {
- //       let group = GroupBO.fromJSON(item);
- //       groupList.push(group);
- //     })
- //     return new Promise(function (resolve) {
- //       resolve(groupList);
- //     })
- //   })
- // }
-} 
+
+matchGroups() {
+  return this.#fetchAdvanced(this.#matchGroupsURL()).then((responseJSON) => {
+      let groupBOs = GroupBO.fromJSON(responseJSON);
+    return new Promise(function (resolve) {
+      resolve(groupBOs);
+    })
+  })
+}
+}
