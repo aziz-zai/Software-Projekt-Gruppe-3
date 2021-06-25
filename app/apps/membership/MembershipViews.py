@@ -52,7 +52,7 @@ class MembershipPersonAPI(AuthView):
     @api.marshal_with(membership_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self) -> dict:
-        """Create Person Endpoint."""
+        """Get All Groups of a Person."""
         membership = MembershipAdministration.get_groups_by_person(person=self.person.id_)
         return membership
 

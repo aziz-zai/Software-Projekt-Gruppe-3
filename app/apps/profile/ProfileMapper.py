@@ -5,7 +5,7 @@ from app.apps.person.PersonBO import PersonObject
 
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
-        
+
         result = []
         cursor = cnx.cursor()
         cursor.execute("""

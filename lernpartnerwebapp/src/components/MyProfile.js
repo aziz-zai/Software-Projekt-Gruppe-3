@@ -28,11 +28,28 @@ class MyProfile extends Component {
       showProfileForm: false,
       showProfileDeleteDialog: false,
       deletingInProgress: false,              // disable loading indicator  
-      deletingError: null
+      deletingError: null,
     };
   }
+
+  
+  getPersonByGoogleUserID = () => {
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    .then((personBO) =>{
+      this.setState({
+        person: personBO
+      })
+    this.getProfile()
+    },
+      )
+      .catch((e) =>
+        this.setState({
+          person: []
+        })
+      )
+  }
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson()
+    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
     .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profile: profileBO[0],
@@ -116,16 +133,16 @@ class MyProfile extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getProfile();
+ componentDidMount() {
+    this.getPersonByGoogleUserID();
   }
 
   render() 
   {const { classes, currentUser} = this.props;
-  {const { profile, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
+  {const { profile, session_id, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
-       {console.log('profile', profile)}
+       {console.log('sessionid', currentUser.uid)}
         <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
                   {profile.firstname} {profile.lastname}
@@ -189,6 +206,8 @@ class MyProfile extends Component {
   }
 }
 }
+
+
 
 const styles = theme => ({
   root: {
