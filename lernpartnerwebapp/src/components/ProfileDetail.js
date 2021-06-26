@@ -22,7 +22,8 @@ class ProfileDetail extends Component {
       showProfileForm: false,
       request:[],
       requestSent:false,
-      profile: []
+      profile: [],
+      show: true,
     };
   }
 
@@ -87,6 +88,7 @@ class ProfileDetail extends Component {
           this.setState({
             loadingInProgress: false,
             loadingError: null,
+            show: false,
           })).catch(e =>
             this.setState({ // Reset state with error from catch 
               loadingInProgress: false,
@@ -122,9 +124,10 @@ class ProfileDetail extends Component {
 
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError,profile, showProfileForm} = this.state;
+    const {loadingInProgress, loadingError,profile, showProfileForm, show} = this.state;
 
     return (
+      show ?
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
@@ -164,6 +167,7 @@ class ProfileDetail extends Component {
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${profile.firstname} could not be loaded.`} />
       </Paper>
       </div>
+      : null
     );
   }
 }

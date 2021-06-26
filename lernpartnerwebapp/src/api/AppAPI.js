@@ -134,9 +134,6 @@ export default class AppAPI {
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
-        'Access-Control-Allow-Methods': "POST, GET, OPTIONS, DELETE, PUT",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "append,delete,entries,foreach,get,has,keys,set,values,Authorization",
         }
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -335,9 +332,6 @@ export default class AppAPI {
         headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
-        'Access-Control-Allow-Methods': "POST, GET, OPTIONS, DELETE, PUT",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "append,delete,entries,foreach,get,has,keys,set,values,Authorization",
         }
       }).then((responseJSON) => {
         let responseChatroomBO = ChatroomBO.fromJSON(responseJSON)[0];
