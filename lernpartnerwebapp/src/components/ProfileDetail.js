@@ -103,9 +103,13 @@ class ProfileDetail extends Component {
         {profile.firstname} {profile.lastname} &nbsp;
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
+        {
+        this.state.requestSent ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
-        {console.log('request', this.state.request)}Request
+         Request
         </Button>
+        : null
+      }
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>

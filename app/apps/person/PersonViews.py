@@ -18,6 +18,13 @@ class PersonOperationAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
+    def get(self) -> dict:
+        """Get a person by google_user_id"""
+        person = PersonAdministration.get_person_by_id(person=self.person.id_)
+        return person
+
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
     def post(self) -> dict:
         """Create Person Endpoint."""
         person = PersonObject(**api.payload)

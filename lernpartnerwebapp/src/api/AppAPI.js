@@ -92,8 +92,8 @@ export default class AppAPI {
       })
   }
 
-  getPerson(personID) {
-    return this.#fetchAdvanced(this.#getPersonURL(personID)).then((responseJSON) => {
+  getPerson() {
+    return this.#fetchAdvanced(this.#getPersonURL()).then((responseJSON) => {
       let person = PersonBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(person)
