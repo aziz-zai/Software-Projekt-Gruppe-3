@@ -73,15 +73,15 @@ class GroupPopUp extends Component {
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Gruppeninfo: {group.getGroupName()}
+                Groupname: {group.getGroupName()}
                 </DialogContentText>
             </DialogContent>
+                <DialogContentText>
+                Groupinfo: {group.getInfo()}
+                </DialogContentText>
             <DialogContent>
                 <DialogContentText>
-                Teilnehmer: 
-                {
-            memberList.map(member => console.log('member', member.profile))
-          }
+               
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
