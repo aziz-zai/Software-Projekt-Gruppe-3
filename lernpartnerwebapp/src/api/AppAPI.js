@@ -433,7 +433,7 @@ export default class AppAPI {
       })
     })
   }
-  
+
   getMessages(is_singlechat, thread_id) {
     return this.#fetchAdvanced(this.#getMessagesURL(is_singlechat, thread_id))
      .then((responseJSON) => {
@@ -460,23 +460,7 @@ export default class AppAPI {
     })
   }
 
-  }
-  
-   // matchGroup(id) {
-   //   return this.#fetchAdvanced(this.#MatchGroupsURL(id)).then((responseJSON) => {
-   //     let groupList = [];
-   //     responseJSON.map(item => {
-   //       let group = GroupBO.fromJSON(item);
-   //       groupList.push(group);
-   //     })
-   //     return new Promise(function (resolve) {
-   //       resolve(groupList);
-   //     })
-   //   })
-   // }
 
-  })
-}
 
 matchGroups() {
   return this.#fetchAdvanced(this.#matchGroupsURL()).then((responseJSON) => {
