@@ -1,4 +1,4 @@
-  import React, { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
@@ -35,27 +35,22 @@ class Header extends Component {
 
   /** Renders the component */
   render() {
-    const { user } = this.props;
+    const { currentUser } = this.props;
 
     return (
-      <Paper variant='outlined' >
-        <ProfileDropDown user={user} />
-        <Typography variant='h3' component='h1' align='center'>
-          LernApp
-        </Typography>
-        {
-          user ?
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='All Profiles' component={RouterLink} to={`/AllProfiles`} />
-            <Tab label='My Profile' component={RouterLink} to={`/MyProfile`} />
-            <Tab label='Chat' component={RouterLink} to={`/ChatList`} />
-            <Tab label='Partner Match' component={RouterLink} to={`/matchmaking`} />
-            <Tab label='About' component={RouterLink} to={`/about`} />
+            <Tabs TabIndicatorProps={{
+                  style: {
+                  backgroundColor: "#D97D54"
+                   }
+                  }} 
+                  indicatorColor='primary' 
+                  textColor='primary' 
+                  centered value={this.state.tabindex} 
+                  onChange={this.handleTabChange} >
+            <Tab label='Groups' component={RouterLink} to={`/groups`} />
+            <Tab label='Partners' component={RouterLink} to={`/partners`} />
             </Tabs>
-            : 
-              <HeaderLogin/>
-        }
-      </Paper>
+
     )
   }
 }
@@ -63,7 +58,7 @@ class Header extends Component {
 /** PropTypes */
 Header.propTypes = {
   /** The logged in firesbase user */
-  user: PropTypes.object,
+  currentUser: PropTypes.object,
 }
 
 export default Header;

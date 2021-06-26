@@ -20,6 +20,7 @@ export default class AppAPI {
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPotentialChatsURL = () => `${this.#AppServerBaseURL}/person/potential_singlechat`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
@@ -99,6 +100,15 @@ export default class AppAPI {
       })
     })
   }
+
+  getPotentialChats(){
+    return this.#fetchAdvanced(this.#getPotentialChatsURL()).then((responseJSON) => {
+       let personBOs = PersonBO.fromJSON(responseJSON);
+       return new Promise(function (resolve) {
+         resolve(personBOs);
+       })
+   })
+}
 
   addPerson(personBO) {
       return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -228,8 +238,8 @@ export default class AppAPI {
     })
   }
 
-  sendRequest(sender, receiver){
-    return this.#fetchAdvanced(this.#sendSingleChatRequestURL(sender, receiver),{
+  sendRequest(receiver){
+    return this.#fetchAdvanced(this.#sendSingleChatRequestURL(receiver),{
       method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain',

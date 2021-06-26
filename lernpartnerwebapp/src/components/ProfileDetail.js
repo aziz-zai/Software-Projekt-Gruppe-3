@@ -20,12 +20,34 @@ class ProfileDetail extends Component {
       loadingError: null,
       showProfileForm: false,
       request:[],
-      requestSent:false
+      requestSent:false,
+      profile: []
     };
   }
 
   componentDidMount() {
-  
+   this.getProfile();
+  }
+  getProfile = () => {
+    AppAPI.getAPI().getProfileForPerson(this.props.person)
+    .then((profileBO) => {
+      this.setState({  // Set new state when ProfileBOs have been fetched
+        profile: profileBO[0],
+        loadingInProgress: false, // loading indicator 
+        loadingProfileError: null
+      })}
+      )
+      .catch((e) =>
+        this.setState({
+          profile: [],
+          loadingInProgress: false,
+          loadingProfileError: e,
+        })
+      );
+    this.setState({
+      loadingInProgress: true,
+      loadingProfileError: null
+    });
   }
 
   updateProfileButton = (event) => {
@@ -48,7 +70,7 @@ class ProfileDetail extends Component {
   }
 
   sendRequest = () => {
-    AppAPI.getAPI().sendRequest(2,3).then(newRequest =>
+    AppAPI.getAPI().sendRequest(this.props.person).then(newRequest =>
       this.setState({
         request: newRequest,
         loadingInProgress: false,
@@ -71,21 +93,21 @@ class ProfileDetail extends Component {
     });
   }
   render() {
-    const { classes, Firstname, Lastname, profile} = this.props;
-    const {loadingInProgress, loadingError, showProfileForm} = this.state;
+    const { classes} = this.props;
+    const {loadingInProgress, loadingError,profile, showProfileForm} = this.state;
 
     return (
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {profile.firstname} {profile.lastname} &nbsp; 
+        {profile.firstname} {profile.lastname} &nbsp;
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
         {console.log('request', this.state.request)}Request
         </Button>
         {
-        this.state.requestSent ? 
+        this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
         </Button> 
         : null
@@ -93,7 +115,7 @@ class ProfileDetail extends Component {
         <ProfilePopUp show={showProfileForm} profile={this.props.profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${Firstname} could not be loaded.`} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${profile.firstname} could not be loaded.`} />
       </Paper>
       </div>
     );
@@ -115,9 +137,7 @@ const styles = theme => ({
 
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.any.isRequired,
-  Firstname: PropTypes.string.isRequired,
-  Lastname: PropTypes.string.isRequired,
+  person: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);

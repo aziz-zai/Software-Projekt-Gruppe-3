@@ -16,9 +16,7 @@ class AllProfileList extends Component {
 
     // Init an empty state
     this.state = {
-      profiles: [],
-      filteredProfiles: [],
-      profileFilter: '',
+      personList: [],
       error: null,
       loadingInProgress: false,
       loadingError: null,
@@ -27,17 +25,16 @@ class AllProfileList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.loadProfiles();
+    this.loadPotentialPersons();
   }
 
   /** gets the profile list for this profile */
-  loadProfiles = () => {
-    AppAPI.getAPI().getAllProfiles().then(profiles =>
+  loadPotentialPersons = () => {
+    AppAPI.getAPI().getPotentialChats().then(persons =>
       this.setState({
-        profiles: profiles,
+        personList: persons,
         loadingInProgress: false, // loading indicator 
         loadingError: null,
-        filteredProfiles: [...profiles],
         error: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
@@ -53,72 +50,24 @@ class AllProfileList extends Component {
       error: null
     });
   }
-  filterFieldValueChange = event => {
-    const value = event.target.value.toLowerCase();
-    this.setState({
-      filteredProfiles: this.state.profiles.filter(profile => {
-        let firstNameContainsValue = profile.getFirstName().toLowerCase().includes(value);
-        let lastNameContainsValue = profile.getLastName().toLowerCase().includes(value);
-        return firstNameContainsValue || lastNameContainsValue;
-      }),
-      profileFilter: value
-    });
-  }
 
-  /** Handles the onClose event of the clear filter button */
-  clearFilterFieldButtonClicked = () => {
-    // Reset the filter
-    this.setState({
-      filteredProfiles: [...this.state.profiles],
-      profileFilter: ''
-    });
-  }
 
   render() {
     const { classes } = this.props;
-    const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
+    const { personList, loadingInProgress, loadingError, error} = this.state;
 
     return (
 
       <div className={classes.root}>
         <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
-          <Typography>
-            Filter profile list by name:
-            </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            autoFocus
-            fullWidth
-            id='profileFilter'
-            type='text'
-            value={profileFilter}
-            onChange={this.filterFieldValueChange}
-            InputProps={{
-              endAdornment: <InputAdornment position='end'>
-                <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>,
-            }}
-          />
-        </Grid>
-        <Grid item xs />
-        <Grid item>
-          <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProfileButtonClicked}>
-            Add Profile
-        </Button>
         </Grid>
       </Grid>
-          {
-            filteredProfiles.map(profile =>
-              <ProfileDetail key={profile.getID()} profile={profile} //expandedState={expandedProfileID === profile.getID()}
-              //  onExpandedStateChange={this.onExpandedStateChange}
-              />)
+      {
+            personList.map(person =>
+              <ProfileDetail key={person.id_} person={person.id_}/>)
           }
           <LoadingProgress show={loadingInProgress} />
-          
       </div>
 
     );

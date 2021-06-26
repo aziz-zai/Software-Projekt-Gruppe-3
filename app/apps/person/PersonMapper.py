@@ -138,13 +138,13 @@ class PersonMapper(Mapper):
         SELECT chatroom.receiver FROM chatroom
             WHERE chatroom.sender = %s
                 AND (
-                    is_open=FALSE OR is_accepted=TRUE
+                    is_open=TRUE OR is_accepted=TRUE
                 )
         UNION
         SELECT chatroom.sender FROM chatroom
             WHERE chatroom.receiver = %s
                 AND (
-                    is_open = FALSE OR is_accepted = TRUE
+                    is_open = TRUE OR is_accepted = TRUE
                 )
             )
         """

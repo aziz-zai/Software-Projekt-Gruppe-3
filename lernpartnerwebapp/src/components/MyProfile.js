@@ -37,7 +37,7 @@ class MyProfile extends Component {
     AppAPI.getAPI().getPerson(this.props.currentUser.uid)
     .then((personBO) =>{
       this.setState({
-        person: personBO
+        person: personBO[0],
       })
     this.getProfile()
     },
@@ -142,7 +142,6 @@ class MyProfile extends Component {
   {const { profile, session_id, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
-       {console.log('sessionid', currentUser.uid)}
         <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
                   {profile.firstname} {profile.lastname}

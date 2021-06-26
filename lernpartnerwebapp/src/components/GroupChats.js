@@ -12,7 +12,6 @@ import ProfileBO from '../api/ProfileBO'
 import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
-import TabPanel from './TabPanel'
 import RequestBO from '../api/RequestBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
 
@@ -41,29 +40,9 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getPersonByGoogleUserID();
   }
 
- 
 
-  getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
-    .then((personBO) =>{
-     
-      this.setState({
-        person: personBO
-      })
-      this.loadGroups()
-      this.getRequests()
-    },
-      )
-      .catch((e) =>
-        this.setState({
-          person: []
-        
-        })
-      )
-  }
   getRequests= () => {
     AppAPI.getAPI().getRequestsForPerson(3).then(newRequest =>
       this.setState({
@@ -134,11 +113,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
     return (
 
       <div className={classes.root}>
-        <TabPanel value={1} ></TabPanel>
-        {console.log('memberships', this.state.memberships)}
-        {
-            this.state.memberships.map(membership =>  <GroupDetail membership={membership}/> )
-          }
           <div>
           {
             console.log('sender', this.state.requests)
