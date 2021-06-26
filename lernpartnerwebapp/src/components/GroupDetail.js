@@ -67,7 +67,8 @@ class GroupDetail extends Component {
         <GroupPopUp show={showGroupForm} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
 
           <GroupPopUp group={this.props.learngroup}></GroupPopUp>
-
+        <GroupPopUp show={showGroupForm} group={group} onClose={this.GroupPopUpClosed}></GroupPopUp>
+          <GroupPopUp group={this.props.learngroup}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />

@@ -72,6 +72,7 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       })
     }
   }
+
   createGroupButton = (event) => {
     event.stopPropagation();
     this.setState({
