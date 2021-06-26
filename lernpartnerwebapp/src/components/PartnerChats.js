@@ -33,6 +33,9 @@ class PartnerChats extends Component {
     this.state = {
         singleChatList: [],
         person: [],
+        requestList: [],
+        show: false,
+        loadingInProgress: false,
     };
   }
 
@@ -43,6 +46,7 @@ class PartnerChats extends Component {
         loadingInProgress: false,
       });
       this.getSingleChats();
+      this.getOpenRequests();
     }).catch(e =>
       this.setState({
         person:[],
@@ -54,6 +58,24 @@ class PartnerChats extends Component {
         loadingInProgress: true,
     });
   }
+  getOpenRequests = () => {
+    AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
+      this.setState({
+        requestList: requests ,
+        loadingInProgress: false,
+      });
+    }).catch(e =>
+      this.setState({
+        requestList:[],
+        loadingInProgress: false,
+      })
+    );
+    // set loading to true
+    this.setState({
+        loadingInProgress: true,
+    });
+  }
+
 
 
   getSingleChats = () => {
@@ -78,22 +100,58 @@ class PartnerChats extends Component {
     });
   }
 
+  showRequests = () => {
+      this.setState({
+          show: true,
+      })
+  }
+
+  closeRequests = () => {
+      this.setState({
+          show: false,
+      })
+  }
   componentDidMount(){
     this.getPerson();
   }
   /** Renders the component */
   render() {
-    const { singleChatList, person} = this.state;
+    const { singleChatList, person, show, loadingInProgress, requestList} = this.state;
 
     return (
       <div>
-          {console.log('person', person)}
+          {console.log('requests', this.state.requestList)}
         {
             singleChatList.map((chat) => (chat.sender == person.id_) ?
             (<ProfileDetail person= {chat.receiver}></ProfileDetail>) :
             (<ProfileDetail person= {chat.sender}></ProfileDetail>)
     )
         }
+        <div>
+        <Button color='secondary' size='small' onClick={this.showRequests}>
+                    Requests
+        </Button>
+        </div>
+        {show ?
+        <div>
+        <Dialog open={show} onClose={this.closeRequests}>
+         <DialogTitle id='delete-dialog-title'>Requests
+           <IconButton onClick={this.closeRequests}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {requestList.map(request => <ProfileDetail request={request} person = {request.sender}></ProfileDetail>)}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.closeRequests} color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+       </Dialog>
+        </div>
+        : null}
      </div>
     )
   }

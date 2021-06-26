@@ -8,6 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfilePopUp from './dialogs/ProfilePopUp'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 class ProfileDetail extends Component {
 
@@ -69,6 +70,31 @@ class ProfileDetail extends Component {
     }
   }
 
+  acceptRequest = () => {
+    AppAPI.getAPI().acceptReceivedRequest(this.props.request.id_).then(() =>
+      this.setState({
+        loadingInProgress: false,
+        loadingError: null,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+      }
+      rejectRequest = () => {
+        AppAPI.getAPI().deleteReceivedRequest(this.props.request.id_).then(() =>
+          this.setState({
+            loadingInProgress: false,
+            loadingError: null,
+          })).catch(e =>
+            this.setState({ // Reset state with error from catch 
+              loadingInProgress: false,
+              loadingError: e,
+            })
+          );
+          }
+
   sendRequest = () => {
     AppAPI.getAPI().sendRequest(this.props.person).then(newRequest =>
       this.setState({
@@ -84,7 +110,6 @@ class ProfileDetail extends Component {
           requestSent: false
         })
       );
- 
     // set loading to true
     this.setState({
       loadingInProgress: true,
@@ -92,6 +117,9 @@ class ProfileDetail extends Component {
       requestSent: false
     });
   }
+
+
+
   render() {
     const { classes} = this.props;
     const {loadingInProgress, loadingError,profile, showProfileForm} = this.state;
@@ -104,7 +132,7 @@ class ProfileDetail extends Component {
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
         {
-        this.state.requestSent ?
+        this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
          Request
         </Button>
@@ -114,6 +142,20 @@ class ProfileDetail extends Component {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
         </Button> 
+        : null
+        }
+        {
+        this.props.request ?
+        <div>
+        <Paper>
+        <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>} onClick={this.acceptRequest}>
+          Accept Request
+        </Button>
+        <Button color='default' startIcon={<CancelIcon></CancelIcon>}onClick={this.rejectRequest}>
+        Reject Request
+        </Button>
+        </Paper>
+        </div>
         : null
         }
         <ProfilePopUp show={showProfileForm} profile={this.props.profile} onClose={this.profileFormClosed} />
@@ -142,6 +184,8 @@ const styles = theme => ({
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   person: PropTypes.any.isRequired,
+  personList: PropTypes.any.isRequired,
+  request: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);
