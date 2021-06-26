@@ -26,24 +26,7 @@ class GroupDetail extends Component {
   }
 
 
-  getGroup = () => {
-    AppAPI.getAPI().getGroupForPerson(this.props.learngroup.learning_group).then(group =>
-      this.setState({
-        group: group,
 
-        
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-        group: []
-        })
-      );
-
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      error: null
-    });
-  }
 
   GroupInfo = (event) => {
     event.stopPropagation();
@@ -66,7 +49,7 @@ class GroupDetail extends Component {
   }
 
   componentDidMount() {
-    this.getGroup();
+
   }
 
   render() {
@@ -78,6 +61,7 @@ class GroupDetail extends Component {
         {console.log('memberID', this.props.learngroup)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
+          {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
         </Typography>

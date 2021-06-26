@@ -89,7 +89,7 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       <div className={classes.root}>
           <div>
           {
-            console.log('sender', this.state.requests)
+            console.log('GroupChat', this.state.groupList)
           }
           </div>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
