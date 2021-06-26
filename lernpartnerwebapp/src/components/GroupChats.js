@@ -13,11 +13,6 @@ import MembershipBO from '../api/MembershipBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
 
 
-/**
- * Shows all profiles of the app.
- * 
- */
-
  class ChatList extends Component {
 
 
@@ -39,8 +34,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
     this.loadMyGroups();
   }
 
-
-
   loadMyGroups = () => {
     AppAPI.getAPI().getGroupsOfaPerson().then(groups =>
       this.setState({
@@ -60,6 +53,8 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       error: null
     });
   }
+
+
 
   profileFormClosed = (group) => {
     if (group) {
@@ -86,7 +81,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
     const {memberships, groupList} = this.state;
 
     return (
-
       <div className={classes.root}>
           <div>
           {

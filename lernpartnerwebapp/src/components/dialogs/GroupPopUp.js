@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { AppAPI, ProfileBO } from '../../api';
+import { AppAPI} from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,9 +11,6 @@ class GroupPopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
         error: null,
         person: [],
@@ -22,11 +19,7 @@ class GroupPopUp extends Component {
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
- 
+   
     getMembers = () => {
       AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
