@@ -28,7 +28,7 @@ class GroupPopUp extends Component {
     // set loading to true
  
     getMembers = () => {
-      AppAPI.getAPI().getMembersOfGroup(1).then(members =>
+      AppAPI.getAPI().getMembersOfGroup().then(members =>
         this.setState({
           memberList: members,
           loadingInProgress: false,
@@ -47,8 +47,6 @@ class GroupPopUp extends Component {
         loadingError: null
       });
     }
-  /** Updates the profile */
-
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -67,17 +65,17 @@ class GroupPopUp extends Component {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.getInfo()} <br /><br />
+          <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Groupname: {group.getGroupName()}
+                Groupname: {group.groupname}
                 </DialogContentText>
             </DialogContent>
                 <DialogContentText>
-                Groupinfo: {group.getInfo()}
+                Groupinfo: {group.info}
                 </DialogContentText>
             <DialogContent>
                 <DialogContentText>
@@ -90,7 +88,7 @@ class GroupPopUp extends Component {
           </DialogTitle>
           <DialogActions>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Partner hinzufügen
+            Person hinzufügen
           </Button>
           
         </DialogActions>
