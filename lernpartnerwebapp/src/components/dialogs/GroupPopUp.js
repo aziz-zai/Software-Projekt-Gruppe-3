@@ -28,7 +28,7 @@ class GroupPopUp extends Component {
     // set loading to true
  
     getMembers = () => {
-      AppAPI.getAPI().getMembersOfGroup().then(members =>
+      AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
           memberList: members,
           loadingInProgress: false,
@@ -60,7 +60,7 @@ class GroupPopUp extends Component {
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList } = this.state;
+    const { memberList , members} = this.state;
   
     return (
       show ?
@@ -81,7 +81,7 @@ class GroupPopUp extends Component {
                 <DialogContentText>
                 Members: 
                 {
-            memberList.map(member => console.log('member', member.profile))
+            memberList.map(member => <ProfileDetail person = {member.person}></ProfileDetail>)
           }
                 </DialogContentText>
             </DialogContent>
