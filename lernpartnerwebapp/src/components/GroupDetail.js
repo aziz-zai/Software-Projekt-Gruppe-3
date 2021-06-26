@@ -17,15 +17,33 @@ class GroupDetail extends Component {
 
     // Init state
     this.state = {
-      group: new GroupBO,
       showGroupForm: false,
       loadingInProgress: false,
       loadingError: null,
+      group: null,
       showProfileForm: false,
     };
   }
 
 
+  getGroup = () => {
+    AppAPI.getAPI().getGroupForPerson(this.props.learngroup.learning_group).then(group =>
+      this.setState({
+        group: group,
+
+        
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+        group: []
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
 
   GroupInfo = (event) => {
     event.stopPropagation();
@@ -47,22 +65,24 @@ class GroupDetail extends Component {
     }
   }
 
+  componentDidMount() {
+    this.getGroup();
+  }
+
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, group, memberList} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, learngroup, memberList} = this.state;
 
     return (
       <div>
-        {console.log('memberID', this.props.learngroup.id_)}
+        {console.log('memberID', this.props.learngroup)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${group} could not be loaded.`} onReload={this.getGroup} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />
       </Paper>
       </div>
     );

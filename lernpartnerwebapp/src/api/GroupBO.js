@@ -25,16 +25,10 @@ export default class GroupBO extends BusinessObject {
     this.info = aInfo;
   }
 
-  /**
-   * Gets the groupname.
-   */
   getInfo() {
     return this.info;
   }
 
-  /** 
-   * Returns an Array of GroupBOs from a given JSON structure.
-   */
    static fromJSON(groups) {
     let result = [];
 
