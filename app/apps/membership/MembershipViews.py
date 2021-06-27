@@ -25,6 +25,17 @@ class MembershipGroupAPI(AuthView):
         membership = MembershipAdministration.get_membership_by_group(learning_group=group)
         return membership
 
+@namespace.route("/<int:membership>")
+class MembershipGroupAPI(AuthView):
+
+    @namespace.marshal_with(membership_marshalling, code=201)
+    @namespace.expect(membership_marshalling)
+    def put(self, membership: int) -> dict:
+        """accept a grouprequest"""
+        membership = MembershipAdministration.accept_request(membership=membership)
+        return membership
+
+
 @namespace.route("/group/<int:group>/<int:person>")
 class MembershipGroupPersonAPI(AuthView):
     @namespace.marshal_with(membership_marshalling, code=201)
@@ -56,18 +67,6 @@ class MembershipPersonAPI(AuthView):
         membership = MembershipAdministration.get_groups_by_person(person=self.person.id_)
         return membership
 
-
-@namespace.route("/Membershiprequest")
-class MembershipRequestAPI(AuthView):
-
-    @api.marshal_with(membership_marshalling, code=201)
-    @api.expect(membership_marshalling)
-    def get(self):
-        """ Get All Group/Membership-Requests """
-        requestlist = MembershipAdministration.get_all_requests(person=self.person.id_)
-        return requestlist
-
-
 @namespace.route("/Membershiprequest/<int:group>")
 class MembershipOperations(AuthView):
     @api.marshal_with(membership_marshalling, code=201)
@@ -86,3 +85,10 @@ class MembershipOperations(AuthView):
             person=self.person.id_,
             learning_group=group
             )
+
+    @api.marshal_with(membership_marshalling, code=201)
+    @api.expect(membership_marshalling)
+    def get(self, group: int):
+        """ Get All Group/Membership-Requests """
+        requestlist = MembershipAdministration.get_all_requests(learning_group=group)
+        return requestlist

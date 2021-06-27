@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { AppAPI} from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -11,6 +11,7 @@ import ProfileBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
+import CloseIcon from '@material-ui/icons/Close';
 
 
  class ChatList extends Component {
@@ -24,7 +25,8 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
        person: [],
        groupList: [],
        memberships: [],
-       showCreateGroupForm: false
+       showCreateGroupForm: false,
+       loadingInProgress: false,
 
     };
   }
@@ -74,21 +76,23 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       showCreateGroupForm: true
     });
   }
+
   
 
   render() {
     const { classes } = this.props;
-    const {memberships, groupList} = this.state;
+    const { groupList,loadingInProgress} = this.state;
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root}> <br></br>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
-        </Button>
+        </Button> &nbsp; &nbsp;
         {
             groupList.map(group =>
               <GroupDetail learngroup = {group}> </GroupDetail>)
           }
+
           <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
       </div>
 

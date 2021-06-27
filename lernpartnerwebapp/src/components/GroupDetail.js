@@ -58,7 +58,6 @@ class GroupDetail extends Component {
 
     return (
       <div>
-        {console.log('memberID', this.props.learngroup)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
           {this.props.learngroup.groupname}

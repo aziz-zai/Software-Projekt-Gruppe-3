@@ -7,6 +7,7 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileDetail from '../ProfileDetail'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 class GroupPopUp extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,10 @@ class GroupPopUp extends Component {
         loadingError: null,
         showPersonList: false,
         memberList: [],
+        requestSent: false,
+        showReceived: false,
+        groupRequestList: [],
+        showRequestListButton: false,
     };
     // save this state for canceling
     this.baseState = this.state;
@@ -47,6 +52,25 @@ loadPotentialPersons= () => {
         error: null
     });
 }
+
+
+
+sendMembershipRequest = () => {
+  AppAPI.getAPI().sendMembershipRequest(this.props.group.id_).then(request =>
+    this.setState({
+      loadingInProgress: false,
+      loadingError: null,
+      requestSent: true,
+    },
+    )
+    ).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        loadingInProgress: false,
+        loadingError: e
+      })
+    );
+}
+
     getMembers = () => {
       AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
@@ -91,13 +115,49 @@ loadPotentialPersons= () => {
     });
   }
 
+  showGroupRequests = () => {
+    AppAPI.getAPI().getAllMembershipGroupRequests(this.props.group.id_).then(requests =>
+      this.setState({
+        groupRequestList: requests,
+        loadingInProgress: false,
+        showRequestListButton: true,
+        
+      })).catch(e =>
+        this.setState({  
+          loadingInProgress: false,
+          error: e
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  showReceived = () => {
+    this.setState({
+      showReceived: true,
+    })
+    this.showGroupRequests();
+  }
+
+  handleCloseGroupList = () => {
+    this.setState({
+      showReceived: false,
+    })
+  }
+
+
   componentDidMount() {
     this.getMembers();
+    this.showGroupRequests();
   }
   /** Renders the component */
   render() {
     const { classes, group, show, showRequestGroup} = this.props;
-    const { memberList , showPersonList, loadingInProgress, personList, members} = this.state;
+    const { memberList , showPersonList, loadingInProgress, personList, requestSent, showReceived, groupRequestList, showRequestListButton} = this.state;
 
     return (
       show ?
@@ -125,14 +185,19 @@ loadPotentialPersons= () => {
           </DialogTitle>
           <DialogActions>
             {showRequestGroup ?
+            requestSent ?
            <div>
-            <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            asd
+            <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
+            </Button>
+            </div>
+            : <div>
+            <Button className={classes.buttonMargin} startIcon={<AddIcon/>} onClick={this.sendMembershipRequest} variant='outlined' color='primary' size='small'>
+            Request A Membership
             </Button>
             </div>
             :
             <div>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+          <Button className={classes.buttonMargin} onClick={this.showPersonList} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
             Person hinzufügen
           </Button>
           </div>
@@ -145,7 +210,7 @@ loadPotentialPersons= () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {personList.map(person => <ProfileDetail showGroupDetail={this.props.group.id_} person = {person.id_}></ProfileDetail>)}
+             {personList.map(person => <ProfileDetail  showGroupDetail={this.props.group.id_} person = {person.id_}></ProfileDetail>)}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
@@ -156,6 +221,31 @@ loadPotentialPersons= () => {
                </Dialog>
           :null
         }
+        {console.log('GL',groupRequestList)}
+        {groupRequestList  ?
+                <Button variant='outlined' color='primary' onClick={this.showReceived}>
+                Show GroupRequests
+            </Button>
+            : null}
+        {showReceived ?
+          <Dialog open={showReceived} onClose={this.handleCloseGroupList} maxWidth='xs'>
+          <DialogTitle id='delete-dialog-title'>Show Incoming Group-Requests
+     <IconButton onClick={this.handleCloseGroupList}>
+       <CloseIcon />
+     </IconButton>
+   </DialogTitle>
+   <DialogContent>
+       {groupRequestList.map(membership => <ProfileDetail groupRequest={membership.id_} person={membership.person}></ProfileDetail>)}
+     <LoadingProgress show={loadingInProgress} />
+   </DialogContent>
+   <DialogActions>
+     <Button onClick={this.handleCloseGroupList} color='secondary'>
+       Cancel
+     </Button>
+   </DialogActions>
+         </Dialog>
+         : null
+      }
         </DialogActions>
         </Dialog>
         : null

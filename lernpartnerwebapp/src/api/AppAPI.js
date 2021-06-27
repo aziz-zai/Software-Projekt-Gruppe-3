@@ -59,9 +59,10 @@ export default class AppAPI {
   #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
   #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
   #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
-  #getAllMembershipGroupRequestsURL = () => `${this.#AppServerBaseURL}/membership/Membershiprequest`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
+  #getAllMembershipGroupRequestsURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
   #sendMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;             //Senden einer Gruppenanfrage
-  #rejectMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;           //Ablehnen eines erhaltenen Requests           
+  #rejectMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`; 
+  #acceptMembershipRequestURL = (membership) => `${this.#AppServerBaseURL}/membership/${membership}`;            //Ablehnen eines erhaltenen Requests           
   #getGroupsOfPersonURL = () => `${this.#AppServerBaseURL}/membership/person`;                            //Gibt alle Gruppen einer Person zurück
 
 
@@ -422,9 +423,9 @@ export default class AppAPI {
     })
   }
 
-  getAllMembershipGroupRequests() {
-    return this.#fetchAdvanced(this.#getAllMembershipGroupRequestsURL()).then((responseJSON) => {
-        let groupBOs = GroupBO.fromJSON(responseJSON);
+  getAllMembershipGroupRequests(group) {
+    return this.#fetchAdvanced(this.#getAllMembershipGroupRequestsURL(group)).then((responseJSON) => {
+        let groupBOs = MembershipBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(groupBOs);
         })
@@ -444,6 +445,17 @@ export default class AppAPI {
       return new Promise(function (resolve) {
         resolve(responseGroupBO);
         })
+    })
+  }
+
+  acceptMembershipRequest(membership) {
+    return this.#fetchAdvanced(this.#acceptMembershipRequestURL(membership), {
+      method: 'PUT'
+      }).then((responseJSON) => {
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(responseGroupBO);
+      })
     })
   }
 

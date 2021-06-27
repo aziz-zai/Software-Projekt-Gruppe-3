@@ -149,6 +149,26 @@ class ProfileDetail extends Component {
     });
   }
 
+  acceptGroupRequest = () => {
+    AppAPI.getAPI().acceptMembershipRequest(this.props.groupRequest).then(newMember =>
+      this.setState({
+        loadingInProgress: false,
+        loadingError: null,
+        requestSent: true,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
+
+    });
+  }
+
 
 
   render() {
@@ -179,7 +199,13 @@ class ProfileDetail extends Component {
         : null
         : null
         }
-
+        {
+          this.props.groupRequest ?
+          <Button color='primary' startIcon={<AddIcon/>} onClick={this.acceptGroupRequest}>
+         Accept
+        </Button>
+        :null
+        }
         {
         this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
@@ -213,7 +239,7 @@ class ProfileDetail extends Component {
         : null
         }
 
-{
+        {
         this.props.sent ?
         <div>
           {
@@ -262,6 +288,7 @@ ProfileDetail.propTypes = {
   sent: PropTypes.any.isRequired,
   request: PropTypes.any.isRequired,
   showGroupDetail: PropTypes.any.isRequired,
+  groupRequest: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);
