@@ -161,7 +161,7 @@ class ProfileDetail extends Component {
         </div>
         : null
         }
-        <ProfilePopUp show={showProfileForm} profile={this.props.profile} onClose={this.profileFormClosed} />
+        <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${profile.firstname} could not be loaded.`} />
