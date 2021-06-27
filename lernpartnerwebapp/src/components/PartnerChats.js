@@ -110,12 +110,13 @@ class PartnerChats extends Component {
       )
       .catch((e) =>
         this.setState({
-          singleChatList: 'test',
+          singleChatList: [],
           loadingInProgress: false,
           loadingProfileError: e,
         })
       );
     this.setState({
+      singleChatList: [],
       loadingInProgress: true,
       loadingProfileError: null
     });
@@ -163,13 +164,14 @@ closeSentRequests = () => {
         </Button>
         <br></br>
         </div>
+      {singleChatList ?
 
-        {
             singleChatList.map((chat) => (chat.sender == person.id_) ?
             (<ProfileDetail person= {chat.receiver}></ProfileDetail>) :
             (<ProfileDetail person= {chat.sender}></ProfileDetail>)
-    )
-        }
+              )
+
+        :null}
 
         {showReceived ?
         <div>
