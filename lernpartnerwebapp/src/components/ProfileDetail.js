@@ -140,7 +140,7 @@ class ProfileDetail extends Component {
          Request
         </Button>
         : null
-      }
+        }
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>

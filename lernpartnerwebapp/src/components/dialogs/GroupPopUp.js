@@ -54,7 +54,6 @@ loadPotentialPersons= () => {
           loadingInProgress: false,
           loadingError: null
         },
-        this.loadPotentialPersons()
         )
         ).catch(e =>
           this.setState({ // Reset state with error from catch 
@@ -72,6 +71,7 @@ loadPotentialPersons= () => {
     }
 
   showPersonList = () => {
+    this.loadPotentialPersons();
     this.setState({
       showPersonList: true
     })
@@ -101,7 +101,7 @@ loadPotentialPersons= () => {
   
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+        <Dialog onEnter= {this.getMembers} open={show} onClose={this.handleClose} maxWidth='xs'>
           {console.log('test', personList)}
           <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
