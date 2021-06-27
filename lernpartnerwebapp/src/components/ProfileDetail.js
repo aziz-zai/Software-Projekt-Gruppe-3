@@ -22,7 +22,7 @@ class ProfileDetail extends Component {
       showProfileForm: false,
       request:[],
       requestSent:false,
-      addStatus: true,
+      notAddedStatus: true,
       profile: [],
       show: true,
       newMember: [],
@@ -129,7 +129,7 @@ class ProfileDetail extends Component {
         loadingInProgress: false,
         loadingError: null,
         requestSent: true,
-        addStatus: false,
+        notAddedStatus: false,
         
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
@@ -144,14 +144,14 @@ class ProfileDetail extends Component {
       loadingInProgress: true,
       loadingError: null,
       requestSent: false,
-      addStatus: false,
+      notAddedStatus: false,
     });
   }
 
 
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError,profile, showProfileForm, show, addStatus} = this.state;
+    const {loadingInProgress, loadingError,profile, showProfileForm, show, notAddedStatus} = this.state;
 
     return (
       show ?
@@ -162,7 +162,7 @@ class ProfileDetail extends Component {
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
         {
-        addStatus ?
+        notAddedStatus ?
         this.props.showGroupDetail ?
         <Grid
         justify="left" // Add it here :)
