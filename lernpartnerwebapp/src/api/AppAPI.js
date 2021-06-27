@@ -133,11 +133,7 @@ export default class AppAPI {
 
   deletePerson() {
     return this.#fetchAdvanced(this.#deletePersonURL(), {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-        }
+      method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -341,10 +337,6 @@ export default class AppAPI {
   acceptReceivedRequest(chatroom) {
     return this.#fetchAdvanced(this.#acceptReceivedRequestURL(chatroom), {
         method: 'PUT',
-        headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-        }
       }).then((responseJSON) => {
         let responseChatroomBO = ChatroomBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {

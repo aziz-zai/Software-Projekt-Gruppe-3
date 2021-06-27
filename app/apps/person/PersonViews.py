@@ -31,7 +31,7 @@ class PersonOperationAPI(AuthView):
         person = PersonAdministration.insert_person(person=self.person.id_)
         return person
 
-    @api.marshal_with(person_marshalling, code=200)
+    @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
     def delete(self) -> dict:
         """Delete Person Endpoint."""
