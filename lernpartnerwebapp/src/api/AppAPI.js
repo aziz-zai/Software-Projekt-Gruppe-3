@@ -440,7 +440,7 @@ export default class AppAPI {
       },
       body: JSON.stringify()
     }).then((responseJSON) => {
-      let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseGroupBO);
         })

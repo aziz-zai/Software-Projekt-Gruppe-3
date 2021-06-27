@@ -102,7 +102,7 @@ loadPotentialPersons= () => {
     return (
       show ?
         <Dialog onEnter= {this.getMembers} open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
+          <DialogTitle id='form-dialog-title'>{group.groupname} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
@@ -118,7 +118,7 @@ loadPotentialPersons= () => {
                 <DialogContentText>
                 Members: 
                 {
-            memberList.map(member => <ProfileDetail person = {member.person}></ProfileDetail>)
+            memberList.map(member => <ProfileDetail  person = {member.person}></ProfileDetail>)
           }
                 </DialogContentText>
             </DialogContent>
@@ -135,7 +135,7 @@ loadPotentialPersons= () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {personList.map(person => <ProfileDetail person = {person.id_}></ProfileDetail>)}
+             {personList.map(person => <ProfileDetail showGroupDetail={this.props.group.id_} person = {person.id_}></ProfileDetail>)}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
