@@ -46,7 +46,7 @@ export default class AppAPI {
   #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
-  #createGroupURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}/${id}`;
+  #createGroupURL = (groupname, groupinfo) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -54,7 +54,8 @@ export default class AppAPI {
 
 
   //Membership related
-  #getMembersOfaGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;              //Gibt alle Member einer Gruppe zurück
+
+  #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
   #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
   #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
   #getAllMembershipGroupRequestsURL = () => `${this.#AppServerBaseURL}/membership/Membershiprequest`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
@@ -257,14 +258,14 @@ export default class AppAPI {
     })
   }
 
-  createGroup(groupname, groupinfo, id) {
-    return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo, id), {
+  createGroup(groupname, groupinfo) {
+    return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo), {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(groupname, groupinfo, id)
+      body: JSON.stringify(groupname, groupinfo)
     }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {

@@ -49,7 +49,7 @@ class MembershipGroupPersonAPI(AuthView):
 
 @namespace.route("/person")
 class MembershipPersonAPI(AuthView):
-    @api.marshal_with(membership_marshalling, code=201)
+    @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self) -> dict:
         """Get All Groups of a Person."""

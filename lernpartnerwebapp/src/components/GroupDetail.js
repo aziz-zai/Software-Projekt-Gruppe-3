@@ -17,13 +17,14 @@ class GroupDetail extends Component {
 
     // Init state
     this.state = {
-      group: new GroupBO,
       showGroupForm: false,
       loadingInProgress: false,
       loadingError: null,
+      group: null,
       showProfileForm: false,
     };
   }
+
 
 
 
@@ -47,22 +48,26 @@ class GroupDetail extends Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, group, memberList} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, learngroup, memberList} = this.state;
 
     return (
       <div>
-        {console.log('memberID', this.props.learngroup.id_)}
+        {console.log('memberID', this.props.learngroup)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {this.props.learngroup.groupname}
+          {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp></GroupPopUp>
+        <GroupPopUp group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${group} could not be loaded.`} onReload={this.getGroup} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />
       </Paper>
       </div>
     );

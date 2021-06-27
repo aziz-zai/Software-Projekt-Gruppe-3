@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { AppAPI, ProfileBO } from '../../api';
+import { AppAPI} from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,9 +11,6 @@ class GroupPopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
         error: null,
         person: [],
@@ -22,13 +19,9 @@ class GroupPopUp extends Component {
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
- 
+   
     getMembers = () => {
-      AppAPI.getAPI().getMembersOfGroup(1).then(members =>
+      AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
           memberList: members,
           loadingInProgress: false,
@@ -47,8 +40,6 @@ class GroupPopUp extends Component {
         loadingError: null
       });
     }
-  /** Updates the profile */
-
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -62,32 +53,35 @@ class GroupPopUp extends Component {
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList } = this.state;
+    const { memberList , members} = this.state;
   
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.getInfo()} <br /><br />
+          <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Gruppeninfo: {group.getGroupName()}
+                Groupname: {group.groupname}
                 </DialogContentText>
             </DialogContent>
+                <DialogContentText>
+                Groupinfo: {group.info}
+                </DialogContentText>
             <DialogContent>
                 <DialogContentText>
-                Teilnehmer: 
+                Members: 
                 {
-            memberList.map(member => console.log('member', member.profile))
+            memberList.map(member => <ProfileDetail person = {member.person}></ProfileDetail>)
           }
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Partner hinzufügen
+            Person hinzufügen
           </Button>
           
         </DialogActions>

@@ -4,22 +4,14 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import { AppAPI} from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProfileDetail from './ProfileDetail';
 import Header from '../components/Layouts/Header';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileBO from '../api/ProfileBO'
-import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
-import RequestBO from '../api/RequestBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
 
-
-/**
- * Shows all profiles of the app.
- * 
- */
 
  class ChatList extends Component {
 
@@ -30,9 +22,8 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
     // Init an empty state
     this.state = {
        person: [],
-       groups: [],
+       groupList: [],
        memberships: [],
-       requests: [],
        showCreateGroupForm: false
 
     };
@@ -40,35 +31,19 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    this.loadMyGroups();
   }
 
-
-  getRequests= () => {
-    AppAPI.getAPI().getRequestsForPerson(3).then(newRequest =>
+  loadMyGroups = () => {
+    AppAPI.getAPI().getGroupsOfaPerson().then(groups =>
       this.setState({
-        requests: newRequest,
-        
+        memberships: groups,
+        groupList: groups
         
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          requests: [],
-        })
-      );
- 
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      error: null
-    });
-  }
-  loadGroups = () => {
-    AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
-      this.setState({
-        memberships: groups
-        
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          memberships: []
+          memberships: [],
+          groupList: []
         })
       );
 
@@ -80,12 +55,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
   }
 
 
-  sendRequestButton = (item) => {
-    this.setState({
-      person: item,
-      sendRequestButton: true
-    })
-  }
 
   profileFormClosed = (group) => {
     if (group) {
@@ -98,6 +67,7 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       })
     }
   }
+
   createGroupButton = (event) => {
     event.stopPropagation();
     this.setState({
@@ -108,19 +78,22 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
 
   render() {
     const { classes } = this.props;
-    const {memberships } = this.state;
+    const {memberships, groupList} = this.state;
 
     return (
-
       <div className={classes.root}>
           <div>
           {
-            console.log('sender', this.state.requests)
+            console.log('GroupChat', this.state.groupList)
           }
           </div>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
         </Button>
+        {
+            groupList.map(group =>
+              <GroupDetail learngroup = {group}> </GroupDetail>)
+          }
           <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
       </div>
 
