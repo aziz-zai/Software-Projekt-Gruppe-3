@@ -21,6 +21,7 @@ export default class AppAPI {
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPotentialChatsURL = () => `${this.#AppServerBaseURL}/person/potential_singlechat`;
+  #getPotentialPersonForGroupURL = (id) => `${this.#AppServerBaseURL}/person/group/${id}`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
@@ -225,14 +226,23 @@ export default class AppAPI {
  
   getGroupsOfaPerson() {
     return this.#fetchAdvanced(this.#getGroupsOfPersonURL()).then((responseJSON) => {
-        let groupBOs = ProfileBO.fromJSON(responseJSON);
+        let groupBOs = GroupBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(groupBOs);
        })
    })
-
 }
 
+	getPotentialPersonsForGroup(id) {
+  	return this.#fetchAdvanced(this.#getPotentialPersonForGroupURL(id))
+    .then((responseJSON) => {
+        let personBOs = PersonBO.fromJSON(responseJSON);
+        return new Promise(function(resolve){
+          resolve(personBOs);
+        })
+     })
+    }
+  
   getMembersOfGroup(id) {
     return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
    .  then((responseJSON) => {
@@ -400,7 +410,7 @@ export default class AppAPI {
         })
     })
   }
-  
+
   leaveGroup(group, person) {
     return this.#fetchAdvanced(this.#leaveAGroupURL(group, person), {
       method: 'DELETE'
@@ -430,7 +440,7 @@ export default class AppAPI {
       },
       body: JSON.stringify()
     }).then((responseJSON) => {
-      let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseGroupBO);
         })

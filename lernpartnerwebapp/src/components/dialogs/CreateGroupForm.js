@@ -64,9 +64,7 @@ class CreateGroupForm extends Component {
   }
 
 
-  componentDidMount() {
-   
-  }
+
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
@@ -90,13 +88,9 @@ class CreateGroupForm extends Component {
             </DialogContent>
           </DialogTitle>
           <DialogActions>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Partner hinzufügen
-          </Button>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small' onClick={this.createGroup}>
             Create Group
           </Button>
-          
         </DialogActions>
         </Dialog>
         : null

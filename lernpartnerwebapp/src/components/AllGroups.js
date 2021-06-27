@@ -5,6 +5,7 @@ import { AppAPI } from '../api';
 import GroupDetail from './GroupDetail';
 import LoadingProgress from './dialogs/LoadingProgress';
 
+
 class AllGroups extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,12 @@ class AllGroups extends Component {
             error: null
           };
 
+        this.state = {
+            groupList: [],
+            error: null,
+            loadingInProgress: false,
+            loadingError: null
+        };
     }
     loadPotentialGroups = () => {
         AppAPI.getAPI().getGroups().then(groups =>
@@ -30,14 +37,14 @@ class AllGroups extends Component {
               error: e
             })
           );
-    
+
         // set loading to true
         this.setState({
           loadingInProgress: true,
           error: null
         });
       }
-    
+
 
     componentDidMount() {
         this.loadPotentialGroups();
@@ -55,13 +62,21 @@ class AllGroups extends Component {
               <GroupDetail showRequestGroup={true} learngroup={group}/>)
           }
           <LoadingProgress show={loadingInProgress} />
+
             </div>
         );
     }
 }
 
+const styles = theme => ({
+  root: {
+    width: '100%',
+  }
+});
+
 AllGroups.propTypes = {
+    classes: PropTypes.object.isRequired,
 
-};
+}
 
-export default AllGroups;
+export default withStyles(styles)(AllGroups);
