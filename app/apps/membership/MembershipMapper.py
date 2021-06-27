@@ -115,32 +115,31 @@ class MembershipMapper(Mapper):
 
         cnx.commit()
         cursor.close()
-        
 
     def delete_membership(cnx: db_connector, learning_group: int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership
-            WHERE person=%s AND learning_group=%s AND is_open=%s AND is_accepted=%s
+            WHERE person=%s AND learning_group=%s
         """
 
         try:
-            cursor.execute(command, (person, learning_group, False, True))
+            cursor.execute(command, (person, learning_group))
         except Exception:
             print("Member does not exist!")
 
         cnx.commit()
         cursor.close()
 
-    def delete_membership_request(cnx: db_connector, learning_group: int, person: int):
+    def delete_own_membership(cnx: db_connector, learning_group: int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership
-            WHERE person=%s AND learning_group=%s AND is_open=%s AND is_accepted=%s
+            WHERE person=%s AND learning_group=%s
         """
 
         try:
-            cursor.execute(command, (person, learning_group, True, False))
+            cursor.execute(command, (person, learning_group))
         except Exception:
             print("Member does not exist!")
 

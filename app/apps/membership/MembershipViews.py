@@ -80,8 +80,8 @@ class MembershipOperations(AuthView):
         return request
 
     def delete(self, group: int):
-        """ Lehne eine Anfrage ab """
-        MembershipAdministration.delete_membership_request(
+        """ Aus Gruppe Austreten """
+        MembershipAdministration.delete_own_membership(
             person=self.person.id_,
             learning_group=group
             )

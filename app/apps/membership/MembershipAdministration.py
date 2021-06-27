@@ -56,10 +56,10 @@ class MembershipAdministration:
             return MembershipMapper.delete_membership(cnx=cnx, learning_group=learning_group, person=person)
 
     @staticmethod
-    def delete_membership_request(learning_group: int, person: int):
+    def delete_own_membership(learning_group: int, person: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.delete_membership_request(cnx=cnx, learning_group=learning_group, person=person)
+            return MembershipMapper.delete_own_membership(cnx=cnx, learning_group=learning_group, person=person)
 
     @staticmethod
     def get_all_requests(learning_group: int):

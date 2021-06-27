@@ -9,6 +9,7 @@ import ProfilePopUp from './dialogs/ProfilePopUp'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 class ProfileDetail extends Component {
 
@@ -150,7 +151,27 @@ class ProfileDetail extends Component {
   }
 
   acceptGroupRequest = () => {
-    AppAPI.getAPI().acceptMembershipRequest(this.props.groupRequest).then(newMember =>
+    AppAPI.getAPI().acceptMembershipRequest(this.props.groupRequest.id_).then(newMember =>
+      this.setState({
+        loadingInProgress: false,
+        loadingError: null,
+        requestSent: true,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
+
+    });
+  }
+
+  rejectGroupRequest = () => {
+    AppAPI.getAPI().rejectMembershipRequest(this.props.groupRequest.learning_group, this.props.person).then(newMember =>
       this.setState({
         loadingInProgress: false,
         loadingError: null,
@@ -201,9 +222,14 @@ class ProfileDetail extends Component {
         }
         {
           this.props.groupRequest ?
+          <div>
           <Button color='primary' startIcon={<AddIcon/>} onClick={this.acceptGroupRequest}>
          Accept
         </Button>
+        <Button color='default' startIcon={<RemoveIcon/>} onClick={this.rejectGroupRequest}>
+        Reject
+       </Button>
+       </div>
         :null
         }
         {
@@ -249,13 +275,12 @@ class ProfileDetail extends Component {
           }
         <Paper>
         <Button color='default' startIcon={<CancelIcon></CancelIcon>}onClick={this.rejectRequest}>
-        Reject Request
+        Cancel Request
         </Button>
         </Paper>
         </div>
         : null
         }
-        
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />

@@ -61,7 +61,7 @@ export default class AppAPI {
   #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
   #getAllMembershipGroupRequestsURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
   #sendMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;             //Senden einer Gruppenanfrage
-  #rejectMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`; 
+  #rejectMembershipRequestURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`; 
   #acceptMembershipRequestURL = (membership) => `${this.#AppServerBaseURL}/membership/${membership}`;            //Ablehnen eines erhaltenen Requests           
   #getGroupsOfPersonURL = () => `${this.#AppServerBaseURL}/membership/person`;                            //Gibt alle Gruppen einer Person zurück
 
@@ -412,8 +412,8 @@ export default class AppAPI {
     })
   }
 
-  leaveGroup(group, person) {
-    return this.#fetchAdvanced(this.#leaveAGroupURL(group, person), {
+  leaveGroup(group) {
+    return this.#fetchAdvanced(this.#leaveAGroupURL(group), {
       method: 'DELETE'
       }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
@@ -459,8 +459,8 @@ export default class AppAPI {
     })
   }
 
-  rejectMembershipRequest(group) {
-    return this.#fetchAdvanced(this.#rejectMembershipRequestURL(group), {
+  rejectMembershipRequest(group, person) {
+    return this.#fetchAdvanced(this.#rejectMembershipRequestURL(group, person), {
       method: 'DELETE'
       }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];

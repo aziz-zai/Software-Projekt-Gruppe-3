@@ -235,7 +235,7 @@ sendMembershipRequest = () => {
      </IconButton>
    </DialogTitle>
    <DialogContent>
-       {groupRequestList.map(membership => <ProfileDetail groupRequest={membership.id_} person={membership.person}></ProfileDetail>)}
+       {groupRequestList.map(membership => <ProfileDetail groupRequest={membership} person={membership.person}></ProfileDetail>)}
      <LoadingProgress show={loadingInProgress} />
    </DialogContent>
    <DialogActions>
