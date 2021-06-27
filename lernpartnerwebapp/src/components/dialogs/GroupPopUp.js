@@ -53,7 +53,10 @@ loadPotentialPersons= () => {
           memberList: members,
           loadingInProgress: false,
           loadingError: null
-        })).catch(e =>
+        },
+        this.loadPotentialPersons()
+        )
+        ).catch(e =>
           this.setState({ // Reset state with error from catch 
             memberList: [],
             loadingInProgress: false,
@@ -90,7 +93,6 @@ loadPotentialPersons= () => {
 
   componentDidMount() {
     this.getMembers();
-    this.loadPotentialPersons();
   }
   /** Renders the component */
   render() {
@@ -100,6 +102,7 @@ loadPotentialPersons= () => {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+          {console.log('test', personList)}
           <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -133,7 +136,7 @@ loadPotentialPersons= () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {personList.map(person => console.log("test", person))}
+             {personList.map(person => <ProfileDetail person = {person.id_}></ProfileDetail>)}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
