@@ -119,7 +119,7 @@ class ProfileDetail extends Component {
       requestSent: false
     });
   }
-
+  
 
 
   render() {
@@ -129,6 +129,7 @@ class ProfileDetail extends Component {
     return (
       show ?
       <div>
+        
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {profile.firstname} {profile.lastname} &nbsp;
@@ -150,6 +151,11 @@ class ProfileDetail extends Component {
         {
         this.props.request ?
         <div>
+          {
+            (Math.abs((new Date("2021-07-26 15:40:37") - new Date(this.props.request.timestamp))/86400000)) > 3 ?
+            this.rejectRequest()
+            :null
+          }
         <Paper>
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>} onClick={this.acceptRequest}>
           Accept Request
