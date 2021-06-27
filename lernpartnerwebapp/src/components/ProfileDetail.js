@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper, Button } from '@material-ui/core';
+import { withStyles, Typography, Paper, Button, Grid } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -22,8 +22,10 @@ class ProfileDetail extends Component {
       showProfileForm: false,
       request:[],
       requestSent:false,
+      notAddedStatus: true,
       profile: [],
       show: true,
+      newMember: [],
     };
   }
 
@@ -119,12 +121,39 @@ class ProfileDetail extends Component {
       requestSent: false
     });
   }
-  
+
+ 
+  addToGroup = () => {
+    AppAPI.getAPI().addPersonToGroup(this.props.showGroupDetail, this.props.person).then(newMember =>
+      this.setState({
+        newMember: newMember,
+        loadingInProgress: false,
+        loadingError: null,
+        requestSent: true,
+        notAddedStatus: false,
+        
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          newMember: [],
+          loadingInProgress: false,
+          loadingError: e,
+          requestSent: false
+        })
+      );
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
+      requestSent: false,
+      notAddedStatus: false,
+    });
+  }
+
 
 
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError, profile, showProfileForm, show} = this.state;
+    const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus} = this.state;
 
     return (
       show ?
@@ -136,12 +165,28 @@ class ProfileDetail extends Component {
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
         {
+        notAddedStatus ?
+        this.props.showGroupDetail ?
+        <Grid
+        justify="left" // Add it here :)
+        >
+          <Grid item>
+        <Button color='primary' startIcon={<AddIcon/>} onClick={this.addToGroup}>
+         Add to Group
+        </Button>
+        </Grid>
+        </Grid>
+        : null
+        : null
+        }
+
+        {
         this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
          Request
         </Button>
         : null
-      }
+        }
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
@@ -216,6 +261,7 @@ ProfileDetail.propTypes = {
   received: PropTypes.any.isRequired,
   sent: PropTypes.any.isRequired,
   request: PropTypes.any.isRequired,
+  showGroupDetail: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);

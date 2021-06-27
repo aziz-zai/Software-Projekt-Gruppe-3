@@ -13,20 +13,49 @@ class GroupPopUp extends Component {
 
     this.state = {
         error: null,
+        personList: [],
         person: [],
+        loadingInProgress: false,
+        loadingError: null,
+        showPersonList: false,
         memberList: [],
     };
     // save this state for canceling
     this.baseState = this.state;
   }
    
+
+loadPotentialPersons= () => {
+    AppAPI.getAPI().getPotentialPersonsForGroup(this.props.group.id_).then(persons =>
+    this.setState({
+        personList: persons,
+        loadingInProgress: false, // loading indicator 
+        loadingError: null,
+        error: null
+
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          personList: [],
+          loadingError: false,
+          error: e
+        })
+      );
+
+    this.setState({
+        loadingInProgress: true,
+        error: null
+    });
+}
     getMembers = () => {
       AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
           memberList: members,
           loadingInProgress: false,
           loadingError: null
-        })).catch(e =>
+        },
+        )
+        ).catch(e =>
           this.setState({ // Reset state with error from catch 
             memberList: [],
             loadingInProgress: false,
@@ -41,24 +70,39 @@ class GroupPopUp extends Component {
       });
     }
 
+  showPersonList = () => {
+    this.loadPotentialPersons();
+    this.setState({
+      showPersonList: true
+    })
+  }
+
   /** Handles the close / cancel button click event */
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
     this.props.onClose(null);
   }
+
+  handleClosePersonList = () => {
+    // Reset the state
+    this.setState({
+      showPersonList: false
+    });
+  }
+
   componentDidMount() {
     this.getMembers();
   }
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList , members} = this.state;
+    const { memberList , showPersonList, loadingInProgress, personList, members} = this.state;
   
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
+        <Dialog onEnter= {this.getMembers} open={show} onClose={this.handleClose} maxWidth='xs'>
+          <DialogTitle id='form-dialog-title'>{group.groupname} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
@@ -74,16 +118,34 @@ class GroupPopUp extends Component {
                 <DialogContentText>
                 Members: 
                 {
-            memberList.map(member => <ProfileDetail person = {member.person}></ProfileDetail>)
+            memberList.map(member => <ProfileDetail  person = {member.person}></ProfileDetail>)
           }
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Person hinzufügen
-          </Button>
-          
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} onClick={this.showPersonList} variant='outlined' color='primary' size='small'>
+            Person hinzufügen 
+          </Button> 
+          {showPersonList ?
+              <Dialog open={showPersonList} onClose={this.handleClosePersonList} maxWidth='xs'>
+                <DialogTitle id='delete-dialog-title'>Show potential Persons
+           <IconButton onClick={this.handleClosePersonList}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {personList.map(person => <ProfileDetail showGroupDetail={this.props.group.id_} person = {person.id_}></ProfileDetail>)}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleClosePersonList} color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+               </Dialog>
+          :null
+        }
         </DialogActions>
         </Dialog>
         : null
@@ -108,16 +170,8 @@ const styles = theme => ({
 GroupPopUp.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
   group: PropTypes.any.isRequired,
-  /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
-  /**  
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
-   */
   onClose: PropTypes.func.isRequired,
 }
 

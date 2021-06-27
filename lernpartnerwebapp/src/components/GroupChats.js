@@ -82,11 +82,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
 
     return (
       <div className={classes.root}>
-          <div>
-          {
-            console.log('GroupChat', this.state.groupList)
-          }
-          </div>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
         </Button>
