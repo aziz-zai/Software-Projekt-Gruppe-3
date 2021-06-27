@@ -4,14 +4,18 @@ from app.configs.base import db_connector
 
 
 class GroupMapper(Mapper):
-    def find_all(cnx: db_connector):
+    def find_all(cnx: db_connector, person: int):
 
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
         SELECT id, groupname, info from `mydb`.`learning_group`
+        WHERE id NOT IN (
+            SELECT learning_group from membership
+            WHERE person=%s
+        )
         """
-        cursor.execute(command)
+        cursor.execute(command, (person, ))
         tuples = cursor.fetchall()
 
         for (id, groupname, info) in tuples:

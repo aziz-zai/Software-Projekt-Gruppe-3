@@ -43,7 +43,7 @@ export default class AppAPI {
 
 
   //Group related
-  #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
+  #getGroupsURL = () => `${this.#AppServerBaseURL}/group`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
   #createGroupURL = (groupname, groupinfo) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}`;
@@ -202,9 +202,9 @@ export default class AppAPI {
     })
   }
 
-  getGroups(id){
-    return this.#fetchAdvanced(this.#getGroupsURL(id)).then((responseJSON) => {
-      let groupBOs = MembershipBO.fromJSON(responseJSON);
+  getGroups(){
+    return this.#fetchAdvanced(this.#getGroupsURL()).then((responseJSON) => {
+      let groupBOs = GroupBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(groupBOs);
      })

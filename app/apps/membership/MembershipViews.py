@@ -1,6 +1,6 @@
 from os import name
 from app.configs.base import api
-from .MembershipMarshalling import membership_marshalling, membership_person_marshalling
+from .MembershipMarshalling import membership_marshalling
 from app.apps.group.GroupMarshalling import group_marshalling
 from .MembershipBO import MembershipObject
 from .MembershipAdministration import MembershipAdministration

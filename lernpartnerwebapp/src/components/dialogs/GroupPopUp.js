@@ -52,7 +52,7 @@ class GroupPopUp extends Component {
   }
   /** Renders the component */
   render() {
-    const { classes, group, show} = this.props;
+    const { classes, group, show, showRequestGroup} = this.props;
     const { memberList , members} = this.state;
   
     return (
@@ -80,10 +80,19 @@ class GroupPopUp extends Component {
             </DialogContent>
           </DialogTitle>
           <DialogActions>
+            {showRequestGroup ?
+           <div>
+            <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+            asd
+            </Button>
+            </div>
+            :
+            <div>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
             Person hinzufügen
           </Button>
-          
+          </div>
+         }
         </DialogActions>
         </Dialog>
         : null
@@ -108,17 +117,10 @@ const styles = theme => ({
 GroupPopUp.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
   group: PropTypes.any.isRequired,
-  /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
-  /**  
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
-   */
   onClose: PropTypes.func.isRequired,
+  showRequestGroup: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(GroupPopUp);

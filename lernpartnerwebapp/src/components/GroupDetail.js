@@ -64,7 +64,7 @@ class GroupDetail extends Component {
           {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
+        <GroupPopUp showRequestGroup={this.props.showRequestGroup} group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />
@@ -89,7 +89,8 @@ const styles = theme => ({
 
 GroupDetail.propTypes = {
   classes: PropTypes.object.isRequired,
-  learngroup: PropTypes.any.isRequired
+  learngroup: PropTypes.any.isRequired,
+  showRequestGroup: PropTypes.any.isRequired,
 
 }
 
