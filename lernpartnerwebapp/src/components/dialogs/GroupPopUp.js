@@ -13,13 +13,40 @@ class GroupPopUp extends Component {
 
     this.state = {
         error: null,
+        personList: [],
         person: [],
+        loadingInProgress: false,
+        loadingError: null,
+        showPersonList: false,
         memberList: [],
     };
     // save this state for canceling
     this.baseState = this.state;
   }
    
+
+loadPotentialPersons= () => {
+    AppAPI.getAPI().getPotentialPersonsForGroup(this.props.group.id_).then(persons =>
+    this.setState({
+        personList: persons,
+        loadingInProgress: false, // loading indicator 
+        loadingError: null,
+        error: null
+
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          personList: [],
+          loadingError: false,
+          error: e
+        })
+      );
+
+    this.setState({
+        loadingInProgress: true,
+        error: null
+    });
+}
     getMembers = () => {
       AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
@@ -41,19 +68,34 @@ class GroupPopUp extends Component {
       });
     }
 
+  showPersonList = () => {
+    this.setState({
+      showPersonList: true
+    })
+  }
+
   /** Handles the close / cancel button click event */
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
     this.props.onClose(null);
   }
+
+  handleClosePersonList = () => {
+    // Reset the state
+    this.setState({
+      showPersonList: false
+    });
+  }
+
   componentDidMount() {
     this.getMembers();
+    this.loadPotentialPersons();
   }
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList , members} = this.state;
+    const { memberList , showPersonList, loadingInProgress, personList, members} = this.state;
   
     return (
       show ?
@@ -80,10 +122,29 @@ class GroupPopUp extends Component {
             </DialogContent>
           </DialogTitle>
           <DialogActions>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Person hinzufügen
-          </Button>
-          
+          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} onClick={this.showPersonList} variant='outlined' color='primary' size='small'>
+            Person hinzufügen 
+          </Button> 
+          {showPersonList ?
+              <Dialog open={showPersonList} onClose={this.handleClosePersonList} maxWidth='xs'>
+                <DialogTitle id='delete-dialog-title'>Show potential Persons
+           <IconButton onClick={this.handleClosePersonList}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {personList.map(person => console.log("test", person))}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleClosePersonList} color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+               </Dialog>
+          :null
+        }
+            
         </DialogActions>
         </Dialog>
         : null
