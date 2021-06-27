@@ -34,7 +34,9 @@ class PartnerChats extends Component {
         singleChatList: [],
         person: [],
         requestList: [],
-        show: false,
+        sentList: [],
+        showReceived: false,
+        showSent: false,
         loadingInProgress: false,
     };
   }
@@ -46,7 +48,8 @@ class PartnerChats extends Component {
         loadingInProgress: false,
       });
       this.getSingleChats();
-      this.getOpenRequests();
+      this.getReceivedRequests();
+      this.getSentRequests();
     }).catch(e =>
       this.setState({
         person:[],
@@ -58,10 +61,28 @@ class PartnerChats extends Component {
         loadingInProgress: true,
     });
   }
-  getOpenRequests = () => {
+  getReceivedRequests = () => {
     AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
       this.setState({
         requestList: requests ,
+        loadingInProgress: false,
+      });
+    }).catch(e =>
+      this.setState({
+        requestList:[],
+        loadingInProgress: false,
+      })
+    );
+    // set loading to true
+    this.setState({
+        loadingInProgress: true,
+    });
+  }
+
+  getSentRequests = () => {
+    AppAPI.getAPI().getAllSentRequests().then((requests) => {
+      this.setState({
+        sentList: requests ,
         loadingInProgress: false,
       });
     }).catch(e =>
@@ -100,15 +121,27 @@ class PartnerChats extends Component {
     });
   }
 
-  showRequests = () => {
+  showSentRequests = () => {
+    this.setState({
+        showSent: true,
+    })
+}
+
+closeSentRequests = () => {
+    this.setState({
+        showSent: false,
+    })
+}
+
+  showReceivedRequests = () => {
       this.setState({
-          show: true,
+          showReceived: true,
       })
   }
 
-  closeRequests = () => {
+  closeReceivedRequests = () => {
       this.setState({
-          show: false,
+          showReceived: false,
       })
   }
   componentDidMount(){
@@ -116,42 +149,71 @@ class PartnerChats extends Component {
   }
   /** Renders the component */
   render() {
-    const { singleChatList, person, show, loadingInProgress, requestList} = this.state;
+    const { singleChatList, person, showReceived, showSent, loadingInProgress, requestList, sentList} = this.state;
 
     return (
       <div>
-          {console.log('requests', this.state.requestList)}
+        <div>
+          <br></br>
+        <Button variant='contained' color='secondary' size='small' onClick={this.showReceivedRequests}>
+                    Show Your Received Requests
+        </Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button variant='contained' color='secondary' size='small' onClick={this.showSentRequests}>
+                    Show Your Sent Requests
+        </Button>
+        <br></br>
+        </div>
+
         {
             singleChatList.map((chat) => (chat.sender == person.id_) ?
             (<ProfileDetail person= {chat.receiver}></ProfileDetail>) :
             (<ProfileDetail person= {chat.sender}></ProfileDetail>)
     )
         }
+
+        {showReceived ?
         <div>
-        <Button color='secondary' size='small' onClick={this.showRequests}>
-                    Requests
-        </Button>
-        </div>
-        {show ?
-        <div>
-        <Dialog open={show} onClose={this.closeRequests}>
-         <DialogTitle id='delete-dialog-title'>Requests
-           <IconButton onClick={this.closeRequests}>
+        <Dialog open={showReceived} onClose={this.closeReceivedRequests}>
+         <DialogTitle id='delete-dialog-title'>Received Requests
+           <IconButton onClick={this.closeReceivedRequests}>
              <CloseIcon />
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {requestList.map(request => <ProfileDetail request={request} person = {request.sender}></ProfileDetail>)}
+             {requestList.map(request => <ProfileDetail received={request} request = {request} person = {request.sender}></ProfileDetail>)}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
-           <Button onClick={this.closeRequests} color='secondary'>
+           <Button onClick={this.closeReceivedRequests} size='small' color='secondary'>
              Cancel
            </Button>
          </DialogActions>
        </Dialog>
         </div>
         : null}
+
+    {showSent ?
+        <div>
+        <Dialog open={showSent} onClose={this.closeSentRequests}>
+         <DialogTitle id='delete-dialog-title'>Sent Requests
+           <IconButton onClick={this.closeSentRequests}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {sentList.map(request => <ProfileDetail sent={request} request = {request} person = {request.receiver}></ProfileDetail>)}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.closeSentRequests} size='small' color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+       </Dialog>
+        </div>
+        : null}
+
+
      </div>
     )
   }

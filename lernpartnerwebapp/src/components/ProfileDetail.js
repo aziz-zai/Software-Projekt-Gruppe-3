@@ -124,7 +124,7 @@ class ProfileDetail extends Component {
 
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError,profile, showProfileForm, show} = this.state;
+    const {loadingInProgress, loadingError, profile, showProfileForm, show} = this.state;
 
     return (
       show ?
@@ -149,10 +149,10 @@ class ProfileDetail extends Component {
         : null
         }
         {
-        this.props.request ?
+        this.props.received ?
         <div>
           {
-            (Math.abs((new Date("2021-07-26 15:40:37") - new Date(this.props.request.timestamp))/86400000)) > 3 ?
+            (Math.abs((new Date() - new Date(this.props.request.timestamp))/86400000)) > 3 ?
             this.rejectRequest()
             :null
           }
@@ -167,6 +167,24 @@ class ProfileDetail extends Component {
         </div>
         : null
         }
+
+{
+        this.props.sent ?
+        <div>
+          {
+            (Math.abs((new Date() - new Date(this.props.request.timestamp))/86400000)) > 3 ?
+            this.rejectRequest()
+            :null
+          }
+        <Paper>
+        <Button color='default' startIcon={<CancelIcon></CancelIcon>}onClick={this.rejectRequest}>
+        Reject Request
+        </Button>
+        </Paper>
+        </div>
+        : null
+        }
+        
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
@@ -195,6 +213,8 @@ ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   person: PropTypes.any.isRequired,
   personList: PropTypes.any.isRequired,
+  received: PropTypes.any.isRequired,
+  sent: PropTypes.any.isRequired,
   request: PropTypes.any.isRequired,
 }
 
