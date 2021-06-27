@@ -8,6 +8,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileForm from './dialogs/ProfileForm'
 import GroupPopUp from './dialogs/GroupPopUp'
 import GroupBO from '../api/GroupBO'
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 class GroupDetail extends Component {
@@ -22,11 +24,28 @@ class GroupDetail extends Component {
       loadingError: null,
       group: null,
       showProfileForm: false,
+      leftGroup: false,
     };
   }
 
 
+  leaveGroup = () => {
+    AppAPI.getAPI().leaveGroup(this.props.learngroup.id_).then(groups =>
+      this.setState({
+        leftGroup: true,
+        loadingInProgress: false,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          error: e
+        })
+      );
 
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
 
   GroupInfo = (event) => {
     event.stopPropagation();
@@ -48,10 +67,7 @@ class GroupDetail extends Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
+ 
   render() {
     const { classes, } = this.props;
     const {loadingInProgress, loadingError, showGroupForm, learngroup, memberList} = this.state;
@@ -63,6 +79,18 @@ class GroupDetail extends Component {
           {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
+        {this.props.showLeaveGroup ?
+          <Button   color='primary' startIcon={<CancelIcon/>} onClick={this.leaveGroup} >
+            Leave Group
+          </Button>
+          : null
+        }
+        {
+          this.state.leftGroup ?
+          <Button color='primary' startIcon={<CheckCircleIcon/>}>
+          </Button>
+          :null
+        }
         <GroupPopUp showRequestGroup={this.props.showRequestGroup} group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />

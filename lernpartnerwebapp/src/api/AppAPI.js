@@ -58,7 +58,7 @@ export default class AppAPI {
 
   #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
   #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
-  #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
+  #leaveAGroupURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;                     //Verlassen einer Gruppe
   #getAllMembershipGroupRequestsURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
   #sendMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;             //Senden einer Gruppenanfrage
   #rejectMembershipRequestURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`; 

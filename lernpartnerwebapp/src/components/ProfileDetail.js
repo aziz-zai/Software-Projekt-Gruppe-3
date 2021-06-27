@@ -258,7 +258,7 @@ class ProfileDetail extends Component {
           Accept Request
         </Button>
         <Button color='default' startIcon={<CancelIcon></CancelIcon>}onClick={this.rejectRequest}>
-        Reject Request
+          Reject Request
         </Button>
         </Paper>
         </div>

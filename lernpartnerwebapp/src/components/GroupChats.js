@@ -41,7 +41,7 @@ import CloseIcon from '@material-ui/icons/Close';
       this.setState({
         memberships: groups,
         groupList: groups
-        
+
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           memberships: [],
@@ -90,7 +90,7 @@ import CloseIcon from '@material-ui/icons/Close';
         </Button> &nbsp; &nbsp;
         {
             groupList.map(group =>
-              <GroupDetail learngroup = {group}> </GroupDetail>)
+              <GroupDetail showLeaveGroup={true} learngroup = {group}> </GroupDetail>)
           }
 
           <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
