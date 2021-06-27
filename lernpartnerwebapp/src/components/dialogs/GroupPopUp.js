@@ -102,7 +102,6 @@ loadPotentialPersons= () => {
     return (
       show ?
         <Dialog onEnter= {this.getMembers} open={show} onClose={this.handleClose} maxWidth='xs'>
-          {console.log('test', personList)}
           <DialogTitle id='form-dialog-title'>{group.info} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -147,7 +146,6 @@ loadPotentialPersons= () => {
                </Dialog>
           :null
         }
-            
         </DialogActions>
         </Dialog>
         : null
@@ -172,16 +170,8 @@ const styles = theme => ({
 GroupPopUp.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
   group: PropTypes.any.isRequired,
-  /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
-  /**  
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
-   */
   onClose: PropTypes.func.isRequired,
 }
 
