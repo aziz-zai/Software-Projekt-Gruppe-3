@@ -73,7 +73,8 @@ class CreateGroupForm extends Component {
     const { memberList, groupname, groupinfo, show2} = this.state;
   
     return (
-      show && show2 ?
+      show2 ?
+      show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>Create A New Group <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
@@ -99,6 +100,7 @@ class CreateGroupForm extends Component {
         </DialogActions>
         </Dialog>
         : null
+        :null
     );
   }
 }
