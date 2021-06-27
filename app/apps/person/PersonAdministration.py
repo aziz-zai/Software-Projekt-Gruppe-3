@@ -17,12 +17,12 @@ class PersonAdministration:
             person.email=email
             person.google_user_id=google_user_id
             return PersonMapper.insert(cnx=cnx, object=person)
-            
+
     @staticmethod
-    def get_person_by_id(personID: int) -> PersonObject:
+    def get_person_by_id(person: int) -> PersonObject:
         with db_connector as db:
             cnx = db._cnx
-            return PersonMapper.find_by_key(cnx=cnx, key=personID)
+            return PersonMapper.find_by_key(cnx=cnx, key=person)
 
     @staticmethod
     def get_person_by_google_user_id(google_user_id: str) -> PersonObject:

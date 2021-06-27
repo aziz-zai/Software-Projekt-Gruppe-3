@@ -54,6 +54,7 @@ export default class AppAPI {
 
 
   //Membership related
+
   #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
   #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
   #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
@@ -131,6 +132,10 @@ export default class AppAPI {
   deletePerson() {
     return this.#fetchAdvanced(this.#deletePersonURL(), {
       method: 'DELETE',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+        }
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -328,8 +333,7 @@ export default class AppAPI {
         headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
-        },
-        body: JSON.stringify(chatroom)
+        }
       }).then((responseJSON) => {
         let responseChatroomBO = ChatroomBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {

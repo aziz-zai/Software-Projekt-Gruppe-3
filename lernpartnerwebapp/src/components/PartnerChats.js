@@ -14,6 +14,7 @@ import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonBO from '../api/PersonBO'
+import ProfileDetail from './ProfileDetail'
 
 /**
  * Shows the header with the main navigation Tabs within a Paper.
@@ -31,8 +32,51 @@ class PartnerChats extends Component {
     // Init an empty state
     this.state = {
         singleChatList: [],
+        person: [],
+        requestList: [],
+        show: false,
+        loadingInProgress: false,
     };
   }
+
+  getPerson = () => {
+    AppAPI.getAPI().getPerson().then((person) => {
+      this.setState({
+        person: person[0],
+        loadingInProgress: false,
+      });
+      this.getSingleChats();
+      this.getOpenRequests();
+    }).catch(e =>
+      this.setState({
+        person:[],
+        loadingInProgress: false,
+      })
+    );
+    // set loading to true
+    this.setState({
+        loadingInProgress: true,
+    });
+  }
+  getOpenRequests = () => {
+    AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
+      this.setState({
+        requestList: requests ,
+        loadingInProgress: false,
+      });
+    }).catch(e =>
+      this.setState({
+        requestList:[],
+        loadingInProgress: false,
+      })
+    );
+    // set loading to true
+    this.setState({
+        loadingInProgress: true,
+    });
+  }
+
+
 
   getSingleChats = () => {
     AppAPI.getAPI().getAllSingleChats()
@@ -56,20 +100,59 @@ class PartnerChats extends Component {
     });
   }
 
+  showRequests = () => {
+      this.setState({
+          show: true,
+      })
+  }
+
+  closeRequests = () => {
+      this.setState({
+          show: false,
+      })
+  }
   componentDidMount(){
-    this.getSingleChats()
+    this.getPerson();
   }
   /** Renders the component */
   render() {
-    const { singleChatList } = this.state;
+    const { singleChatList, person, show, loadingInProgress, requestList} = this.state;
 
     return (
-      <Paper variant='outlined' >
+      <div>
+          {console.log('requests', this.state.requestList)}
         {
-            singleChatList.map(chat =>
-                console.log('singlechat', chat))
+            singleChatList.map((chat) => (chat.sender == person.id_) ?
+            (<ProfileDetail person= {chat.receiver}></ProfileDetail>) :
+            (<ProfileDetail person= {chat.sender}></ProfileDetail>)
+    )
         }
-      </Paper>
+        <div>
+        <Button color='secondary' size='small' onClick={this.showRequests}>
+                    Requests
+        </Button>
+        </div>
+        {show ?
+        <div>
+        <Dialog open={show} onClose={this.closeRequests}>
+         <DialogTitle id='delete-dialog-title'>Requests
+           <IconButton onClick={this.closeRequests}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {requestList.map(request => <ProfileDetail request={request} person = {request.sender}></ProfileDetail>)}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.closeRequests} color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+       </Dialog>
+        </div>
+        : null}
+     </div>
     )
   }
 }

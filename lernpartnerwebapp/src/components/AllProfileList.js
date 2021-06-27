@@ -65,7 +65,7 @@ class AllProfileList extends Component {
       </Grid>
       {
             personList.map(person =>
-              <ProfileDetail key={person.id_} person={person.id_}/>)
+              <ProfileDetail key={person.id_} person={person.id_} personList={personList}/>)
           }
           <LoadingProgress show={loadingInProgress} />
       </div>

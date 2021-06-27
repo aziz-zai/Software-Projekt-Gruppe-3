@@ -8,6 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfilePopUp from './dialogs/ProfilePopUp'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 class ProfileDetail extends Component {
 
@@ -21,7 +22,8 @@ class ProfileDetail extends Component {
       showProfileForm: false,
       request:[],
       requestSent:false,
-      profile: []
+      profile: [],
+      show: true,
     };
   }
 
@@ -69,6 +71,32 @@ class ProfileDetail extends Component {
     }
   }
 
+  acceptRequest = () => {
+    AppAPI.getAPI().acceptReceivedRequest(this.props.request.id_).then(() =>
+      this.setState({
+        loadingInProgress: false,
+        loadingError: null,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+      }
+      rejectRequest = () => {
+        AppAPI.getAPI().deleteReceivedRequest(this.props.request.id_).then(() =>
+          this.setState({
+            loadingInProgress: false,
+            loadingError: null,
+            show: false,
+          })).catch(e =>
+            this.setState({ // Reset state with error from catch 
+              loadingInProgress: false,
+              loadingError: e,
+            })
+          );
+          }
+
   sendRequest = () => {
     AppAPI.getAPI().sendRequest(this.props.person).then(newRequest =>
       this.setState({
@@ -84,7 +112,6 @@ class ProfileDetail extends Component {
           requestSent: false
         })
       );
- 
     // set loading to true
     this.setState({
       loadingInProgress: true,
@@ -92,24 +119,46 @@ class ProfileDetail extends Component {
       requestSent: false
     });
   }
+
+
+
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError,profile, showProfileForm} = this.state;
+    const {loadingInProgress, loadingError,profile, showProfileForm, show} = this.state;
 
     return (
+      show ?
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {profile.firstname} {profile.lastname} &nbsp;
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
+        {
+        this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
-        {console.log('request', this.state.request)}Request
+         Request
         </Button>
+        : null
+      }
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
         </Button> 
+        : null
+        }
+        {
+        this.props.request ?
+        <div>
+        <Paper>
+        <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>} onClick={this.acceptRequest}>
+          Accept Request
+        </Button>
+        <Button color='default' startIcon={<CancelIcon></CancelIcon>}onClick={this.rejectRequest}>
+        Reject Request
+        </Button>
+        </Paper>
+        </div>
         : null
         }
         <ProfilePopUp show={showProfileForm} profile={this.props.profile} onClose={this.profileFormClosed} />
@@ -118,6 +167,7 @@ class ProfileDetail extends Component {
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${profile.firstname} could not be loaded.`} />
       </Paper>
       </div>
+      : null
     );
   }
 }
@@ -138,6 +188,8 @@ const styles = theme => ({
 ProfileDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   person: PropTypes.any.isRequired,
+  personList: PropTypes.any.isRequired,
+  request: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(ProfileDetail);
