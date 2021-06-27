@@ -17,6 +17,7 @@ import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
 import Matchmaking from './components/Matchmaking'
 import ChatList from './components/Layouts/ChatList'
+import AllGroups from './components/AllGroups'
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -104,13 +105,14 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  					<Redirect from='/' to='AllProfiles' />
-									<Route exact path='/AllProfiles'>
+                  					<Redirect from='/' to='AllPartners' />
+									<Route exact path='/AllPartners'>
 										<AllProfileList/>
 									</Route>
+									<Route path='/AllGroups' component={() => <AllGroups/>}/>
 									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
-									<Route path='/ChatList' component={() => <ChatList/>} />	
+									<Route path='/ChatList' component={() => <ChatList/>} />
 									<Route path='/about' component={About} />
 
 								</>
