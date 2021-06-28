@@ -10,6 +10,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ChatIcon from '@material-ui/icons/Chat';
+import SingleChat from './SingleChat'
 
 class ProfileDetail extends Component {
 
@@ -27,6 +29,7 @@ class ProfileDetail extends Component {
       profile: [],
       show: true,
       newMember: [],
+      showChatComponent: false,
     };
   }
 
@@ -72,6 +75,18 @@ class ProfileDetail extends Component {
         showProfileForm: false
       })
     }
+  }
+
+  openChat = () => {
+    this.setState({
+      showChatComponent: true,
+    })
+  }
+
+  closeChat =() => {
+    this.setState({
+      showChatComponent: false,
+    })
   }
 
   acceptRequest = () => {
@@ -194,7 +209,7 @@ class ProfileDetail extends Component {
 
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus} = this.state;
+    const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent} = this.state;
 
     return (
       show ?
@@ -205,6 +220,7 @@ class ProfileDetail extends Component {
         {profile.firstname} {profile.lastname} &nbsp;
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
+
         {
         notAddedStatus ?
         this.props.showGroupDetail ?
@@ -220,6 +236,7 @@ class ProfileDetail extends Component {
         : null
         : null
         }
+
         {
           this.props.groupRequest ?
           <div>
@@ -232,6 +249,7 @@ class ProfileDetail extends Component {
        </div>
         :null
         }
+
         {
         this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
@@ -239,12 +257,21 @@ class ProfileDetail extends Component {
         </Button>
         : null
         }
+
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
         </Button> 
         : null
         }
+
+        {
+        this.props.showChat ?
+        <Button color='primary' onClick={this.openChat} startIcon={<ChatIcon></ChatIcon>}>
+        </Button> 
+        : null
+        }
+        <SingleChat person={this.props.person} onClose={this.closeChat} showChat={showChatComponent}></SingleChat>
         {
         this.props.received ?
         <div>
@@ -281,6 +308,7 @@ class ProfileDetail extends Component {
         </div>
         : null
         }
+
         <ProfilePopUp show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
         </Typography>
         <LoadingProgress show={loadingInProgress} />
@@ -306,14 +334,15 @@ const styles = theme => ({
 });
 
 ProfileDetail.propTypes = {
-  classes: PropTypes.object.isRequired,
-  person: PropTypes.any.isRequired,
-  personList: PropTypes.any.isRequired,
-  received: PropTypes.any.isRequired,
-  sent: PropTypes.any.isRequired,
-  request: PropTypes.any.isRequired,
-  showGroupDetail: PropTypes.any.isRequired,
-  groupRequest: PropTypes.any.isRequired,
+  classes: PropTypes.object,
+  person: PropTypes.any,
+  personList: PropTypes.any,
+  received: PropTypes,
+  sent: PropTypes.any,
+  request: PropTypes.any,
+  showGroupDetail: PropTypes.any,
+  groupRequest: PropTypes.any,
+  showChat: PropTypes.any,
 }
 
 export default withStyles(styles)(ProfileDetail);

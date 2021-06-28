@@ -167,8 +167,8 @@ closeSentRequests = () => {
       {singleChatList ?
 
             singleChatList.map((chat) => (chat.sender == person.id_) ?
-            (<ProfileDetail person= {chat.receiver}></ProfileDetail>) :
-            (<ProfileDetail person= {chat.sender}></ProfileDetail>)
+            (<ProfileDetail showChat={true} person= {chat.receiver}></ProfileDetail>) :
+            (<ProfileDetail showChat={true} person= {chat.sender}></ProfileDetail>)
               )
 
         :null}

@@ -90,7 +90,7 @@ import CloseIcon from '@material-ui/icons/Close';
         </Button> &nbsp; &nbsp;
         {
             groupList.map(group =>
-              <GroupDetail showLeaveGroup={true} learngroup = {group}> </GroupDetail>)
+              <GroupDetail showChat={true} showLeaveGroup={true} learngroup={group}> </GroupDetail>)
           }
 
           <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
