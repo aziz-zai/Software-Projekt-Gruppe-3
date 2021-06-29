@@ -8,7 +8,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileForm from './dialogs/ProfileForm'
 import GroupPopUp from './dialogs/GroupPopUp'
 import GroupBO from '../api/GroupBO'
-
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ChatIcon from '@material-ui/icons/Chat';
+import GroupChatting from './GroupChatting'
 
 class GroupDetail extends Component {
 
@@ -17,15 +20,34 @@ class GroupDetail extends Component {
 
     // Init state
     this.state = {
-      group: new GroupBO,
       showGroupForm: false,
       loadingInProgress: false,
       loadingError: null,
+      group: null,
       showProfileForm: false,
+      leftGroup: false,
+      showChatComponent: false,
     };
   }
 
 
+  leaveGroup = () => {
+    AppAPI.getAPI().leaveGroup(this.props.learngroup.id_).then(groups =>
+      this.setState({
+        leftGroup: true,
+        loadingInProgress: false,
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          error: e
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
 
   GroupInfo = (event) => {
     event.stopPropagation();
@@ -47,22 +69,54 @@ class GroupDetail extends Component {
     }
   }
 
+  showChatComponent = () => {
+    this.setState({
+      showChatComponent: true,
+    })
+  }
+
+  closeChatComponent = () => {
+    this.setState({
+      showChatComponent: false,
+    })
+  }
+ 
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, group, memberList} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, learngroup, memberList} = this.state;
 
     return (
       <div>
-        {console.log('memberID', this.props.learngroup.id_)}
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
-        {this.props.learngroup.groupname}
+          {this.props.learngroup.groupname}
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
         </Button>
-        <GroupPopUp></GroupPopUp>
+        {this.props.showLeaveGroup ?
+          <Button   color='primary' startIcon={<CancelIcon/>} onClick={this.leaveGroup} >
+            Leave Group
+          </Button>
+          : null
+        }
+        {
+          this.state.leftGroup ?
+          <Button color='primary' startIcon={<CheckCircleIcon/>}>
+          </Button>
+          :null
+        }
+
+        {
+          this.props.showChat?
+          <Button color='primary' onClick={this.showChatComponent}startIcon={<ChatIcon/>}>
+          </Button>
+          :null
+        }
+        <GroupChatting showChat={this.state.showChatComponent} onClose={this.closeChatComponent} group={this.props.learngroup}></GroupChatting>
+
+        <GroupPopUp showRequestGroup={this.props.showRequestGroup} group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${group} could not be loaded.`} onReload={this.getGroup} />
+        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />
       </Paper>
       </div>
     );
@@ -83,8 +137,10 @@ const styles = theme => ({
 });
 
 GroupDetail.propTypes = {
-  classes: PropTypes.object.isRequired,
-  learngroup: PropTypes.any.isRequired
+  classes: PropTypes.object,
+  learngroup: PropTypes.any,
+  showRequestGroup: PropTypes.any,
+  showChat: PropTypes.bool,
 
 }
 

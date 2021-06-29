@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { AppAPI} from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProfileDetail from './ProfileDetail';
 import Header from '../components/Layouts/Header';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileBO from '../api/ProfileBO'
-import PersonBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
 import MembershipBO from '../api/MembershipBO'
-import TabPanel from './TabPanel'
-import RequestBO from '../api/RequestBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
+import CloseIcon from '@material-ui/icons/Close';
 
-
-/**
- * Shows all profiles of the app.
- * 
- */
 
  class ChatList extends Component {
 
@@ -31,65 +23,29 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
     // Init an empty state
     this.state = {
        person: [],
-       groups: [],
+       groupList: [],
        memberships: [],
-       requests: [],
-       showCreateGroupForm: false
+       showCreateGroupForm: false,
+       loadingInProgress: false,
 
     };
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getPersonByGoogleUserID();
+    this.loadMyGroups();
   }
 
- 
+  loadMyGroups = () => {
+    AppAPI.getAPI().getGroupsOfaPerson().then(groups =>
+      this.setState({
+        memberships: groups,
+        groupList: groups
 
-  getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
-    .then((personBO) =>{
-     
-      this.setState({
-        person: personBO
-      })
-      this.loadGroups()
-      this.getRequests()
-    },
-      )
-      .catch((e) =>
-        this.setState({
-          person: []
-        
-        })
-      )
-  }
-  getRequests= () => {
-    AppAPI.getAPI().getRequestsForPerson(3).then(newRequest =>
-      this.setState({
-        requests: newRequest,
-        
-        
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          requests: [],
-        })
-      );
- 
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      error: null
-    });
-  }
-  loadGroups = () => {
-    AppAPI.getAPI().getGroups(this.state.person.id_).then(groups =>
-      this.setState({
-        memberships: groups
-        
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          memberships: []
+          memberships: [],
+          groupList: []
         })
       );
 
@@ -101,12 +57,6 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
   }
 
 
-  sendRequestButton = (item) => {
-    this.setState({
-      person: item,
-      sendRequestButton: true
-    })
-  }
 
   profileFormClosed = (group) => {
     if (group) {
@@ -119,34 +69,30 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
       })
     }
   }
+
   createGroupButton = (event) => {
     event.stopPropagation();
     this.setState({
       showCreateGroupForm: true
     });
   }
+
   
 
   render() {
     const { classes } = this.props;
-    const {memberships } = this.state;
+    const { groupList,loadingInProgress} = this.state;
 
     return (
-
-      <div className={classes.root}>
-        <TabPanel value={1} ></TabPanel>
-        {console.log('memberships', this.state.memberships)}
-        {
-            this.state.memberships.map(membership =>  <GroupDetail membership={membership}/> )
-          }
-          <div>
-          {
-            console.log('sender', this.state.requests)
-          }
-          </div>
+      <div className={classes.root}> <br></br>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
-        </Button>
+        </Button> &nbsp; &nbsp;
+        {
+            groupList.map(group =>
+              <GroupDetail showChat={true} showLeaveGroup={true} learngroup={group}> </GroupDetail>)
+          }
+
           <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
       </div>
 

@@ -24,7 +24,7 @@ class ProfileDropDown extends Component {
     });
   }
 
-  /** 
+  /**
    * Handles click events from the ClickAwayListener.
    * 
    * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)

@@ -37,7 +37,7 @@ class MyProfile extends Component {
     AppAPI.getAPI().getPerson(this.props.currentUser.uid)
     .then((personBO) =>{
       this.setState({
-        person: personBO
+        person: personBO[0],
       })
     this.getProfile()
     },
@@ -142,7 +142,6 @@ class MyProfile extends Component {
   {const { profile, session_id, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
     return (
       <div className={classes.root}>
-       {console.log('sessionid', currentUser.uid)}
         <Paper variant='outlined' className={classes.root}>
       <Typography align='center' variant='h1' position='static'>
                   {profile.firstname} {profile.lastname}
@@ -153,12 +152,12 @@ class MyProfile extends Component {
         <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
                 Firstname:      {profile.firstname} <br></br>
                 Lastname:       {profile.lastname} <br></br>
-                Interests:      {profile.interests} <br></br>
-                Type:           {profile.type_} <br></br>
-                Online:         {profile.online} <br></br>
-                Frequency:      {profile.frequency} <br></br>
-                Expertise:      {profile.expertise} <br></br>
-                Extroversion:   {profile.extroversion} <br></br>
+                Personal Interests:      {profile.interests} <br></br>
+                Learning Type:           {profile.type_} <br></br>
+                Learning preference:         {profile.online} <br></br>
+                Learning frequency per week:      {profile.frequency} <br></br>
+                Competency Fields:      {profile.expertise} <br></br>
+                Personality traits:   {profile.extroversion} <br></br>
                 </Typography>
                 : null
               }

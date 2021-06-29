@@ -1,6 +1,6 @@
 from os import name
 from app.configs.base import api
-from .MembershipMarshalling import membership_marshalling, membership_person_marshalling
+from .MembershipMarshalling import membership_marshalling
 from app.apps.group.GroupMarshalling import group_marshalling
 from .MembershipBO import MembershipObject
 from .MembershipAdministration import MembershipAdministration
@@ -24,6 +24,17 @@ class MembershipGroupAPI(AuthView):
         """Get All Members of a group."""
         membership = MembershipAdministration.get_membership_by_group(learning_group=group)
         return membership
+
+@namespace.route("/<int:membership>")
+class MembershipGroupAPI(AuthView):
+
+    @namespace.marshal_with(membership_marshalling, code=201)
+    @namespace.expect(membership_marshalling)
+    def put(self, membership: int) -> dict:
+        """accept a grouprequest"""
+        membership = MembershipAdministration.accept_request(membership=membership)
+        return membership
+
 
 @namespace.route("/group/<int:group>/<int:person>")
 class MembershipGroupPersonAPI(AuthView):
@@ -49,24 +60,12 @@ class MembershipGroupPersonAPI(AuthView):
 
 @namespace.route("/person")
 class MembershipPersonAPI(AuthView):
-    @api.marshal_with(membership_marshalling, code=201)
+    @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self) -> dict:
         """Get All Groups of a Person."""
         membership = MembershipAdministration.get_groups_by_person(person=self.person.id_)
         return membership
-
-
-@namespace.route("/Membershiprequest")
-class MembershipRequestAPI(AuthView):
-
-    @api.marshal_with(membership_marshalling, code=201)
-    @api.expect(membership_marshalling)
-    def get(self):
-        """ Get All Group/Membership-Requests """
-        requestlist = MembershipAdministration.get_all_requests(person=self.person.id_)
-        return requestlist
-
 
 @namespace.route("/Membershiprequest/<int:group>")
 class MembershipOperations(AuthView):
@@ -81,8 +80,15 @@ class MembershipOperations(AuthView):
         return request
 
     def delete(self, group: int):
-        """ Lehne eine Anfrage ab """
-        MembershipAdministration.delete_membership_request(
+        """ Aus Gruppe Austreten """
+        MembershipAdministration.delete_own_membership(
             person=self.person.id_,
             learning_group=group
             )
+
+    @api.marshal_with(membership_marshalling, code=201)
+    @api.expect(membership_marshalling)
+    def get(self, group: int):
+        """ Get All Group/Membership-Requests """
+        requestlist = MembershipAdministration.get_all_requests(learning_group=group)
+        return requestlist

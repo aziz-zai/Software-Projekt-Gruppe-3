@@ -2,38 +2,84 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { AppAPI, ProfileBO } from '../../api';
+import { AppAPI} from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileDetail from '../ProfileDetail'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 class GroupPopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
         error: null,
+        personList: [],
         person: [],
+        loadingInProgress: false,
+        loadingError: null,
+        showPersonList: false,
         memberList: [],
+        requestSent: false,
+        showReceived: false,
+        groupRequestList: [],
+        showRequestListButton: false,
     };
     // save this state for canceling
     this.baseState = this.state;
   }
+   
 
-  /** Adds the profile */
+loadPotentialPersons= () => {
+    AppAPI.getAPI().getPotentialPersonsForGroup(this.props.group.id_).then(persons =>
+    this.setState({
+        personList: persons,
+        loadingInProgress: false, // loading indicator 
+        loadingError: null,
+        error: null
 
-    // set loading to true
- 
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+          personList: [],
+          loadingError: false,
+          error: e
+        })
+      );
+
+    this.setState({
+        loadingInProgress: true,
+        error: null
+    });
+}
+
+
+
+sendMembershipRequest = () => {
+  AppAPI.getAPI().sendMembershipRequest(this.props.group.id_).then(request =>
+    this.setState({
+      loadingInProgress: false,
+      loadingError: null,
+      requestSent: true,
+    },
+    )
+    ).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        loadingInProgress: false,
+        loadingError: e
+      })
+    );
+}
+
     getMembers = () => {
-      AppAPI.getAPI().getMembersOfGroup(1).then(members =>
+      AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
           memberList: members,
           loadingInProgress: false,
           loadingError: null
-        })).catch(e =>
+        },
+        )
+        ).catch(e =>
           this.setState({ // Reset state with error from catch 
             memberList: [],
             loadingInProgress: false,
@@ -47,8 +93,13 @@ class GroupPopUp extends Component {
         loadingError: null
       });
     }
-  /** Updates the profile */
 
+  showPersonList = () => {
+    this.loadPotentialPersons();
+    this.setState({
+      showPersonList: true
+    })
+  }
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -56,40 +107,145 @@ class GroupPopUp extends Component {
     this.setState(this.baseState);
     this.props.onClose(null);
   }
+
+  handleClosePersonList = () => {
+    // Reset the state
+    this.setState({
+      showPersonList: false
+    });
+  }
+
+  showGroupRequests = () => {
+    AppAPI.getAPI().getAllMembershipGroupRequests(this.props.group.id_).then(requests =>
+      this.setState({
+        groupRequestList: requests,
+        loadingInProgress: false,
+        showRequestListButton: true,
+        
+      })).catch(e =>
+        this.setState({  
+          loadingInProgress: false,
+          error: e
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  showReceived = () => {
+    this.setState({
+      showReceived: true,
+    })
+    this.showGroupRequests();
+  }
+
+  handleCloseGroupList = () => {
+    this.setState({
+      showReceived: false,
+    })
+  }
+
+
   componentDidMount() {
     this.getMembers();
+    this.showGroupRequests();
   }
   /** Renders the component */
   render() {
-    const { classes, group, show} = this.props;
-    const { memberList } = this.state;
-  
+    const { classes, group, show, showRequestGroup} = this.props;
+    const { memberList , showPersonList, loadingInProgress, personList, requestSent, showReceived, groupRequestList, showRequestListButton} = this.state;
+
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
-          <DialogTitle id='form-dialog-title'>{group.getInfo()} <br /><br />
+        <Dialog onEnter= {this.getMembers} open={show} onClose={this.handleClose} maxWidth='xs'>
+          <DialogTitle id='form-dialog-title'>{group.groupname} <br /><br />
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
             <DialogContent>
                 <DialogContentText>
-                Gruppeninfo: {group.getGroupName()}
+                Groupname: {group.groupname}
                 </DialogContentText>
             </DialogContent>
+                <DialogContentText>
+                Groupinfo: {group.info}
+                </DialogContentText>
             <DialogContent>
                 <DialogContentText>
-                Teilnehmer: 
+                Members: 
                 {
-            memberList.map(member => console.log('member', member.profile))
+            memberList.map(member => <ProfileDetail  person = {member.person}></ProfileDetail>)
           }
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
           <DialogActions>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Partner hinzufügen
+            {showRequestGroup ?
+            requestSent ?
+           <div>
+            <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
+            </Button>
+            </div>
+            : <div>
+            <Button className={classes.buttonMargin} startIcon={<AddIcon/>} onClick={this.sendMembershipRequest} variant='outlined' color='primary' size='small'>
+            Request A Membership
+            </Button>
+            </div>
+            :
+            <div>
+          <Button className={classes.buttonMargin} onClick={this.showPersonList} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
+            Person hinzufügen
           </Button>
-          
+          </div>
+         }
+          {showPersonList ?
+              <Dialog open={showPersonList} onClose={this.handleClosePersonList} maxWidth='xs'>
+                <DialogTitle id='delete-dialog-title'>Show potential Persons
+           <IconButton onClick={this.handleClosePersonList}>
+             <CloseIcon />
+           </IconButton>
+         </DialogTitle>
+         <DialogContent>
+             {personList.map(person => <ProfileDetail  showGroupDetail={this.props.group.id_} person = {person.id_}></ProfileDetail>)}
+           <LoadingProgress show={loadingInProgress} />
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleClosePersonList} color='secondary'>
+             Cancel
+           </Button>
+         </DialogActions>
+               </Dialog>
+          :null
+        }
+        {console.log('GL',groupRequestList)}
+        {groupRequestList  ?
+                <Button variant='outlined' color='primary' onClick={this.showReceived}>
+                Show GroupRequests
+            </Button>
+            : null}
+        {showReceived ?
+          <Dialog open={showReceived} onClose={this.handleCloseGroupList} maxWidth='xs'>
+          <DialogTitle id='delete-dialog-title'>Show Incoming Group-Requests
+     <IconButton onClick={this.handleCloseGroupList}>
+       <CloseIcon />
+     </IconButton>
+   </DialogTitle>
+   <DialogContent>
+       {groupRequestList.map(membership => <ProfileDetail groupRequest={membership} person={membership.person}></ProfileDetail>)}
+     <LoadingProgress show={loadingInProgress} />
+   </DialogContent>
+   <DialogActions>
+     <Button onClick={this.handleCloseGroupList} color='secondary'>
+       Cancel
+     </Button>
+   </DialogActions>
+         </Dialog>
+         : null
+      }
         </DialogActions>
         </Dialog>
         : null
@@ -114,17 +270,10 @@ const styles = theme => ({
 GroupPopUp.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
   group: PropTypes.any.isRequired,
-  /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
-  /**  
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
-   */
   onClose: PropTypes.func.isRequired,
+  showRequestGroup: PropTypes.any.isRequired,
 }
 
 export default withStyles(styles)(GroupPopUp);

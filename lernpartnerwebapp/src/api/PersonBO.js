@@ -25,7 +25,19 @@ export default class PersonBO extends BusinessObject {
   }
 
   static fromJSON(person) {
-    let p = Object.setPrototypeOf(person, PersonBO.prototype);
-    return p;
+    let result = [];
+
+    if (Array.isArray(person)) {
+      person.forEach((p) => {
+        Object.setPrototypeOf(p, PersonBO.prototype);
+        result.push(p);
+      })
+    } else {
+      // Es handelt sich offenbar um ein singuläres Objekt
+      let p = person;
+      Object.setPrototypeOf(p, PersonBO.prototype);
+      result.push(p);
+    }
+    return result;
   }
 }

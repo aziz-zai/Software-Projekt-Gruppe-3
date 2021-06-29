@@ -16,6 +16,7 @@ class CreateGroupForm extends Component {
     // Init the state
     this.state = {
         error: null,
+        show2: true,
         groupinfo: '',
         groupname: '',
         group: []
@@ -24,15 +25,14 @@ class CreateGroupForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Adds the profile */
-
-    // set loading to true
+ 
  
     
   /** Updates the profile */
   createGroup = () => {
-    AppAPI.getAPI().createGroup(this.state.groupname, this.state.groupinfo, this.props.person.id_).then(newGroup=>
+    AppAPI.getAPI().createGroup(this.state.groupname, this.state.groupinfo).then(newGroup=>
       this.setState({
+        show2: false,
         group: newGroup
       })
       ).catch(e=>
@@ -64,15 +64,14 @@ class CreateGroupForm extends Component {
   }
 
 
-  componentDidMount() {
-   
-  }
+
   /** Renders the component */
   render() {
     const { classes, group, show} = this.props;
-    const { memberList, groupname, groupinfo} = this.state;
+    const { memberList, groupname, groupinfo, show2} = this.state;
   
     return (
+      show2 ?
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>Create A New Group <br /><br />
@@ -89,16 +88,13 @@ class CreateGroupForm extends Component {
             </DialogContent>
           </DialogTitle>
           <DialogActions>
-          <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small'>
-            Partner hinzufügen
-          </Button>
           <Button className={classes.buttonMargin} startIcon={<AddIcon/>} variant='outlined' color='primary' size='small' onClick={this.createGroup}>
             Create Group
           </Button>
-          
         </DialogActions>
         </Dialog>
         : null
+        :null
     );
   }
 }

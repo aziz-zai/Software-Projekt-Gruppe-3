@@ -16,10 +16,12 @@ export default class AppAPI {
   #AppServerBaseURL = 'http://localhost:5000/api'
 
   //Person related
-  #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPersonIdURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPotentialChatsURL = () => `${this.#AppServerBaseURL}/person/potential_singlechat`;
+  #getPotentialPersonForGroupURL = (id) => `${this.#AppServerBaseURL}/person/group/${id}`;
 
   //Profile related
   #getAllProfilesURL = () => `${this.#AppServerBaseURL}/profile`;
@@ -42,10 +44,10 @@ export default class AppAPI {
 
 
   //Group related
-  #getGroupsURL = (id) => `${this.#AppServerBaseURL}/membership/person/${id}`;
+  #getGroupsURL = () => `${this.#AppServerBaseURL}/group`;
   #getGroupURL = (id) => `${this.#AppServerBaseURL}/group/${id}`;
   #getMembersOfGroupURL = (id) => `${this.#AppServerBaseURL}/membership/group/${id}`;
-  #createGroupURL = (groupname, groupinfo, id) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}/${id}`;
+  #createGroupURL = (groupname, groupinfo) => `${this.#AppServerBaseURL}/group/${groupname}/${groupinfo}`;
   //#updateGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#deleteGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
   //#searchGroupURL = (id) => `${this.#AppServerBaseURL}/groups/${id}`;
@@ -53,18 +55,20 @@ export default class AppAPI {
 
 
   //Membership related
-  #getMembersOfaGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;              //Gibt alle Member einer Gruppe zurück
-  #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}`;                //Fügt eine Person einer Gruppe hinzu
-  #leaveAGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                     //Verlassen einer Gruppe
-  #getAllMembershipGroupRequestsURL = () => `${this.#AppServerBaseURL}/membership/Membershiprequest`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
+
+  #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
+  #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
+  #leaveAGroupURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;                     //Verlassen einer Gruppe
+  #getAllMembershipGroupRequestsURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
   #sendMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;             //Senden einer Gruppenanfrage
-  #rejectMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;           //Ablehnen eines erhaltenen Requests           
+  #rejectMembershipRequestURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`; 
+  #acceptMembershipRequestURL = (membership) => `${this.#AppServerBaseURL}/membership/${membership}`;            //Ablehnen eines erhaltenen Requests           
   #getGroupsOfPersonURL = () => `${this.#AppServerBaseURL}/membership/person`;                            //Gibt alle Gruppen einer Person zurück
 
 
   //Message related
-  #getMessagesURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/messages/${is_singlechat}/${thread_id}`;   //Gibt alle Messages eines Singlechats mit einer Person oder Gruppe zurück
-  #createMessageURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/messages/${is_singlechat}/${thread_id}`; //Erstellt eine Message
+  #getMessagesURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/message/${is_singlechat}/${thread_id}`;   //Gibt alle Messages eines Singlechats mit einer Person oder Gruppe zurück
+  #createMessageURL = (is_singlechat, thread_id, person, content) => `${this.#AppServerBaseURL}/message/${is_singlechat}/${thread_id}/${person}/${content}`; //Erstellt eine Message
 
 
    static getAPI() {
@@ -82,8 +86,8 @@ export default class AppAPI {
       return res.json();
   })
 
-  getPersons() {
-       return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+  getPersonId() {
+       return this.#fetchAdvanced(this.#getPersonIdURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(personBOs);
@@ -99,6 +103,15 @@ export default class AppAPI {
       })
     })
   }
+
+  getPotentialChats(){
+    return this.#fetchAdvanced(this.#getPotentialChatsURL()).then((responseJSON) => {
+       let personBOs = PersonBO.fromJSON(responseJSON);
+       return new Promise(function (resolve) {
+         resolve(personBOs);
+       })
+   })
+}
 
   addPerson(personBO) {
       return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -120,7 +133,7 @@ export default class AppAPI {
 
   deletePerson() {
     return this.#fetchAdvanced(this.#deletePersonURL(), {
-      method: 'DELETE',
+      method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -187,9 +200,9 @@ export default class AppAPI {
     })
   }
 
-  getGroups(id){
-    return this.#fetchAdvanced(this.#getGroupsURL(id)).then((responseJSON) => {
-      let groupBOs = MembershipBO.fromJSON(responseJSON);
+  getGroups(){
+    return this.#fetchAdvanced(this.#getGroupsURL()).then((responseJSON) => {
+      let groupBOs = GroupBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(groupBOs);
      })
@@ -210,14 +223,23 @@ export default class AppAPI {
  
   getGroupsOfaPerson() {
     return this.#fetchAdvanced(this.#getGroupsOfPersonURL()).then((responseJSON) => {
-        let groupBOs = ProfileBO.fromJSON(responseJSON);
+        let groupBOs = GroupBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(groupBOs);
        })
    })
-
 }
 
+	getPotentialPersonsForGroup(id) {
+  	return this.#fetchAdvanced(this.#getPotentialPersonForGroupURL(id))
+    .then((responseJSON) => {
+        let personBOs = PersonBO.fromJSON(responseJSON);
+        return new Promise(function(resolve){
+          resolve(personBOs);
+        })
+     })
+    }
+  
   getMembersOfGroup(id) {
     return this.#fetchAdvanced(this.#getMembersOfGroupURL(id))
    .  then((responseJSON) => {
@@ -228,8 +250,8 @@ export default class AppAPI {
     })
   }
 
-  sendRequest(sender, receiver){
-    return this.#fetchAdvanced(this.#sendSingleChatRequestURL(sender, receiver),{
+  sendRequest(receiver){
+    return this.#fetchAdvanced(this.#sendSingleChatRequestURL(receiver),{
       method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain',
@@ -243,14 +265,14 @@ export default class AppAPI {
     })
   }
 
-  createGroup(groupname, groupinfo, id) {
-    return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo, id), {
+  createGroup(groupname, groupinfo) {
+    return this.#fetchAdvanced(this.#createGroupURL(groupname, groupinfo), {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(groupname, groupinfo, id)
+      body: JSON.stringify(groupname, groupinfo)
     }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
@@ -315,11 +337,6 @@ export default class AppAPI {
   acceptReceivedRequest(chatroom) {
     return this.#fetchAdvanced(this.#acceptReceivedRequestURL(chatroom), {
         method: 'PUT',
-        headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-        },
-        body: JSON.stringify(chatroom)
       }).then((responseJSON) => {
         let responseChatroomBO = ChatroomBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
@@ -386,9 +403,9 @@ export default class AppAPI {
         })
     })
   }
-  
-  leaveGroup(group, person) {
-    return this.#fetchAdvanced(this.#leaveAGroupURL(group, person), {
+
+  leaveGroup(group) {
+    return this.#fetchAdvanced(this.#leaveAGroupURL(group), {
       method: 'DELETE'
       }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
@@ -398,9 +415,9 @@ export default class AppAPI {
     })
   }
 
-  getAllMembershipGroupRequests() {
-    return this.#fetchAdvanced(this.#getAllMembershipGroupRequestsURL()).then((responseJSON) => {
-        let groupBOs = GroupBO.fromJSON(responseJSON);
+  getAllMembershipGroupRequests(group) {
+    return this.#fetchAdvanced(this.#getAllMembershipGroupRequestsURL(group)).then((responseJSON) => {
+        let groupBOs = MembershipBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(groupBOs);
         })
@@ -416,15 +433,26 @@ export default class AppAPI {
       },
       body: JSON.stringify()
     }).then((responseJSON) => {
-      let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseGroupBO);
         })
     })
   }
 
-  rejectMembershipRequest(group) {
-    return this.#fetchAdvanced(this.#rejectMembershipRequestURL(group), {
+  acceptMembershipRequest(membership) {
+    return this.#fetchAdvanced(this.#acceptMembershipRequestURL(membership), {
+      method: 'PUT'
+      }).then((responseJSON) => {
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(responseGroupBO);
+      })
+    })
+  }
+
+  rejectMembershipRequest(group, person) {
+    return this.#fetchAdvanced(this.#rejectMembershipRequestURL(group, person), {
       method: 'DELETE'
       }).then((responseJSON) => {
       let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
@@ -444,16 +472,11 @@ export default class AppAPI {
     })
   }
 
-  createMessage(is_singlechat, thread_id) {
-    return this.#fetchAdvanced(this.#createMessageURL(is_singlechat, thread_id), {
+  createMessage(is_singlechat, thread_id, person, content) {
+    return this.#fetchAdvanced(this.#createMessageURL(is_singlechat, thread_id, person, content), {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(is_singlechat, thread_id)
     }).then((responseJSON) => {
-      let responseMessageBO = MessageBO.fromJSON(responseJSON)[0];
+      let responseMessageBO = MessageBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(responseMessageBO);
         })

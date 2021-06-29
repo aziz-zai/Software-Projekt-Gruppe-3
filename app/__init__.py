@@ -20,7 +20,7 @@ def create_app(config: BaseConfigs = BaseConfigs) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
     blueprint: Blueprint = Blueprint("api", __name__, url_prefix="/api")
-    CORS(app, resources=r'/api/*',supports_credentials=True)
+    CORS(app, resources=r'/api/*', supports_credentials=True)
     init_lazily(blueprint)
     app.register_blueprint(blueprint)
     init_routes()

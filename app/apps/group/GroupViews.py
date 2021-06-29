@@ -37,7 +37,7 @@ class GroupAPI(AuthView):
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self, group: int) -> dict:
-        """Create Person Endpoint."""
+        """Get a group."""
         Group = GroupAdministration.get_by_groupID(learning_group=group)
         return Group
 
@@ -57,5 +57,5 @@ class AllGroupAPI(AuthView):
     @api.expect(group_marshalling)
     def get(self) -> dict:
         """Get All Groups"""
-        groupList = GroupAdministration.get_all_groups()
+        groupList = GroupAdministration.get_all_groups(person=self.person.id_)
         return groupList

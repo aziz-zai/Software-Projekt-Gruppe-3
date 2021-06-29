@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle,
+MenuItem, Select, InputLabel, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { AppAPI, ProfileBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
@@ -130,6 +131,23 @@ class ProfileForm extends Component {
     this.props.onClose(null);
   }
 
+  handleOnlineChange = (event) => {
+    this.setState({online: event.target.value });
+  }
+
+  handleFrequencyChange = (event) => {
+    this.setState({frequency: event.target.value });
+  }
+
+  handleTypeChange = (event) => {
+    this.setState({type: event.target.value });
+  }
+
+  handleExtroversionChange = (event) => {
+    this.setState({extroversion: event.target.value });
+  }
+
+
   /** Renders the component */
   render() {
     const { classes, profile, show } = this.props;
@@ -166,35 +184,62 @@ class ProfileForm extends Component {
             <form className={classes.root} noValidate autoComplete='off'>
               <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='Firstname:' value={firstName} 
                 onChange={this.textFieldValueChange} error={firstNameValidationFailed} 
-                helperText={firstNameValidationFailed ? 'The first name must contain at least one character' : ' '} />
+                helperText={firstNameValidationFailed ? 'The firstname must contain at least one character' : ' '} />
 
               <TextField type='text' required fullWidth margin='normal' id='lastName' label='Lastname:' value={lastName}
                 onChange={this.textFieldValueChange} error={lastNameValidationFailed}
-                helperText={lastNameValidationFailed ? 'The last name must contain at least one character' : ' '} />
+                helperText={lastNameValidationFailed ? 'The lastname must contain at least one character' : ' '} />
 
-              <TextField type='text' required fullWidth margin='normal' id='interests' label='Interests:' value={interests}
+              <TextField type='text' required fullWidth margin='normal' id='interests' label='Personal interests:' value={interests}
                 onChange={this.textFieldValueChange} error={interestsValidationFailed}
                 helperText={interestsValidationFailed ? 'The interests must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='type' label='Learning type:' value={type}
-                onChange={this.textFieldValueChange} error={typeValidationFailed}
-                helperText={typeValidationFailed ? 'The Type must contain at least one character' : ' '} />
+              <InputLabel className={classes.label} id='type'>Choose your learning type</InputLabel>
+              <Select labelId='type-label' id='type' value={type} onChange={this.handleTypeChange}>
+                <MenuItem value='visually'>visually</MenuItem>
+                <MenuItem value='auditory'>auditory</MenuItem>
+                <MenuItem value='kinaesthetic'>kineasthic</MenuItem>
+                <MenuItem value='reading/writing'>reading/writing</MenuItem>
+              </Select>
+              <br /> 
+              <br />
+              <br /> 
               
-              <TextField type='text' required fullWidth margin='normal' id='online' label='Online preference:' value={online}
-                onChange={this.textFieldValueChange} error={onlineValidationFailed}
-                helperText={onlineValidationFailed ? 'Online must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='frequency' label='Learning frequency:' value={frequency}
-                onChange={this.textFieldValueChange} error={frequencyValidationFailed}
-                helperText={frequencyValidationFailed ? 'The Frequency must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Personal competencies:' value={expertise}
+              <InputLabel className={classes.label} id='online'>Do you prefer online or offline learning?</InputLabel>
+              <Select labelId='online-label' id='online' value={online} onChange={this.handleOnlineChange}>
+                <MenuItem value='true'>online</MenuItem>
+                <MenuItem value='false'>offline</MenuItem>
+              </Select>
+              <br /> 
+              <br /> 
+              <br />
+
+              <InputLabel className={classes.label} id='frequency'>How many times do you want to study per week?</InputLabel>
+              <Select labelId='frequency-label' id='frequency' value={frequency} onChange={this.handleFrequencyChange}>
+                <MenuItem value='1'>1</MenuItem>
+                <MenuItem value='2'>2</MenuItem>
+                <MenuItem value='3'>3</MenuItem>
+                <MenuItem value='4'>4</MenuItem>
+                <MenuItem value='5'>5</MenuItem>
+              </Select>
+              <br /> 
+              <br /> 
+            
+              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Competency fields:' value={expertise}
                 onChange={this.textFieldValueChange} error={expertiseValidationFailed}
-                helperText={expertiseValidationFailed ? 'The Expertise must contain at least one character' : ' '} />
+                helperText={expertiseValidationFailed ? 'The Competency field must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='extroversion' label='Personality trait:' value={extroversion}
-                onChange={this.textFieldValueChange} error={extroversionValidationFailed}
-                helperText={extroversionValidationFailed ? 'The Extroversion must contain at least one character' : ' '} />
+              <InputLabel className={classes.label} id='extroversion'>Choose your personality trait</InputLabel>
+              <Select labelId='extroversion-label' id='extroversion' value={extroversion} onChange={this.handleExtroversionChange}>
+                <MenuItem value='Conscientiousness'>Conscientiousness</MenuItem>
+                <MenuItem value='Extraversion'>Extraversion</MenuItem>
+                <MenuItem value='Agreeableness'>Agreeableness</MenuItem>
+                <MenuItem value='Neuroticism'>Neuroticism</MenuItem>
+                <MenuItem value='Openness'>Openness</MenuItem>
+              </Select>
+              <br /> 
+              <br />
+              <br />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
@@ -210,20 +255,14 @@ class ProfileForm extends Component {
               Cancel
             </Button>
             {
-              // If a customer is given, show an update button, else an add button
               profile ?
                 <Button disabled={firstNameValidationFailed || lastNameValidationFailed  || personValidationFailed || interestsValidationFailed || 
                 typeValidationFailed || onlineValidationFailed || frequencyValidationFailed || expertiseValidationFailed || extroversionValidationFailed} 
                 variant='contained' onClick={this.updateProfile} color='primary'>
                   Update
-              </Button>
-                : <Button disabled={firstNameValidationFailed || !firstNameEdited || lastNameValidationFailed || !lastNameEdited ||
-                personValidationFailed || !personEdited || interestsValidationFailed || !interestsEdited || typeValidationFailed || !typeEdited ||
-                onlineValidationFailed || !onlineEdited || frequencyValidationFailed || !frequencyEdited || expertiseValidationFailed || !expertiseEdited ||
-                extroversionValidationFailed || !extroversionEdited} variant='contained' onClick={this.addProfile} color='primary'>
-                  Add
-             </Button>
-            }
+                </Button>
+                :null
+              }
           </DialogActions>
         </Dialog>
         : null

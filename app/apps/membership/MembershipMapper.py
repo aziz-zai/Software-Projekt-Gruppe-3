@@ -57,14 +57,14 @@ class MembershipMapper(Mapper):
 
         return result
 
-    def find_all_requests(cnx: db_connector, person: int):
+    def find_all_requests(cnx: db_connector, learning_group: int):
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
             SELECT id, learning_group, person, is_open, is_accepted, timestamp from `mydb`.`membership`
-            WHERE person=%s AND is_open=%s AND is_accepted=%s
+            WHERE learning_group=%s AND is_open=%s AND is_accepted=%s
         """
-        cursor.execute(command, (person, True, False))
+        cursor.execute(command, (learning_group, True, False))
         tuples = cursor.fetchall()
 
         for(id, learning_group, person, is_open, is_accepted, timestamp) in tuples:
@@ -104,33 +104,42 @@ class MembershipMapper(Mapper):
         object.id_ = max_id
         return object
 
-    def update(object):
-        pass
+    def update_membership(cnx: db_connector, membership: int):
+        cursor = cnx.cursor(buffered=True)
+
+        command = """UPDATE membership
+            SET is_accepted=TRUE, is_open=FALSE
+            WHERE id=%s
+            """
+        cursor.execute(command, (membership,))
+
+        cnx.commit()
+        cursor.close()
 
     def delete_membership(cnx: db_connector, learning_group: int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership
-            WHERE person=%s AND learning_group=%s AND is_open=%s AND is_accepted=%s
+            WHERE person=%s AND learning_group=%s
         """
 
         try:
-            cursor.execute(command, (person, learning_group, False, True))
+            cursor.execute(command, (person, learning_group))
         except Exception:
             print("Member does not exist!")
 
         cnx.commit()
         cursor.close()
 
-    def delete_membership_request(cnx: db_connector, learning_group: int, person: int):
+    def delete_own_membership(cnx: db_connector, learning_group: int, person: int):
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership
-            WHERE person=%s AND learning_group=%s AND is_open=%s AND is_accepted=%s
+            WHERE person=%s AND learning_group=%s
         """
 
         try:
-            cursor.execute(command, (person, learning_group, True, False))
+            cursor.execute(command, (person, learning_group))
         except Exception:
             print("Member does not exist!")
 

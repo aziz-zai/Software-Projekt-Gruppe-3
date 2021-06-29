@@ -21,6 +21,12 @@ class MembershipAdministration:
             )
             return MembershipMapper.insert(cnx=cnx, object=membership)
 
+    def accept_request(membership: int) -> MembershipObject:
+        """Insert Gruppengründer."""
+        with db_connector as db:
+            cnx = db._cnx
+            return MembershipMapper.update_membership(cnx=cnx, membership=membership)
+
     @staticmethod
     def invite_membership(learning_group: int, person: int):
         with db_connector as db:
@@ -50,13 +56,13 @@ class MembershipAdministration:
             return MembershipMapper.delete_membership(cnx=cnx, learning_group=learning_group, person=person)
 
     @staticmethod
-    def delete_membership_request(learning_group: int, person: int):
+    def delete_own_membership(learning_group: int, person: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.delete_membership_request(cnx=cnx, learning_group=learning_group, person=person)
+            return MembershipMapper.delete_own_membership(cnx=cnx, learning_group=learning_group, person=person)
 
     @staticmethod
-    def get_all_requests(person: int):
+    def get_all_requests(learning_group: int):
         with db_connector as db:
             cnx=db._cnx
-            return MembershipMapper.find_all_requests(cnx=cnx, person=person)
+            return MembershipMapper.find_all_requests(cnx=cnx, learning_group=learning_group)
