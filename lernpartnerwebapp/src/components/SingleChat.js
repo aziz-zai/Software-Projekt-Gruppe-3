@@ -116,15 +116,19 @@ class SingleChats extends Component {
       );
   }
 
+handleMessages = () => {
+  (this.props.chatroom) ?
+  this.getMessages()
+  : clearInterval(this.interval)
+}
+
 
   componentDidMount() {
     this.getPerson();
     this.getProfile();
-    this.interval = setInterval(() => this.getMessages(), 1000);
+    this.interval = setInterval(() => this.handleMessages(), 1000);
   }
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+
 
   render() {
     const {loadingInProgress, messages, content} = this.state;
