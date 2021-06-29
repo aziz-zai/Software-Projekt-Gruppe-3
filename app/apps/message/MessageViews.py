@@ -13,23 +13,26 @@ namespace = api.namespace(
 )
 
 
-@namespace.route("/<int:is_singlechat>/<int:thread_id>")
+@namespace.route("/<int:is_singlechat>/<int:thread_id>/<int:person>/<string:content>")
 class MessageAPI(AuthView):
     """Basic API for message."""
 
     @api.marshal_with(message_marshalling, code=201)
-    @api.expect(message_create_marshalling, validate=True)
-    def post(self, is_singlechat: int, thread_id: int) -> dict:
+    @api.expect(message_marshalling)
+    def post(self, is_singlechat: int, thread_id: int, person: int, content: str) -> dict:
         """Create Message Endpoint."""
         message = MessageObject(
             thread_id=thread_id,
             is_singlechat=bool(is_singlechat),
-            sender=self.person.id_,
-            **api.payload
+            sender=person,
+            content=content,
         )
         message = MessageAdministration.insert_message(message=message)
         return message
 
+
+@namespace.route("/<int:is_singlechat>/<int:thread_id>")
+class GetMessageAPI(AuthView):
     @api.marshal_with(message_marshalling)
     def get(self, is_singlechat: int, thread_id: int):
         """Get Messages of a singlechat or groupchat"""

@@ -271,7 +271,7 @@ class ProfileDetail extends Component {
         </Button> 
         : null
         }
-        <SingleChat person={this.props.person} onClose={this.closeChat} showChat={showChatComponent}></SingleChat>
+        <SingleChat chatroom={this.props.chatID} person={this.props.person} onClose={this.closeChat} showChat={showChatComponent}></SingleChat>
         {
         this.props.received ?
         <div>
@@ -343,6 +343,7 @@ ProfileDetail.propTypes = {
   showGroupDetail: PropTypes.any,
   groupRequest: PropTypes.any,
   showChat: PropTypes.any,
+  chatID: PropTypes.any,
 }
 
 export default withStyles(styles)(ProfileDetail);

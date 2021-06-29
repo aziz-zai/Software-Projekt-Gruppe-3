@@ -16,7 +16,7 @@ export default class AppAPI {
   #AppServerBaseURL = 'http://localhost:5000/api'
 
   //Person related
-  #getPersonsURL = () => `${this.#AppServerBaseURL}/person`;
+  #getPersonIdURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
   #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
@@ -67,8 +67,8 @@ export default class AppAPI {
 
 
   //Message related
-  #getMessagesURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/messages/${is_singlechat}/${thread_id}`;   //Gibt alle Messages eines Singlechats mit einer Person oder Gruppe zurück
-  #createMessageURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/messages/${is_singlechat}/${thread_id}`; //Erstellt eine Message
+  #getMessagesURL = (is_singlechat, thread_id) => `${this.#AppServerBaseURL}/message/${is_singlechat}/${thread_id}`;   //Gibt alle Messages eines Singlechats mit einer Person oder Gruppe zurück
+  #createMessageURL = (is_singlechat, thread_id, person, content) => `${this.#AppServerBaseURL}/message/${is_singlechat}/${thread_id}/${person}/${content}`; //Erstellt eine Message
 
 
    static getAPI() {
@@ -86,8 +86,8 @@ export default class AppAPI {
       return res.json();
   })
 
-  getPersons() {
-       return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+  getPersonId() {
+       return this.#fetchAdvanced(this.#getPersonIdURL()).then((responseJSON) => {
           let personBOs = PersonBO.fromJSON(responseJSON);
           return new Promise(function (resolve) {
             resolve(personBOs);
@@ -472,16 +472,11 @@ export default class AppAPI {
     })
   }
 
-  createMessage(is_singlechat, thread_id) {
-    return this.#fetchAdvanced(this.#createMessageURL(is_singlechat, thread_id), {
+  createMessage(is_singlechat, thread_id, person, content) {
+    return this.#fetchAdvanced(this.#createMessageURL(is_singlechat, thread_id, person, content), {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(is_singlechat, thread_id)
     }).then((responseJSON) => {
-      let responseMessageBO = MessageBO.fromJSON(responseJSON)[0];
+      let responseMessageBO = MessageBO.fromJSON(responseJSON);
       return new Promise(function (resolve) {
         resolve(responseMessageBO);
         })
