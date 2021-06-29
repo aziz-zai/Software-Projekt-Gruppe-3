@@ -144,9 +144,9 @@ handleMessages = () => {
           {console.log('sender',this.state.person, messages, content)}
         <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
          <DialogTitle id='delete-dialog-title'>{this.state.profile.firstname}
-           <IconButton  onClick={this.handleClose}>
+           <div align="right"><IconButton  onClick={this.handleClose}>
              <CloseIcon />
-           </IconButton>
+           </IconButton></div>
          </DialogTitle>
          <DialogContent>{
            messages.map(message => (message.sender == this.state.person.id_ ) ?
