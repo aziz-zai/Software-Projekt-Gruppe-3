@@ -42,7 +42,7 @@ class PartnerChats extends Component {
   }
 
   getPerson = () => {
-    AppAPI.getAPI().getPerson().then((person) => {
+    AppAPI.getAPI().getPersonId().then((person) => {
       this.setState({
         person: person[0],
         loadingInProgress: false,

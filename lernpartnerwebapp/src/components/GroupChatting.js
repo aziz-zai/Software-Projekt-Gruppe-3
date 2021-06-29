@@ -1,29 +1,15 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Paper, ListItem, ButtonGroup, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
-import { Button} from '@material-ui/core';
-import { AppAPI} from '../api';
-import LoadingProgress from './dialogs/LoadingProgress';
+import { withStyles, Button, Paper,Box, TextField, InputAdornment, IconButton, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import ProfileBO from '../api/ProfileBO';
-import ProfileForm from './dialogs/ProfileForm';
-import SaveIcon from '@material-ui/icons/Save';
+import LoadingProgress from './dialogs/LoadingProgress';
+import ProfileDetail from './ProfileDetail';
 import CloseIcon from '@material-ui/icons/Close';
-import PersonBO from '../api/PersonBO'
-import ProfileDetail from './ProfileDetail'
+import SendIcon from '@material-ui/icons/Send';
 
-/**
- * Shows the header with the main navigation Tabs within a Paper.
- * 
- * @see See Material-UIs [Tabs](https://material-ui.com/components/tabs/)
- * @see See Material-UIs [Paper](https://material-ui.com/components/paper/)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
+/** Shows all profiles of the app*/
 class GroupChatting extends Component {
 
   constructor(props) {
@@ -31,40 +17,148 @@ class GroupChatting extends Component {
 
     // Init an empty state
     this.state = {
-        loadingInProgress: false,
+      loadingInProgress: false,
+      singleChatBool: 0,
+      messages: [],
+      person: [],
+      profile: [],
+      content: null,
     };
   }
 
-
+  /** handleClose */
   handleClose = () => {
     this.props.onClose(null);
   }
-  componentDidMount(){
 
+  textFieldValueChange = (event) => {
+    const value = event.target.value;
+
+    let error = false;
+    if (value.trim().length === 0) {
+      error = true;
+    }
+
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
   }
-  /** Renders the component */
+
+  getPerson = () => {
+    AppAPI.getAPI().getPersonId().then(person =>
+      this.setState({
+        person: person[0],
+        loadingInProgress: false, // loading indicator 
+
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  getProfile = () => {
+    AppAPI.getAPI().getProfileForPerson(this.props.person)
+    .then((profileBO) => {
+      this.setState({  // Set new state when ProfileBOs have been fetched
+        profile: profileBO[0],
+        loadingInProgress: false, // loading indicator 
+        loadingProfileError: null
+      })}
+      )
+      .catch((e) =>
+        this.setState({
+          profile: [],
+          loadingInProgress: false,
+          loadingProfileError: e,
+        })
+      );
+    this.setState({
+      loadingInProgress: true,
+      loadingProfileError: null
+    });
+  }
+
+  sendMessage = () => {
+    AppAPI.getAPI().createMessage(this.state.singleChatBool,this.props.group.id_,this.state.person.id_, this.state.content).then(content =>
+      this.setState({
+        loadingInProgress: false, // loading indicator 
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+        })
+      );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  getMessages = () => {
+    AppAPI.getAPI().getMessages(this.state.singleChatBool,this.props.group.id_).then(content =>
+      this.setState({
+        messages: content,
+        loadingInProgress: false, // loading indicator 
+
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch 
+          loadingInProgress: false,
+        })
+      );
+  }
+
+handleMessages = () => {
+  (this.props.group) ?
+  this.getMessages()
+  : clearInterval(this.interval)
+}
+
+
+  componentDidMount() {
+    this.getPerson();
+    this.interval = setInterval(() => this.handleMessages(), 1000);
+  }
+
+
   render() {
-    const {loadingInProgress} = this.state;
-    const { showChat} = this.props;
+    const {loadingInProgress, messages, content} = this.state;
+    const { showChat, classes} = this.props;
+
 
     return (
+
       <div>
 
     {showChat ?
         <div>
-        <Dialog open={showChat} onClose={this.handleClose}>
-         <DialogTitle id='delete-dialog-title'>Groupname
-           <IconButton onClick={this.handleClose}>
+          {console.log('sender',this.state.person, messages, content)}
+        <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
+         <DialogTitle id='delete-dialog-title'>{this.props.group.groupname}
+           <div align="right"><IconButton  onClick={this.handleClose}>
              <CloseIcon />
-           </IconButton>
+           </IconButton></div>
          </DialogTitle>
-         <DialogContent>
-            Test
+         <DialogContent>{
+           messages.map(message => (message.sender == this.state.person.id_ ) ?
+           (<div align="right"><Paper className={classes.root}>{message.content}</Paper><br></br></div>)
+            :
+            (<div><Paper className={classes.message}>{message.content}</Paper><br></br></div>)
+            ) }
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
-           <Button onClick={this.handleClose} size='small' color='secondary'>
-             Cancel
+          <TextField autoFocus type='text' required fullWidth margin='normal' id='content' value={content} 
+                onChange={this.textFieldValueChange} />
+           <Button type="submit" variant='contained'  size='small' onClick={this.sendMessage} startIcon={<SendIcon></SendIcon>} color='secondary'>
+             Send
            </Button>
          </DialogActions>
        </Dialog>
@@ -73,16 +167,34 @@ class GroupChatting extends Component {
 
 
      </div>
-    )
+
+    );
   }
 }
 
+const styles = theme => ({
+  root: {
+    width: '45%',
+    background: "#99cfff",
+  },
+  message: {
+    width: '45%',
+    background: "#e0ebeb",
+  },
+  paper: {
+    minWidth: "500px",
+    height: '500px'
+  }
+});
 
 GroupChatting.propTypes = {
-
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   showChat: PropTypes.bool,
   onClose: PropTypes.func,
   group: PropTypes.any,
 }
 
-export default GroupChatting;
+export default withStyles(styles)(GroupChatting
+);

@@ -89,7 +89,7 @@ class SingleChats extends Component {
     AppAPI.getAPI().createMessage(this.state.singleChatBool,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, // loading indicator 
-        content: "",
+
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           loadingInProgress: false,
@@ -141,7 +141,7 @@ handleMessages = () => {
 
     {showChat ?
         <div>
-          {console.log('sender',this.state.person, messages, content)}
+          {console.log('sender',this.state.person, messages, content, this.state.profile)}
         <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
          <DialogTitle id='delete-dialog-title'>{this.state.profile.firstname}
            <div align="right"><IconButton  onClick={this.handleClose}>

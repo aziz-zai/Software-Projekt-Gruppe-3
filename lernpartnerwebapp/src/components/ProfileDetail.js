@@ -94,6 +94,7 @@ class ProfileDetail extends Component {
       this.setState({
         loadingInProgress: false,
         loadingError: null,
+        requestSent: true,
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           loadingInProgress: false,
@@ -261,7 +262,7 @@ class ProfileDetail extends Component {
         {
         this.state.requestSent ?
         <Button color='primary' startIcon={<CheckCircleIcon></CheckCircleIcon>}>
-        </Button> 
+        </Button>
         : null
         }
 
