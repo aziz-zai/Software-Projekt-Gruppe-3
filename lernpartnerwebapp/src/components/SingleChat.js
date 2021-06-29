@@ -152,7 +152,7 @@ handleMessages = () => {
            messages.map(message => (message.sender == this.state.person.id_ ) ?
            (<div align="right"><Paper className={classes.root}>{message.content}</Paper><br></br></div>)
             :
-            (<div><Paper className={classes.root}>{message.content}</Paper><br></br></div>)
+            (<div><Paper className={classes.message}>{message.content}</Paper><br></br></div>)
             ) }
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
@@ -177,6 +177,11 @@ handleMessages = () => {
 const styles = theme => ({
   root: {
     width: '45%',
+    background: "#99cfff",
+  },
+  message: {
+    width: '45%',
+    background: "#e0ebeb",
   },
   paper: {
     minWidth: "500px",
