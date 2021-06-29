@@ -89,7 +89,7 @@ class SingleChats extends Component {
     AppAPI.getAPI().createMessage(this.state.singleChatBool,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, // loading indicator 
-
+        content: "",
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           loadingInProgress: false,
@@ -120,7 +120,7 @@ class SingleChats extends Component {
   componentDidMount() {
     this.getPerson();
     this.getProfile();
-    this.interval = setInterval(() => this.getMessages(), 2000);
+    this.interval = setInterval(() => this.getMessages(), 1000);
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -153,9 +153,9 @@ class SingleChats extends Component {
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
-         <TextField autoFocus type='text' required fullWidth margin='normal' id='content' value={content} 
+          <TextField autoFocus type='text' required fullWidth margin='normal' id='content' value={content} 
                 onChange={this.textFieldValueChange} />
-           <Button variant='contained'  size='small' onClick={this.sendMessage} startIcon={<SendIcon></SendIcon>} color='secondary'>
+           <Button type="submit" variant='contained'  size='small' onClick={this.sendMessage} startIcon={<SendIcon></SendIcon>} color='secondary'>
              Send
            </Button>
          </DialogActions>
