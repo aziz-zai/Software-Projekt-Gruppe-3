@@ -23,12 +23,16 @@ class GroupChatting extends Component {
       person: [],
       profile: [],
       content: null,
+      loop: true,
     };
   }
 
   /** handleClose */
   handleClose = () => {
     this.props.onClose(null);
+    this.setState({
+      loop: false,
+    })
   }
 
   textFieldValueChange = (event) => {
@@ -106,7 +110,8 @@ class GroupChatting extends Component {
     AppAPI.getAPI().getMessages(this.state.singleChatBool,this.props.group.id_).then(content =>
       this.setState({
         messages: content,
-        loadingInProgress: false, // loading indicator 
+        loadingInProgress: false,
+        loop:true // loading indicator 
 
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
@@ -115,11 +120,13 @@ class GroupChatting extends Component {
       );
   }
 
-handleMessages = () => {
-  (this.props.group) ?
-  this.getMessages()
-  : clearInterval(this.interval)
-}
+  handleMessages = () => {
+    (this.state.showChat) ?
+    this.getMessages()
+    : (this.state.loop) ?
+    this.getMessages()
+    : clearInterval(this.interval)
+  }
 
 
   componentDidMount() {

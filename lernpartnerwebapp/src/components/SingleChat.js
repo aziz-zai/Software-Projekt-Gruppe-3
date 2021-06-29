@@ -23,12 +23,17 @@ class SingleChats extends Component {
       person: [],
       profile: [],
       content: null,
+      loop:true,
+
     };
   }
 
   /** handleClose */
   handleClose = () => {
     this.props.onClose(null);
+    this.setState({
+      loop: false,
+    })
   }
 
   textFieldValueChange = (event) => {
@@ -107,7 +112,8 @@ class SingleChats extends Component {
     AppAPI.getAPI().getMessages(this.state.singleChatBool,this.props.chatroom).then(content =>
       this.setState({
         messages: content,
-        loadingInProgress: false, // loading indicator 
+        loadingInProgress: false,
+        loop:true // loading indicator 
 
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
@@ -117,7 +123,9 @@ class SingleChats extends Component {
   }
 
 handleMessages = () => {
-  (this.props.chatroom) ?
+  (this.state.showChat) ?
+  this.getMessages()
+  : (this.state.loop) ?
   this.getMessages()
   : clearInterval(this.interval)
 }
@@ -141,7 +149,7 @@ handleMessages = () => {
 
     {showChat ?
         <div>
-          {console.log('sender',this.state.person, messages, content, this.state.profile)}
+          {console.log('sender',this.state.person, messages, content, this.state.profile, this.props.showChat)}
         <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
          <DialogTitle id='delete-dialog-title'>{this.state.profile.firstname}
            <div align="right"><IconButton  onClick={this.handleClose}>
