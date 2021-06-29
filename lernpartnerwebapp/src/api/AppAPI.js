@@ -37,7 +37,7 @@ export default class AppAPI {
   #sendSingleChatRequestURL = (receiver) => `${this.#AppServerBaseURL}/chatroom/receiver/${receiver}`;           //Sendet einen Singlechatrequest 
   #getAllReceivedRequestsURL = () => `${this.#AppServerBaseURL}/chatroom/open_received_requests`;             //Gibt alle noch offene erhaltene Requests aus
   #getAllSentRequestsURL = () => `${this.#AppServerBaseURL}/chatroom/open_sent_requests`;                     //Gibt alle noch offene gesendete Requests aus     
-  #acceptReceivedRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/accept_requests/${chatroom}`; //Akzeptieren eines erhaltenen Requests           
+  #acceptReceivedRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/accept_request/${chatroom}`; //Akzeptieren eines erhaltenen Requests           
   #deleteSingleChatURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/chatroom_to_delete/${chatroom}`;   //Löschen eines Singlechats           
   #deleteSentRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/delete_sent/${chatroom}`;         //Löschen eines gesendeten Requests           
   #deleteReceivedRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/delete_received/${chatroom}`; //Löschen eines erhaltenen Requests           
