@@ -121,17 +121,16 @@ class GroupChatting extends Component {
   }
 
   handleMessages = () => {
-    (this.state.showChat) ?
+    (this.props.showChat) ?
     this.getMessages()
     : (this.state.loop) ?
     this.getMessages()
     : clearInterval(this.interval)
   }
 
-
   componentDidMount() {
     this.getPerson();
-    this.interval = setInterval(() => this.handleMessages(), 1000);
+    this.interval = setInterval(() => this.handleMessages(), 3000);
   }
 
 
@@ -155,9 +154,12 @@ class GroupChatting extends Component {
          </DialogTitle>
          <DialogContent>{
            messages.map(message => (message.sender == this.state.person.id_ ) ?
-           (<div align="right"><Paper className={classes.root}>{message.content}</Paper><br></br></div>)
+           (<div align="right">
+           <Paper className={classes.root}>{message.content}</Paper><br></br></div>)
             :
-            (<div><Paper className={classes.message}>{message.content}</Paper><br></br></div>)
+            (<div>
+              <ProfileDetail showFirstnameInGroupChat={true} person={message.sender}> </ProfileDetail>
+              <Paper className={classes.message}>{message.content}</Paper><br></br></div>)
             ) }
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>

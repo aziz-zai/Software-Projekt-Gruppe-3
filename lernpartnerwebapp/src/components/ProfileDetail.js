@@ -213,6 +213,11 @@ class ProfileDetail extends Component {
     const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent} = this.state;
 
     return (
+      this.props.showFirstnameInGroupChat ?
+      <div>
+        {profile.firstname}
+      </div>
+      : 
       show ?
       <div>
         
@@ -221,7 +226,6 @@ class ProfileDetail extends Component {
         {profile.firstname} {profile.lastname} &nbsp;
         <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
         </Button>&nbsp; &nbsp;
-
         {
         notAddedStatus ?
         this.props.showGroupDetail ?
@@ -317,6 +321,7 @@ class ProfileDetail extends Component {
       </Paper>
       </div>
       : null
+
     );
   }
 }
@@ -345,6 +350,7 @@ ProfileDetail.propTypes = {
   groupRequest: PropTypes.any,
   showChat: PropTypes.any,
   chatID: PropTypes.any,
+  showFirstnameInGroupChat: ProfileDetail.any,
 }
 
 export default withStyles(styles)(ProfileDetail);

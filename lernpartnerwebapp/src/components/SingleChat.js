@@ -123,7 +123,7 @@ class SingleChats extends Component {
   }
 
 handleMessages = () => {
-  (this.state.showChat) ?
+  (this.props.showChat) ?
   this.getMessages()
   : (this.state.loop) ?
   this.getMessages()
@@ -134,7 +134,7 @@ handleMessages = () => {
   componentDidMount() {
     this.getPerson();
     this.getProfile();
-    this.interval = setInterval(() => this.handleMessages(), 1000);
+    this.interval = setInterval(() => this.handleMessages(), 3000);
   }
 
 
