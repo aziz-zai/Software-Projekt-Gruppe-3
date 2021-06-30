@@ -88,7 +88,7 @@ class Matchmaking extends Component {
             <div>
               {
             personList.map(person => 
-            <ProfileDetail key={person.id_} person={person.id_} //expandedState={expandedProfileID === profile.getID()}
+            <ProfileDetail personList={true} key={person.id_} person={person.id_} //expandedState={expandedProfileID === profile.getID()}
             />)
 
               }
@@ -96,7 +96,7 @@ class Matchmaking extends Component {
 
             {
             groupList.map(group =>
-            <GroupDetail key={group.id_} learngroup={group} //expandedState={expandedProfileID === profile.getID()}
+            <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //expandedState={expandedProfileID === profile.getID()}
             />)
 
               }
