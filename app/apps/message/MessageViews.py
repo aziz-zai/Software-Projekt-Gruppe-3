@@ -1,9 +1,11 @@
+from os import times
 from dns.tsig import validate
 from app.apps.core.auth import AuthView
 from app.configs.base import api
 from .MessageMarshalling import message_marshalling, message_create_marshalling
 from .MessageBO import MessageObject
 from .MessageAdministration import MessageAdministration
+from datetime import datetime
 
 
 
@@ -18,7 +20,6 @@ class MessageAPI(AuthView):
     """Basic API for message."""
 
     @api.marshal_with(message_marshalling, code=201)
-    @api.expect(message_marshalling)
     def post(self, is_singlechat: int, thread_id: int, person: int, content: str) -> dict:
         """Create Message Endpoint."""
         message = MessageObject(
@@ -26,6 +27,7 @@ class MessageAPI(AuthView):
             is_singlechat=bool(is_singlechat),
             sender=person,
             content=content,
+            timestamp=datetime.now(),
         )
         message = MessageAdministration.insert_message(message=message)
         return message

@@ -10,7 +10,7 @@ class MessageMapper(Mapper):
         command = """
             SELECT id, content, sender, thread_id, is_singlechat, timestamp FROM message
             WHERE thread_id = %s AND is_singlechat = %s
-            ORDER BY timestamp DESC
+            ORDER BY timestamp ASC
         """
         cursor.execute(command, (thread_id, is_singlechat))
         tuples = cursor.fetchall()

@@ -93,6 +93,7 @@ class SingleChats extends Component {
     AppAPI.getAPI().createMessage(1,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, // loading indicator 
+        content: ""
 
       })).catch(e =>
         this.setState({ // Reset state with error from catch 

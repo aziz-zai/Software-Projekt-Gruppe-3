@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class MembershipObject(BusinessObject):
-    def __init__(self, learning_group: int, person: int, timestamp: datetime = datetime.now(),
+    def __init__(self, learning_group: int, person: int, timestamp: datetime,
                  id_: int = 0, is_open: bool = True, is_accepted: bool = False):
         self.learning_group = learning_group
         self.person = person

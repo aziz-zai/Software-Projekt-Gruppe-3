@@ -7,6 +7,7 @@ from .MembershipAdministration import MembershipAdministration
 from app.apps.person.PersonAdministration import PersonAdministration
 from app.apps.profile.ProfileAdministration import ProfileAdministration
 from app.apps.core.auth import AuthView
+from datetime import datetime
 
 
 namespace = api.namespace(
@@ -53,7 +54,8 @@ class MembershipGroupPersonAPI(AuthView):
         """ Person der Gruppe hinzufügen"""
         membership = MembershipAdministration.insert_membership(
             learning_group=group,
-            person=person
+            person=person,
+            timestamp=datetime.now()
         )
         return membership
 
