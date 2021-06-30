@@ -48,8 +48,6 @@ class ProfileAdministration:
         for profile in profileList:
             if profile.person != person:
                 value = 0
-                if profile.interests == myProfile.interests:
-                    value += 1
                 if profile.type_ == myProfile.type_:
                     value += 1
                 if profile.online == myProfile.online:
@@ -62,7 +60,7 @@ class ProfileAdministration:
                     value += 1
                 else:
                     value += 0
-                value = value/6*100
+                value = value/5*100
                 if value >= 50:
                     result.append(profile)
 
@@ -71,7 +69,7 @@ class ProfileAdministration:
 
         with db_connector as db:
             cnx = db._cnx
-            all_groups = GroupMapper.find_all(cnx=cnx)
+            all_groups = GroupMapper.find_all(cnx=cnx, person=myProfile.id_)
 
         for group in all_groups:
             with db_connector as db:
