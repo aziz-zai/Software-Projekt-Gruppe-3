@@ -139,7 +139,7 @@ class PersonMapper(Mapper):
             WHERE learning_group = %s
         )
         """
-        cursor.execute(command, (person, person, person))
+        cursor.execute(command, (person,))
         tuples = cursor.fetchall()
 
         for (id, email, google_user_id) in tuples:
