@@ -198,7 +198,6 @@ class ProfileForm extends Component {
               <Select labelId='type-label' id='type' value={type} onChange={this.handleTypeChange}>
                 <MenuItem value='visually'>visually</MenuItem>
                 <MenuItem value='auditory'>auditory</MenuItem>
-                <MenuItem value='kinaesthetic'>kineasthic</MenuItem>
                 <MenuItem value='reading/writing'>reading/writing</MenuItem>
               </Select>
               <br /> 
