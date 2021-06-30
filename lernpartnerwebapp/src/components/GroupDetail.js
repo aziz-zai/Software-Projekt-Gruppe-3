@@ -12,6 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChatIcon from '@material-ui/icons/Chat';
 import GroupChatting from './GroupChatting'
+import GroupIcon from '@material-ui/icons/Group';
 
 class GroupDetail extends Component {
 
@@ -90,7 +91,7 @@ class GroupDetail extends Component {
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
           {this.props.learngroup.groupname}
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.GroupInfo} >
+        <Button  color='primary' startIcon={<GroupIcon/>} onClick={this.GroupInfo} >
         </Button>
         {this.props.showLeaveGroup ?
           <Button   color='primary' startIcon={<CancelIcon/>} onClick={this.leaveGroup} >
