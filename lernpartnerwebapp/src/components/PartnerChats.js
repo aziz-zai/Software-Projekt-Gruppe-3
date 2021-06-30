@@ -62,7 +62,7 @@ class PartnerChats extends Component {
     });
   }
   getReceivedRequests = () => {
-    AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
+    AppAPI.getAPI().getAllReceivedRequests(this.state.person.id_).then((requests) => {
       this.setState({
         requestList: requests,
         loadingInProgress: false,
@@ -80,7 +80,7 @@ class PartnerChats extends Component {
   }
 
   getSentRequests = () => {
-    AppAPI.getAPI().getAllSentRequests().then((requests) => {
+    AppAPI.getAPI().getAllSentRequests(this.state.person.id_).then((requests) => {
       this.setState({
         sentList: requests ,
         loadingInProgress: false,
@@ -100,7 +100,7 @@ class PartnerChats extends Component {
 
 
   getSingleChats = () => {
-    AppAPI.getAPI().getAllSingleChats()
+    AppAPI.getAPI().getAllSingleChats(this.state.person.id_)
     .then((chats) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         singleChatList: chats,
