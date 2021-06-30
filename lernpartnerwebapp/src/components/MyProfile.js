@@ -114,7 +114,7 @@ class MyProfile extends Component {
     }
   }
   deletePerson = () => {
-    AppAPI.getAPI().deletePerson().then(() => {
+    AppAPI.getAPI().deletePerson(this.state.person.id_).then(() => {
       this.setState({
         deletingInProgress: false,              // disable loading indicator  
         deletingError: null                     // no error message

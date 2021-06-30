@@ -19,7 +19,7 @@ export default class AppAPI {
   #getPersonIdURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
-  #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #deletePersonURL = (person) => `${this.#AppServerBaseURL}/person/personid/${person}`;
   #getPotentialChatsURL = () => `${this.#AppServerBaseURL}/person/potential_singlechat`;
   #getPotentialPersonForGroupURL = (id) => `${this.#AppServerBaseURL}/person/group/${id}`;
 
@@ -131,8 +131,8 @@ export default class AppAPI {
       })
   }
 
-  deletePerson() {
-    return this.#fetchAdvanced(this.#deletePersonURL(), {
+  deletePerson(person) {
+    return this.#fetchAdvanced(this.#deletePersonURL(person), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
