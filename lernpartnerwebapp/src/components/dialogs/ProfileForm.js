@@ -139,12 +139,12 @@ class ProfileForm extends Component {
     this.setState({frequency: event.target.value });
   }
 
-  handleExpertiseChange = (event) => {
-    this.setState({expertise: event.target.value });
-  }
-
   handleTypeChange = (event) => {
     this.setState({type: event.target.value });
+  }
+
+  handleExpertiseChange = (event) => {
+    this.setState({expertise: event.target.value });
   }
 
   handleExtroversionChange = (event) => {
@@ -201,7 +201,7 @@ class ProfileForm extends Component {
               <InputLabel className={classes.label} id='type'>Choose your learning type</InputLabel>
               <Select labelId='type-label' id='type' value={type} onChange={this.handleTypeChange}>
                 <MenuItem value='visually'>visually</MenuItem>
-                <MenuItem value='auditory'>auditory</MenuItem>s
+                <MenuItem value='auditory'>auditory</MenuItem>
                 <MenuItem value='reading/writing'>reading/writing</MenuItem>
               </Select>
               <br /> 
@@ -227,28 +227,24 @@ class ProfileForm extends Component {
               </Select>
               <br /> 
               <br /> 
+              <br />
             
               <InputLabel className={classes.label} id='expertise'>Choose your competency field</InputLabel>
               <Select labelId='expertise-label' id='expertise' value={expertise} onChange={this.handleExpertiseChange}>
                 <MenuItem value='Python'>Python</MenuItem>
                 <MenuItem value='Webtechnology'>Webtechnology</MenuItem>
-                <MenuItem value='Design'>Design</MenuItem>
-                <MenuItem value='Data Science'>Data Science</MenuItem>
-                <MenuItem value='Architecture'>Architecture</MenuItem>
-                <MenuItem value='Maths'>Maths</MenuItem>
                 <MenuItem value='Chinese'>Chinese</MenuItem>
-                <MenuItem value='Physics'>Physics</MenuItem>
+                <MenuItem value='Data Science'>Data Science</MenuItem>
+                <MenuItem value='Maths'>Maths</MenuItem>
               </Select>
               <br />
               <br />
               <br />
-              
               <InputLabel className={classes.label} id='extroversion'>Choose your personality trait</InputLabel>
               <Select labelId='extroversion-label' id='extroversion' value={extroversion} onChange={this.handleExtroversionChange}>
                 <MenuItem value='Conscientiousness'>Conscientiousness</MenuItem>
                 <MenuItem value='Extraversion'>Extraversion</MenuItem>
                 <MenuItem value='Agreeableness'>Agreeableness</MenuItem>
-                <MenuItem value='Neuroticism'>Neuroticism</MenuItem>
                 <MenuItem value='Openness'>Openness</MenuItem>
               </Select>
               <br /> 
