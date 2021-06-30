@@ -19,7 +19,7 @@ export default class AppAPI {
   #getPersonIdURL = () => `${this.#AppServerBaseURL}/person`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/person`;
   #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person/${google_user_id}`;
-  #deletePersonURL = () => `${this.#AppServerBaseURL}/person`;
+  #deletePersonURL = (person) => `${this.#AppServerBaseURL}/person/personid/${person}`;
   #getPotentialChatsURL = () => `${this.#AppServerBaseURL}/person/potential_singlechat`;
   #getPotentialPersonForGroupURL = (id) => `${this.#AppServerBaseURL}/person/group/${id}`;
 
@@ -33,10 +33,10 @@ export default class AppAPI {
   
   //ChatRoom related
   #getSingleChatByIdURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/singlechat/${chatroom}`;          //Gibt einen Singlechat mit ID von chatroom aus
-  #getAllSingleChatsByPersonIdURL = () => `${this.#AppServerBaseURL}/chatroom/singlechats`;                   //Gibt alle Singlechats mit ID von person aus
+  #getAllSingleChatsByPersonIdURL = (person) => `${this.#AppServerBaseURL}/chatroom/singlechats/${person}`;                   //Gibt alle Singlechats mit ID von person aus
   #sendSingleChatRequestURL = (receiver) => `${this.#AppServerBaseURL}/chatroom/receiver/${receiver}`;           //Sendet einen Singlechatrequest 
-  #getAllReceivedRequestsURL = () => `${this.#AppServerBaseURL}/chatroom/open_received_requests`;             //Gibt alle noch offene erhaltene Requests aus
-  #getAllSentRequestsURL = () => `${this.#AppServerBaseURL}/chatroom/open_sent_requests`;                     //Gibt alle noch offene gesendete Requests aus     
+  #getAllReceivedRequestsURL = (person) => `${this.#AppServerBaseURL}/chatroom/open_received_requests/${person}`;             //Gibt alle noch offene erhaltene Requests aus
+  #getAllSentRequestsURL = (person) => `${this.#AppServerBaseURL}/chatroom/open_sent_requests/${person}`;                     //Gibt alle noch offene gesendete Requests aus     
   #acceptReceivedRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/accept_request/${chatroom}`; //Akzeptieren eines erhaltenen Requests           
   #deleteSingleChatURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/chatroom_to_delete/${chatroom}`;   //Löschen eines Singlechats           
   #deleteSentRequestURL = (chatroom) => `${this.#AppServerBaseURL}/chatroom/delete_sent/${chatroom}`;         //Löschen eines gesendeten Requests           
@@ -131,8 +131,8 @@ export default class AppAPI {
       })
   }
 
-  deletePerson() {
-    return this.#fetchAdvanced(this.#deletePersonURL(), {
+  deletePerson(person) {
+    return this.#fetchAdvanced(this.#deletePersonURL(person), {
       method: 'DELETE'
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON
@@ -307,8 +307,8 @@ export default class AppAPI {
       })
     }
 
-  getAllSingleChats() {
-    return this.#fetchAdvanced(this.#getAllSingleChatsByPersonIdURL()).then((responseJSON) => {
+  getAllSingleChats(person) {
+    return this.#fetchAdvanced(this.#getAllSingleChatsByPersonIdURL(person)).then((responseJSON) => {
         let chatroomBOs = ChatroomBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(chatroomBOs);
@@ -316,8 +316,8 @@ export default class AppAPI {
       })
     }
 
-  getAllReceivedRequests() {
-    return this.#fetchAdvanced(this.#getAllReceivedRequestsURL()).then((responseJSON) => {
+  getAllReceivedRequests(person) {
+    return this.#fetchAdvanced(this.#getAllReceivedRequestsURL(person)).then((responseJSON) => {
         let chatroomBOs = ChatroomBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(chatroomBOs);
@@ -325,8 +325,8 @@ export default class AppAPI {
       })
     }
 
-  getAllSentRequests() {
-    return this.#fetchAdvanced(this.#getAllSentRequestsURL()).then((responseJSON) => {
+  getAllSentRequests(person) {
+    return this.#fetchAdvanced(this.#getAllSentRequestsURL(person)).then((responseJSON) => {
         let chatroomBOs = ChatroomBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(chatroomBOs);

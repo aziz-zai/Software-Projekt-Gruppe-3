@@ -18,7 +18,6 @@ class SingleChats extends Component {
     // Init an empty state
     this.state = {
       loadingInProgress: false,
-      singleChatBool: 1,
       messages: [],
       person: [],
       profile: [],
@@ -109,7 +108,7 @@ class SingleChats extends Component {
   }
 
   getMessages = () => {
-    AppAPI.getAPI().getMessages(this.state.singleChatBool,this.props.chatroom).then(content =>
+    AppAPI.getAPI().getMessages(1,this.props.chatroom).then(content =>
       this.setState({
         messages: content,
         loadingInProgress: false,
@@ -123,9 +122,7 @@ class SingleChats extends Component {
   }
 
 handleMessages = () => {
-  (this.props.showChat) ?
-  this.getMessages()
-  : (this.state.loop) ?
+  (this.props.chatroom) ?
   this.getMessages()
   : clearInterval(this.interval)
 }
@@ -134,23 +131,23 @@ handleMessages = () => {
   componentDidMount() {
     this.getPerson();
     this.getProfile();
-    this.interval = setInterval(() => this.handleMessages(), 5000);
+    this.interval = setInterval(() => this.handleMessages(), 2000);
   }
 
 
   render() {
     const {loadingInProgress, messages, content} = this.state;
-    const { showChat, classes} = this.props;
+    const { showSingleChat, classes} = this.props;
 
 
     return (
 
       <div>
 
-    {showChat ?
+    {showSingleChat ?
         <div>
           {console.log('sender',this.state.person, messages, content, this.state.profile, this.props.showChat)}
-        <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
+        <Dialog classes={{ paper: classes.paper}} open={showSingleChat} onClose={this.handleClose}>
          <DialogTitle id='delete-dialog-title'>{this.state.profile.firstname}
            <div align="right"><IconButton  onClick={this.handleClose}>
              <CloseIcon />
@@ -201,7 +198,7 @@ SingleChats.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  showChat: PropTypes.bool,
+  showSingleChat: PropTypes.bool,
   onClose: PropTypes.func,
   chatroom: PropTypes.any,
   person: PropTypes.any,

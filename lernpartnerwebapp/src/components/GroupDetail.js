@@ -27,7 +27,7 @@ class GroupDetail extends Component {
       group: null,
       showProfileForm: false,
       leftGroup: false,
-      showChatComponent: false,
+      showGroupChatComponent: false,
     };
   }
 
@@ -72,13 +72,13 @@ class GroupDetail extends Component {
 
   showChatComponent = () => {
     this.setState({
-      showChatComponent: true,
+      showGroupChatComponent: true,
     })
   }
 
   closeChatComponent = () => {
     this.setState({
-      showChatComponent: false,
+      showGroupChatComponent: false,
     })
   }
  
@@ -112,7 +112,7 @@ class GroupDetail extends Component {
           </Button>
           :null
         }
-        <GroupChatting showChat={this.state.showChatComponent} onClose={this.closeChatComponent} group={this.props.learngroup}></GroupChatting>
+        <GroupChatting showChat={this.state.showGroupChatComponent} onClose={this.closeChatComponent} group={this.props.learngroup}></GroupChatting>
 
         <GroupPopUp showRequestGroup={this.props.showRequestGroup} group={this.props.learngroup} show={showGroupForm} onClose={this.GroupPopUpClosed}></GroupPopUp>
         </Typography>

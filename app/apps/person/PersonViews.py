@@ -68,3 +68,13 @@ class PotentialPersonAPI(AuthView):
         """Get All Persons that are not already requested for a singlechat."""
         pers = PersonAdministration.get_potential_singlechat(person=self.person.id_)
         return pers
+
+
+@namespace.route("/personid/<int:person>")
+class PersonDeleteAPI(AuthView):
+    @api.marshal_with(person_marshalling, code=201)
+    @api.expect(person_marshalling)
+    def delete(self, person: int) -> dict:
+        """Delete Person Endpoint."""
+        PersonAdministration.delete_person(person=person)
+        return '', 200

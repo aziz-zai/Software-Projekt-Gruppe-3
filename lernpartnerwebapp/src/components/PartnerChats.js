@@ -62,9 +62,9 @@ class PartnerChats extends Component {
     });
   }
   getReceivedRequests = () => {
-    AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
+    AppAPI.getAPI().getAllReceivedRequests(this.state.person.id_).then((requests) => {
       this.setState({
-        requestList: requests ,
+        requestList: requests,
         loadingInProgress: false,
       });
     }).catch(e =>
@@ -80,7 +80,7 @@ class PartnerChats extends Component {
   }
 
   getSentRequests = () => {
-    AppAPI.getAPI().getAllSentRequests().then((requests) => {
+    AppAPI.getAPI().getAllSentRequests(this.state.person.id_).then((requests) => {
       this.setState({
         sentList: requests ,
         loadingInProgress: false,
@@ -100,7 +100,7 @@ class PartnerChats extends Component {
 
 
   getSingleChats = () => {
-    AppAPI.getAPI().getAllSingleChats()
+    AppAPI.getAPI().getAllSingleChats(this.state.person.id_)
     .then((chats) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         singleChatList: chats,
@@ -182,7 +182,9 @@ closeSentRequests = () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {requestList.map(request => <ProfileDetail received={request} request = {request} person = {request.sender}></ProfileDetail>)}
+           {(requestList) ? 
+            ( requestList.map(request => <ProfileDetail received={request} request = {request} person = {request.sender}></ProfileDetail>))
+            :null}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
@@ -203,7 +205,9 @@ closeSentRequests = () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {sentList.map(request => <ProfileDetail sent={request} request = {request} person = {request.receiver}></ProfileDetail>)}
+           {sentList ?
+             (sentList.map(request => <ProfileDetail sent={request} request = {request} person = {request.receiver}></ProfileDetail>))
+             : null}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>

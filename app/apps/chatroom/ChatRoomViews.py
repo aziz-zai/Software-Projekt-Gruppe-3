@@ -4,6 +4,7 @@ from .ChatRoomMarshalling import chatroom_marshalling
 from .ChatRoomBO import ChatRoomObject
 from .ChatRoomAdministration import ChatRoomAdministration
 from app.apps.core.auth import AuthView
+from flask_restx import Resource
 
 namespace = api.namespace(
     "/chatroom",
@@ -12,7 +13,7 @@ namespace = api.namespace(
 
 
 @namespace.route("/receiver/<int:receiver>")
-class ChatRoomSingleChats(AuthView):
+class ChatRoomSingleChats(Resource):
     """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
     def post(self, receiver: int):
@@ -20,35 +21,35 @@ class ChatRoomSingleChats(AuthView):
         return singlechat
 
 @namespace.route("/singlechat/<int:chatroom>")
-class ChatRoomSingleChats(AuthView):
+class ChatRoomSingleChats(Resource):
     """Get A Single Chat"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, chatroom):
         singlechat = ChatRoomAdministration.get_single_chat(chatroom)
         return singlechat
 
-@namespace.route("/singlechats")
-class ChatRoomAllSingleChats(AuthView):
+@namespace.route("/singlechats/<int:person>")
+class ChatRoomAllSingleChats(Resource):
     """Sent All Singlechats"""
     @namespace.marshal_with(chatroom_marshalling)
-    def get(self):
-        person_chat_list = ChatRoomAdministration.get_single_chats(person=self.person.id_)
+    def get(self, person: int):
+        person_chat_list = ChatRoomAdministration.get_single_chats(person=person)
         return person_chat_list
 
-@namespace.route("/open_received_requests")
-class ChatRoomReceivedRequests(AuthView):
+@namespace.route("/open_received_requests/<int:person>")
+class ChatRoomReceivedRequests(Resource):
     """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
-    def get(self):
-        open_received_requests = ChatRoomAdministration.get_open_received_requests(person=self.person.id_)
+    def get(self, person: int):
+        open_received_requests = ChatRoomAdministration.get_open_received_requests(person=person)
         return open_received_requests
 
-@namespace.route("/open_sent_requests")
-class ChatRoomSentRequests(AuthView):
+@namespace.route("/open_sent_requests/<int:person>")
+class ChatRoomSentRequests(Resource):
     """Get All Sent Requests"""
     @namespace.marshal_with(chatroom_marshalling)
-    def get(self):
-        open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=self.person.id_)
+    def get(self, person: int):
+        open_sent_requests = ChatRoomAdministration.get_open_sent_requests(person=person)
         return open_sent_requests
 
 @namespace.route("/accept_request/<int:chatroom>")

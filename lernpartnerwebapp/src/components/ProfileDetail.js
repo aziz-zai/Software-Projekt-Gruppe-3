@@ -298,7 +298,7 @@ class ProfileDetail extends Component {
         </Button></ButtonGroup>
         : null
         }
-        <SingleChat chatroom={this.props.chatID} person={this.props.person} onClose={this.closeChat} showChat={showChatComponent}></SingleChat>
+        <SingleChat chatroom={this.props.chatID} person={this.props.person} onClose={this.closeChat} showSingleChat={showChatComponent}></SingleChat>
         {
         this.props.received ?
         <div>
