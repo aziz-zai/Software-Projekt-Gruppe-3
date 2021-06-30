@@ -25,11 +25,11 @@ class ChatList extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<ChatsHeader user={this.props.currentUser} />
-                  					<Redirect from='/ChatList' to='groups' />
-									<Route exact path='/groups'>
-										<GroupChats/>
+                  					<Redirect from='/ChatList' to='partners' />
+									<Route exact path='/partners'>
+										<PartnerChats/>
 									</Route>
-                                    <Route path='/partners' component={() => <PartnerChats/>}/>
+                                    <Route path='/groups' component={() => <GroupChats/>}/>
 					</Container>
 				</Router>
 		);

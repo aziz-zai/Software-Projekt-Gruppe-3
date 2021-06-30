@@ -47,8 +47,8 @@ class Header extends Component {
                   textColor='primary' 
                   centered value={this.state.tabindex} 
                   onChange={this.handleTabChange} >
-            <Tab label='Groups' component={RouterLink} to={`/groups`} />
             <Tab label='Partners' component={RouterLink} to={`/partners`} />
+            <Tab label='Groups' component={RouterLink} to={`/groups`} />
             </Tabs>
 
     )

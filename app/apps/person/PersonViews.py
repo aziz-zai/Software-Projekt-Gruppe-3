@@ -63,7 +63,6 @@ class PotentialGroupAPI(AuthView):
 class PotentialPersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
-    @api.expect(person_marshalling)
     def get(self) -> dict:
         """Get All Persons that are not already requested for a singlechat."""
         pers = PersonAdministration.get_potential_singlechat(person=self.person.id_)

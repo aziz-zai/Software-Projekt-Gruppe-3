@@ -61,6 +61,7 @@ class AllProfileList extends Component {
       <div className={classes.root}>
         <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
+          {console.log('sadsaallprofiles', personList)}
         </Grid>
       </Grid>
       {

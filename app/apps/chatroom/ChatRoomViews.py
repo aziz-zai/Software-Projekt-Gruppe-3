@@ -13,7 +13,7 @@ namespace = api.namespace(
 
 
 @namespace.route("/receiver/<int:receiver>")
-class ChatRoomSingleChats(Resource):
+class ChatRoomSingleChats(AuthView):
     """Sent A Singlechat-Request"""
     @namespace.marshal_with(chatroom_marshalling)
     def post(self, receiver: int):
@@ -21,7 +21,7 @@ class ChatRoomSingleChats(Resource):
         return singlechat
 
 @namespace.route("/singlechat/<int:chatroom>")
-class ChatRoomSingleChats(Resource):
+class ChatRoomSingleChats(AuthView):
     """Get A Single Chat"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, chatroom):
@@ -29,7 +29,7 @@ class ChatRoomSingleChats(Resource):
         return singlechat
 
 @namespace.route("/singlechats/<int:person>")
-class ChatRoomAllSingleChats(Resource):
+class ChatRoomAllSingleChats(AuthView):
     """Sent All Singlechats"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, person: int):
@@ -37,7 +37,7 @@ class ChatRoomAllSingleChats(Resource):
         return person_chat_list
 
 @namespace.route("/open_received_requests/<int:person>")
-class ChatRoomReceivedRequests(Resource):
+class ChatRoomReceivedRequests(AuthView):
     """Get All Received Requests"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, person: int):
@@ -45,7 +45,7 @@ class ChatRoomReceivedRequests(Resource):
         return open_received_requests
 
 @namespace.route("/open_sent_requests/<int:person>")
-class ChatRoomSentRequests(Resource):
+class ChatRoomSentRequests(AuthView):
     """Get All Sent Requests"""
     @namespace.marshal_with(chatroom_marshalling)
     def get(self, person: int):
