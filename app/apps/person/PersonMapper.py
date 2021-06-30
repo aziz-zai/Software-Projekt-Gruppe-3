@@ -133,20 +133,21 @@ class PersonMapper(Mapper):
 
         cursor = cnx.cursor(buffered=True)
         command = """
-        SELECT * FROM person
-        WHERE id !=%s AND id NOT IN (
-        SELECT chatroom.receiver FROM chatroom
-            WHERE chatroom.sender = %s
-                AND (
-                    is_open=TRUE OR is_accepted=TRUE
-                )
-        UNION
-        SELECT chatroom.sender FROM chatroom
-            WHERE chatroom.receiver = %s
-                AND (
-                    is_open = TRUE OR is_accepted = TRUE
-                )
-            )
+            SELECT person.id, person.email, person.google_user_id FROM person
+            LEFT JOIN profile ON profile.id = person.id
+            WHERE person.id !=%s AND person.id NOT IN (
+                SELECT chatroom.receiver FROM chatroom
+                    WHERE chatroom.sender = %s
+                        AND (
+                            is_open=TRUE OR is_accepted=TRUE
+                        )
+                UNION
+                SELECT chatroom.sender FROM chatroom
+                    WHERE chatroom.receiver = %s
+                        AND (
+                            is_open = TRUE OR is_accepted = TRUE
+                        )
+            ) AND profile.firstname != ''
         """
         cursor.execute(command, (person, person, person))
         tuples = cursor.fetchall()
