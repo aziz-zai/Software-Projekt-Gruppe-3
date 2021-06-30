@@ -64,7 +64,7 @@ class PartnerChats extends Component {
   getReceivedRequests = () => {
     AppAPI.getAPI().getAllReceivedRequests().then((requests) => {
       this.setState({
-        requestList: requests ,
+        requestList: requests,
         loadingInProgress: false,
       });
     }).catch(e =>
@@ -182,7 +182,9 @@ closeSentRequests = () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {requestList.map(request => <ProfileDetail received={request} request = {request} person = {request.sender}></ProfileDetail>)}
+           {(requestList) ? 
+            ( requestList.map(request => <ProfileDetail received={request} request = {request} person = {request.sender}></ProfileDetail>))
+            :null}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>
@@ -203,7 +205,9 @@ closeSentRequests = () => {
            </IconButton>
          </DialogTitle>
          <DialogContent>
-             {sentList.map(request => <ProfileDetail sent={request} request = {request} person = {request.receiver}></ProfileDetail>)}
+           {sentList ?
+             (sentList.map(request => <ProfileDetail sent={request} request = {request} person = {request.receiver}></ProfileDetail>))
+             : null}
            <LoadingProgress show={loadingInProgress} />
          </DialogContent>
          <DialogActions>

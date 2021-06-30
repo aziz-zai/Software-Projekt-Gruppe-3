@@ -18,7 +18,6 @@ class GroupChatting extends Component {
     // Init an empty state
     this.state = {
       loadingInProgress: false,
-      singleChatBool: 0,
       messages: [],
       person: [],
       profile: [],
@@ -107,7 +106,7 @@ class GroupChatting extends Component {
   }
 
   getMessages = () => {
-    AppAPI.getAPI().getMessages(this.state.singleChatBool,this.props.group.id_).then(content =>
+    AppAPI.getAPI().getMessages(0,this.props.group.id_).then(content =>
       this.setState({
         messages: content,
         loadingInProgress: false,
@@ -122,8 +121,6 @@ class GroupChatting extends Component {
 
   handleMessages = () => {
     (this.props.showChat) ?
-    this.getMessages()
-    : (this.state.loop) ?
     this.getMessages()
     : clearInterval(this.interval)
   }
@@ -145,7 +142,7 @@ class GroupChatting extends Component {
 
     {showChat ?
         <div>
-          {console.log('sender',this.state.person, messages, content)}
+          {console.log('sender',this.state.person, messages, this.props.group.id_)}
         <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
          <DialogTitle id='delete-dialog-title'>{this.props.group.groupname}
            <div align="right"><IconButton  onClick={this.handleClose}>
