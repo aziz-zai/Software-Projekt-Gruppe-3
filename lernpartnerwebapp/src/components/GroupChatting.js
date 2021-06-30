@@ -130,7 +130,7 @@ class GroupChatting extends Component {
 
   componentDidMount() {
     this.getPerson();
-    this.interval = setInterval(() => this.handleMessages(), 3000);
+    this.interval = setInterval(() => this.handleMessages(), 5000);
   }
 
 

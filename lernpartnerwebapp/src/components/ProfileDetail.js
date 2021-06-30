@@ -372,7 +372,8 @@ ProfileDetail.propTypes = {
   groupRequest: PropTypes.any,
   showChat: PropTypes.any,
   chatID: PropTypes.any,
-  showFirstnameInGroupChat: ProfileDetail.any,
+  showFirstnameInGroupChat: PropTypes.any,
+  
 }
 
 export default withStyles(styles)(ProfileDetail);
