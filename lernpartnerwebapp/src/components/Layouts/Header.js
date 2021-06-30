@@ -46,12 +46,11 @@ class Header extends Component {
         {
           user ?
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='All Partners' component={RouterLink} to={`/AllPartners`} />
-            <Tab label='All Groups' component={RouterLink} to={`/AllGroups`} />
             <Tab label='My Profile' component={RouterLink} to={`/MyProfile`} />
-            <Tab label='Chat' component={RouterLink} to={`/ChatList`} />
+            <Tab label='Find Groups' component={RouterLink} to={`/AllGroups`} />
+            <Tab label='Find Partners' component={RouterLink} to={`/AllPartners`} />
+            <Tab label='Your Partners' component={RouterLink} to={`/ChatList`} />
             <Tab label='Partner Match' component={RouterLink} to={`/matchmaking`} />
-            <Tab label='About' component={RouterLink} to={`/about`} />
             </Tabs>
             :
               <HeaderLogin/>

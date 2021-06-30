@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles} from "@material-ui/core"
+import { withStyles, Typography} from "@material-ui/core"
 import { AppAPI } from "../api"
 import ProfileBO from "../api/ProfileBO"
 import ProfileDetail from "../components/ProfileDetail"
@@ -86,6 +86,7 @@ class Matchmaking extends Component {
       <div>
         {personList ? (
             <div>
+              <Typography className={classes.root} variant='h5' align='center'> Matched Persons:</Typography>
               {
             personList.map(person => 
             <ProfileDetail personList={true} key={person.id_} person={person.id_} //expandedState={expandedProfileID === profile.getID()}
@@ -93,13 +94,13 @@ class Matchmaking extends Component {
 
               }
 
-
-            {
-            groupList.map(group =>
+            {groupList ?
+            <div>
+            <Typography className={classes.root} variant='h5' align='center'>Matched Groups:</Typography>
+            {groupList.map(group =>
             <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //expandedState={expandedProfileID === profile.getID()}
-            />)
-
-              }
+            />)}</div>
+              :null}
             </div>
         ) : null
           }
@@ -109,7 +110,7 @@ class Matchmaking extends Component {
 }
 const styles = (theme) => ({
   root: {
-    maxWidth: 200,
+    margin: 15,
   },
   content: {
     fontSize: 14,

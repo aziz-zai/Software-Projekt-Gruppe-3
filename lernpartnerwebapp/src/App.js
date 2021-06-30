@@ -105,12 +105,12 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  					<Redirect from='/' to='AllPartners' />
-									<Route exact path='/AllPartners'>
-										<AllProfileList/>
+                  					<Redirect from='/' to='MyProfile' />
+									<Route exact path='/MyProfile'>
+										<MyProfile currentUser={currentUser}/>
 									</Route>
+									<Route path='/AllPartners' component={() => <AllProfileList/>}/>
 									<Route path='/AllGroups' component={() => <AllGroups/>}/>
-									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
 									<Route path='/ChatList' component={() => <ChatList/>} />
 									<Route path='/about' component={About} />

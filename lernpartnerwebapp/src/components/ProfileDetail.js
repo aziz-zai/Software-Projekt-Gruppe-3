@@ -277,7 +277,7 @@ class ProfileDetail extends Component {
         {
         this.props.personList ?
         <Button color='primary' startIcon={<AddIcon/>} onClick={this.sendRequest}>
-         Request
+         Request Partner
         </Button>
         : null
         }
