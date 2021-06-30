@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper, Button, Grid } from '@material-ui/core';
+import { withStyles, Typography, Paper, Button, ButtonGroup, Grid } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -12,6 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ChatIcon from '@material-ui/icons/Chat';
 import SingleChat from './SingleChat'
+
 
 class ProfileDetail extends Component {
 
@@ -206,7 +207,25 @@ class ProfileDetail extends Component {
     });
   }
 
+ deleteChat = () => {
+  AppAPI.getAPI().deleteSingleChat(this.props.chatID).then(newMember =>
+    this.setState({
+      loadingInProgress: false,
+      loadingError: null,
+      show: false,
+    })).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        loadingInProgress: false,
+        loadingError: e,
+      })
+    );
+  // set loading to true
+  this.setState({
+    loadingInProgress: true,
+    loadingError: null,
 
+  });
+ }
 
   render() {
     const { classes} = this.props;
@@ -272,8 +291,11 @@ class ProfileDetail extends Component {
 
         {
         this.props.showChat ?
+        <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+        <Button color='primary' onClick={this.deleteChat} startIcon={<CancelIcon></CancelIcon>}>
+        </Button>
         <Button color='primary' onClick={this.openChat} startIcon={<ChatIcon></ChatIcon>}>
-        </Button> 
+        </Button></ButtonGroup>
         : null
         }
         <SingleChat chatroom={this.props.chatID} person={this.props.person} onClose={this.closeChat} showChat={showChatComponent}></SingleChat>
