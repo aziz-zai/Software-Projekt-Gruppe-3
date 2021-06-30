@@ -90,7 +90,7 @@ class SingleChats extends Component {
   }
 
   sendMessage = () => {
-    AppAPI.getAPI().createMessage(this.state.singleChatBool,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
+    AppAPI.getAPI().createMessage(1,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, // loading indicator 
 
