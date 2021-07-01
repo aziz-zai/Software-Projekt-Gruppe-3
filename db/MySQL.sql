@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`profile` (
   `firstname` VARCHAR(45) NULL DEFAULT NULL,
   `lastname` VARCHAR(45) NULL DEFAULT NULL,
   `person` INT NOT NULL,
-  `semester` INT NULL,
   `frequency` VARCHAR(45) NULL DEFAULT NULL,
   `interests` VARCHAR(45) NULL DEFAULT NULL,
   `extroversion` VARCHAR(45) NULL DEFAULT NULL,
