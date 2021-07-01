@@ -122,3 +122,48 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `mydb`.`person`(`id`,`email`,`google_user_id`)VALUES(1,"azizperson1@gmail.com","sad45dssdaf4wds5");
+INSERT INTO `mydb`.`person`(`id`,`email`,`google_user_id`)VALUES(2,"muradperson2@gmail.com","sad45dsaddf4wds5");
+INSERT INTO `mydb`.`person`(`id`,`email`,`google_user_id`)VALUES(3,"cemperson3@gmail.com","sad45dsadsaf4wds5");
+INSERT INTO `mydb`.`person`(`id`,`email`,`google_user_id`)VALUES(4,"harbinperson4@gmail.com","sad45dsdsaf4wds5");
+
+
+INSERT INTO `mydb`.`profile`(`id`,`firstname`,`lastname`,`person`,`frequency`,`interests`,`extroversion`,`expertise`,`online`,`type_`)
+VALUES(1,"Aziz","Zai",1,3,"Film und Serien","Extraversion","Python",true,"visually");
+INSERT INTO `mydb`.`profile`(`id`,`firstname`,`lastname`,`person`,`frequency`,`interests`,`extroversion`,`expertise`,`online`,`type_`)
+VALUES(2,"Murad","Zadran",2,3,"Nichts","Extraversion","Python",true,"visually");
+INSERT INTO `mydb`.`profile`(`id`,`firstname`,`lastname`,`person`,`frequency`,`interests`,`extroversion`,`expertise`,`online`,`type_`)
+VALUES(3,"Cem","Ardic",3,4,"Nichts","Agreeableness","Chinese",false,"auditory");
+INSERT INTO `mydb`.`profile`(`id`,`firstname`,`lastname`,`person`,`frequency`,`interests`,`extroversion`,`expertise`,`online`,`type_`)
+VALUES(4,"Harbin","Tairi",4,5,"Nichts","Agreeableness","Chinese",false,"auditory");
+
+INSERT INTO `mydb`.`learning_group`(`id`,`groupname`,`info`)VALUES(1,"Testgruppe1","Diese Gruppe1 ist zum Testen");
+INSERT INTO `mydb`.`learning_group`(`id`,`groupname`,`info`)VALUES(2,"Testgruppe2","Diese Gruppe2 ist zum Testen");
+INSERT INTO `mydb`.`learning_group`(`id`,`groupname`,`info`)VALUES(3,"Testgruppe3","Diese Gruppe3 ist zum Testen");
+INSERT INTO `mydb`.`learning_group`(`id`,`groupname`,`info`)VALUES(4,"Testgruppe4","Diese Gruppe4 ist zum Testen");
+
+INSERT INTO `mydb`.`membership`(`id`,`person`,`learning_group`,`is_open`,`is_accepted`,`timestamp`)
+VALUES(1,1,1,false,true,"2020-06-02 23:57:12.120174");
+INSERT INTO `mydb`.`membership`(`id`,`person`,`learning_group`,`is_open`,`is_accepted`,`timestamp`)
+VALUES(2,1,2,true,false,"2020-06-02 23:57:12.120175");
+INSERT INTO `mydb`.`membership`(`id`,`person`,`learning_group`,`is_open`,`is_accepted`,`timestamp`)
+VALUES(3,2,3,false,true,"2020-06-02 23:57:12.120176");
+INSERT INTO `mydb`.`membership`(`id`,`person`,`learning_group`,`is_open`,`is_accepted`,`timestamp`)
+VALUES(4,3,1,false,true,"2020-06-02 23:57:12.120177");
+
+INSERT INTO `mydb`.`chatroom`(`id`,`is_accepted`,`is_open`,`sender`,`receiver`,`timestamp`)
+VALUES(1,false,true,1,3,"2020-06-02 23:57:12.120178");
+INSERT INTO `mydb`.`chatroom`(`id`,`is_accepted`,`is_open`,`sender`,`receiver`,`timestamp`)
+VALUES(2,true,false,1,4,"2020-06-02 23:57:12.120179");
+INSERT INTO `mydb`.`chatroom`(`id`,`is_accepted`,`is_open`,`sender`,`receiver`,`timestamp`)
+VALUES(3,false,true,3,1,"2020-06-02 23:57:12.120188");
+
+INSERT INTO `mydb`.`message`(`id`,`content`,`sender`,`thread_id`,`is_singlechat`,`timestamp`)
+VALUES(1,"hey wie gehts",1,2,true,"2020-06-02 23:57:12.120191");
+INSERT INTO `mydb`.`message`(`id`,`content`,`sender`,`thread_id`,`is_singlechat`,`timestamp`)
+VALUES(2,"hey gut und dir",4,2,true,"2020-06-02 23:57:12.120192");
+INSERT INTO `mydb`.`message`(`id`,`content`,`sender`,`thread_id`,`is_singlechat`,`timestamp`)
+VALUES(3,"hey wie gehts dir in der gruppe",1,1,false,"2020-06-02 23:57:12.120193");
+INSERT INTO `mydb`.`message`(`id`,`content`,`sender`,`thread_id`,`is_singlechat`,`timestamp`)
+VALUES(4,"hey gut gehts mir in der gruppe",4,1,false,"2020-06-02 23:57:12.120193");
