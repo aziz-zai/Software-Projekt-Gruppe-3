@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Paper, ListItem, ButtonGroup, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
+import { withStyles, Paper, ListItem, ButtonGroup, Typography, 
+IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, 
+Grid, Card, CardContent, CardActions, Accordion, AccordionSummary, AccordionDetails, DialogActions} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button} from '@material-ui/core';
 import { AppAPI} from '../api';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -133,56 +134,92 @@ class MyProfile extends Component {
     });
   }
 
+
+
  componentDidMount() {
     this.getPersonByGoogleUserID();
   }
 
   render() 
-  {const { classes, currentUser} = this.props;
-  {const { profile, session_id, loadingInProgress, showProfileDeleteDialog, showProfileForm, deletingInProgress, deletingError, person} = this.state;
+  {const { classes} = this.props;
+  {const { profile, loadingInProgress, showProfileDeleteDialog, showProfileForm, 
+            deletingInProgress, deletingError} = this.state;
+
     return (
       <div className={classes.root}>
-        <Paper variant='outlined' className={classes.root}>
-      <Typography align='center' variant='h1' position='static'>
-                  {profile.firstname} {profile.lastname}
+      
+      <Typography align='justify' variant='h4' position='outlined' gutterBottom="true" color="default">
+      <AccountCircleIcon className={classes.AccountCircle} align='left'/> &nbsp; {profile.firstname} {profile.lastname}
       </Typography>
-      </Paper>
-        <ListItem align='center'> 
+        <Paper align='left'> 
         {profile ? 
-        <Typography align= 'left' variant='body1' color='textSecondary' width= '100%' className={classes.profileEntry}>
+        <Typography align= 'left' variant='body1' color='primary' width= '50%' className={classes.profileEntry}>
+                <div className={classes.attribute}> 
                 Firstname:      {profile.firstname} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Lastname:       {profile.lastname} <br></br>
+                </div>
+        <Accordion>
+          <AccordionSummary align="center" className={classes.accordion}
+          aria-controls="panel1a-content"
+          id="panel1a-header">
+            <Typography className={classes.heading}> 
+            <ExpandMoreIcon className={classes.ExpandIcon} >
+            </ExpandMoreIcon> 
+            More Info
+            </Typography>
+          </AccordionSummary>
+            <AccordionDetails className={classes.accordionDetails}>
+              <Typography>
+                <div className={classes.attribute}> 
                 Personal Interests:      {profile.interests} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Learning Type:           {profile.type_} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Learning preference:         {profile.online} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Learning frequency per week:      {profile.frequency} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Competency Fields:      {profile.expertise} <br></br>
+                </div>
+                <div className={classes.attribute}> 
                 Personality traits:   {profile.extroversion} <br></br>
+                </div>
+                </Typography>
+                </AccordionDetails>
+                </Accordion>
                 </Typography>
                 : null
-              }
-                <ButtonGroup variant='text' size='large'>
-                  <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
-                    Click for edit
+              } 
+                <Card >
+                <ButtonGroup variant='text' size='large' gutterBottom="true">
+                  <Button className={classes.buttonMargin} color= "secondary" variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
+                      Edit
                   </Button>
-                  <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteProfileButtonClicked}>
+                  <Button color='secondary' size='small' variant= "outlined" startIcon={<DeleteIcon />} onClick={this.deleteProfileButtonClicked}>
                     Delete
                   </Button>
                 </ButtonGroup>
-                </ListItem>
-                <ListItem>
-                  <LoadingProgress show={loadingInProgress || deletingInProgress} />
-                </ListItem>
-                <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
-                {showProfileDeleteDialog ?
+                </Card>
+        </Paper>
+          <ListItem>
+            <LoadingProgress show={loadingInProgress || deletingInProgress} />
+          </ListItem>
+           <ProfileForm show={showProfileForm} profile={profile} onClose={this.profileFormClosed} />
+              {showProfileDeleteDialog ?
          <Dialog open={showProfileDeleteDialog} onClose={this.deleteProfileDialogClosed}>
-         <DialogTitle id='delete-dialog-title'>Delete person
-           <IconButton className={classes.closeButton} onClick={this.deleteProfileDialogClosed}>
-             <CloseIcon />
-           </IconButton>
-         </DialogTitle>
-         <DialogContent>
-           <DialogContentText>
+          <DialogTitle id='delete-dialog-title'>Delete person
+            <IconButton className={classes.closeButton} onClick={this.deleteProfileDialogClosed}>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+            <DialogContent>
+            <DialogContentText>
              Are you sure, you want to delete your profile Mr.{profile.lastname}?<br></br>
              You will be gone fore ever...
            </DialogContentText>
@@ -207,10 +244,25 @@ class MyProfile extends Component {
 }
 
 
-
 const styles = theme => ({
   root: {
     width: '100%',
+    color: "default",
+  },
+  AccountCircle: {
+    color: "#6495ED",
+  },
+  heading: {
+    
+  },
+
+  accordion: {
+    width: '100%',
+  },
+
+  accordionDetails: {
+    width: '50%',
+
   },
   profileList: {
     marginBottom: theme.spacing(2),
@@ -221,10 +273,10 @@ const styles = theme => ({
     right: theme.spacing(3),
     bottom: theme.spacing(1),
   },
-  
   attribute: {
     marginBottom: theme.spacing(1),
   },
+ 
 
 });
 
