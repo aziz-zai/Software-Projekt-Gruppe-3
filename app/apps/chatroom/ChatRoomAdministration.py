@@ -19,7 +19,7 @@ class ChatRoomAdministration:
                 receiver=receiver,
                 is_accepted=False,
                 is_open=True,
-                timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                timestamp=datetime.now()
             )
             return ChatRoomMapper.insert_chatroom(cnx=cnx, object=chatroom)
 
