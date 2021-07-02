@@ -2,7 +2,6 @@ from flask import Flask, Blueprint
 from flask_cors import CORS
 from app.configs import BaseConfigs
 from app.configs.base import api
-from dotenv import load_dotenv
 
 from app.apps.profile.ProfileViews import namespace as profile_namespace
 from app.apps.person.PersonViews import namespace as person_namespace
@@ -12,12 +11,10 @@ from app.apps.membership.MembershipViews import namespace as membership_namespac
 from app.apps.chatroom.ChatRoomViews import namespace as chatroom_namespace
 
 
-load_dotenv()
 
-
+app = Flask(__name__,static_folder='./build', static_url_path='/', instance_relative_config=True)
 def create_app(config: BaseConfigs = BaseConfigs) -> Flask:
     """Return Flask app for project initialization."""
-    app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
     blueprint: Blueprint = Blueprint("api", __name__, url_prefix="/api")
     CORS(app, resources=r'/api/*', supports_credentials=True)
@@ -32,6 +29,9 @@ def init_lazily(blueprint: Blueprint) -> None:
     """Lazy init."""
     api.init_app(blueprint)
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 def init_routes() -> None:
     """Init Routes by using namespaces."""
