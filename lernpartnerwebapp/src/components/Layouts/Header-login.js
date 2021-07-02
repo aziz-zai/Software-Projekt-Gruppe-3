@@ -14,12 +14,6 @@ export default function Header_login() {
     return(
     <div>
         <AppBar className={classes.appbar} elevation={0} position='static'>
-            <Toolbar>
-                <img src={process.env.PUBLIC_URL + '/lernpartnerwebapp/public/logo192.png'} />
-                <Typography color='textPrimary' variant='h6' style={{flexGrow : 1 }}>
-                    LernApp
-                </Typography>
-            </Toolbar>
         </AppBar>    
     </div>
     );
