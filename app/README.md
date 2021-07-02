@@ -35,6 +35,7 @@ See the section about deployment for more information.
         4.6.1 - connect to your instance and select your database
 
 5. STEP (DONE)
+
  -- connect locally and create a GAE App --
  
     5.1 - get a list of your gcloud sql instances in your terminal with "gcloud sql instances list" 
