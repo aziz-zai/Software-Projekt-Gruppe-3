@@ -215,11 +215,17 @@ const styles = theme => ({
   profileList: {
     marginBottom: theme.spacing(2),
   },
+
   updateProfileButton: {
     position: 'absolute',
     right: theme.spacing(3),
     bottom: theme.spacing(1),
-  }
+  },
+  
+  attribute: {
+    marginBottom: theme.spacing(1),
+  },
+
 });
 
 /** PropTypes */
