@@ -3,6 +3,7 @@ from .MembershipBO import MembershipObject
 from app.configs.base import db_connector
 from app.apps.profile.ProfileBO import ProfileObject
 from app.apps.group.GroupBO import GroupObject
+from datetime import datetime
 
 
 class MembershipAdministration:
@@ -17,7 +18,8 @@ class MembershipAdministration:
                 learning_group=learning_group,
                 person=person,
                 is_open=False,
-                is_accepted=True
+                is_accepted=True,
+                timestamp=datetime.now()
             )
             return MembershipMapper.insert(cnx=cnx, object=membership)
 
