@@ -252,7 +252,7 @@ const styles = theme => ({
     color: "default",
   },
   AccountCircle: {
-    color: "#6495ED",
+    color: "#8BC2F8",
     fontSize: "12vw",
   },
   heading: {
