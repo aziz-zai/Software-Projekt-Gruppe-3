@@ -50,5 +50,6 @@ See the section about deployment for more information.
     6.1 - go to your path you want to deploy from and copy with "dir"
     6.2 - deploy app with "gcloud app deploy"
     6.3 - show in browser with "gcloud app browser"
-
+    
+** YOU CAN SEE APPLICATION ERRORS IN THE APP ENGINE DASHBOARD ON GOOGLE CLOUD IN YOUR BROWSER**
      
