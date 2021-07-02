@@ -1,8 +1,8 @@
-TO DEPLOY YOUR PROJECT
+   **DEPLOY YOUR PROJECT**
 
-1. STEP (DONE)
+   **1. STEP (DONE)**
 
----npm run build---
+   ---npm run build---
 
 Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -12,17 +12,17 @@ Your app is ready to be deployed!
 
 See the section about deployment for more information.
 
-2. STEP (DONE)
+   **2. STEP (DONE)**
 
---move the build file to the static folder in your flask application--
+   --move the build file to the static folder in your flask application--
 
-3. STEP (DONE)
+   **3. STEP (DONE)**
 
---create a app.yaml file--
+   --create a app.yaml file--
 
-4. STEP (DONE)
+   **4. STEP (DONE)**
 
---connect to google cloud--
+   --connect to google cloud--
 
     4.1 - create a new project
     4.2 - create a sql instance with you database settings. (MYSQL)
@@ -34,7 +34,7 @@ See the section about deployment for more information.
     4.6 - to test your cloud database. - go to your sql instance dashboard and open "cloud shell" 
         4.6.1 - connect to your instance and select your database
 
-5. STEP (DONE)
+   **5. STEP (DONE)**
 
  -- connect locally and create a GAE App --
  
@@ -43,7 +43,7 @@ See the section about deployment for more information.
     5.3 - Create a new App in GAE
         5.3.1 - with "gcloud app create -project=[projectid]" in terminal OR with GAE Dashboard
         
-6. STEP
+   **6. STEP**
 
  ---upload files to Google cloud--
  
