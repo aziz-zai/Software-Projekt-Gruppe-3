@@ -36,6 +36,7 @@ See the section about deployment for more information.
 
 5. STEP (DONE)
  -- connect locally and create a GAE App --
+ 
     5.1 - get a list of your gcloud sql instances in your terminal with "gcloud sql instances list" 
     5.2 - get your Google App Engine with "gcloud projects describe [projectnumber]"
     5.3 - Create a new App in GAE
@@ -44,6 +45,7 @@ See the section about deployment for more information.
 6. STEP
 
  ---upload files to Google cloud--
+ 
     6.1 - go to your path you want to deploy from and copy with "dir"
     6.2 - deploy app with "gcloud app deploy"
     6.3 - show in browser with "gcloud app browser"
