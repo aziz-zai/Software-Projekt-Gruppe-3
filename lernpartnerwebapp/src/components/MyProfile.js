@@ -148,12 +148,14 @@ class MyProfile extends Component {
     return (
       <div className={classes.root}>
       
-      <Typography align='justify' variant='h4' position='outlined' gutterBottom="true" color="default">
-      <AccountCircleIcon className={classes.AccountCircle} align='left'/> &nbsp; {profile.firstname} {profile.lastname}
-      </Typography>
+      <div align="center"> 
+      <AccountCircleIcon className={classes.AccountCircle} align='center'/> &nbsp;
+      </div>
+        <div align= "center" className={classes.fname}> {profile.firstname} {profile.lastname}</div>
+  
         <Paper align='left'> 
         {profile ? 
-        <Typography align= 'left' variant='body1' color='primary' width= '50%' className={classes.profileEntry}>
+      <Grid align= 'left' variant='body1' color='default' width= '50%' className={classes.profileEntry}>
                 <div className={classes.attribute}> 
                 Firstname:      {profile.firstname} <br></br>
                 </div>
@@ -167,11 +169,11 @@ class MyProfile extends Component {
             <Typography className={classes.heading}> 
             <ExpandMoreIcon className={classes.ExpandIcon} >
             </ExpandMoreIcon> 
-            More Info
+            Profile Details
             </Typography>
           </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
-              <Typography>
+              <Grid>
                 <div className={classes.attribute}> 
                 Personal Interests:      {profile.interests} <br></br>
                 </div>
@@ -190,10 +192,10 @@ class MyProfile extends Component {
                 <div className={classes.attribute}> 
                 Personality traits:   {profile.extroversion} <br></br>
                 </div>
-                </Typography>
+                </Grid>
                 </AccordionDetails>
-                </Accordion>
-                </Typography>
+        </Accordion>
+      </Grid>
                 : null
               } 
                 <Card >
@@ -250,7 +252,8 @@ const styles = theme => ({
     color: "default",
   },
   AccountCircle: {
-    color: "#6495ED",
+    color: "#8BC2F8",
+    fontSize: "12vw",
   },
   heading: {
     
@@ -277,6 +280,9 @@ const styles = theme => ({
     marginBottom: theme.spacing(1),
   },
  
+  fname: {
+    fontSize: "5vw",
+  },
 
 });
 
