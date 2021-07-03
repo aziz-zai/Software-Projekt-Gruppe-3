@@ -11,8 +11,9 @@ from app.apps.membership.MembershipViews import namespace as membership_namespac
 from app.apps.chatroom.ChatRoomViews import namespace as chatroom_namespace
 
 
+app = Flask(__name__, static_folder='./app/build', static_url_path='/', instance_relative_config=True)
 
-app = Flask(__name__,static_folder='./build', static_url_path='/', instance_relative_config=True)
+
 def create_app(config: BaseConfigs = BaseConfigs) -> Flask:
     """Return Flask app for project initialization."""
     app.config.from_object(config)
@@ -29,9 +30,11 @@ def init_lazily(blueprint: Blueprint) -> None:
     """Lazy init."""
     api.init_app(blueprint)
 
+
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
+
 
 def init_routes() -> None:
     """Init Routes by using namespaces."""
@@ -41,6 +44,7 @@ def init_routes() -> None:
     api.add_namespace(group_namespace)
     api.add_namespace(membership_namespace)
     api.add_namespace(chatroom_namespace)
+
 
 if __name__ == "__main__":
     app = create_app()

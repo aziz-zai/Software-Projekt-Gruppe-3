@@ -20,7 +20,7 @@ class MySQLConnector(AbstractContextManager):
             Hierbei handelt es sich also um die Verbindung zwischen Google App Engine und Cloud SQL."""
 
             self._cnx = connector.connect(user='root', password='Endgegner',
-                                          unix_socket='/cloudsql/python-bankprojekt-thies:europe-west3:bank-db-thies',
+                                          unix_socket='/cloudsql/lernpartnerwebapp:europe-west3:instance-lernapp',
                                           database='mydb')
         else:
             self._cnx = connector.connect(
