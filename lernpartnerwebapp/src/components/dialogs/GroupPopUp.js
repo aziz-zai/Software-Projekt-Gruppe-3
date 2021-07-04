@@ -30,7 +30,7 @@ class GroupPopUp extends Component {
   }
    
 
-loadPotentialPersons= () => {
+loadPotentialPersons= () => {        // load a list of potential persons to add to group
     AppAPI.getAPI().getPotentialPersonsForGroup(this.props.group.id_).then(persons =>
     this.setState({
         personList: persons,
@@ -55,7 +55,7 @@ loadPotentialPersons= () => {
 
 
 
-sendMembershipRequest = () => {
+sendMembershipRequest = () => {                  // send a memberhsip request 
   AppAPI.getAPI().sendMembershipRequest(this.props.group.id_).then(request =>
     this.setState({
       loadingInProgress: false,
@@ -71,7 +71,7 @@ sendMembershipRequest = () => {
     );
 }
 
-    getMembers = () => {
+    getMembers = () => {      // get all Members of the group
       AppAPI.getAPI().getMembersOfGroup(this.props.group.id_).then(members =>
         this.setState({
           memberList: members,
@@ -94,7 +94,7 @@ sendMembershipRequest = () => {
       });
     }
 
-  showPersonList = () => {
+  showPersonList = () => {         // show list of potential persons to add in group
     this.loadPotentialPersons();
     this.setState({
       showPersonList: true
@@ -115,7 +115,7 @@ sendMembershipRequest = () => {
     });
   }
 
-  showGroupRequests = () => {
+  showGroupRequests = () => {       // show perons which requested a memberhsip into the group
     AppAPI.getAPI().getAllMembershipGroupRequests(this.props.group.id_).then(requests =>
       this.setState({
         groupRequestList: requests,
@@ -136,7 +136,7 @@ sendMembershipRequest = () => {
     });
   }
 
-  showReceived = () => {
+  showReceived = () => {    // show received group request
     this.setState({
       showReceived: true,
     })
@@ -155,7 +155,7 @@ sendMembershipRequest = () => {
     this.showGroupRequests();
   }
   /** Renders the component */
-  render() {
+  render() {     // show group details, members, option to add members, see requests
     const { classes, group, show, showRequestGroup} = this.props;
     const { memberList , showPersonList, loadingInProgress, personList, requestSent, showReceived, groupRequestList, showRequestListButton} = this.state;
 

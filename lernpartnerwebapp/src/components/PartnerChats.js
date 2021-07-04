@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Paper, ListItem, ButtonGroup, Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
+import { IconButton, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import { Button} from '@material-ui/core';
 import { AppAPI} from '../api';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import ProfileBO from '../api/ProfileBO';
-import ProfileForm from './dialogs/ProfileForm';
-import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
-import PersonBO from '../api/PersonBO'
 import ProfileDetail from './ProfileDetail'
 
 /**
@@ -42,7 +33,7 @@ class PartnerChats extends Component {
   }
 
   getPerson = () => {
-    AppAPI.getAPI().getPersonId().then((person) => {
+    AppAPI.getAPI().getPersonId().then((person) => {    //get your personData
       this.setState({
         person: person[0],
         loadingInProgress: false,
@@ -62,7 +53,7 @@ class PartnerChats extends Component {
     });
   }
   getReceivedRequests = () => {
-    AppAPI.getAPI().getAllReceivedRequests(this.state.person.id_).then((requests) => {
+    AppAPI.getAPI().getAllReceivedRequests(this.state.person.id_).then((requests) => {            //get all received requestList
       this.setState({
         requestList: requests,
         loadingInProgress: false,
@@ -80,7 +71,7 @@ class PartnerChats extends Component {
   }
 
   getSentRequests = () => {
-    AppAPI.getAPI().getAllSentRequests(this.state.person.id_).then((requests) => {
+    AppAPI.getAPI().getAllSentRequests(this.state.person.id_).then((requests) => {  // get all sent requests in a list
       this.setState({
         sentList: requests ,
         loadingInProgress: false,
@@ -100,7 +91,7 @@ class PartnerChats extends Component {
 
 
   getSingleChats = () => {
-    AppAPI.getAPI().getAllSingleChats(this.state.person.id_)
+    AppAPI.getAPI().getAllSingleChats(this.state.person.id_)            // get all chatroomObjects that are accepted with your personid
     .then((chats) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         singleChatList: chats,
@@ -122,25 +113,25 @@ class PartnerChats extends Component {
     });
   }
 
-  showSentRequests = () => {
+  showSentRequests = () => {             //show sent Requests dialog 
     this.setState({
         showSent: true,
     })
 }
 
-closeSentRequests = () => {
+closeSentRequests = () => {                //close dialog of sent requests
     this.setState({
         showSent: false,
     })
 }
 
-  showReceivedRequests = () => {
+  showReceivedRequests = () => {              //show received reqests dialog
       this.setState({
           showReceived: true,
       })
   }
 
-  closeReceivedRequests = () => {
+  closeReceivedRequests = () => {        //close received requests dialog
       this.setState({
           showReceived: false,
       })
@@ -152,7 +143,7 @@ closeSentRequests = () => {
   render() {
     const { singleChatList, person, showReceived, showSent, loadingInProgress, requestList, sentList} = this.state;
 
-    return (
+    return (                         //show all singlechats, show received and sent requests button and dialog
       <div>
         <div>
           <br></br>

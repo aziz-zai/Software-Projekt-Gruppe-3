@@ -28,7 +28,7 @@ class Header extends Component {
   render() {
     const { user } = this.props;
 
-    return (
+    return (           // scrollable tabs 
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>

@@ -28,7 +28,7 @@ class ChatsHeader extends Component {
   render() {
     const { currentUser } = this.props;
 
-    return (
+    return (     // to seperate groups from persons
             <Tabs TabIndicatorProps={{
                   style: {
                   backgroundColor: "#D97D54"

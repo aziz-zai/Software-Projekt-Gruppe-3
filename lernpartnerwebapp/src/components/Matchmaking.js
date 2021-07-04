@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles, Typography} from "@material-ui/core"
 import { AppAPI } from "../api"
-import ProfileBO from "../api/ProfileBO"
 import ProfileDetail from "../components/ProfileDetail"
 import GroupDetail from './GroupDetail'
-//import ContextErrorMessage from './ContextErrorMessage';
-//import LoadingProgress from './LoadingProgress';
+
 
 class Matchmaking extends Component {
 
@@ -24,7 +22,7 @@ class Matchmaking extends Component {
   }
 
 
-  matchProfiles = () => {
+  matchProfiles = () => {               //Get A List of matched Profiles
     AppAPI.getAPI()
       .matchProfiles()
       .then((profiles) =>{
@@ -49,7 +47,7 @@ class Matchmaking extends Component {
 
   }
 
-  matchGroups = () => {
+  matchGroups = () => {  //Get A List of Matched Groups
     AppAPI.getAPI()
       .matchGroups()
       .then((response) =>
@@ -87,7 +85,7 @@ class Matchmaking extends Component {
               <Typography className={classes.root} variant='h5' align='center'> Matched Persons:</Typography>
               {
             personList.map(person => 
-            <ProfileDetail personList={true} key={person.id_} person={person.id_} //expandedState={expandedProfileID === profile.getID()}
+            <ProfileDetail personList={true} key={person.id_} person={person.id_} //send each macthed person to ProfileDetail
             />)
               }</div>
         ) : null
@@ -96,7 +94,7 @@ class Matchmaking extends Component {
             <div>
             <Typography className={classes.root} variant='h5' align='center'>Matched Groups:</Typography>
             {groupList.map(group =>
-            <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //expandedState={expandedProfileID === profile.getID()}
+            <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //send each matched group tp GroupDetail
             />)}</div>
               :null}
       </div>

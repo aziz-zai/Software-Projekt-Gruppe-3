@@ -11,11 +11,10 @@ class CreateGroupForm extends Component {
   constructor(props) {
     super(props);
 
-    
 
     // Init the state
     this.state = {
-        error: null,
+        error: null, 
         show2: true,
         groupinfo: '',
         groupname: '',
@@ -25,11 +24,9 @@ class CreateGroupForm extends Component {
     this.baseState = this.state;
   }
 
- 
- 
-    
-  /** Updates the profile */
-  createGroup = () => {
+
+  /** cereates a group with you as the first member */
+  createGroup = () => {            
     AppAPI.getAPI().createGroup(this.state.groupname, this.state.groupinfo).then(newGroup=>
       this.setState({
         show2: false,
@@ -44,7 +41,7 @@ class CreateGroupForm extends Component {
           error: null
         })
   }
-  textFieldValueChange = (event) => {
+  textFieldValueChange = (event) => {        // textfiel to name the group and info
     const value = event.target.value;
 
     let error = false;
@@ -70,7 +67,7 @@ class CreateGroupForm extends Component {
     const { classes, group, show} = this.props;
     const { memberList, groupname, groupinfo, show2} = this.state;
   
-    return (
+    return (         // create group form in a dialog
       show2 ?
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
@@ -116,15 +113,10 @@ const styles = theme => ({
 CreateGroupForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object,
-  /** The CustomerBO to be edited */
-  person: PropTypes.any,
   /** If true, the form is rendered */
   show: PropTypes.bool,
   /**  
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
+   * Signature: onClose();
    */
   onClose: PropTypes.func,
 }

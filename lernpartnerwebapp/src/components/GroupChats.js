@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
+import { withStyles, Button} from '@material-ui/core';
 import { AppAPI} from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import LoadingProgress from './dialogs/LoadingProgress';
-import Header from '../components/Layouts/Header';
-import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
-import ProfileBO from '../api/ProfileBO'
 import GroupDetail from './GroupDetail'
-import MembershipBO from '../api/MembershipBO'
 import CreateGroupForm from './dialogs/CreateGroupForm'
-import CloseIcon from '@material-ui/icons/Close';
+
 
 
  class GroupChats extends Component {
@@ -22,7 +16,6 @@ import CloseIcon from '@material-ui/icons/Close';
 
     // Init an empty state
     this.state = {
-       person: [],
        groupList: [],
        memberships: [],
        showCreateGroupForm: false,
@@ -37,13 +30,13 @@ import CloseIcon from '@material-ui/icons/Close';
   }
 
   loadMyGroups = () => {
-    AppAPI.getAPI().getGroupsOfaPerson().then(groups =>
+    AppAPI.getAPI().getGroupsOfaPerson().then(groups => //load your own groups
       this.setState({
         memberships: groups,
         groupList: groups
 
       })).catch(e =>
-        this.setState({ // Reset state with error from catch 
+        this.setState({ // Reset state with error from catch
           memberships: [],
           groupList: []
         })
@@ -58,7 +51,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 
 
-  profileFormClosed = (group) => {
+  groupFormClosed = (group) => {    //close the creategroupDialog
     if (group) {
       this.setState({
         showCreateGroupForm: false
@@ -70,7 +63,7 @@ import CloseIcon from '@material-ui/icons/Close';
     }
   }
 
-  createGroupButton = (event) => {
+  createGroupButton = (event) => {  //open show createGroupDialog
     event.stopPropagation();
     this.setState({
       showCreateGroupForm: true
@@ -81,20 +74,20 @@ import CloseIcon from '@material-ui/icons/Close';
 
   render() {
     const { classes } = this.props;
-    const { groupList,loadingInProgress} = this.state;
+    const { groupList} = this.state;
 
     return (
-      <div className={classes.root}> <br></br>
+      <div className={classes.root}> <br></br>  
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.createGroupButton}>
             Neue Gruppe
         </Button> &nbsp; &nbsp;
         {
             groupList.map(group =>
-              <GroupDetail showChat={true} showLeaveGroup={true} learngroup={group}> </GroupDetail>)
+              <GroupDetail showChat={true} showLeaveGroup={true} learngroup={group}> </GroupDetail>) //sent each group to GroupDetail component
           }
 
-          <CreateGroupForm show={this.state.showCreateGroupForm} person={this.state.person} onClose={this.profileFormClosed}></CreateGroupForm>
-      </div>
+          <CreateGroupForm show={this.state.showCreateGroupForm}  onClose={this.groupFormClosed}></CreateGroupForm> 
+      </div> //CreateGroupForm is shown when createGroupButton is pressed
 
     );
   }

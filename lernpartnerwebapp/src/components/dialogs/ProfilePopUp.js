@@ -26,7 +26,7 @@ class ProfilePopUp extends Component {
   render() {
     const { classes, profile, show } = this.props;
   
-    return (
+    return (                //show profiledata of a person
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{profile.firstname} {profile.lastname}<br /><br />
