@@ -240,7 +240,7 @@ class ProfileDetail extends Component {
    })
  }
 
- 
+
 
   render() {
     const { classes, showKickMember} = this.props;
@@ -278,7 +278,7 @@ class ProfileDetail extends Component {
 
         {
           showKickMember ?
-          <Button color='primary' startIcon={<RemoveIcon/>} onClick={this.kickMember}>
+          <Button color='primary' startIcon={<RemoveIcon/>} onClick={this.rejectGroupRequest}>
          Kick Member
         </Button> :null
         }
