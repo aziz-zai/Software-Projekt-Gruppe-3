@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper, Button } from '@material-ui/core';
+import { withStyles, Typography, Paper, Button, Dialog, DialogTitle, IconButton, DialogContent, ButtonGroup, DialogContentText, DialogActions} from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -13,6 +13,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChatIcon from '@material-ui/icons/Chat';
 import GroupChatting from './GroupChatting'
 import GroupIcon from '@material-ui/icons/Group';
+import CloseIcon from '@material-ui/icons/Close';
 
 class GroupDetail extends Component {
 
@@ -28,6 +29,8 @@ class GroupDetail extends Component {
       showProfileForm: false,
       leftGroup: false,
       showGroupChatComponent: false,
+      leaveGroup: false,
+      showGroup: true,
     };
   }
 
@@ -37,6 +40,8 @@ class GroupDetail extends Component {
       this.setState({
         leftGroup: true,
         loadingInProgress: false,
+        leaveGroup: false,
+        showGroup: false,
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           error: e
@@ -81,12 +86,25 @@ class GroupDetail extends Component {
       showGroupChatComponent: false,
     })
   }
+
+leaveGroupButton = () => {
+  this.setState({
+    leaveGroup: true,
+  })
+}
+
+leaveGroupClose = () => {
+  this.setState({
+    leaveGroup: false,
+  })
+}
  
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, learngroup, memberList} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, learngroup, leaveGroup, memberList, showGroup} = this.state;
 
     return (
+      showGroup ?
       <div>
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
@@ -94,18 +112,27 @@ class GroupDetail extends Component {
         <Button  color='primary' startIcon={<GroupIcon/>} onClick={this.GroupInfo} >
         </Button>
         {this.props.showLeaveGroup ?
-          <Button   color='primary' startIcon={<CancelIcon/>} onClick={this.leaveGroup} >
+          <Button   color='primary' startIcon={<CancelIcon/>} onClick={this.leaveGroupButton} >
             Leave Group
           </Button>
           : null
         }
-        {
-          this.state.leftGroup ?
-          <Button color='primary' startIcon={<CheckCircleIcon/>}>
-          </Button>
-          :null
-        }
-
+          <Dialog open={leaveGroup} onClose={this.leaveGroupClose}>
+              <DialogTitle id='delete-dialog-title'>Delete {this.props.learngroup.groupname}
+           <IconButton align='right' onClick={this.leaveGroupClose}>
+             <CloseIcon align='right'/>
+           </IconButton>
+         </DialogTitle>
+            <DialogContent>
+              Do you really want to delete this group?
+            </DialogContent>
+            <Button variant='contained' color='primary' size='small' onClick={this.leaveGroup}>
+              YES
+            </Button>
+            <Button variant='contained' color='default' size='small' onClick={this.leaveGroupClose}>
+              NO
+            </Button>
+          </Dialog>
         {
           this.props.showChat?
           <Button color='primary' onClick={this.showChatComponent}startIcon={<ChatIcon/>}>
@@ -120,6 +147,7 @@ class GroupDetail extends Component {
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data of  ${learngroup} could not be loaded.`} onReload={this.getGroup} />
       </Paper>
       </div>
+      :null
     );
   }
 }

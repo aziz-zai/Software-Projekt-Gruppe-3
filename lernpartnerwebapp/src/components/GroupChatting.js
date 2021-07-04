@@ -71,7 +71,8 @@ class GroupChatting extends Component {
   sendMessage = () => {
     AppAPI.getAPI().createMessage(0,this.props.group.id_,this.state.person.id_, this.state.content).then(content =>
       this.setState({
-        loadingInProgress: false, // loading indicator 
+        loadingInProgress: false, 
+        content:"",// loading indicator 
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
           loadingInProgress: false,

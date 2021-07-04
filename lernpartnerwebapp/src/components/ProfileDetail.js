@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper, Button, ButtonGroup, Grid } from '@material-ui/core';
+import { withStyles, Typography, Paper,Dialog, DialogTitle, IconButton, DialogContent, Button, ButtonGroup, Grid } from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -12,7 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ChatIcon from '@material-ui/icons/Chat';
 import SingleChat from './SingleChat'
-
+import CloseIcon from '@material-ui/icons/Close';
 
 class ProfileDetail extends Component {
 
@@ -31,6 +31,7 @@ class ProfileDetail extends Component {
       show: true,
       newMember: [],
       showChatComponent: false,
+      deleteChat:false,
     };
   }
 
@@ -227,14 +228,26 @@ class ProfileDetail extends Component {
   });
  }
 
+ deleteChatButton = () => {
+   this.setState({
+     deleteChat:true,
+   })
+ }
+
+ deleteChatClose = () => {
+   this.setState({
+     deleteChat:false,
+   })
+ }
+
   render() {
     const { classes} = this.props;
-    const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent} = this.state;
+    const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent, deleteChat} = this.state;
 
     return (
       this.props.showFirstnameInGroupChat ?
       <div>
-        {profile.firstname}
+        {profile.firstname}:
       </div>
       : 
       show ?
@@ -292,12 +305,28 @@ class ProfileDetail extends Component {
         {
         this.props.showChat ?
         <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-        <Button color='primary' onClick={this.deleteChat} startIcon={<CancelIcon></CancelIcon>}>
-        </Button>
-        <Button color='primary' onClick={this.openChat} startIcon={<ChatIcon></ChatIcon>}>
-        </Button></ButtonGroup>
+        <Button color='primary' onClick={this.openChat} startIcon={<ChatIcon></ChatIcon>}></Button>
+          <Button color='primary' onClick={this.deleteChatButton} startIcon={<CancelIcon></CancelIcon>}>
+        Delete Chat</Button>
+        </ButtonGroup>
         : null
         }
+        <Dialog open={deleteChat} onClose={this.deleteChatClose}>
+              <DialogTitle id='delete-dialog-title'>Delete {profile.firstname}{profile.lastname}
+           <IconButton align='right' onClick={this.deleteChatClose}>
+             <CloseIcon align='right'/>
+           </IconButton>
+         </DialogTitle>
+            <DialogContent>
+              Do you really want to delete this group?
+            </DialogContent>
+            <Button variant='contained' color='primary' size='small' onClick={this.deleteChat}>
+              YES
+            </Button>
+            <Button variant='contained' color='default' size='small' onClick={this.deleteChatClose}>
+              NO
+            </Button>
+          </Dialog>
         <SingleChat chatroom={this.props.chatID} person={this.props.person} onClose={this.closeChat} showSingleChat={showChatComponent}></SingleChat>
         {
         this.props.received ?
