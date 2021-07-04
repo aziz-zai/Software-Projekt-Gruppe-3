@@ -103,8 +103,8 @@ class ProfileDetail extends Component {
         })
       );
       }
-      rejectRequest = () => {
-        AppAPI.getAPI().deleteReceivedRequest(this.props.request.id_).then(() =>
+  rejectRequest = () => {
+        AppAPI.getAPI().deleteSingleChat(this.props.request.id_).then(() =>
           this.setState({
             loadingInProgress: false,
             loadingError: null,
