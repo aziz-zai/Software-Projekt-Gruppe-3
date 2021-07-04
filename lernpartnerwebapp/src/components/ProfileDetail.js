@@ -38,7 +38,7 @@ class ProfileDetail extends Component {
   componentDidMount() {
    this.getProfile();
   }
-  getProfile = () => {
+  getProfile = () => {                                         //get Profile oof the person you got
     AppAPI.getAPI().getProfileForPerson(this.props.person)
     .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
@@ -60,13 +60,13 @@ class ProfileDetail extends Component {
     });
   }
 
-  updateProfileButton = (event) => {
+  infoProfileButton = (event) => {         // show profile info dialog
     event.stopPropagation();
     this.setState({
       showProfileForm: true
     });
   }
-  profileFormClosed = (profile) => {
+  profileFormClosed = (profile) => {        //close profile info dialog
     if (profile) {
       this.setState({
         profile: profile[0],
@@ -79,19 +79,19 @@ class ProfileDetail extends Component {
     }
   }
 
-  openChat = () => {
+  openChat = () => {       //show chaticon
     this.setState({
       showChatComponent: true,
     })
   }
 
-  closeChat =() => {
+  closeChat =() => { //close chaticon
     this.setState({
       showChatComponent: false,
     })
   }
 
-  acceptRequest = () => {
+  acceptRequest = () => {            //accept a received request
     AppAPI.getAPI().acceptReceivedRequest(this.props.request.id_).then(() =>
       this.setState({
         loadingInProgress: false,
@@ -104,7 +104,7 @@ class ProfileDetail extends Component {
         })
       );
       }
-  rejectRequest = () => {
+  rejectRequest = () => {         //reject a Request
         AppAPI.getAPI().deleteSingleChat(this.props.request.id_).then(() =>
           this.setState({
             loadingInProgress: false,
@@ -118,7 +118,7 @@ class ProfileDetail extends Component {
           );
           }
 
-  sendRequest = () => {
+  sendRequest = () => {        //send a request
     AppAPI.getAPI().sendRequest(this.props.person).then(newRequest =>
       this.setState({
         request: newRequest,
@@ -142,7 +142,7 @@ class ProfileDetail extends Component {
   }
 
  
-  addToGroup = () => {
+  addToGroup = () => {        //add someone to your group
     AppAPI.getAPI().addPersonToGroup(this.props.showGroupDetail, this.props.person).then(newMember =>
       this.setState({
         newMember: newMember,
@@ -168,7 +168,7 @@ class ProfileDetail extends Component {
     });
   }
 
-  acceptGroupRequest = () => {
+  acceptGroupRequest = () => {          // accept a received grouprequest. add member to group
     AppAPI.getAPI().acceptMembershipRequest(this.props.groupRequest.id_).then(newMember =>
       this.setState({
         loadingInProgress: false,
@@ -188,7 +188,7 @@ class ProfileDetail extends Component {
     });
   }
 
-  rejectGroupRequest = () => {
+  rejectGroupRequest = () => {     //reject Group request
     AppAPI.getAPI().rejectMembershipRequest(this.props.groupRequest.learning_group, this.props.person).then(newMember =>
       this.setState({
         loadingInProgress: false,
@@ -208,7 +208,7 @@ class ProfileDetail extends Component {
     });
   }
 
- deleteChat = () => {
+ deleteChat = () => {              //delete Conversation
   AppAPI.getAPI().deleteSingleChat(this.props.chatID).then(newMember =>
     this.setState({
       loadingInProgress: false,
@@ -228,13 +228,13 @@ class ProfileDetail extends Component {
   });
  }
 
- deleteChatButton = () => {
+ deleteChatButton = () => {     //delete chat button dialog
    this.setState({
      deleteChat:true,
    })
  }
 
- deleteChatClose = () => {
+ deleteChatClose = () => {      //close delete dialog
    this.setState({
      deleteChat:false,
    })
@@ -246,7 +246,7 @@ class ProfileDetail extends Component {
     const { classes, showKickMember} = this.props;
     const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent, deleteChat} = this.state;
 
-    return (
+    return (          // show Firstname and Lastname of a person. show Buttons depending on the state and prop
       this.props.showFirstnameInGroupChat ?
       <div>
         {profile.firstname}:
@@ -258,7 +258,7 @@ class ProfileDetail extends Component {
       <Paper variant='outlined' className={classes.root}>
         <Typography className={classes.profileEntry}>
         {profile.firstname} {profile.lastname} &nbsp;
-        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.updateProfileButton} >
+        <Button  color='primary' startIcon={<AccountCircleIcon/>} onClick={this.infoProfileButton} >
         </Button>&nbsp; &nbsp;
         {
         notAddedStatus ?
@@ -267,8 +267,8 @@ class ProfileDetail extends Component {
         justify="left" // Add it here :)
         >
           <Grid item>
-        <Button color='primary' startIcon={<AddIcon/>} onClick={this.addToGroup}>
-         Add to Group
+        <Button color='primary' startIcon={<AddIcon/>} onClick={this.addToGroup}> 
+         Add to Group 
         </Button>
         </Grid>
         </Grid>

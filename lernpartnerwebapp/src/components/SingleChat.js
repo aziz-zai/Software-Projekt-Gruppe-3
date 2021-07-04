@@ -28,14 +28,14 @@ class SingleChats extends Component {
   }
 
   /** handleClose */
-  handleClose = () => {
+  handleClose = () => {              // close chat
     this.props.onClose(null);
     this.setState({
       loop: false,
     })
   }
 
-  textFieldValueChange = (event) => {
+  textFieldValueChange = (event) => {               // tectfield to wirte your textmessage
     const value = event.target.value;
 
     let error = false;
@@ -48,7 +48,7 @@ class SingleChats extends Component {
     });
   }
 
-  getPerson = () => {
+  getPerson = () => {              //get your own persondata
     AppAPI.getAPI().getPersonId().then(person =>
       this.setState({
         person: person[0],
@@ -67,7 +67,7 @@ class SingleChats extends Component {
     });
   }
 
-  getProfile = () => {
+  getProfile = () => {             //get the profile of the person
     AppAPI.getAPI().getProfileForPerson(this.props.person)
     .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
@@ -89,7 +89,7 @@ class SingleChats extends Component {
     });
   }
 
-  sendMessage = () => {
+  sendMessage = () => {       //send a message
     AppAPI.getAPI().createMessage(1,this.props.chatroom,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, // loading indicator 
@@ -108,7 +108,7 @@ class SingleChats extends Component {
     });
   }
 
-  getMessages = () => {
+  getMessages = () => {        //get all messages of the chatroom
     AppAPI.getAPI().getMessages(1,this.props.chatroom).then(content =>
       this.setState({
         messages: content,
@@ -122,7 +122,7 @@ class SingleChats extends Component {
       );
   }
 
-handleMessages = () => {
+handleMessages = () => {     //get messages loop
   (this.props.chatroom) ?
   this.getMessages()
   : clearInterval(this.interval)
@@ -132,7 +132,7 @@ handleMessages = () => {
   componentDidMount() {
     this.getPerson();
     this.getProfile();
-    this.interval = setInterval(() => this.handleMessages(), 2000);
+    this.interval = setInterval(() => this.handleMessages(), 2000); //get messages loop
   }
 
 
@@ -141,7 +141,7 @@ handleMessages = () => {
     const { showSingleChat, classes} = this.props;
 
 
-    return (
+    return (                  // show all messages of the chatroom, show name of other person, show send button
 
       <div>
 

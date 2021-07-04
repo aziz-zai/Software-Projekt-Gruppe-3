@@ -21,7 +21,7 @@ class ChatList extends React.Component {
 	/** Renders the whole app */
 	render() {
     const { appError, authError, authLoading } = this.state;
-		return (
+		return (           // Route to Groups or persons
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<ChatsHeader user={this.props.currentUser} />

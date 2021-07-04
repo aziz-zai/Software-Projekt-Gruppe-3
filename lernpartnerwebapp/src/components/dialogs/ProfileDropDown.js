@@ -44,7 +44,7 @@ class ProfileDropDown extends Component {
     const { classes, user } = this.props;
     const { open } = this.state;
 
-    return (
+    return (           // show google info
       user ?
         <div>
           <IconButton className={classes.avatarButton} ref={this.#avatarButtonRef} onClick={this.handleAvatarButtonClick}>

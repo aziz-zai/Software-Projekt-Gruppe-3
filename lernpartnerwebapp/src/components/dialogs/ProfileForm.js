@@ -62,7 +62,7 @@ class ProfileForm extends Component {
   }
  
   /** Updates the profile */
-  updateProfile = () => {
+  updateProfile = () => {             
     // clone the original person, in case the backend call fails
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     // set the new attributes from our dialog
@@ -173,7 +173,7 @@ class ProfileForm extends Component {
       header = 'Enter profile data';
     }
 
-    return (
+    return (               //show form with updatable attributes
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{title}

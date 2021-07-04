@@ -1,9 +1,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, Paper,Box, TextField, InputAdornment, IconButton, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { withStyles, Button, Paper, TextField, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { AppAPI } from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
 import CloseIcon from '@material-ui/icons/Close';
@@ -34,7 +33,7 @@ class GroupChatting extends Component {
     })
   }
 
-  textFieldValueChange = (event) => {
+  textFieldValueChange = (event) => {        //chatting textfield
     const value = event.target.value;
 
     let error = false;
@@ -48,7 +47,7 @@ class GroupChatting extends Component {
   }
 
   getPerson = () => {
-    AppAPI.getAPI().getPersonId().then(person =>
+    AppAPI.getAPI().getPersonId().then(person =>        // get own person data
       this.setState({
         person: person[0],
         loadingInProgress: false, // loading indicator 
@@ -68,7 +67,7 @@ class GroupChatting extends Component {
 
 
 
-  sendMessage = () => {
+  sendMessage = () => {             //send Message
     AppAPI.getAPI().createMessage(0,this.props.group.id_,this.state.person.id_, this.state.content).then(content =>
       this.setState({
         loadingInProgress: false, 
@@ -86,7 +85,7 @@ class GroupChatting extends Component {
     });
   }
 
-  getMessages = () => {
+  getMessages = () => {             //Get All Messages
     AppAPI.getAPI().getMessages(0,this.props.group.id_).then(content =>
       this.setState({
         messages: content,
@@ -100,7 +99,7 @@ class GroupChatting extends Component {
       );
   }
 
-  handleMessages = () => {
+  handleMessages = () => {          //getMessages Interval (Loop)
     (this.props.showChat) ?
     this.getMessages()
     : clearInterval(this.interval)
@@ -108,7 +107,7 @@ class GroupChatting extends Component {
 
   componentDidMount() {
     this.getPerson();
-    this.interval = setInterval(() => this.handleMessages(), 5000);
+    this.interval = setInterval(() => this.handleMessages(), 5000); //getMessages Interval (Loop)
   }
 
 
@@ -118,13 +117,11 @@ class GroupChatting extends Component {
 
 
     return (
-
+                                  //ChatDialog opens and decides if the message is from you or other members. If its from other members. get their profilename
       <div>
-
     {showChat ?
         <div>
-          {console.log('sender',this.state.person, messages, this.props.group.id_)}
-        <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>
+        <Dialog classes={{ paper: classes.paper}} open={showChat} onClose={this.handleClose}>       
          <DialogTitle id='delete-dialog-title'>{this.props.group.groupname}
            <div align="right"><IconButton  onClick={this.handleClose}>
              <CloseIcon />

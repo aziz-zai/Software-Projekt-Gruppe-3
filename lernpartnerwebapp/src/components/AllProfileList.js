@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles,Grid} from '@material-ui/core';
 import { AppAPI } from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
-import ClearIcon from '@material-ui/icons/Clear';
-import AddIcon from '@material-ui/icons/Add';
+
 
 /** Shows all profiles of the app*/
 class AllProfileList extends Component {
@@ -28,7 +26,7 @@ class AllProfileList extends Component {
     this.loadPotentialPersons();
   }
 
-  /** gets the profile list for this profile */
+  /** gets the profile list of persons that are not in correlation with your own person */
   loadPotentialPersons = () => {
     AppAPI.getAPI().getPotentialChats().then(persons =>
       this.setState({
@@ -66,7 +64,7 @@ class AllProfileList extends Component {
       </Grid>
       {
             personList.map(person =>
-              <ProfileDetail key={person.id_} person={person.id_} personList={personList}/>)
+              <ProfileDetail key={person.id_} person={person.id_} personList={personList}/>) //send eacg profile of ProfileList to ProfileDetail
           }
           <LoadingProgress show={loadingInProgress} />
       </div>

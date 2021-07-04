@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles,Grid} from '@material-ui/core';
 import { AppAPI } from '../api';
 import GroupDetail from './GroupDetail';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -10,31 +10,20 @@ class AllGroups extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            groupList: [],
-            loadingInProgress: false,
-            loadingError: null,
+            groupList: [], //List of All Groups
+            loadingInProgress: false,  //loading state
             error: null
           };
-
-        this.state = {
-            groupList: [],
-            error: null,
-            loadingInProgress: false,
-            loadingError: null
-        };
     }
-    loadPotentialGroups = () => {
+    loadPotentialGroups = () => {    //API CALL to load all Potential Groups to send a potential request
         AppAPI.getAPI().getGroups().then(groups =>
           this.setState({
             groupList: groups,
             loadingInProgress: false, // loading indicator 
-            loadingError: null,
             error: null
           })).catch(e =>
             this.setState({ // Reset state with error from catch 
               loadingInProgress: false,
-              loadingError: false,
-              error: e
             })
           );
 
@@ -47,7 +36,7 @@ class AllGroups extends Component {
 
 
     componentDidMount() {
-        this.loadPotentialGroups();
+        this.loadPotentialGroups(); //load this function when component is mount
     }
     render() {
         const{groupList, loadingInProgress} =this.state;
@@ -59,7 +48,7 @@ class AllGroups extends Component {
       </Grid>
       {
             groupList.map(group =>
-              <GroupDetail showRequestGroup={true} learngroup={group}/>)
+              <GroupDetail showRequestGroup={true} learngroup={group}/>)    //Send every groupObject from the groupList to Component: GroupDetail
           }
           <LoadingProgress show={loadingInProgress} />
 

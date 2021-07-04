@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Paper, ListItem, ButtonGroup, Typography, 
 IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, 
-Grid, Card, CardContent, CardActions, Accordion, AccordionSummary, AccordionDetails, DialogActions} from '@material-ui/core';
+Grid, Card, Accordion, AccordionSummary, AccordionDetails, DialogActions} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -36,7 +36,7 @@ class MyProfile extends Component {
 
   
   getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
+    AppAPI.getAPI().getPerson(this.props.currentUser.uid)  //get your own persondata
     .then((personBO) =>{
       this.setState({
         person: personBO[0],
@@ -51,7 +51,7 @@ class MyProfile extends Component {
       )
   }
   getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
+    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)    //get Profile of Person
     .then((profileBO) => {
       this.setState({  // Set new state when ProfileBOs have been fetched
         profile: profileBO[0],
@@ -72,7 +72,7 @@ class MyProfile extends Component {
     });
   }
 
-  profileFormClosed = (profile) => {
+  profileFormClosed = (profile) => {      //Close the porfile edit form
     if (profile) {
       this.setState({
         profile: profile,
@@ -85,7 +85,7 @@ class MyProfile extends Component {
     }
   }
   
-  updateProfileButton = (event) => {
+  updateProfileButton = (event) => {    //show the profile Form
     event.stopPropagation();
     this.setState({
       showProfileForm: true
@@ -93,17 +93,17 @@ class MyProfile extends Component {
   }
 
 
-   /** Handles the onClick event of the delete customer button */
-   deleteProfileButtonClicked = (event) => {
+   /** Handles the onClick event of the delete person button */
+   deleteProfileButtonClicked = (event) => {  
     event.stopPropagation();
     this.setState({
       showProfileDeleteDialog: true
     });
   }
 
-  /** Handles the onClose event of the CustomerDeleteDialog */
+  /** Handles the delete dialog closed */
   deleteProfileDialogClosed = (profile) => {
-    // if customer is not null, delete it
+    // if profile is not null, delete it
     if (profile) {
       this.setState({
         profile: profile,
@@ -116,7 +116,7 @@ class MyProfile extends Component {
     }
   }
   deletePerson = () => {
-    AppAPI.getAPI().deletePerson(this.state.person.id_).then(() => {
+    AppAPI.getAPI().deletePerson(this.state.person.id_).then(() => {         //delete Person
       this.setState({
         deletingInProgress: false,              // disable loading indicator  
         deletingError: null                     // no error message
@@ -147,7 +147,7 @@ class MyProfile extends Component {
   {const { profile, loadingInProgress, showProfileDeleteDialog, showProfileForm, 
             deletingInProgress, deletingError} = this.state;
 
-    return (
+    return (                                                    //show your own ProfileData and edit/delete button. show Deletes dialog
       <div className={classes.root}>
       
       <div align="center"> 

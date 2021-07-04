@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper, Button, Dialog, DialogTitle, IconButton, DialogContent, ButtonGroup, DialogContentText, DialogActions} from '@material-ui/core';
+import { withStyles, Typography, Paper, Button, Dialog, DialogTitle, IconButton, DialogContent,} from '@material-ui/core';
 import { AppAPI } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ProfileForm from './dialogs/ProfileForm'
 import GroupPopUp from './dialogs/GroupPopUp'
-import GroupBO from '../api/GroupBO'
 import CancelIcon from '@material-ui/icons/Cancel';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChatIcon from '@material-ui/icons/Chat';
 import GroupChatting from './GroupChatting'
 import GroupIcon from '@material-ui/icons/Group';
@@ -35,7 +31,7 @@ class GroupDetail extends Component {
   }
 
 
-  leaveGroup = () => {
+  leaveGroup = () => {      //leave the group (delete your membership)
     AppAPI.getAPI().leaveGroup(this.props.learngroup.id_).then(groups =>
       this.setState({
         leftGroup: true,
@@ -55,14 +51,14 @@ class GroupDetail extends Component {
     });
   }
 
-  GroupInfo = (event) => {
+  GroupInfo = (event) => {          //show Groupinfo
     event.stopPropagation();
     this.setState({
       showGroupForm: true
     });
   }
 
-  GroupPopUpClosed = (profile) => {
+  GroupPopUpClosed = (profile) => {       //GroupPopUp component true
     if (profile) {
       this.setState({
         profile: profile[0],
@@ -75,25 +71,25 @@ class GroupDetail extends Component {
     }
   }
 
-  showChatComponent = () => {
+  showChatComponent = () => {            //show Chatdetails in GroupDetail
     this.setState({
       showGroupChatComponent: true,
     })
   }
 
-  closeChatComponent = () => {
+  closeChatComponent = () => {                //close Chat Details
     this.setState({
       showGroupChatComponent: false,
     })
   }
 
-leaveGroupButton = () => {
+leaveGroupButton = () => {                  //leave Group Button
   this.setState({
     leaveGroup: true,
   })
 }
 
-leaveGroupClose = () => {
+leaveGroupClose = () => {                //leave group dialog closed
   this.setState({
     leaveGroup: false,
   })
@@ -101,9 +97,9 @@ leaveGroupClose = () => {
  
   render() {
     const { classes, } = this.props;
-    const {loadingInProgress, loadingError, showGroupForm, learngroup, leaveGroup, memberList, showGroup} = this.state;
+    const {loadingInProgress, loadingError, showGroupForm, learngroup, leaveGroup, showGroup} = this.state;
 
-    return (
+    return (                     //show Groupdetails -groupname, leave group button and dialog, ChatIcon , 
       showGroup ?
       <div>
       <Paper variant='outlined' className={classes.root}>
