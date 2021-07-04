@@ -181,7 +181,7 @@ class MyProfile extends Component {
                 Learning Type:           {profile.type_} <br></br>
                 </div>
                 <div className={classes.attribute}> 
-                Learning preference:         {profile.online} <br></br>
+                Learning preference:         {(profile.online) ? "Prefers online" : "Prefers offline"} <br></br>
                 </div>
                 <div className={classes.attribute}> 
                 Learning frequency per week:      {profile.frequency} <br></br>

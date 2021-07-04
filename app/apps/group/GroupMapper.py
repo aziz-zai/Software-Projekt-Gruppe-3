@@ -25,6 +25,8 @@ class GroupMapper(Mapper):
                 info=info
             )
             result.append(learning_group)
+
+        cnx.commit()
         cursor.close()
 
         return result
@@ -49,6 +51,7 @@ class GroupMapper(Mapper):
         except TypeError:
             result = None
 
+        cnx.commit()
         cursor.close()
 
         return result
@@ -83,4 +86,3 @@ class GroupMapper(Mapper):
 
         cnx.commit()
         cursor.close()
-

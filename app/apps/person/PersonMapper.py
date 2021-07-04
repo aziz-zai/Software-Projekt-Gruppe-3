@@ -28,6 +28,7 @@ class PersonMapper(Mapper):
         except TypeError:
             result = None
 
+        cnx.commit()
         cursor.close()
 
         return result
@@ -54,6 +55,7 @@ class PersonMapper(Mapper):
         except IndexError:
             result = None
 
+        cnx.commit()
         cursor.close()
 
         return result
@@ -159,6 +161,7 @@ class PersonMapper(Mapper):
             )
             result.append(person)
 
+        cnx.commit()
         cursor.close()
 
         return result

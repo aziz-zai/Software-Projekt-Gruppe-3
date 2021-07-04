@@ -76,6 +76,7 @@ class ProfileMapper(Mapper):
         except IndexError:
             result = None
 
+        cnx.commit()
         cursor.close()
 
         return result

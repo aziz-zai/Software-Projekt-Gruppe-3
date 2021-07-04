@@ -45,7 +45,7 @@ class ProfilePopUp extends Component {
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Online preference:  {profile.online}
+                  Online preference:  {(profile.online) ? "Prefers online" : "Prefers offline"}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>

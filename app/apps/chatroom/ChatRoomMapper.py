@@ -152,6 +152,7 @@ class ChatRoomMapper(Mapper):
 
             result.append(chatroom)
 
+        cnx.commit()
         cursor.close()
 
         return result
