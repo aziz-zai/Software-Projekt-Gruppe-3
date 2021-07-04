@@ -36,9 +36,9 @@ class MembershipMapper(Mapper):
         cursor = cnx.cursor(buffered=True)
         command = """
             SELECT id, learning_group, person, is_open, is_accepted, timestamp from `mydb`.`membership`
-            WHERE learning_group=%s
+            WHERE learning_group=%s AND is_open=%s AND is_accepted=%s
         """
-        cursor.execute(command, (groupID, ))
+        cursor.execute(command, (groupID, False, True))
         tuples = cursor.fetchall()
 
         for (id, learning_group, profile, is_open, is_accepted, timestamp) in tuples:
