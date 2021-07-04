@@ -253,10 +253,7 @@ const styles = theme => ({
   },
   AccountCircle: {
     color: "#8BC2F8",
-    fontSize: "12vw",
-  },
-  heading: {
-    
+    fontSize: "8vw",
   },
 
   accordion: {
@@ -281,7 +278,7 @@ const styles = theme => ({
   },
  
   fname: {
-    fontSize: "5vw",
+    fontSize: "2vw",
   },
 
 });
