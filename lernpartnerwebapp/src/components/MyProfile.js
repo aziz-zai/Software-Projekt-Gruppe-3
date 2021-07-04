@@ -199,7 +199,7 @@ class MyProfile extends Component {
                 : null
               } 
                 <Card >
-                <ButtonGroup variant='text' size='large' gutterBottom="true">
+                <ButtonGroup variant='text' size='large' >
                   <Button className={classes.buttonMargin} color= "secondary" variant='outlined' color='primary' size='small' startIcon={<SaveIcon/>} onClick={this.updateProfileButton}>
                       Edit
                   </Button>
@@ -288,8 +288,8 @@ const styles = theme => ({
 
 /** PropTypes */
 MyProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  currentUser: PropTypes.object,
 }
 
 export default (withStyles(styles)(MyProfile));

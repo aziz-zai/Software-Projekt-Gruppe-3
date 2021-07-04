@@ -52,7 +52,7 @@ const styles = theme => ({
 /** PropTypes */ 
 ContextErrorMessage.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** 
    * The error object, which drives the error message 
    * If not null, the error message is shown 

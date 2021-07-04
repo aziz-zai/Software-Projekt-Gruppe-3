@@ -365,7 +365,7 @@ ProfileDetail.propTypes = {
   classes: PropTypes.object,
   person: PropTypes.any,
   personList: PropTypes.any,
-  received: PropTypes,
+  received: PropTypes.any,
   sent: PropTypes.any,
   request: PropTypes.any,
   showGroupDetail: PropTypes.any,

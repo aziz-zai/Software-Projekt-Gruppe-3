@@ -269,11 +269,11 @@ const styles = theme => ({
 /** PropTypes */
 GroupPopUp.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  group: PropTypes.any.isRequired,
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  showRequestGroup: PropTypes.any.isRequired,
+  classes: PropTypes.object,
+  group: PropTypes.any,
+  show: PropTypes.bool,
+  onClose: PropTypes.func,
+  showRequestGroup: PropTypes.any,
 }
 
 export default withStyles(styles)(GroupPopUp);

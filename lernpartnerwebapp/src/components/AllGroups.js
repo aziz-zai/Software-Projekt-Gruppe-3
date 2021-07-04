@@ -75,7 +75,7 @@ const styles = theme => ({
 });
 
 AllGroups.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object,
 
 }
 

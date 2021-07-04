@@ -36,7 +36,7 @@ class Header extends Component {
         </Typography>
         {
           user ?
-            <Tabs indicatorColor='primary' textColor='primary' align="justify" centered value={this.state.tabindex} onChange={this.handleTabChange} >
+            <Tabs variant="scrollable" indicatorColor='primary' textColor='primary' align="justify" centered value={this.state.tabindex} onChange={this.handleTabChange} >
             <Tab label='My Profile' component={RouterLink} to={`/MyProfile`} />
             <Tab label='Find Groups' component={RouterLink} to={`/AllGroups`} />
             <Tab label='Find Partners' component={RouterLink} to={`/AllPartners`} />

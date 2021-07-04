@@ -66,27 +66,7 @@ class GroupChatting extends Component {
     });
   }
 
-  getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.props.person)
-    .then((profileBO) => {
-      this.setState({  // Set new state when ProfileBOs have been fetched
-        profile: profileBO[0],
-        loadingInProgress: false, // loading indicator 
-        loadingProfileError: null
-      })}
-      )
-      .catch((e) =>
-        this.setState({
-          profile: [],
-          loadingInProgress: false,
-          loadingProfileError: e,
-        })
-      );
-    this.setState({
-      loadingInProgress: true,
-      loadingProfileError: null
-    });
-  }
+
 
   sendMessage = () => {
     AppAPI.getAPI().createMessage(0,this.props.group.id_,this.state.person.id_, this.state.content).then(content =>
@@ -195,8 +175,8 @@ const styles = theme => ({
 
 GroupChatting.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  location: PropTypes.object,
   showChat: PropTypes.bool,
   onClose: PropTypes.func,
   group: PropTypes.any,

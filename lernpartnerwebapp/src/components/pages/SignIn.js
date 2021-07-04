@@ -42,11 +42,11 @@ const styles = theme => ({
 /** PropTypes */
 SignIn.propTypes = {
 	/** @ignore */
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 	/** 
 	 * Handler function, which is called if the user wants to sign in.
 	 */
-	onSignIn: PropTypes.func.isRequired,
+	onSignIn: PropTypes.func,
 }
 
 export default withStyles(styles)(SignIn)

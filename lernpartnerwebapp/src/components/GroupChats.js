@@ -14,7 +14,7 @@ import CreateGroupForm from './dialogs/CreateGroupForm'
 import CloseIcon from '@material-ui/icons/Close';
 
 
- class ChatList extends Component {
+ class GroupChats extends Component {
 
 
   constructor(props) {
@@ -108,11 +108,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ChatList.propTypes = {
+GroupChats.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  location: PropTypes.object,
+  currentUser: PropTypes.object,
 }
 
-export default withStyles(styles)(ChatList);
+export default withStyles(styles)(GroupChats);

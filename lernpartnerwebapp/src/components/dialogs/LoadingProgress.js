@@ -29,9 +29,9 @@ const styles = theme => ({
 /** PropTypes */
 LoadingProgress.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** If true, the loading progress is rendered */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
 }
 
 export default withStyles(styles)(LoadingProgress);

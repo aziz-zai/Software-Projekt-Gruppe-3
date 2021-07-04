@@ -96,7 +96,7 @@ const styles = theme => ({
 
 ProfileDropDown.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The logged in firesbase user */
   user: PropTypes.object,
 }

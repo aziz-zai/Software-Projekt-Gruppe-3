@@ -118,9 +118,9 @@ const styles = (theme) => ({
 });
 
 Matchmaking.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  onClose: PropTypes.func,
+  currentUser: PropTypes.object,
 };
 
 export default withStyles(styles)(Matchmaking);

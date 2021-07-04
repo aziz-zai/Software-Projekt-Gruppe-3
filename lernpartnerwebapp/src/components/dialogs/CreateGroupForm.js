@@ -115,18 +115,18 @@ const styles = theme => ({
 /** PropTypes */
 CreateGroupForm.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The CustomerBO to be edited */
-  person: PropTypes.any.isRequired,
+  person: PropTypes.any,
   /** If true, the form is rendered */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**  
    * Handler function which is called, when the dialog is closed.
    * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 }
 
 export default withStyles(styles)(CreateGroupForm);

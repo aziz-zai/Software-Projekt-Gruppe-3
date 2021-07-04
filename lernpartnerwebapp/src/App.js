@@ -4,15 +4,12 @@ import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Header from './components/Layouts/Header';
-import Header_login from './components/Layouts/Header-login';
 import AllProfileList from './components/AllProfileList'
-import About from './components/pages/About';
 import theme from './Theme';
 import LogIn from './components/pages/LogIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
-import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
 import Matchmaking from './components/Matchmaking'
 import ChatList from './components/Layouts/ChatList'
@@ -112,7 +109,6 @@ class App extends React.Component {
 									<Route path='/AllGroups' component={() => <AllGroups/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
 									<Route path='/ChatList' component={() => <ChatList/>} />
-									<Route path='/about' component={About} />
 
 								</>
 								:

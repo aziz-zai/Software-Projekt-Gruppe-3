@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import HeaderLogin from './Header-login'
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
-class Header extends Component {
+class ChatsHeader extends Component {
 
   constructor(props) {
     super(props);
@@ -47,9 +47,9 @@ class Header extends Component {
 }
 
 /** PropTypes */
-Header.propTypes = {
+ChatsHeader.propTypes = {
   /** The logged in firesbase user */
   currentUser: PropTypes.object,
 }
 
-export default Header;
+export default ChatsHeader;

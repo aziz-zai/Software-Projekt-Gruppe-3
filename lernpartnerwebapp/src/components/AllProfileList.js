@@ -83,8 +83,8 @@ const styles = theme => ({
 
 AllProfileList.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default withStyles(styles)(AllProfileList);

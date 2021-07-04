@@ -38,7 +38,7 @@ class ChatList extends React.Component {
 
 ChatList.propTypes = {
     /** @ignore */
-    currentUser: PropTypes.object.isRequired,
+    currentUser: PropTypes.object,
   }
 
 export default ChatList;

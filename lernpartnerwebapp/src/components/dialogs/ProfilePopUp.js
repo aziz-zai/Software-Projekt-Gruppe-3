@@ -50,7 +50,7 @@ class ProfilePopUp extends Component {
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Learning frequency:  {profile.frequency}
+                  Learning frequency:  {profile.frequency}/Week
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
@@ -92,18 +92,18 @@ const styles = theme => ({
 /** PropTypes */
 ProfilePopUp.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The CustomerBO to be edited */
-  profile: PropTypes.any.isRequired,
+  profile: PropTypes.any,
   /** If true, the form is rendered */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**  
    * Handler function which is called, when the dialog is closed.
    * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 }
 
 export default withStyles(styles)(ProfilePopUp);

@@ -197,8 +197,8 @@ const styles = theme => ({
 
 SingleChats.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  location: PropTypes.object,
   showSingleChat: PropTypes.bool,
   onClose: PropTypes.func,
   chatroom: PropTypes.any,
