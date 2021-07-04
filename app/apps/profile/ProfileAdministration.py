@@ -95,4 +95,4 @@ class ProfileAdministration:
             if value >= 50:
                 groupList.append(group)     #if 50% of the group members are persons from the matching personList then add group to matching groupList
 
-        return personList, groupList   
+        return personList, groupList

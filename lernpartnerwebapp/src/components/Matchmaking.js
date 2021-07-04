@@ -90,8 +90,8 @@ class Matchmaking extends Component {
               }</div>
         ) : null
           }
-            {(groupList?.lenght) ?
-            <div>
+            {(groupList) ?
+            <div> {console.log('group', groupList)}
             <Typography className={classes.root} variant='h5' align='center'>Matched Groups:</Typography>
             {groupList.map(group =>
             <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //send each matched group tp GroupDetail
