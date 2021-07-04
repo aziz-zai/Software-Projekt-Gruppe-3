@@ -55,7 +55,6 @@ class MembershipGroupPersonAPI(AuthView):
         membership = MembershipAdministration.insert_membership(
             learning_group=group,
             person=person,
-            timestamp=datetime.now()
         )
         return membership
 
@@ -77,7 +76,7 @@ class MembershipOperations(AuthView):
         """ Eine Anfrage verschicken """
         request = MembershipAdministration.invite_membership(
             person=self.person.id_,
-            learning_group=group
+            learning_group=group,
         )
         return request
 

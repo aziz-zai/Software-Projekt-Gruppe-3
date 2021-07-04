@@ -36,6 +36,7 @@ class MembershipAdministration:
             membership = MembershipObject(
                 learning_group=learning_group,
                 person=person,
+                timestamp=datetime.now()
             )
             return MembershipMapper.insert(cnx=cnx, object=membership)
 
