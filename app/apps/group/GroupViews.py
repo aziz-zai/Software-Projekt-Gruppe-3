@@ -2,11 +2,9 @@ from app.configs.base import api
 from .GroupMarshalling import group_marshalling
 from .GroupBO import GroupObject
 from .GroupAdministration import GroupAdministration
-from app.apps.person.PersonAdministration import PersonAdministration
-from app.apps.profile.ProfileAdministration import ProfileAdministration
 from app.apps.membership.MembershipAdministration import MembershipAdministration
-from app.apps.chatroom.ChatRoomAdministration import ChatRoomAdministration
 from app.apps.core.auth import AuthView
+
 
 namespace = api.namespace(
     "/group",
@@ -16,8 +14,7 @@ namespace = api.namespace(
 
 @namespace.route("/<string:groupname>/<string:groupinfo>")
 class CreateGroupAPI(AuthView):
-    """Basic API for group."""
-
+    """API for creating groups."""
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def post(self, groupname, groupinfo) -> dict:
@@ -33,7 +30,7 @@ class CreateGroupAPI(AuthView):
 
 @namespace.route("/<int:group>")
 class GroupAPI(AuthView):
-    """Get a group."""
+    """API for returning and deleting a group."""
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self, group: int) -> dict:
@@ -44,15 +41,14 @@ class GroupAPI(AuthView):
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def delete(self, group: int) -> dict:
-        """Create Person Endpoint."""
+        """Delete Group Endpoint."""
         Group = GroupAdministration.delete_group(learning_group=group)
         return Group
 
 
 @namespace.route("/")
 class AllGroupAPI(AuthView):
-    """Basic API for group."""
-
+    """API getting all groups."""
     @api.marshal_with(group_marshalling, code=201)
     @api.expect(group_marshalling)
     def get(self) -> dict:

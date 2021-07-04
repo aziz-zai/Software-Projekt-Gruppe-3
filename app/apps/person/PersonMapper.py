@@ -1,4 +1,3 @@
-from logging import captureWarnings
 from app.apps.core.mapper import Mapper
 from .PersonBO import PersonObject
 from app.configs.base import db_connector
@@ -8,6 +7,7 @@ from app.apps.profile.ProfileAdministration import ProfileAdministration
 class PersonMapper(Mapper):
 
     def find_by_google_user_id(cnx: db_connector, google_user_id: str) -> PersonObject:
+        """Gets a person by the google_user_id."""
         result = None
 
         cursor = cnx.cursor(buffered=True)
@@ -34,6 +34,7 @@ class PersonMapper(Mapper):
         return result
 
     def find_by_key(cnx: db_connector, key: int) -> PersonObject:
+        """Gets a Person by the key 'id'."""
         result = None
 
         cursor = cnx.cursor(buffered=True)
@@ -62,7 +63,7 @@ class PersonMapper(Mapper):
 
     @staticmethod
     def insert(cnx: db_connector, object: PersonObject) -> PersonObject:
-        """Create Person Object."""
+        """Creates Person Object."""
         cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO person (
@@ -81,7 +82,7 @@ class PersonMapper(Mapper):
         return object
 
     def update(cnx: db_connector, person: PersonObject):
-
+        """Updates a Person."""
         cursor = cnx.cursor(buffered=True)
         command = "UPDATE person " + "SET email=%s WHERE google_user_id=%s"
         cursor.execute(command, (
@@ -93,6 +94,7 @@ class PersonMapper(Mapper):
         cursor.close()
 
     def delete(cnx: db_connector, person: int):
+        """Deletes a Person."""
         cursor = cnx.cursor(buffered=True)
         command = ("DELETE FROM person WHERE id=%s")
         try:
@@ -104,6 +106,7 @@ class PersonMapper(Mapper):
         cursor.close()
 
     def find_potential_persons_for_group(cnx: db_connector, learning_group: int):
+        """"Gets potential persons for a group."""
 
         result = []
         cursor = cnx.cursor(buffered=True)
@@ -131,6 +134,7 @@ class PersonMapper(Mapper):
         return result
 
     def find_potential_singlechat(cnx: db_connector, person: int):
+        """"Gets all potential persons for a SingleChat."""
         result = []
 
         cursor = cnx.cursor(buffered=True)

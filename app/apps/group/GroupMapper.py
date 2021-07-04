@@ -5,6 +5,7 @@ from app.configs.base import db_connector
 
 class GroupMapper(Mapper):
     def find_all(cnx: db_connector, person: int):
+        """Returns all groups"""
 
         result = []
         cursor = cnx.cursor(buffered=True)
@@ -32,6 +33,7 @@ class GroupMapper(Mapper):
         return result
 
     def find_by_groupID(cnx: db_connector, learning_group: int):
+        """Returns all groups by id."""
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -47,7 +49,7 @@ class GroupMapper(Mapper):
                 id_=id,
                 info=info,
                 groupname=groupname
-           )
+            )
         except TypeError:
             result = None
 
@@ -73,10 +75,8 @@ class GroupMapper(Mapper):
 
         return object
 
-    def update(object):
-        pass
-
-    def delete(cnx:db_connector, learning_group: int):
+    def delete(cnx: db_connector, learning_group: int):
+        """Deletes a group."""
         cursor = cnx.cursor(buffered=True)
         command = ("DELETE FROM learning_group WHERE id=%s")
         try:

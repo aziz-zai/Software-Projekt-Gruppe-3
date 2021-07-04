@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class MembershipObject(BusinessObject):
+    """Class for membership."""
     def __init__(self, learning_group: int, person: int, timestamp: datetime,
                  id_: int = 0, is_open: bool = True, is_accepted: bool = False):
         self.learning_group = learning_group

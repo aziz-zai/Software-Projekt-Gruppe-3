@@ -1,12 +1,11 @@
-from flask_restx import Resource
 from app.configs.base import api
 from .PersonMarshalling import person_marshalling
 from .PersonBO import PersonObject
 from .PersonAdministration import PersonAdministration
-from app.apps.profile.ProfileAdministration import ProfileAdministration
 from app.apps.core.auth import AuthView
 
 
+""""Namespace prefix person for APIs."""
 namespace = api.namespace(
     "/person",
     description="Namespace for person APIs."
@@ -54,7 +53,7 @@ class PotentialGroupAPI(AuthView):
     @api.marshal_with(person_marshalling, code=201)
     @api.expect(person_marshalling)
     def get(self, group: int) -> dict:
-        """Get All Persons that are not requested for a groupmembership"""
+        """Get all Persons that are not requested for a groupmembership"""
         pers = PersonAdministration.get_potential_persons_for_group(learning_group=group)
         return pers
 
@@ -64,7 +63,7 @@ class PotentialPersonAPI(AuthView):
     """Basic API for profile."""
     @api.marshal_with(person_marshalling, code=201)
     def get(self) -> dict:
-        """Get All Persons that are not already requested for a singlechat."""
+        """Get all Persons that are not already requested for a singlechat."""
         pers = PersonAdministration.get_potential_singlechat(person=self.person.id_)
         return pers
 

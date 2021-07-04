@@ -1,7 +1,8 @@
 from flask_restx import fields
 from app.configs.base import api
-from datetime import datetime
 
+
+"""Anlegen von transferierbaren Strukturen."""
 chatroom_marshalling = api.model('chatroom', {
     "id_": fields.Integer(readOnly=True),
     "is_accepted": fields.Boolean(),

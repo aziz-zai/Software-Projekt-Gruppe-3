@@ -4,7 +4,7 @@ from app.configs.base import db_connector
 
 
 class ChatRoomMapper(Mapper):
-
+    """Mapper Class for Chatroom."""
     def insert_chatroom(cnx: db_connector, object: ChatRoomObject) -> ChatRoomObject:
         """Create Chatroom Object."""
         cursor = cnx.cursor(buffered=True)
@@ -31,6 +31,7 @@ class ChatRoomMapper(Mapper):
         return object
 
     def find_open_received_requests(cnx: db_connector, person: int):
+        """Gets open received requests."""
 
         result = []
         cursor = cnx.cursor(buffered=True)
@@ -58,6 +59,7 @@ class ChatRoomMapper(Mapper):
         return result
 
     def find_open_sent_requests(cnx: db_connector, person: int):
+        """Gets open sent request."""
 
         result = []
         cursor = cnx.cursor(buffered=True)
@@ -85,6 +87,7 @@ class ChatRoomMapper(Mapper):
         return result
 
     def accept_open_request(cnx: db_connector, chatroom: int, person: int):
+        """Accept an open request."""
         cursor = cnx.cursor(buffered=True)
 
         command = """UPDATE chatroom
@@ -97,6 +100,7 @@ class ChatRoomMapper(Mapper):
         cursor.close()
 
     def find_by_chatroom_id(cnx: db_connector, chatroom: int) -> ChatRoomObject:
+        """"Gets a chatroom by id."""
 
         result = None
         cursor = cnx.cursor(buffered=True)
@@ -134,6 +138,7 @@ class ChatRoomMapper(Mapper):
         return result
 
     def find_single_chats(cnx: db_connector, person: int) -> ChatRoomObject:
+        """Gets a singlechat."""
         result = []
 
         cursor = cnx.cursor(buffered=True)
@@ -158,6 +163,7 @@ class ChatRoomMapper(Mapper):
         return result
 
     def delete_singlechat(cnx: db_connector, chatroom: int, person: int):
+        """Deletes a single chat."""
 
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -173,6 +179,8 @@ class ChatRoomMapper(Mapper):
         cursor.close()
 
     def delete_received_request(cnx: db_connector, chatroom: int, person: int):
+        """Deletes a received request."""
+
         cursor = cnx.cursor(buffered=True)
         command = """DELETE FROM chatroom
         WHERE id=%s AND receiver=%s
@@ -186,6 +194,8 @@ class ChatRoomMapper(Mapper):
         cursor.close()
 
     def delete_sent_request(cnx: db_connector, chatroom: int, person: int):
+        """Deletes a sent request."""
+
         cursor = cnx.cursor(buffered=True)
         command = """DELETE FROM chatroom
             WHERE id=%s AND sender=%s
