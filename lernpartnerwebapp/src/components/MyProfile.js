@@ -167,9 +167,9 @@ class MyProfile extends Component {
           aria-controls="panel1a-content"
           id="panel1a-header">
             <Typography className={classes.heading}> 
+            <div className={classes.attribute}>  Profile Details 
             <ExpandMoreIcon className={classes.ExpandIcon} >
-            </ExpandMoreIcon> 
-            Profile Details
+            </ExpandMoreIcon> </div>
             </Typography>
           </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
@@ -274,11 +274,13 @@ const styles = theme => ({
     bottom: theme.spacing(1),
   },
   attribute: {
+    color: "#808080",
     marginBottom: theme.spacing(1),
+    fontSize: "1vw"
   },
  
   fname: {
-    fontSize: "2vw",
+    fontSize: "2.3vw",
   },
 
 });
