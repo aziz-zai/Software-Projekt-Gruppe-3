@@ -5,6 +5,7 @@ from app.configs.base import db_connector
 
 class MessageMapper(Mapper):
     def find_all_messages_in_thread_for_person(cnx: db_connector, thread_id: int, is_singlechat: bool):
+        """Returns all messages in a thread for a person."""
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -30,9 +31,6 @@ class MessageMapper(Mapper):
         cursor.close()
 
         return result
-
-    def find_by_key(key):
-        pass
 
     @staticmethod
     def insert(cnx: db_connector, object: MessageObject) -> MessageObject:

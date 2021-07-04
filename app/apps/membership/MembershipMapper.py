@@ -5,7 +5,9 @@ from app.configs.base import db_connector
 
 
 class MembershipMapper(Mapper):
+    """Mapper Class for MembershipObjects"""
     def find_by_person(cnx: db_connector, person: int):
+        """Gets Membership by id 'person'."""
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -32,6 +34,7 @@ class MembershipMapper(Mapper):
         return result
 
     def find_by_groupID(cnx: db_connector, groupID: int):
+        """Gets membership by group id."""
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -58,6 +61,7 @@ class MembershipMapper(Mapper):
         return result
 
     def find_all_requests(cnx: db_connector, learning_group: int):
+        """Gets all group requests."""
         result = []
         cursor = cnx.cursor(buffered=True)
         command = """
@@ -84,7 +88,7 @@ class MembershipMapper(Mapper):
         return result
 
     def insert(cnx: db_connector, object: MembershipObject) -> MembershipObject:
-        """Create Membership Object."""
+        """Creates membership Object."""
         cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO membership (
@@ -105,6 +109,7 @@ class MembershipMapper(Mapper):
         return object
 
     def update_membership(cnx: db_connector, membership: int):
+        """Updates membership."""
         cursor = cnx.cursor(buffered=True)
 
         command = """UPDATE membership
@@ -117,6 +122,7 @@ class MembershipMapper(Mapper):
         cursor.close()
 
     def delete_membership(cnx: db_connector, learning_group: int, person: int):
+        """Deletes a membership from a group."""
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership
@@ -132,6 +138,7 @@ class MembershipMapper(Mapper):
         cursor.close()
 
     def delete_own_membership(cnx: db_connector, learning_group: int, person: int):
+        """Deletes own membership for a group."""
         cursor = cnx.cursor(buffered=True)
         command = """
             DELETE FROM membership

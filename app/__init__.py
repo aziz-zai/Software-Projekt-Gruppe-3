@@ -42,6 +42,7 @@ def init_routes() -> None:
     api.add_namespace(membership_namespace)
     api.add_namespace(chatroom_namespace)
 
+
 if __name__ == "__main__":
     app = create_app()
     app.run(debug=True, host="0.0.0.0")

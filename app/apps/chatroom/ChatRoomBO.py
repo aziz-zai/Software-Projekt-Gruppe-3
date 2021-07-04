@@ -1,9 +1,9 @@
 from datetime import datetime
 from app.apps.core.business_object import BusinessObject
-from datetime import datetime
 
 
 class ChatRoomObject(BusinessObject):
+    """Class for Chatroom."""
     def __init__(self, is_open: bool, is_accepted: bool, sender: int, receiver: int, timestamp: datetime.now,
                  id_: int = 0):
         self.id_ = id_
