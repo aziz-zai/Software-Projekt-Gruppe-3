@@ -58,7 +58,8 @@ export default class AppAPI {
 
   #getMembersOfaGroupURL = (group) => `${this.#AppServerBaseURL}/membership/group/${group}`;              //Gibt alle Member einer Gruppe zurück
   #addPersonToGroupURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                //Fügt eine Person einer Gruppe hinzu
-  #leaveAGroupURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;                     //Verlassen einer Gruppe
+  #leaveAGroupURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;
+  #kickMemberURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`;                      //Verlassen einer Gruppe
   #getAllMembershipGroupRequestsURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;     //Gibt alle erhaltenen Membersship/Group Reqeuests zurück
   #sendMembershipRequestURL = (group) => `${this.#AppServerBaseURL}/membership/Membershiprequest/${group}`;             //Senden einer Gruppenanfrage
   #rejectMembershipRequestURL = (group, person) => `${this.#AppServerBaseURL}/membership/group/${group}/${person}`; 
@@ -408,7 +409,18 @@ export default class AppAPI {
     return this.#fetchAdvanced(this.#leaveAGroupURL(group), {
       method: 'DELETE'
       }).then((responseJSON) => {
-      let responseGroupBO = GroupBO.fromJSON(responseJSON)[0];
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(responseGroupBO);
+      })
+    })
+  }
+
+  kickMember(group, person) {
+    return this.#fetchAdvanced(this.#kickMemberURL(group, person), {
+      method: 'DELETE'
+      }).then((responseJSON) => {
+      let responseGroupBO = MembershipBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseGroupBO);
       })

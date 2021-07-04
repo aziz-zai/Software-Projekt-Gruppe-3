@@ -240,8 +240,10 @@ class ProfileDetail extends Component {
    })
  }
 
+ 
+
   render() {
-    const { classes} = this.props;
+    const { classes, showKickMember} = this.props;
     const {loadingInProgress, loadingError, profile, showProfileForm, show, notAddedStatus, showChatComponent, deleteChat} = this.state;
 
     return (
@@ -272,6 +274,13 @@ class ProfileDetail extends Component {
         </Grid>
         : null
         : null
+        }
+
+        {
+          showKickMember ?
+          <Button color='primary' startIcon={<RemoveIcon/>} onClick={this.kickMember}>
+         Kick Member
+        </Button> :null
         }
 
         {
@@ -402,6 +411,7 @@ ProfileDetail.propTypes = {
   showChat: PropTypes.any,
   chatID: PropTypes.any,
   showFirstnameInGroupChat: PropTypes.any,
+  showKickMember: PropTypes.any,
   
 }
 

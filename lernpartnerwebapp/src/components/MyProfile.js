@@ -15,6 +15,7 @@ import ProfileForm from './dialogs/ProfileForm';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonBO from '../api/PersonBO'
+import firebase from 'firebase/app';
 
 class MyProfile extends Component {
 
@@ -120,6 +121,7 @@ class MyProfile extends Component {
         deletingInProgress: false,              // disable loading indicator  
         deletingError: null                     // no error message
       });
+      firebase.auth().signOut();
       this.deleteProfileDialogClosed();  // call the parent with the deleted person
     }).catch(e =>
       this.setState({
