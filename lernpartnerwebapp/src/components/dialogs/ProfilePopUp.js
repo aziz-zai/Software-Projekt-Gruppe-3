@@ -10,23 +10,11 @@ class ProfilePopUp extends Component {
   constructor(props) {
     super(props);
 
-    
-
-    // Init the state
     this.state = {
-      
     };
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
- 
-
-  /** Updates the profile */
-
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -35,11 +23,10 @@ class ProfilePopUp extends Component {
     this.props.onClose(null);
   }
 
-  /** Renders the component */
   render() {
     const { classes, profile, show } = this.props;
   
-    return (
+    return (                //show profiledata of a person
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{profile.firstname} {profile.lastname}<br /><br />
@@ -53,27 +40,27 @@ class ProfilePopUp extends Component {
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                   Type: {profile.type_}
+                   Learning type: {profile.type_}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Online:  {profile.online}
+                  Online preference:  {(profile.online) ? "Prefers online" : "Prefers offline"}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Frequency:  {profile.frequency}
+                  Learning frequency:  {profile.frequency}/Week
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                  Expertise:  {profile.expertise}
+                  Personal competencies:  {profile.expertise}
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
                 <DialogContentText>
-                 Extroversion: {profile.extroversion}
+                 Personality trait: {profile.extroversion}
                 </DialogContentText>
             </DialogContent>
           </DialogTitle>
@@ -105,18 +92,18 @@ const styles = theme => ({
 /** PropTypes */
 ProfilePopUp.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The CustomerBO to be edited */
-  profile: PropTypes.any.isRequired,
+  profile: PropTypes.any,
   /** If true, the form is rendered */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**  
    * Handler function which is called, when the dialog is closed.
    * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 }
 
 export default withStyles(styles)(ProfilePopUp);

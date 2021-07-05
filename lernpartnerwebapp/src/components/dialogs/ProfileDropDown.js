@@ -3,18 +3,6 @@ import PropTypes from 'prop-types';
 import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid, Divider } from '@material-ui/core';
 import firebase from 'firebase/app';
 
-/**
- * Shows a drop down list for the account infos and a possibility to log out. For closing the pop up menu if 
- * the mouse is clicked outside the menu, the ClickAwayListener component is used.For logging out,
- * firebase.auth().signOut() method is used.
- * 
- * @see See Material-UIs [Popover](https://material-ui.com/components/popover/)
- * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)
- * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
- * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
 class ProfileDropDown extends Component {
 
   // a refernce to the avatar button
@@ -36,7 +24,7 @@ class ProfileDropDown extends Component {
     });
   }
 
-  /** 
+  /**
    * Handles click events from the ClickAwayListener.
    * 
    * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)
@@ -47,12 +35,6 @@ class ProfileDropDown extends Component {
     });
   }
 
-  /** 
-	 * Handles the click event of the sign in button and uses the firebase.auth() component to sign in.
-	 * 
-	 * @see See Google [firebase.auth](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
-	 * @see See Google [firebase.auth().signOut](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signout)
-	 */
   handleSignOutButtonClicked = () => {
     firebase.auth().signOut();
   }
@@ -62,7 +44,7 @@ class ProfileDropDown extends Component {
     const { classes, user } = this.props;
     const { open } = this.state;
 
-    return (
+    return (           // show google info
       user ?
         <div>
           <IconButton className={classes.avatarButton} ref={this.#avatarButtonRef} onClick={this.handleAvatarButtonClick}>
@@ -99,7 +81,6 @@ class ProfileDropDown extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   avatarButton: {
     float: 'right'
@@ -113,10 +94,9 @@ const styles = theme => ({
   }
 });
 
-/** PropTypes */
 ProfileDropDown.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The logged in firesbase user */
   user: PropTypes.object,
 }

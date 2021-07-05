@@ -1,56 +1,50 @@
 import BusinessObject from './BusinessObject';
 
-/**
- */
 export default class MessageBO extends BusinessObject {
 
-  /**
-   * Constructs a MessageBO object with a given Content and ConversationID.
-   * 
-   * @param {String} aContent - the content of this MessageBO
-   * @param {String} aConversationID - the conversationID of this MessageBO
-   */
-  constructor(aContent, aConversationID) {
+  constructor(aContent, aSender, aThread_id, aIs_Singlechat, aTimestamp) {
     super();
     this.content = aContent;
-    this.conversation_ID = aConversationID;
+    this.sender = aSender;
+    this.thread_id = aThread_id;
+    this.is_singlechat = aIs_Singlechat;
+    this.timestamp = aTimestamp;
   }
 
-  /**
-   * Sets a new content.
-   * 
-   * @param {String} aContent - the new content of this MessageBO.
-   */
   setFirstName(aContent) {
     this.content = aContent;
   }
 
-  /**
-   * Gets the content.
-   */
   getContent() {
     return this.content;
   }
 
-  /**
-   * Sets a new conversationID.
-   * 
-   * @param {*} aConversationID - the new conversationID of this MessageBO
-   */
-  setLastName(aConversationID) {
-    this.conversation_ID = aConversationID;
+  setLastName(aSender) {
+    this.sender = aSender;
   }
 
-  /**
-   * Gets the conversationID.
-   */
   getConversationID() {
-    return this.conversation_ID;
+    return this.sender;
   }
 
-  /** 
-   * Returns an Array of MessageBOs from a given JSON structure.
-   */
+  setThread_id(aThread_id) {
+    this.thread_id = aThread_id;
+  }
+
+  getThread_id() {
+    return this.thread_id;
+  }
+
+  setTimestamp(aTimestamp) {
+    this.timestamp = aTimestamp;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
+  }
+
+
+
   static fromJSON(messages) {
     let result = [];
 
@@ -65,7 +59,6 @@ export default class MessageBO extends BusinessObject {
       Object.setPrototypeOf(m, MessageBO.prototype);
       result.push(m);
     }
-
     return result;
   }
 }

@@ -1,3 +1,4 @@
+
 # Relevante Informationen einer Readme:
 
     kurzer Abstract - was macht das Repository
@@ -27,7 +28,6 @@ Request Person | Aziz
 Request Group | Murad
 Chat | Murad, Aziz
 Join Group | Aziz
-Create Group | Fabian, Elias
 Leave Group | Cem
 Delete Group | Aziz
 Delete | Harbin, Aziz
@@ -35,7 +35,7 @@ Delete | Harbin, Aziz
 
 ## Set source directory for Python
 
-```json
+
 "terminal.integrated.env.osx": {
     "PYTHONPATH": "${workspaceFolder}/backend",
 },
@@ -61,4 +61,3 @@ Install via `npm i <module>`.
 - @material-ui/types
 - @material-ui/utils
 - @material-ui/system"
-- @date-io/date-fns@1.x date-fns

@@ -3,19 +3,17 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import Header_after_login from './components/Layouts/Header-after-login';
 import Header from './components/Layouts/Header';
-import Header_login from './components/Layouts/Header-login';
 import AllProfileList from './components/AllProfileList'
-import About from './components/pages/About';
 import theme from './Theme';
 import LogIn from './components/pages/LogIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './firebaseconfig';
-import ProfileDetail from './components/ProfileDetail'
 import MyProfile from './components/MyProfile';
 import Matchmaking from './components/Matchmaking'
+import ChatList from './components/Layouts/ChatList'
+import AllGroups from './components/AllGroups'
 
 class App extends React.Component {
 	/** Constructor of the app, which initializes firebase  */
@@ -103,13 +101,15 @@ class App extends React.Component {
 							// Is a user signed in?
 							currentUser ?
 								<>
-                  					<Redirect from='/' to='AllProfiles' />
-									<Route exact path='/AllProfiles'>
-										<AllProfileList/>
+                  					<Redirect from='/' to='MyProfile' />
+									<Route exact path='/MyProfile'>
+										<MyProfile currentUser={currentUser}/>
 									</Route>
-									<Route path='/MyProfile' component={() => <MyProfile currentUser={currentUser}/>}/>
+									<Route path='/AllPartners' component={() => <AllProfileList/>}/>
+									<Route path='/AllGroups' component={() => <AllGroups/>}/>
 									<Route path='/matchmaking' component={() => <Matchmaking currentUser={currentUser}/>}/>
-									<Route path='/about' component={About} />		
+									<Route path='/ChatList' component={() => <ChatList/>} />
+
 								</>
 								:
 								// else show the sign in page

@@ -1,19 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  withStyles,
-  Typography,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-} from "@material-ui/core"
+import { withStyles, Typography} from "@material-ui/core"
 import { AppAPI } from "../api"
-import ArrowBackIcon from "@material-ui/icons/ArrowBack"
-import ProfileBO from "../api/ProfileBO"
 import ProfileDetail from "../components/ProfileDetail"
-//import ContextErrorMessage from './ContextErrorMessage';
-//import LoadingProgress from './LoadingProgress';
+import GroupDetail from './GroupDetail'
+
 
 class Matchmaking extends Component {
 
@@ -22,76 +13,52 @@ class Matchmaking extends Component {
 
     // Init the state
     this.state = {
-      person: null,
-      profile: null,
-      personList: [],
+      personList: null,
       groupList: null,
     };
   }
   componentDidMount() {
-    this.getPersonByGoogleUserID();
-    //this.matchGroups();
+    this.matchProfiles();
   }
 
-  getProfile = () => {
-    AppAPI.getAPI().getProfileForPerson(this.state.person.id_)
-    .then((profileBO) => {
-      this.setState({  // Set new state when ProfileBOs have been fetched
-        profile: profileBO[0],
-        loadingInProgress: false, // loading indicator 
-        loadingProfileError: null
-      })
-    
-      this.matchProfiles();
-    }
-      
-      )
-      .catch((e) =>
-        this.setState({
-          profile: 'test',
-          loadingInProgress: false,
-          loadingProfileError: e,
-        })
-      
-      );
 
-    this.setState({
-      loadingInProgress: true,
-      loadingProfileError: null
-    });
-  }
-
-  getPersonByGoogleUserID = () => {
-    AppAPI.getAPI().getPerson(this.props.currentUser.uid)
-    .then((personBO) =>{
-     
-      this.setState({
-        person: personBO
-      })
-    this.getProfile()
-    }, 
-      )
-      .catch((e) =>
-        this.setState({
-          person: []
-        
-        })
-      )
-  }
-
-  matchProfiles = () => {
+  matchProfiles = () => {               //Get A List of matched Profiles
     AppAPI.getAPI()
-      .matchProfiles(this.state.profile.id_)
-      .then((profiles) =>
+      .matchProfiles()
+      .then((profiles) =>{
         this.setState({
           personList: profiles,
           loadingInProgress: false,
           loadingError: null,
         })
+        this.matchGroups()
+      }
       )
       .catch((e) =>
         this.setState({
-          profile: null,
+          loadingInProgress: false,
+          loadingError: e,
+        })
+      );
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null,
+    })
+
+  }
+
+  matchGroups = () => {  //Get A List of Matched Groups
+    AppAPI.getAPI()
+      .matchGroups()
+      .then((response) =>
+        this.setState({
+          groupList: response,
+          loadingInProgress: false,
+          loadingError: null,
+        })
+      )
+     .catch((e) =>
+        this.setState({
           loadingInProgress: false,
           loadingError: e,
         })
@@ -102,57 +69,41 @@ class Matchmaking extends Component {
     });
   };
 
-//  matchGroups = () => {
-//    AppAPI.getAPI()
-//      .matchGroups(this.props.profile.person())
-//      .then((response) =>
-//        this.setState({
-//          groupList: response,
-//          loadingInProgress: false,
-//          loadingError: null,
-//        })
-//      )
-//      .catch((e) =>
-//        this.setState({
-//          profile: null,
-//          loadingInProgress: false,
-//          loadingError: e,
-//        })
-//      );
-//    this.setState({
-//      loadingInProgress: true,
-//      loadingError: null,
-//    });
-//  };
 
   handleClose = () => {
     this.props.onClose();
   };
 
-  /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { personList } = this.state;
+    const { personList, groupList } = this.state;
 
     return (
       <div>
-        {personList ? (
+        {(personList?.length) ? (
             <div>
+              <Typography className={classes.root} variant='h5' align='center'> Matched Persons:</Typography>
               {
-            personList.map(profile => 
-            <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
+            personList.map(person => 
+            <ProfileDetail personList={true} key={person.id_} person={person.id_} //send each macthed person to ProfileDetail
             />)
-              }
-            </div>
+              }</div>
         ) : null
           }
+            {(groupList) ?
+            <div> {console.log('group', groupList)}
+            <Typography className={classes.root} variant='h5' align='center'>Matched Groups:</Typography>
+            {groupList.map(group =>
+            <GroupDetail showRequestGroup={true} key={group.id_} learngroup={group} //send each matched group tp GroupDetail
+            />)}</div>
+              :null}
       </div>
     );
   }
 }
 const styles = (theme) => ({
   root: {
-    maxWidth: 200,
+    margin: 15,
   },
   content: {
     fontSize: 14,
@@ -165,9 +116,9 @@ const styles = (theme) => ({
 });
 
 Matchmaking.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  onClose: PropTypes.func,
+  currentUser: PropTypes.object,
 };
 
 export default withStyles(styles)(Matchmaking);

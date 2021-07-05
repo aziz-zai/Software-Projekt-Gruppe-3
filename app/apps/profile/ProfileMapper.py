@@ -1,13 +1,12 @@
 from app.apps.core.mapper import Mapper
 from .ProfileBO import ProfileObject
 from app.configs.base import db_connector
-from app.apps.person.PersonBO import PersonObject
-
 
 
 class ProfileMapper(Mapper):
     def find_all(cnx: db_connector):
-        
+        """Gibt alle Profile zurück"""
+
         result = []
         cursor = cnx.cursor()
         cursor.execute("""
@@ -39,10 +38,11 @@ class ProfileMapper(Mapper):
         return result
 
     def find_by_personID(cnx: db_connector, person: int) -> ProfileObject:
-        
+        """Auslesen eines Profils anhand der ID 'person' """
+
         result = None
         cursor = cnx.cursor(buffered=True)
-        
+
         command = """
         SELECT
          id,
@@ -57,7 +57,7 @@ class ProfileMapper(Mapper):
          extroversion
         FROM profile WHERE person=%s
         """
-        cursor.execute(command,(person, ))
+        cursor.execute(command, (person, ))
         entity = cursor.fetchone()
 
         try:
@@ -78,20 +78,18 @@ class ProfileMapper(Mapper):
         except IndexError:
             result = None
 
+        cnx.commit()
         cursor.close()
 
         return result
 
-    def find_by_key(key):
-        pass
-
     @staticmethod
     def insert(cnx: db_connector, object: ProfileObject) -> ProfileObject:
-        """Create Profile Object."""
+        """Erstellen eines Profils."""
         cursor = cnx.cursor(buffered=True)
         command = """
             INSERT INTO profile (
-                firstname, 
+                firstname,
                 lastname,
                 person,
                 interests,
@@ -120,6 +118,7 @@ class ProfileMapper(Mapper):
         return object
 
     def update(cnx: db_connector, object: ProfileObject):
+        """Updating eines Profils"""
         cursor = cnx.cursor(buffered=True)
 
         command = "UPDATE profile " + "SET firstname=%s, lastname=%s, person=%s, interests=%s, type_=%s, online=%s, frequency=%s, expertise=%s, extroversion=%s WHERE id=%s"
@@ -139,6 +138,3 @@ class ProfileMapper(Mapper):
 
         cnx.commit()
         cursor.close()
-
-    def delete(object):
-        pass

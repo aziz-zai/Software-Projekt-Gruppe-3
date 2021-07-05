@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle,
+MenuItem, Select, InputLabel, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { AppAPI, ProfileBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
@@ -59,14 +60,9 @@ class ProfileForm extends Component {
     // save this state for canceling
     this.baseState = this.state;
   }
-
-  /** Adds the profile */
-
-    // set loading to true
  
-
   /** Updates the profile */
-  updateProfile = () => {
+  updateProfile = () => {             
     // clone the original person, in case the backend call fails
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     // set the new attributes from our dialog
@@ -135,6 +131,27 @@ class ProfileForm extends Component {
     this.props.onClose(null);
   }
 
+  handleOnlineChange = (event) => {
+    this.setState({online: event.target.value });
+  }
+
+  handleFrequencyChange = (event) => {
+    this.setState({frequency: event.target.value });
+  }
+
+  handleTypeChange = (event) => {
+    this.setState({type: event.target.value });
+  }
+
+  handleExpertiseChange = (event) => {
+    this.setState({expertise: event.target.value });
+  }
+
+  handleExtroversionChange = (event) => {
+    this.setState({extroversion: event.target.value });
+  }
+
+
   /** Renders the component */
   render() {
     const { classes, profile, show } = this.props;
@@ -150,13 +167,13 @@ class ProfileForm extends Component {
     if (profile) {
       // profile defindet, so ist an edit dialog
       title = 'Update a profile';
-      header = `Profile ID: ${profile.getPersonID()}`;
+      header = `Profile ID: ${profile.person}`;
     } else {
       title = 'Create a new profile';
       header = 'Enter profile data';
     }
 
-    return (
+    return (               //show form with updatable attributes
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{title}
@@ -169,37 +186,70 @@ class ProfileForm extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='First name:' value={firstName} 
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='firstName' label='Firstname:' value={firstName} 
                 onChange={this.textFieldValueChange} error={firstNameValidationFailed} 
-                helperText={firstNameValidationFailed ? 'The first name must contain at least one character' : ' '} />
+                helperText={firstNameValidationFailed ? 'The firstname must contain at least one character' : ' '} />
 
-              <TextField type='text' required fullWidth margin='normal' id='lastName' label='Last name:' value={lastName}
+              <TextField type='text' required fullWidth margin='normal' id='lastName' label='Lastname:' value={lastName}
                 onChange={this.textFieldValueChange} error={lastNameValidationFailed}
-                helperText={lastNameValidationFailed ? 'The last name must contain at least one character' : ' '} />
+                helperText={lastNameValidationFailed ? 'The lastname must contain at least one character' : ' '} />
 
-              <TextField type='text' required fullWidth margin='normal' id='interests' label='Interest:' value={interests}
+              <TextField type='text' required fullWidth margin='normal' id='interests' label='Personal interests:' value={interests}
                 onChange={this.textFieldValueChange} error={interestsValidationFailed}
                 helperText={interestsValidationFailed ? 'The interests must contain at least one character' : ' '} />
               
-              <TextField type='text' required fullWidth margin='normal' id='type' label='Type:' value={type}
-                onChange={this.textFieldValueChange} error={typeValidationFailed}
-                helperText={typeValidationFailed ? 'The Type must contain at least one character' : ' '} />
+              <InputLabel className={classes.label} id='type'>Choose your learning type</InputLabel>
+              <Select labelId='type-label' id='type' value={type} onChange={this.handleTypeChange}>
+                <MenuItem value='visually'>visually</MenuItem>
+                <MenuItem value='auditory'>auditory</MenuItem>
+                <MenuItem value='reading/writing'>reading/writing</MenuItem>
+              </Select>
+              <br /> 
+              <br />
+              <br /> 
               
-              <TextField type='text' required fullWidth margin='normal' id='online' label='Online:' value={online}
-                onChange={this.textFieldValueChange} error={onlineValidationFailed}
-                helperText={onlineValidationFailed ? 'Online must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='frequency' label='Frequency:' value={frequency}
-                onChange={this.textFieldValueChange} error={frequencyValidationFailed}
-                helperText={frequencyValidationFailed ? 'The Frequency must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='expertise' label='Expertise:' value={expertise}
-                onChange={this.textFieldValueChange} error={expertiseValidationFailed}
-                helperText={expertiseValidationFailed ? 'The Expertise must contain at least one character' : ' '} />
-              
-              <TextField type='text' required fullWidth margin='normal' id='extroversion' label='Extroversion:' value={extroversion}
-                onChange={this.textFieldValueChange} error={extroversionValidationFailed}
-                helperText={extroversionValidationFailed ? 'The Extroversion must contain at least one character' : ' '} />
+              <InputLabel className={classes.label} id='online'>Do you prefer online or offline learning?</InputLabel>
+              <Select labelId='online-label' id='online' value={online} onChange={this.handleOnlineChange}>
+                <MenuItem value='true'>online</MenuItem>
+                <MenuItem value='false'>offline</MenuItem>
+              </Select>
+              <br /> 
+              <br /> 
+              <br />
+
+              <InputLabel className={classes.label} id='frequency'>How many times do you want to study per week?</InputLabel>
+              <Select labelId='frequency-label' id='frequency' value={frequency} onChange={this.handleFrequencyChange}>
+                <MenuItem value='1'>1</MenuItem>
+                <MenuItem value='2'>2</MenuItem>
+                <MenuItem value='3'>3</MenuItem>
+                <MenuItem value='4'>4</MenuItem>
+                <MenuItem value='5'>5</MenuItem>
+              </Select>
+              <br /> 
+              <br /> 
+              <br />
+            
+              <InputLabel className={classes.label} id='expertise'>Choose your competency field</InputLabel>
+              <Select labelId='expertise-label' id='expertise' value={expertise} onChange={this.handleExpertiseChange}>
+                <MenuItem value='Python'>Python</MenuItem>
+                <MenuItem value='Webtechnology'>Webtechnology</MenuItem>
+                <MenuItem value='Chinese'>Chinese</MenuItem>
+                <MenuItem value='Data Science'>Data Science</MenuItem>
+                <MenuItem value='Maths'>Maths</MenuItem>
+              </Select>
+              <br />
+              <br />
+              <br />
+              <InputLabel className={classes.label} id='extroversion'>Choose your personality trait</InputLabel>
+              <Select labelId='extroversion-label' id='extroversion' value={extroversion} onChange={this.handleExtroversionChange}>
+                <MenuItem value='Conscientiousness'>Conscientiousness</MenuItem>
+                <MenuItem value='Extraversion'>Extraversion</MenuItem>
+                <MenuItem value='Agreeableness'>Agreeableness</MenuItem>
+                <MenuItem value='Openness'>Openness</MenuItem>
+              </Select>
+              <br /> 
+              <br />
+              <br />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
@@ -215,20 +265,14 @@ class ProfileForm extends Component {
               Cancel
             </Button>
             {
-              // If a customer is given, show an update button, else an add button
               profile ?
                 <Button disabled={firstNameValidationFailed || lastNameValidationFailed  || personValidationFailed || interestsValidationFailed || 
                 typeValidationFailed || onlineValidationFailed || frequencyValidationFailed || expertiseValidationFailed || extroversionValidationFailed} 
                 variant='contained' onClick={this.updateProfile} color='primary'>
                   Update
-              </Button>
-                : <Button disabled={firstNameValidationFailed || !firstNameEdited || lastNameValidationFailed || !lastNameEdited ||
-                personValidationFailed || !personEdited || interestsValidationFailed || !interestsEdited || typeValidationFailed || !typeEdited ||
-                onlineValidationFailed || !onlineEdited || frequencyValidationFailed || !frequencyEdited || expertiseValidationFailed || !expertiseEdited ||
-                extroversionValidationFailed || !extroversionEdited} variant='contained' onClick={this.addProfile} color='primary'>
-                  Add
-             </Button>
-            }
+                </Button>
+                :null
+              }
           </DialogActions>
         </Dialog>
         : null
@@ -236,7 +280,6 @@ class ProfileForm extends Component {
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -252,18 +295,18 @@ const styles = theme => ({
 /** PropTypes */
 ProfileForm.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /** The CustomerBO to be edited */
   profile: PropTypes.object,
   /** If true, the form is rendered */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**  
    * Handler function which is called, when the dialog is closed.
    * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
    *  
    * Signature: onClose(CustomerBO customer);
    */
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 }
 
 export default withStyles(styles)(ProfileForm);

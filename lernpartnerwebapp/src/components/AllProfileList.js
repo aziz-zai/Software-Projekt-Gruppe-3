@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles,Grid} from '@material-ui/core';
 import { AppAPI } from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProfileDetail from './ProfileDetail';
-import Header from '../components/Layouts/Header';
-import ClearIcon from '@material-ui/icons/Clear';
-import AddIcon from '@material-ui/icons/Add';
 
-/**
- * Shows all profiles of the app.
- * 
- */
+
+/** Shows all profiles of the app*/
 class AllProfileList extends Component {
 
   constructor(props) {
@@ -20,9 +14,7 @@ class AllProfileList extends Component {
 
     // Init an empty state
     this.state = {
-      profiles: [],
-      filteredProfiles: [],
-      profileFilter: '',
+      personList: [],
       error: null,
       loadingInProgress: false,
       loadingError: null,
@@ -31,17 +23,16 @@ class AllProfileList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.loadProfiles();
+    this.loadPotentialPersons();
   }
 
-  /** gets the profile list for this profile */
-  loadProfiles = () => {
-    AppAPI.getAPI().getAllProfiles().then(profiles =>
+  /** gets the profile list of persons that are not in correlation with your own person */
+  loadPotentialPersons = () => {
+    AppAPI.getAPI().getPotentialChats().then(persons =>
       this.setState({
-        profiles: profiles,
+        personList: persons,
         loadingInProgress: false, // loading indicator 
         loadingError: null,
-        filteredProfiles: [...profiles],
         error: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
@@ -57,90 +48,41 @@ class AllProfileList extends Component {
       error: null
     });
   }
-  filterFieldValueChange = event => {
-    const value = event.target.value.toLowerCase();
-    this.setState({
-      filteredProfiles: this.state.profiles.filter(profile => {
-        let firstNameContainsValue = profile.getFirstName().toLowerCase().includes(value);
-        let lastNameContainsValue = profile.getLastName().toLowerCase().includes(value);
-        return firstNameContainsValue || lastNameContainsValue;
-      }),
-      profileFilter: value
-    });
-  }
 
-  /** Handles the onClose event of the clear filter button */
-  clearFilterFieldButtonClicked = () => {
-    // Reset the filter
-    this.setState({
-      filteredProfiles: [...this.state.profiles],
-      profileFilter: ''
-    });
-  }
-  /** Renders the component */
+
   render() {
     const { classes } = this.props;
-    const { filteredProfiles, profileFilter, profiles, loadingInProgress, loadingError, error, expandedProfileID } = this.state;
+    const { personList, loadingInProgress, loadingError, error} = this.state;
 
     return (
 
       <div className={classes.root}>
         <Grid className={classes.profileFilter} container spacing={1} justify='flex-start' alignItems='center'>
         <Grid item>
-          <Typography>
-            Filter profile list by name:
-            </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            autoFocus
-            fullWidth
-            id='profileFilter'
-            type='text'
-            value={profileFilter}
-            onChange={this.filterFieldValueChange}
-            InputProps={{
-              endAdornment: <InputAdornment position='end'>
-                <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>,
-            }}
-          />
-        </Grid>
-        <Grid item xs />
-        <Grid item>
-          <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProfileButtonClicked}>
-            Add Profile
-        </Button>
+          {console.log('sadsaallprofiles', personList)}
         </Grid>
       </Grid>
-          {
-            filteredProfiles.map(profile =>
-              <ProfileDetail key={profile.getID()} profileID={profile.getPersonID()} Firstname={profile.getFirstName()} Lastname={profile.getLastName()} //expandedState={expandedProfileID === profile.getID()}
-              //  onExpandedStateChange={this.onExpandedStateChange}
-              />)
+      {
+            personList.map(person =>
+              <ProfileDetail key={person.id_} person={person.id_} personList={personList}/>) //send eacg profile of ProfileList to ProfileDetail
           }
           <LoadingProgress show={loadingInProgress} />
-          
       </div>
 
     );
   }
 }
 
-/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
   }
 });
 
-/** PropTypes */
 AllProfileList.propTypes = {
   /** @ignore */
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default withStyles(styles)(AllProfileList);
