@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 # Relevante Informationen einer Readme:
 
     kurzer Abstract - was macht das Repository
@@ -29,15 +28,12 @@ Request Person | Aziz
 Request Group | Murad
 Chat | Murad, Aziz
 Join Group | Aziz
-Create Group | Aziz
 Leave Group | Cem
 Delete Group | Aziz
 Delete | Harbin, Aziz
 
 
 ## Set source directory for Python
-
-```json
 
 
 "terminal.integrated.env.osx": {
@@ -65,5 +61,3 @@ Install via `npm i <module>`.
 - @material-ui/types
 - @material-ui/utils
 - @material-ui/system"
-- @date-io/date-fns@1.x date-fns
->>>>>>> Stashed changes
